@@ -1,3 +1,8 @@
+@Suppress("DSL_SCOPE_VIOLATION") // just to avoid "libs" red underline
+plugins {
+    alias(libs.plugins.kotlin.multiplatform) apply false
+}
+
 subprojects {
     repositories {
         mavenCentral()

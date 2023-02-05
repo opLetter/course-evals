@@ -8,4 +8,5 @@ pluginManagement {
 
 rootProject.name = "course-evals"
 
+include(":common")
 include(":site")

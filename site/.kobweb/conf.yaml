@@ -1,0 +1,15 @@
+site:
+  title: "Course Evals"
+  routePrefix: "course-evals" # repo name for gh-pages
+
+server:
+  files:
+    dev:
+      contentRoot: "build/processedResources/js/main/public"
+      script: "build/developmentExecutable/course-evals.js"
+      api: "build/libs/course-evals.jar"
+    prod:
+      script: "build/distributions/course-evals.js"
+      siteRoot: ".kobweb/site"
+
+  port: 8080

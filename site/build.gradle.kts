@@ -16,7 +16,7 @@ version = "1.0-SNAPSHOT"
 kobweb {
     app {
         index {
-            description.set("View Rutgers SIRS survey results in an easy-to-read format")
+            description.set("View course evaluation results in an easy-to-read format")
             head.add {
                 script {
                     consumer.onTagContent(
@@ -40,13 +40,13 @@ kobweb {
                 consumer.onTagContent("\n\t")
                 script(src = "https://cdnjs.cloudflare.com/ajax/libs/balance-text/3.3.1/balancetext.min.js") {}
                 consumer.onTagContent("\n\t")
-                script(src = "https://gc.zgo.at/count.js") {
-//            async = true
-//            attributes["data-goatcounter-settings"] = "{\"allow_local\": true}"
-                    attributes["data-goatcounter"] = "https://ru-sirs.goatcounter.com/count"
-                }
+//                script(src = "https://gc.zgo.at/count.js") {
+////            async = true
+////            attributes["data-goatcounter-settings"] = "{\"allow_local\": true}"
+//                    attributes["data-goatcounter"] = "https://ru-sirs.goatcounter.com/count"
+//                }
                 link(
-                    href = "https://fonts.googleapis.com/css2?family=Montserrat:wght@800&text=RU%2DSIRS&display=block",
+                    href = "https://fonts.googleapis.com/css2?family=Montserrat:wght@800&text=EVALS&display=block",
                     rel = "stylesheet"
                 )
             }

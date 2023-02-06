@@ -57,7 +57,7 @@ fun Footer(modifier: Modifier = Modifier, linkVariant: ComponentVariant? = Oppos
             FaGithub()
             SpanText(" This site is ")
             Link(
-                path = "https://github.com/DennisTsar/RU-SIRS",
+                path = "https://github.com/opLetter/course-evals",
                 text = "open source",
                 modifier = Modifier.goatCounterClick("gh-link", title = "GitHub Link", referrer = "footer"),
                 variant = linkVariant,

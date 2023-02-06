@@ -97,7 +97,7 @@ fun HomePageContent(ghSource: GithubSource) {
     var routing by remember { mutableStateOf(false) }
 
     remember {
-        document.title = "RU-SIRS"
+        document.title = "EVALS"
     }
 
     Box(
@@ -118,7 +118,7 @@ fun HomePageContent(ghSource: GithubSource) {
         ) {
             Logo()
             SpanText(
-                text = "View Rutgers SIRS survey results in an easy-to-read format.",
+                text = "View course evaluation results in an easy-to-read format.",
                 variant = SubHeadVariant
             )
 

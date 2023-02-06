@@ -33,7 +33,7 @@ fun Logo(modifier: Modifier = Modifier) {
     Link(path = "/", variant = UndecoratedLinkVariant) {
         Row(LogoStyle.toModifier().then(modifier)) {
             FaChartSimple()
-            Text("RU-SIRS")
+            Text("EVALS")
         }
     }
 }

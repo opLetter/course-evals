@@ -1,6 +1,7 @@
-@Suppress("DSL_SCOPE_VIOLATION") // just to avoid "libs" red underline
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
 }
 
 subprojects {

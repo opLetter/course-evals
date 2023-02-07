@@ -27,7 +27,6 @@ jobs:
       - name: Add & Commit
         id: git
         run: |
-          cd local
           git config --global user.name github-actions
           git config --global user.email github-actions@github.com
           git checkout master

@@ -10,3 +10,4 @@ rootProject.name = "course-evals"
 
 include(":common")
 include(":site")
+include(":fsu")

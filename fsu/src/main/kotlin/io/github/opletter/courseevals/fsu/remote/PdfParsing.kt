@@ -17,12 +17,16 @@ fun ByteArray.getStatsFromPdf(): PdfReport {
                     .trimEnd().dropLast(1).trim().lines()
                 val responseRate = lines.last().substringBefore(" ").split("/")
                 QuestionStats(
-                    lines[0],
-                    lines.drop(2)
+                    question = lines[0],
+                    results = lines.drop(2)
                         .takeWhile { it[0] != '0' }
                         .map { it.substringAfterBefore(") ", " ").toInt() },
-                    responseRate[0].toInt(),
-                    responseRate[1].toInt(),
+                    numResponses = responseRate[0].toIntOrNull() ?: (-1).also {
+                        println("Invalid response rate[0]: $responseRate")
+                    },
+                    numRespondents = responseRate[1].toIntOrNull() ?: (-1).also {
+                        println("Invalid response rate[1]: $responseRate")
+                    },
                 )
             }
         return PdfReport(

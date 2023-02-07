@@ -15,7 +15,7 @@ suspend fun main() {
     println(repo.login())
 
     CourseSearchKeys.forEach { courseKey ->
-        val reports = catchAndRetry(15) { getData(repo, courseKey) }
+        val reports = catchAndRetry(1000) { getData(repo, courseKey) }
         makeFileAndDir("json-data/reports-8/$courseKey.json")
             .writeText(Json.encodeToString(reports))
         delay(30000)

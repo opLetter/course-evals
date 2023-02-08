@@ -4,11 +4,9 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
 
 fun jsGoatCount(myPath: String? = null) {
-    if (myPath == null) {
-        js("window.goatcounter ? window.goatcounter.count() : null")
-    } else {
-        js("window.goatcounter ? window.goatcounter.count({path: myPath,}) : null")
-    }
+    val options = js("{}")
+    myPath?.let { options["path"] = "test-$it" }
+    js("window.goatcounter ? window.goatcounter.count(options) : null")
 }
 
 fun jsGoatBindEvents() {

@@ -14,7 +14,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
 class FSURepository(key: String? = null) {
-    val cookie: String
+    private val cookie: String
 
     init {
         cookie = key ?: runBlocking {
@@ -34,13 +34,9 @@ class FSURepository(key: String? = null) {
                 connectAttempts = 5
             }
         }
-//        install(HttpRequestRetry) {
-//            retryOnException(maxRetries = 5, retryOnTimeout = true)
-//            exponentialDelay()
-//        }
         install(HttpTimeout) {
-            connectTimeoutMillis = 15000
-            requestTimeoutMillis = 120000 //?
+            connectTimeoutMillis = 30000
+            requestTimeoutMillis = 180000
         }
         followRedirects = false
         install(Logging) {
@@ -95,7 +91,6 @@ class FSURepository(key: String? = null) {
         } else emptyList()
     }
 
-    // rewrite getAllReports so that it uses binary search to find the last page and then calls getReports asynchronously
     suspend fun getAllReportsAsync(
         course: String = "",
         instructor: String = "",
@@ -105,17 +100,12 @@ class FSURepository(key: String? = null) {
         sort: FSUReportSort = FSUReportSort.BEST_MATCH,
         startPage: Int = 1,
     ): List<String> {
-        var pageCount = 10
-        while (getReports(course, instructor, search, pageCount, questionKey, areaId, sort).hasMore) {
-            pageCount += 10
+        val pageCount = generateSequence(5) { it + (if (it < 15) 5 else 10) }.first { page ->
+            !getReports(course, instructor, search, page, questionKey, areaId, sort).hasMore
+        }.also { println("pageCount: $it") }
+        return (startPage..pageCount).flatMap { page ->
+            getReports(course, instructor, search, page, questionKey, areaId, sort).results
         }
-        println("pageCount: $pageCount")
-        return (startPage..pageCount).chunked(150)
-            .flatMap { chunk ->
-                chunk.flatMap { page ->
-                    getReports(course, instructor, search, page, questionKey, areaId, sort).results
-                }
-            }
     }
 
     private suspend fun List<String>.getPdfUrl(): String {
@@ -126,12 +116,8 @@ class FSURepository(key: String? = null) {
             }
     }
 
-    private suspend fun getBytes(url: String): ByteArray {
-        return client.get(url).body()
-    }
-
     suspend fun getPdfBytes(ids: List<String>): ByteArray {
-        return getBytes(ids.getPdfUrl())
+        return client.get(ids.getPdfUrl()).body()
     }
 }
 
@@ -147,14 +133,15 @@ suspend fun FSURepository.getAllValidCourseKeys(): List<String> {
     }
 
     val validKeys = searchKeys.chunked(10000).flatMap { subList ->
-        val res = subList.chunked(150)
+        subList.chunked(150)
             .flatMap { strings ->
                 strings.pmap { it to getReports(course = it).results.isNotEmpty() }
             }.mapNotNull { (key, present) ->
                 key.takeIf { present }
-            }.also { println(it) }
-        delay(10000L)
-        res
+            }.also {
+                println(it)
+                delay(10000L)
+            }
     }
     println(validKeys.joinToString("\", \"", "\"", "\","))
     return validKeys

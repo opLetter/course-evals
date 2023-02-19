@@ -21,6 +21,10 @@ dependencies {
     implementation(project(":common"))
 }
 
+kotlin {
+    jvmToolchain(11)
+}
+
 application {
     mainClass.set("${project.group}.MainKt")
 }

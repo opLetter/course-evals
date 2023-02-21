@@ -1,6 +1,8 @@
 package io.github.opletter.courseevals.site.components.sections.dataPage
 
 import androidx.compose.runtime.*
+import com.varabyte.kobweb.compose.css.CSSTransition
+import com.varabyte.kobweb.compose.css.TransitionTimingFunction
 import com.varabyte.kobweb.compose.ui.attrsModifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
@@ -10,6 +12,7 @@ import io.github.opletter.courseevals.site.components.widgets.ClosableTransition
 import io.github.opletter.courseevals.site.states.DataPageVM
 import io.github.opletter.courseevals.site.states.Status
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.s
 
 @Composable
 fun MobileNav(viewModel: DataPageVM, open: Boolean, onClose: () -> Unit) {
@@ -20,7 +23,7 @@ fun MobileNav(viewModel: DataPageVM, open: Boolean, onClose: () -> Unit) {
         Overlay(
             transitionModifier
                 .backgroundColor(Colors.Black.copyf(alpha = opacity.toFloat()))
-                .transition("background-color 0.3s linear")
+                .transition(CSSTransition("background-color", 0.3.s, TransitionTimingFunction.Linear))
                 .zIndex(150)
                 .onClick { onClose() }
                 .attrsModifier {

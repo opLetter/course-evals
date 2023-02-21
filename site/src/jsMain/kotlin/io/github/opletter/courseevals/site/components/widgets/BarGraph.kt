@@ -1,7 +1,9 @@
 package io.github.opletter.courseevals.site.components.widgets
 
 import androidx.compose.runtime.*
+import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.TransitionTimingFunction
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -83,7 +85,7 @@ fun BarGraph(
                             .height(barHeight)
                             .backgroundColor(barColor)
                             .borderBottom(1.px, LineStyle.Solid, barColor) // needed for when num is 0
-                            .transition("height 0.3s ease-out")
+                            .transition(CSSTransition("height", 0.3.s, TransitionTimingFunction.EaseOut))
                             .onMouseEnter { mouseOver = true }
                             .onMouseLeave { mouseOver = false }
                     )

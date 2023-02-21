@@ -2,6 +2,8 @@ package io.github.opletter.courseevals.site.components.widgets
 
 import androidx.compose.runtime.Composable
 import androidx.compose.web.events.SyntheticMouseEvent
+import com.varabyte.kobweb.compose.css.CSSTransition
+import com.varabyte.kobweb.compose.css.TransitionTimingFunction
 import com.varabyte.kobweb.compose.foundation.layout.BoxScope
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
@@ -17,6 +19,7 @@ import com.varabyte.kobweb.silk.components.style.focus
 import com.varabyte.kobweb.silk.components.style.hover
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import org.jetbrains.compose.web.css.cssRem
+import org.jetbrains.compose.web.css.s
 
 private val basePillButtonModifier = Modifier
     .padding(topBottom = 0.25.cssRem, leftRight = 1.5.cssRem)
@@ -24,7 +27,7 @@ private val basePillButtonModifier = Modifier
     .fontFamily("inherit")
     .styleModifier { property("line-height", "normal") }
     .styleModifier { property("font-size", "inherit") }
-    .transition("background-color 0.1s ease-in-out")
+    .transition(CSSTransition("background-color", 0.1.s, TransitionTimingFunction.EaseInOut))
 
 val PillButtonVariant by ButtonStyle.addVariant(Modifier.attrsModifier { attr("type", "button") }) {
     val baseColor = Color.rgb(190, 190, 190)

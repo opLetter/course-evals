@@ -1,20 +1,14 @@
 package io.github.opletter.courseevals.site.components.widgets
 
 import androidx.compose.runtime.*
-import androidx.compose.web.events.SyntheticEvent
+import com.varabyte.kobweb.compose.events.SyntheticTransitionEvent
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.attrsModifier
-import org.w3c.dom.events.EventTarget
-
-fun Modifier.onTransitionEnd(onTransitionEnd: (SyntheticEvent<EventTarget>) -> Unit): Modifier =
-    attrsModifier {
-        addEventListener("transitionend") { onTransitionEnd(it) }
-    }
+import com.varabyte.kobweb.compose.ui.modifiers.onTransitionEnd
 
 @Composable
 fun TransitionObject(
     startTransition: () -> Unit,
-    onTransitionEnd: (SyntheticEvent<EventTarget>) -> Unit,
+    onTransitionEnd: (SyntheticTransitionEvent) -> Unit,
     content: @Composable (Modifier) -> Unit,
 ) {
     content(Modifier.onTransitionEnd(onTransitionEnd))

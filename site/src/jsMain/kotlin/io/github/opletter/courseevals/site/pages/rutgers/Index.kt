@@ -1,9 +1,7 @@
 package io.github.opletter.courseevals.site.pages.rutgers
 
 import androidx.compose.runtime.*
-import com.varabyte.kobweb.compose.css.AlignSelf
-import com.varabyte.kobweb.compose.css.TextAlign
-import com.varabyte.kobweb.compose.css.TextDecorationLine
+import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
@@ -28,7 +26,6 @@ import io.github.opletter.courseevals.site.components.sections.dataPage.MainNav
 import io.github.opletter.courseevals.site.components.sections.dataPage.MainNavStyle
 import io.github.opletter.courseevals.site.components.sections.dataPage.options.ExtraOptions
 import io.github.opletter.courseevals.site.components.widgets.Logo
-import io.github.opletter.courseevals.site.components.widgets.onTransitionEnd
 import io.github.opletter.courseevals.site.states.DataPageVM
 import io.github.opletter.courseevals.site.states.Status
 import kotlinx.browser.document
@@ -36,6 +33,7 @@ import kotlinx.browser.localStorage
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.s
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.get
@@ -106,7 +104,7 @@ fun HomePageContent(ghSource: GithubSource) {
             .minHeight(100.percent)
             .padding(top = 0.5.cssRem)
             .gridTemplateRows("1fr auto")
-            .transition("opacity 0.25s ease-in-out")
+            .transition(CSSTransition("opacity", 0.25.s, TransitionTimingFunction.EaseInOut))
             .thenIf(routing, Modifier.opacity(0))
             .onTransitionEnd {
                 if (routing) ctx.router.tryRoutingTo("${viewModel.urlPrefix}data${viewModel.url}")

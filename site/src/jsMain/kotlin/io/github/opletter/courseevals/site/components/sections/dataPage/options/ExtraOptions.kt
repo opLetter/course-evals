@@ -1,6 +1,7 @@
 package io.github.opletter.courseevals.site.components.sections.dataPage.options
 
 import androidx.compose.runtime.*
+import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.css.Overflow
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import io.github.opletter.courseevals.site.states.DataPageVM
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.s
 
 // should be used by all extra options
 val ExtraOptionStyle by ComponentStyle {
@@ -48,7 +50,7 @@ fun ExtraOptions(viewModel: DataPageVM, open: Boolean) {
                     .overflowY(Overflow.Auto)
                     .rowGap(0.5.cssRem)
                     .opacity(opacity)
-                    .transition("opacity 0.2s")
+                    .transition(CSSTransition("opacity", 0.2.s))
                     .then(it),
             ) {
                 CampusOption(viewModel.campusVM, viewModel.levelOfStudyVM)

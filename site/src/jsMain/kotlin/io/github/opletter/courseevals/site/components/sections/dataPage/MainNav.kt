@@ -2,7 +2,9 @@ package io.github.opletter.courseevals.site.components.sections.dataPage
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
+import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.TransitionTimingFunction
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -54,7 +56,7 @@ val MobileNavVariant by MainNavStyle.addVariantBase {
         .position(Position.Fixed)
         .margin(topBottom = 2.cssRem, leftRight = 1.cssRem)
         .borderRadius(8.px)
-        .transition("top 0.35s ease")
+        .transition(CSSTransition("top", 0.35.s, TransitionTimingFunction.Ease))
 }
 
 @Composable

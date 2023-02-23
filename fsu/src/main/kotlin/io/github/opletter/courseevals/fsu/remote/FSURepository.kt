@@ -59,53 +59,51 @@ class FSURepository(key: String? = null) {
     suspend fun getReports(
         course: String = "",
         instructor: String = "",
+        termId: String = "",
         search: Boolean = true,
         page: Int = 1,
         questionKey: String = "108347-0",
         areaId: String = "",
         sort: FSUReportSort = FSUReportSort.BEST_MATCH,
     ): FSUResponse {
+        require(course.length > 1 || instructor.length > 1) { "course or instructor must be at least 2 characters" }
         return client.get("https://fsu.evaluationkit.com/AppApi/Report/PublicReport") {
             parameter("Course", course)
             parameter("Instructor", instructor)
+            parameter("TermId", termId)
+            parameter("AreaId", areaId)
+            parameter("QuestionKey", questionKey)
             parameter("Search", search)
             parameter("page", page)
-            parameter("QuestionKey", questionKey)
-            parameter("AreaId", areaId)
             parameter("Sort", sort)
         }.body()
     }
+
+    // up to 2022 Fall
+    private val terms = listOf(
+        "2554", "2577", "2799", "2800", "2801", "2802", "2803", "2805", "2829", "2856", "3045", "3052", "3520",
+        "3793", "4148", "4410", "4780", "5131", "5694", "5884", "6647", "7135", "7418", "7433", "7453", "7466", "7477"
+        // "5884", "6647" might not have anything (Spring + Fall 2020)
+    )
 
     suspend fun getAllReports(
         course: String = "",
         instructor: String = "",
         search: Boolean = true,
-        page: Int = 1,
-        questionKey: String = "108347-0",
-        areaId: String = "",
-        sort: FSUReportSort = FSUReportSort.BEST_MATCH,
-    ): List<String> {
-        val response = getReports(course, instructor, search, page, questionKey, areaId, sort)
-        return response.results + if (response.hasMore) {
-            getAllReports(course, instructor, search, page + 1, questionKey, areaId, sort)
-        } else emptyList()
-    }
-
-    suspend fun getAllReportsAsync(
-        course: String = "",
-        instructor: String = "",
-        search: Boolean = true,
-        questionKey: String = "108347-0",
+        questionKey: String = "", // 108347-0
         areaId: String = "",
         sort: FSUReportSort = FSUReportSort.BEST_MATCH,
         startPage: Int = 1,
     ): List<String> {
-        val pageCount = generateSequence(5) { it + (if (it < 15) 5 else 10) }.first { page ->
-            !getReports(course, instructor, search, page, questionKey, areaId, sort).hasMore
-        }.also { println("pageCount: $it") }
-        return (startPage..pageCount).flatMap { page ->
-            getReports(course, instructor, search, page, questionKey, areaId, sort).results
-        }
+        return terms.pmap { term ->
+            val getReportsPage: suspend (Int) -> FSUResponse = { page: Int ->
+                getReports(course, instructor, term, search, page, questionKey, areaId, sort)
+            }
+            getReports(course, instructor, term, search, 1, questionKey, areaId, sort)
+            val pageCount = generateSequence(5) { it + (if (it < 15) 5 else 10) }
+                .first { !getReportsPage(it).hasMore }
+            (startPage..pageCount).pmap { getReportsPage(it).results }.flatten()
+        }.flatten().also { println("count: ${it.size}") }
     }
 
     private suspend fun List<String>.getPdfUrl(): String {

@@ -2,16 +2,23 @@ package io.github.opletter.courseevals.fsu.remote
 
 import io.github.opletter.courseevals.common.data.pmap
 import io.github.opletter.courseevals.common.data.substringAfterBefore
-import io.github.opletter.courseevals.fsu.PdfReport
-import io.github.opletter.courseevals.fsu.QuestionStats
-import io.github.opletter.courseevals.fsu.Report
-import io.github.opletter.courseevals.fsu.ReportMetadata
+import io.github.opletter.courseevals.fsu.*
+import io.ktor.client.network.sockets.*
+import io.ktor.client.plugins.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.retry
+import kotlinx.coroutines.flow.singleOrNull
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
+import java.io.File
 
 suspend fun FSURepository.getReportForCourse(courseKey: String, getChunkSize: (listSize: Int) -> Int): List<Report> {
-    val allReports = getAllReportsAsync(course = courseKey)
+    val allReports = getAllReports(course = courseKey)
     val chunkSize = getChunkSize(allReports.size)
         .also { println("Chunk size: $it") }
     return allReports.chunked(chunkSize).flatMapIndexed { index, chunk ->
@@ -21,10 +28,29 @@ suspend fun FSURepository.getReportForCourse(courseKey: String, getChunkSize: (l
         }
         chunk.pmap { htmlResponse ->
             val metadata = ReportMetadata.fromString(htmlResponse)
-            val ids = htmlResponse.substringAfterBefore("data-id0", "Title")
-                .split("'")
-                .filterIndexed { index, _ -> index % 2 == 1 }
-            val report = getPdfBytes(ids).getStatsFromPdf()
+            val report = flow { emit(getPdfBytes(metadata.ids).getStatsFromPdf()) }
+                .retry(3) {
+                    it.printStackTrace()
+                    (it is HttpRequestTimeoutException || it is ConnectTimeoutException)
+                        .also { retry ->
+                            if (!retry) return@also
+                            println("D: retrying, delaying 1 minute")
+                            delay(60_000)
+                        }
+                }.catch {
+                    it.printStackTrace()
+                    println("D2: Failed getting report")
+                }.singleOrNull()
+                ?: return@pmap Report(
+                    pdfInstructor = "Report-ERROR",
+                    htmlInstructor = metadata.instructor,
+                    term = metadata.term,
+                    courseName = metadata.course,
+                    courseCode = metadata.code, // may be cut off in html/"report"
+                    questions = emptyList(),
+                    ids = metadata.ids, // only significant for data retrieval purposes
+                )
+
             val (reportCode, reportCourse) = report.course.split(" : ")
                 .let { if (it.size == 2) it else List(2) { "Error" } }
             if (reportCourse != metadata.course) {
@@ -33,11 +59,11 @@ suspend fun FSURepository.getReportForCourse(courseKey: String, getChunkSize: (l
             if (reportCode != metadata.code) {
                 println("MismatchB: $reportCode != ${metadata.code} $metadata")
             }
-            if (report.instructor.split(" ")
-                    .takeIf { it.size == 2 }?.let { i -> "${i[1]}, ${i[0]}" } != metadata.instructor
-            ) {
-                println("MismatchA: ${report.instructor} != ${metadata.instructor} $metadata")
-            }
+//            if (report.instructor.split(" ")
+//                    .takeIf { it.size == 2 }?.let { i -> "${i[1]}, ${i[0]}" } != metadata.instructor
+//            ) {
+//                println("MismatchA: ${report.instructor} != ${metadata.instructor} $metadata")
+//            }
             if (report.term != metadata.term) {
                 println("MismatchB: ${report.term} != ${metadata.term} $metadata")
             }
@@ -48,8 +74,13 @@ suspend fun FSURepository.getReportForCourse(courseKey: String, getChunkSize: (l
                 courseName = metadata.course,
                 courseCode = metadata.code, // may be cut off in html/"report"
                 questions = report.questions,
-                ids = ids, // only significant for data retrieval purposes
+                ids = metadata.ids, // only significant for data retrieval purposes
             )
+        }.also { reports ->
+            val tempPath = "json-data/reports-8/temp/$courseKey.json"
+            val tempContents = File(tempPath).takeIf { it.exists() }?.readText() ?: "[]"
+            val earlierReports = Json.decodeFromString<List<Report>>(tempContents)
+            makeFileAndDir(tempPath).writeText(Json.encodeToString(earlierReports + reports))
         }
     }.sortedWith(compareBy({ it.htmlInstructor }, { it.term }))
 }

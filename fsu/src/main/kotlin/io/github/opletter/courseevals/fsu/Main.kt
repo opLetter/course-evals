@@ -3,6 +3,8 @@ package io.github.opletter.courseevals.fsu
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.fsu.remote.FSURepository
 import io.github.opletter.courseevals.fsu.remote.getReportForCourse
+import io.ktor.client.network.sockets.*
+import io.ktor.client.plugins.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -15,16 +17,21 @@ import java.io.File
 
 suspend fun main() {
     val repo = FSURepository()
-    println(repo.login())
+    repo.login()
 
-    CourseSearchKeys.forEach { courseKey ->
+//    CourseSearchKeys.filter {
+//        !File("json-data/reports-7/$it.json").exists()
+//    }.also { println("count=${it.size}") }
+//        .joinToString(",") { "\"$it\"" }.also { println(it) }
+//    return
+    CourseSearchKeys.dropWhile { it != "arh3" }.forEach { courseKey ->
         val reports: List<Report>? = flow {
-            emit(repo.getReportForCourse(courseKey) { if (it > 200) 25 else if (it > 100) 30 else 40 })
+            emit(repo.getReportForCourse(courseKey) { if (it > 200) 25 else if (it > 100) 30 else 40 }.ifEmpty { null })
         }.retry(3) {
             it.printStackTrace()
             println("B: retrying, delaying 1 minute")
-            delay(10_000)
-            true
+            delay(60_000)
+            it is HttpRequestTimeoutException || it is ConnectTimeoutException
         }.catch {
             it.printStackTrace()
             println("B2: failed 3 times. delaying 1 minute")
@@ -32,8 +39,8 @@ suspend fun main() {
         }.singleOrNull()
 
         reports?.let {
-            makeFileAndDir("json-data/reports-7/$courseKey.json").writeText(Json.encodeToString(it))
-        } ?: makeFileAndDir("json-data/reports-7/failed/$courseKey.json").writeText("{}")
+            makeFileAndDir("json-data/reports-8/$courseKey.json").writeText(Json.encodeToString(it))
+        } ?: makeFileAndDir("json-data/reports-8/failed/$courseKey.json").writeText("{}")
 
         println("C: Done with key $courseKey, delaying 1 minute")
         delay(60_000)
@@ -49,22 +56,26 @@ data class ReportMetadata(
     val instructor: String,
     val term: String,
     val area: String,
+    /** Used to get the pdf url; should be length 4 */
+    val ids: List<String>,
 ) {
     companion object {
-        fun fromString(str: String): ReportMetadata {
-            return str
-                .replace("<span class=\"search-highlighted\">", "")
-                .replace("</span>", "")
-                .run {
-                    ReportMetadata(
-                        substringAfterBefore("<p class=\"sr-dataitem-info-code\">", "</p>").trim(),
-                        substringAfterBefore("<h4>", "</h4>").trim(),
-                        substringAfterBefore("<p class=\"sr-dataitem-info-instr\">", "</p>").trim(),
-                        substringAfterBefore("<p class=\"small\" style=\"margin-bottom:15px;\">", "<").trim(),
-                        substringAfterBefore("<br />", "</p>").trim(),
-                    )
-                }
-        }
+        fun fromString(str: String): ReportMetadata = str
+            .replace("<span class=\"search-highlighted\">", "")
+            .replace("</span>", "")
+            .run {
+                ReportMetadata(
+                    code = substringAfterBefore("<p class=\"sr-dataitem-info-code\">", "</p>").trim(),
+                    course = substringAfterBefore("<h4>", "</h4>").trim(),
+                    instructor = substringAfter("<p class=\"sr-dataitem-info-instr\">", "")
+                        .substringBefore("</p>").trim(),
+                    term = substringAfterBefore("<p class=\"small\" style=\"margin-bottom:15px;\">", "<").trim(),
+                    area = substringAfterBefore("<br />", "</p>").trim(),
+                    ids = substringAfterBefore("data-id0", "Title")
+                        .split("'")
+                        .filterIndexed { index, _ -> index % 2 == 1 },
+                )
+            }
     }
 }
 

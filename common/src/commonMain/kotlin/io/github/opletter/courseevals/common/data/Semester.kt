@@ -11,6 +11,10 @@ data class Semester(val type: SemesterType, val year: Int) : Comparable<Semester
     constructor(num: Int) : this(if (num % 2 == 0) SemesterType.Spring else SemesterType.Fall, num / 2)
 
     val numValue get() = year * 2 + if (type == SemesterType.Spring) 0 else 1
+
+    operator fun rangeTo(other: Semester): List<Semester> {
+        return (numValue..other.numValue).map { Semester(it) }
+    }
 }
 
 fun Semester.prev(byAmount: Int = 1) = Semester(numValue - byAmount)

@@ -33,16 +33,16 @@ class Entry(
             .map {
                 it.substringAfterBefore(">", "<").toDouble()
             },//indices 0-99 are all the numbers for one entry, row by row
-        questions = s.split("<td  class='qText' >").map {
-            it.substringAfterBefore(". ", "</td>")
-        }.run {
-            // this gets additional labels besides Strong Disagree/Strong Agree - see record%5D=597617 as ex.
+        questions = s.split("<td  class='qText' >")
+            .map { it.substringAfterBefore(". ", "</td>") }
+            .run {
+                // this gets additional labels besides Strong Disagree/Strong Agree - see record%5D=597617 as ex.
 //            s.split("<th class='chart hidden' colspan='5'>\n  \t<th class='text responseCol'>").map {
 //                it.substringBefore("\n") to it.data.substringAfterBefore("</th>\n  \t<th  class='text responseCol'>","\n")
 //            }
-            val mappedQs = drop(1).filter { it != "" }.map { QsMap.getOrElse(it) { it } }
-            if (mappedQs == QsMap.values.toList()) null else mappedQs
-        }
+                drop(1).filter { it != "" }.map { QsMap[it] ?: it }
+                    .takeIf { it != (0..9).toList() }
+            }
     )
 
     val semester

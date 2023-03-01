@@ -83,7 +83,6 @@ class FSURepository(key: String? = null) {
     private val terms = listOf(
         "2554", "2577", "2799", "2800", "2801", "2802", "2803", "2805", "2829", "2856", "3045", "3052", "3520",
         "3793", "4148", "4410", "4780", "5131", "5694", "5884", "6647", "7135", "7418", "7433", "7453", "7466", "7477"
-        // "5884", "6647" might not have anything (Spring + Fall 2020)
     )
 
     suspend fun getAllReports(

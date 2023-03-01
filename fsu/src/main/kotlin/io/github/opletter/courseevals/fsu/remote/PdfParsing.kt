@@ -22,9 +22,9 @@ suspend fun FSURepository.getReportForCourse(courseKey: String, getChunkSize: (l
     val chunkSize = getChunkSize(allReports.size)
         .also { println("Chunk size: $it") }
     return allReports.chunked(chunkSize).flatMapIndexed { index, chunk ->
-        if (index % 2 == 1) {
-            println("A: Delaying 1 minute")
-            delay(60_000L)
+        if (index % 3 == 1) {
+            println("A: Delaying 0.75 minute")
+            delay(45_000L)
         }
         chunk.pmap { htmlResponse ->
             val metadata = ReportMetadata.fromString(htmlResponse)
@@ -34,8 +34,8 @@ suspend fun FSURepository.getReportForCourse(courseKey: String, getChunkSize: (l
                     (it is HttpRequestTimeoutException || it is ConnectTimeoutException)
                         .also { retry ->
                             if (!retry) return@also
-                            println("D: retrying, delaying 1 minute")
-                            delay(60_000)
+                            println("D: retrying, delaying 15 seconds")
+                            delay(15_000)
                         }
                 }.catch {
                     it.printStackTrace()

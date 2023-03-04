@@ -4,85 +4,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.varabyte.kobweb.compose.css.Overflow
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.graphics.Color
-import com.varabyte.kobweb.compose.ui.graphics.Colors
-import com.varabyte.kobweb.compose.ui.graphics.lightened
-import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.minHeight
+import com.varabyte.kobweb.compose.ui.modifiers.onFocusOut
 import com.varabyte.kobweb.compose.ui.modifiers.overflowX
 import com.varabyte.kobweb.core.App
 import com.varabyte.kobweb.silk.SilkApp
 import com.varabyte.kobweb.silk.components.layout.Surface
-import com.varabyte.kobweb.silk.components.style.breakpoint.BreakpointSizes
-import com.varabyte.kobweb.silk.init.InitSilk
-import com.varabyte.kobweb.silk.init.InitSilkContext
-import com.varabyte.kobweb.silk.init.registerBaseStyle
-import com.varabyte.kobweb.silk.theme.colors.ColorMode
-import com.varabyte.kobweb.silk.theme.colors.SilkPalette
-import com.varabyte.kobweb.silk.theme.colors.SilkPalettes
 import com.varabyte.kobweb.silk.theme.colors.getColorMode
 import kotlinx.browser.localStorage
-import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.vh
 
 private const val COLOR_MODE_KEY = "course-evals:colorMode"
 
-@InitSilk
-fun updateTheme(ctx: InitSilkContext) {
-    ctx.config.initialColorMode = localStorage.getItem(COLOR_MODE_KEY)?.let { ColorMode.valueOf(it) } ?: ColorMode.LIGHT
-
-    ctx.stylesheet.registerBaseStyle("body") {
-        Modifier.fontFamily("Segoe UI", "Helvetica", "Tahoma", "sans-serif")
-    }
-
-    // Breakpoints defined where layout breaks
-    // SideNav is MD+, while LG & XL are used
-    ctx.theme.breakpoints = BreakpointSizes(
-        sm = 30.cssRem,
-        md = 48.cssRem,
-        lg = 73.cssRem,
-        xl = 79.cssRem,
-    )
-
-    // https://coolors.co/palette/2b2d42-8d99ae-edf2f4-ef233c-d90429
-    // maybe: https://coolors.co/2b2d42-647890-8d99ae-dce9fa-edf2f4-f7cad0-ef233c-d90429
-    val lightButtonBase = Color.rgb(0xD90429)
-    val darkButtonBase = Color.rgb(0xEF233C)
-    ctx.theme.palettes = SilkPalettes(
-        light = SilkPalette(
-            background = Color.rgb(0xEDF2F4),
-            color = Colors.Black,//Color.rgb(0x2B2D42),
-            link = SilkPalette.Link(
-                default = Colors.Blue,
-                visited = Color.rgb(123, 0, 21),
-            ),
-            button = SilkPalette.Button(
-                default = lightButtonBase,
-                hover = lightButtonBase.lightened(byPercent = 0.2f),
-                pressed = lightButtonBase.lightened(byPercent = 0.3f)
-            ),
-            border = Color.rgb(76, 76, 187),
-        ),
-        dark = SilkPalette(
-            background = Color.rgb(0x2B2D42),
-            color = Colors.Black,
-            link = SilkPalette.Link(
-                default = Colors.Cyan,
-                visited = Color.rgb(217, 4, 41),
-            ),
-            button = SilkPalette.Button(
-                default = darkButtonBase,
-                hover = darkButtonBase.darkened(byPercent = 0.2f),
-                pressed = darkButtonBase.darkened(byPercent = 0.3f)
-            ),
-            border = Colors.Red.darkened(0.15f),
-        )
-    )
-}
-
 @App
 @Composable
 fun MyApp(content: @Composable () -> Unit) {
+    Modifier.onFocusOut { }
     SilkApp {
         val colorMode = getColorMode()
         remember(colorMode) {

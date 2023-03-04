@@ -23,6 +23,6 @@ suspend fun WebsiteDataSource.getAllData(school: String, dept: String, print: Bo
         getStatsByProf(school, dept),
         getCourseNamesOrEmpty(school, dept),
         getTeachingDataOrEmpty(school, dept),
-    ).onEach { require(it.isNotEmpty()) }
+    ).onEach { check(it.isNotEmpty()) }
     if (print) data.forEach { println(it) }
 }

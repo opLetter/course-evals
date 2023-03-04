@@ -69,5 +69,12 @@ class GithubSource(
                 allInstructorsFile = "fake-data/data-9-by-prof-stats/allInstructors.json" // will not be required soon
             )
         )
+        val PublicSource = GithubSource(
+            repoPath = "DennisTsar/RU-SIRS-local",
+            paths = WebsitePaths(
+                allInstructorsFile = "json-data/extra-data/allInstructors.json",
+                schoolMapFile = "json-data/extra-data/schoolMap.json"
+            )
+        )
     }
 }

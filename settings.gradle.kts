@@ -9,5 +9,6 @@ pluginManagement {
 rootProject.name = "course-evals"
 
 include(":common")
+include(":site-core")
 include(":site")
 include(":fsu")

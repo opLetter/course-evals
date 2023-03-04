@@ -1,6 +1,6 @@
 [versions]
 jetbrains-compose = "1.2.2"
-kobweb = "0.11.10"
+kobweb = "0.11.12-SNAPSHOT"
 kotlin = "1.7.20"
 ktor = "2.2.3"
 coroutines = "1.6.4"
@@ -35,6 +35,7 @@ ktor-main = [
 [plugins]
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 kobweb-application = { id = "com.varabyte.kobweb.application", version.ref = "kobweb" }
+kobweb-library = { id = "com.varabyte.kobweb.library", version.ref = "kobweb" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

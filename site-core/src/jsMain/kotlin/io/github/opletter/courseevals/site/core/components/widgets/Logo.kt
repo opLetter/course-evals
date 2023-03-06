@@ -2,6 +2,7 @@ package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.foundation.layout.Row
+import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
@@ -31,7 +32,7 @@ val LogoStyle by ComponentStyle.base {
 @Composable
 fun Logo(modifier: Modifier = Modifier) {
     Link(path = "/", variant = UndecoratedLinkVariant) {
-        Row(LogoStyle.toModifier().then(modifier)) {
+        Row(LogoStyle.toModifier().then(modifier), verticalAlignment = Alignment.CenterVertically) {
             FaChartSimple()
             Text("EVALS")
         }

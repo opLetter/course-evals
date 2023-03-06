@@ -89,14 +89,17 @@ fun ByteArray.getStatsFromPdf(): PdfReport {
     PDDocument.load(this).use { doc ->
         val text = PDFTextStripper().getText(doc)
         val generalData = text.substringAfterBefore("Florida State University\r\n", "Instructor:").lines()
-        val stats = text.split("\\d - ".toRegex())
+        val stats = text.split("\\d+ - ".toRegex())
             .drop(1)
-            .map { str ->
+            .mapNotNull { str ->
                 val lines = str.substringBefore("Florida State University")
                     .trimEnd().dropLast(1).trim().lines()
+                    // only take lines that are formatted as questions results - reduce false positives
+                    .also { if (it.getOrNull(1)?.startsWith("Response") != true) return@mapNotNull null }
+
                 val responseRate = lines.last().substringBefore(" ").split("/")
                 QuestionStats(
-                    question = lines[0],
+                    question = lines[0], //.filter { it.code != 160 },
                     results = lines.drop(2)
                         .takeWhile { it[0] != '0' }
                         .map { it.substringAfterBefore(") ", " ").toInt() },
@@ -119,8 +122,8 @@ fun ByteArray.getStatsFromPdf(): PdfReport {
         }
         return PdfReport(
             term = generalData[0],
-            course = generalData[1].substringAfter("Course: "),
-            instructor = generalData[2],
+            course = generalData.drop(1).dropLast(1).joinToString("").substringAfter("Course: "),
+            instructor = generalData.last(),
             questions = stats,
         )
     }

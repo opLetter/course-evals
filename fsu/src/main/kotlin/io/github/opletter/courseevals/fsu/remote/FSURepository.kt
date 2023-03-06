@@ -9,7 +9,9 @@ import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
@@ -36,7 +38,7 @@ class FSURepository(key: String? = null) {
         }
         install(HttpTimeout) {
             connectTimeoutMillis = 30000
-            requestTimeoutMillis = 180000
+            requestTimeoutMillis = 30000//180000
         }
         followRedirects = false
         install(Logging) {
@@ -47,13 +49,17 @@ class FSURepository(key: String? = null) {
             json()
         }
         defaultRequest {
+            url {
+                protocol = URLProtocol.HTTPS
+                host = "fsu.evaluationkit.com"
+            }
             header("Cookie", cookie)
         }
     }
 
     suspend fun login(): String {
         val param = "3DmbuNmXaPhUXKr4d7FOtAo8PcT3dHnl6vSswkzeYZ43uZke1%2bRiq%2bHDlbg07k3A"
-        return client.get("https://fsu.evaluationkit.com/Login/ReportPublic?id=$param").body()
+        return client.get("Login/ReportPublic?id=$param").body()
     }
 
     suspend fun getReports(
@@ -67,7 +73,7 @@ class FSURepository(key: String? = null) {
         sort: FSUReportSort = FSUReportSort.BEST_MATCH,
     ): FSUResponse {
         require(course.length > 1 || instructor.length > 1) { "course or instructor must be at least 2 characters" }
-        return client.get("https://fsu.evaluationkit.com/AppApi/Report/PublicReport") {
+        return client.get("AppApi/Report/PublicReport") {
             parameter("Course", course)
             parameter("Instructor", instructor)
             parameter("TermId", termId)
@@ -102,19 +108,23 @@ class FSURepository(key: String? = null) {
             val pageCount = generateSequence(5) { it + (if (it < 15) 5 else 10) }
                 .first { !getReportsPage(it).hasMore }
             (startPage..pageCount).pmap { getReportsPage(it).results }.flatten()
-        }.flatten().also { println("count: ${it.size}") }
+        }.flatten()
     }
 
     private suspend fun List<String>.getPdfUrl(): String {
         require(size == 4) { "ids must be a list of 4 strings" }
-        return client.get("https://fsu.evaluationkit.com/Reports/SRPdf.aspx?${joinToString(",")}")
-            .body<String>().let {
-                "https://fsu.evaluationkit.com/${it.substringAfterBefore("'../", "'")}"
-            }
+        return client.get("Reports/SRPdf.aspx?${joinToString(",")}")
+            .body<String>().substringAfterBefore("'../", "'")
     }
 
     suspend fun getPdfBytes(ids: List<String>): ByteArray {
         return client.get(ids.getPdfUrl()).body()
+    }
+
+    suspend fun getPdfUrlAndBytes(ids: List<String>): Pair<String, ByteArray> {
+        val url = client.get("Reports/SRPdf.aspx?${ids.joinToString(",")}").body<String>()
+            .substringAfterBefore("'../", "'")
+        return url to client.get(url).body()
     }
 }
 

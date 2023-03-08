@@ -61,9 +61,9 @@ fun organizeReports(): SchoolDeptsMap<List<Report>> {
         }.writeToFiles("jsonData/reports")
 }
 
-fun getStatsByProf(): SchoolDeptsMap<Map<String,InstructorStats>> {
+fun getStatsByProf(): SchoolDeptsMap<Map<String, InstructorStats>> {
     return getCompleteSchoolDeptsMap<List<Report>>("jsonData/reports")
-        .mapEachDept  { _, _, reports ->
+        .mapEachDept { _, _, reports ->
             val allNames = reports.map { it.htmlInstructor.uppercase() }.toSet() - ""
 
             val nameMappings = allNames.sorted().flatMap { name ->

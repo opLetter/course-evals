@@ -1,108 +1,34 @@
 package io.github.opletter.courseevals.fsu
 
-import io.github.opletter.courseevals.common.data.substringAfterBefore
-import io.github.opletter.courseevals.fsu.remote.FSURepository
-import io.github.opletter.courseevals.fsu.remote.getReportForCourse
-import io.ktor.client.network.sockets.*
-import io.ktor.client.plugins.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.retry
-import kotlinx.coroutines.flow.singleOrNull
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import java.io.File
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 suspend fun main() {
-    val repo = FSURepository()
-    repo.login()
-
-//    CourseSearchKeys.filter {
-//        !File("json-data/reports-7/$it.json").exists()
-//    }.also { println("count=${it.size}") }
-//        .joinToString(",") { "\"$it\"" }.also { println(it) }
-//    return
-    CourseSearchKeys.dropWhile { it != "arh3" }.forEach { courseKey ->
-        val reports: List<Report>? = flow {
-            emit(repo.getReportForCourse(courseKey) { if (it > 200) 25 else if (it > 100) 30 else 40 }.ifEmpty { null })
-        }.retry(3) {
-            it.printStackTrace()
-            println("B: retrying, delaying 1 minute")
-            delay(60_000)
-            it is HttpRequestTimeoutException || it is ConnectTimeoutException
-        }.catch {
-            it.printStackTrace()
-            println("B2: failed 3 times. delaying 1 minute")
-            delay(60_000)
-        }.singleOrNull()
-
-        reports?.let {
-            makeFileAndDir("json-data/reports-8/$courseKey.json").writeText(Json.encodeToString(it))
-        } ?: makeFileAndDir("json-data/reports-8/failed/$courseKey.json").writeText("{}")
-
-        println("C: Done with key $courseKey, delaying 1 minute")
-        delay(60_000)
-    }
+//    getStatsByProf()
 }
 
-fun makeFileAndDir(filename: String): File = File(filename).apply { parentFile.mkdirs() }
+data class FSUSemester(val type: FSUSemesterType, val year: Int) : Comparable<FSUSemester> {
+    override fun compareTo(other: FSUSemester): Int {
+        return numValue.compareTo(other.numValue)
+    }
 
-@Serializable
-data class ReportMetadata(
-    val code: String,
-    val course: String,
-    val instructor: String,
-    val term: String,
-    val area: String,
-    /** Used to get the pdf url; should be length 4 */
-    val ids: List<String>,
-) {
+    val numValue get() = year * 3 + type.ordinal
+
     companion object {
-        fun fromString(str: String): ReportMetadata = str
-            .replace("<span class=\"search-highlighted\">", "")
-            .replace("</span>", "")
-            .run {
-                ReportMetadata(
-                    code = substringAfterBefore("<p class=\"sr-dataitem-info-code\">", "</p>").trim(),
-                    course = substringAfterBefore("<h4>", "</h4>").trim(),
-                    instructor = substringAfter("<p class=\"sr-dataitem-info-instr\">", "")
-                        .substringBefore("</p>").trim(),
-                    term = substringAfterBefore("<p class=\"small\" style=\"margin-bottom:15px;\">", "<").trim(),
-                    area = substringAfterBefore("<br />", "</p>").trim(),
-                    ids = substringAfterBefore("data-id0", "Title")
-                        .split("'")
-                        .filterIndexed { index, _ -> index % 2 == 1 },
-                )
-            }
+        fun valueOf(num: Int): FSUSemester = FSUSemester(FSUSemesterType.values()[num % 3], num / 3)
+        fun valueOf(str: String): FSUSemester {
+            val (year, type) = str.split(" ")
+            return FSUSemester(FSUSemesterType.valueOf(type), year.toInt())
+        }
     }
 }
 
-@Serializable
-data class Report(
-    /** Formatted as "Last, First" */
-    val pdfInstructor: String,
-    val htmlInstructor: String,
-    val term: String,
-    val courseCode: String,
-    val courseName: String,
-    val questions: List<QuestionStats>,
-    val ids: List<String> = emptyList(),
-)
+operator fun FSUSemester.rangeTo(other: FSUSemester): List<FSUSemester> =
+    (numValue..other.numValue).map { FSUSemester.valueOf(it) }
 
-@Serializable
-data class PdfReport(
-    val term: String,
-    val course: String,
-    val instructor: String,
-    val questions: List<QuestionStats>,
-)
+fun FSUSemester.prev(byAmount: Int = 1) = FSUSemester.valueOf(numValue - byAmount)
+fun FSUSemester.next(byAmount: Int = 1) = FSUSemester.valueOf(numValue + byAmount)
 
-@Serializable
-data class QuestionStats(
-    val question: String,
-    val results: List<Int>, // should be size 5 - num responses of each type
-    val numResponses: Int,
-    val numRespondents: Int,
-)
+enum class FSUSemesterType {
+    Spring, Summer, Fall
+}

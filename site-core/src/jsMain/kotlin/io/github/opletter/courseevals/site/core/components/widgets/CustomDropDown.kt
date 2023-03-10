@@ -56,7 +56,7 @@ fun <T> CustomDropDown(
             .toAttrs {
                 onChange {
                     it.target.clearFocus()
-                    onSelect(it.value ?: throw IllegalStateException("No value selected"))
+                    onSelect(it.value ?: error("No value selected"))
                     if (hint != null) (it.target.options[0] as HTMLOptionElement).selected = true
                 }
             }

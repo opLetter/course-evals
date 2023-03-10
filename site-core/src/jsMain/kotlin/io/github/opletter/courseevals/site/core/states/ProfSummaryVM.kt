@@ -19,7 +19,7 @@ class ProfSummaryVM(
     goToCourseData: (String) -> Unit,
 ) {
     private val profStats = statsByProf[selectedProf]
-        ?: throw IllegalStateException("Prof not found ($selectedProf)")
+        ?: error("Prof not found ($selectedProf)")
 
     var selectedQ by mutableStateOf(7)
 
@@ -33,7 +33,7 @@ class ProfSummaryVM(
             profStats.overallStats
         } else {
             profStats.courseStats[courses[selectedCourse]]
-                ?: throw IllegalStateException("Course not found ($selectedCourse)")
+                ?: error("Course not found ($selectedCourse)")
         }
         stats[selectedQ]
     }

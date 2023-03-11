@@ -16,8 +16,9 @@ val campusMap = mapOf(
     "Intl" to "International Campuses",
 )
 
+// CoursePrefixes.txt comes from https://registrar.fsu.edu/bulletin/undergraduate/information/course_prefix/
 fun getCoursePrefixes(): Map<String, String> {
-    val coursePrefixHTML = File("CoursePrefixes.txt").readText()
+    val coursePrefixHTML = File("src/main/resources/CoursePrefixes.txt").readText()
         .split("<tr class=\"TableAllLeft\">")
         .drop(2)
         .associate { row ->
@@ -34,7 +35,7 @@ fun getCoursePrefixes(): Map<String, String> {
 }
 
 fun organizeReports(): SchoolDeptsMap<List<Report>> {
-    val list = File("Areas.txt").readLines()
+    val list = File("src/main/resources/Areas.txt").readLines()
         .map { AreaEntry.fromString(it) }
 
     val uniqueCodes = list.groupBy({ it.code }, { it.code }).filter { it.value.size == 1 }.keys
@@ -53,7 +54,7 @@ fun organizeReports(): SchoolDeptsMap<List<Report>> {
                 .replace("  ", " ")
                 .filter { it != ',' }
                 .let { childParentMap[it] ?: childParentMap[it.substringBefore(" -")] ?: it }
-            campusMap[newArea] ?: throw IllegalStateException("Unknown area: $newArea")
+            campusMap[newArea] ?: error("Unknown area: $newArea")
         }.mapValues { (_, keys) ->
             keys
                 .distinctBy { it.ids }
@@ -83,7 +84,7 @@ fun getStatsByProf(): SchoolDeptsMap<Map<String, InstructorStats>> {
                 .filter { it.htmlInstructor.uppercase().isNotBlank() }
                 .groupBy {
                     nameMappings[it.htmlInstructor.uppercase()]
-                        ?: throw IllegalStateException("${it.htmlInstructor.uppercase()}\n${nameMappings}")
+                        ?: error("${it.htmlInstructor.uppercase()}\n${nameMappings}")
                 }.mapValues { (_, reports) ->
                     val filteredReports = reports.filter { it.questions.size >= 13 }.takeIf { it.isNotEmpty() }
                         ?: return@mapValues null
@@ -120,7 +121,7 @@ fun createAllInstructors(): Map<String, List<Instructor>> {
                 entries.map { (name, stats) -> Instructor(name, dept, stats.lastSem) }
             }.sortedBy { it.name }
         }
-    makeFileAndDir("jsonData/extraData/allInstructors.json")
+    makeFileAndDir("jsonData/statsByProf/allInstructors.json")
         .writeText(Json.encodeToString(profList.toSortedMap().toMap()))
     return profList
 }

@@ -17,13 +17,13 @@ inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(
     map { (key, value) ->
         key to School(
             code = key,
-            name = campusMap[key] ?: throw IllegalStateException("No name for $key"),
+            name = campusMap[key] ?: error("No name for $key"),
             depts = value.keys.sorted().toSet(),
             campuses = Campus.values().toSet(),
             level = LevelOfStudy.U,
         )
     }.toMap().let {
-        if (writeSchoolMap) makeFileAndDir("$writeDir/schoolMap.json").writeText(Json.encodeToString(it))
+        if (writeSchoolMap) makeFileAndDir("$writeDir/schools.json").writeText(Json.encodeToString(it))
     }
     forEachDept { school, dept, reports ->
         makeFileAndDir("$writeDir/$school/$dept.json")
@@ -33,7 +33,7 @@ inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(
 }
 
 inline fun <reified T> getCompleteSchoolDeptsMap(dir: String): SchoolDeptsMap<T> {
-    val schoolMap = Json.decodeFromString<Map<String, School>>(File("$dir/schoolMap.json").readText())
+    val schoolMap = Json.decodeFromString<Map<String, School>>(File("$dir/schools.json").readText())
     return schoolMap.mapValues { (code, school) ->
         school.depts.associateWith {
             Json.decodeFromString(File("$dir/$code/$it.json").readText())

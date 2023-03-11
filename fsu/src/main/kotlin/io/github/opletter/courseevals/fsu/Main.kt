@@ -5,6 +5,9 @@ import kotlin.collections.component2
 
 suspend fun main() {
 //    getStatsByProf()
+//    createAllInstructors()
+//    getCourseNames()
+//    getTeachingProfs("jsonData/extraData/teachingF23")
 }
 
 data class FSUSemester(val type: FSUSemesterType, val year: Int) : Comparable<FSUSemester> {

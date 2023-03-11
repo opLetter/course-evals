@@ -24,6 +24,7 @@ data class TeachingEntry(
     val error: String = "",
 )
 
+// https://registrar.fsu.edu/class_search/
 fun ByteArray.getTeachingData(): List<TeachingData> {
     return PDDocument.load(this).use { doc ->
         PDFTextStripper().getText(doc).split("Page \\d+".toRegex()).drop(1)
@@ -72,7 +73,7 @@ suspend fun getTeachingProfs(writeDir: String, term: String = "2023-9") {
 }
 
 suspend fun getCourseNames(writeDir: String? = null) {
-    val validDepts = File("jsonData/statsByProf/schoolMap.json").decodeFromString<Map<String, School>>()
+    val validDepts = File("jsonData/statsByProf/schools.json").decodeFromString<Map<String, School>>()
         .flatMap { it.value.depts }.toSet()
     listOf("1", "6", "9").flatMap { term ->
         listOf("Undergraduate", "Graduate", "Law", "Medicine").flatMap { type ->
@@ -146,7 +147,7 @@ private fun List<String>.extractPageData(): Pair<String, List<TeachingEntry>> {
         val headerIndex = indexOf("Facility Id Person Name Location").takeIf { it != -1 }
             ?: indexOf("Person Name Location").takeIf { it != -1 }
             ?: indexOf("Location").takeIf { it != -1 && this[it - 1] == "Name" }
-            ?: throw IllegalStateException("Could not find header")
+            ?: error("Could not find header")
         drop(headerIndex + 1)
     }.run {
         val splitIndex = this.indexOfFirst { part ->

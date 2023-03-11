@@ -1,8 +1,5 @@
 package io.github.opletter.courseevals.common.data
 
-typealias EntriesByProf = Map<String, List<Entry>>
-typealias EntriesByProfMap = SchoolDeptsMap<EntriesByProf>
-typealias EntriesMap = SchoolDeptsMap<List<Entry>>
 typealias SchoolDeptsMap<T> = Map<String, Map<String, T>>
 
 inline fun <T> SchoolDeptsMap<T>.forEachDept(action: (String, String, T) -> Unit) {

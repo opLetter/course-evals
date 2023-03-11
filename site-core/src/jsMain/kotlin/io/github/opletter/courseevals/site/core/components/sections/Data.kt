@@ -21,13 +21,13 @@ import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
-import io.github.opletter.courseevals.common.remote.WebsiteDataSource
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.*
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.ExtraOptions
 import io.github.opletter.courseevals.site.core.components.widgets.LoadingSpinner
 import io.github.opletter.courseevals.site.core.components.widgets.MobileNavButton
 import io.github.opletter.courseevals.site.core.misc.jsGoatCount
 import io.github.opletter.courseevals.site.core.misc.keyReset
+import io.github.opletter.courseevals.site.core.states.College
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import io.github.opletter.courseevals.site.core.states.Status
 import io.github.opletter.courseevals.site.core.states.getProfUrl
@@ -55,15 +55,16 @@ val PageTitleStyle by ComponentStyle {
 }
 
 @Composable
-fun DataPageContent(repository: WebsiteDataSource) {
+fun DataPageContent(college: College) {
     // region non-UI setup
     val ctx = rememberPageContext()
     val coroutineScope = rememberCoroutineScope()
 
     val viewModel = remember {
         DataPageVM(
-            repository = repository,
+            repository = college.dataSource,
             coroutineScope = coroutineScope,
+            college = college,
             urlParams = ctx.params,
         )
     }
@@ -170,11 +171,12 @@ fun DataPageContent(repository: WebsiteDataSource) {
                     LoadingSpinner()
             }
 
-            viewModel.profSummaryVM?.let { ProfSummary(it) }
+            viewModel.profSummaryVM?.let { ProfSummary(viewModel.college.questions, it) }
             viewModel.mapToDisplay?.let {
                 key(it.size / keyReset) {
                     ProfScoresList(
                         it,
+                        viewModel.college.questions,
                         viewModel.teachingInstructors,
                         viewModel::selectProf,
                         viewModel::getProfUrl,

@@ -52,7 +52,7 @@ fun Footer(modifier: Modifier = Modifier, linkVariant: ComponentVariant? = Oppos
             text = "Have feedback?",
             variant = linkVariant,
         )
-        SpanText("Not affiliated with Rutgers University")
+        SpanText("Not affiliated with any university")
         Row(verticalAlignment = Alignment.CenterVertically) {
             FaGithub()
             SpanText(" This site is ")

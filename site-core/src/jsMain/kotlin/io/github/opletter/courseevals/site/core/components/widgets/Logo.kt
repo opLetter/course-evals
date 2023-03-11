@@ -1,22 +1,22 @@
 package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.Composable
+import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
-import com.varabyte.kobweb.compose.ui.modifiers.color
-import com.varabyte.kobweb.compose.ui.modifiers.columnGap
-import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
-import com.varabyte.kobweb.compose.ui.modifiers.fontSize
+import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.icons.fa.FaChartSimple
 import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.navigation.UndecoratedLinkVariant
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
+import io.github.opletter.courseevals.site.core.states.College
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.dom.Text
 
@@ -30,11 +30,24 @@ val LogoStyle by ComponentStyle.base {
 }
 
 @Composable
-fun Logo(modifier: Modifier = Modifier) {
-    Link(path = "/", variant = UndecoratedLinkVariant) {
-        Row(LogoStyle.toModifier().then(modifier), verticalAlignment = Alignment.CenterVertically) {
-            FaChartSimple()
-            Text("EVALS")
+fun Logo(modifier: Modifier = Modifier, college: College? = null) {
+    val path = if (college == null) "/" else "/${college.urlPath}"
+    Link(path = path, variant = UndecoratedLinkVariant) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Row(LogoStyle.toModifier().then(modifier), verticalAlignment = Alignment.CenterVertically) {
+                FaChartSimple()
+                Text("EVALS")
+            }
+            college?.let {
+                SpanText(
+                    it.fullName,
+                    Modifier
+                        .fontFamily("sans-serif")
+                        .fontSize(1.5.cssRem)
+                        .color(Colors.White)
+                        .margin(top = (-0.25).cssRem)
+                )
+            }
         }
     }
 }

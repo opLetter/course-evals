@@ -10,28 +10,30 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.Json
 
 /** This class contains only the methods that are used by the website,
  * even though other data is also accessible from GitHub.
  * In practice, that data can just be accessed locally.
  */
 class GithubSource(
-    repoPath: String = "DennisTsar/Rutgers-SIRS",
+    repoPath: String = "opletter/course-evals",
     private val paths: WebsitePaths = WebsitePaths(),
-    ghToken: String? = null,
+    token: String? = null,
 ) : RemoteApi, WebsiteDataSource {
     private val ghClient = client.config {
+        // only use official api if needed for authentication, as it is rate limited
         install(ContentNegotiation) {
-            json()
+            if (token == null) json(Json, ContentType.Text.Plain) else json()
         }
         defaultRequest {
             url {
                 protocol = URLProtocol.HTTPS
-                host = "api.github.com"
-                encodedPath = "/repos/$repoPath/contents/"
+                host = if (token == null) "raw.githubusercontent.com" else "api.github.com"
+                encodedPath = if (token == null) "/$repoPath/master/" else "/repos/$repoPath/contents/"
             }
             accept(ContentType.parse("application/vnd.github.raw"))
-            ghToken?.let { bearerAuth(it) }
+            token?.let { bearerAuth(it) }
         }
     }
 
@@ -60,21 +62,4 @@ class GithubSource(
     override suspend fun getDeptMap(): Map<String, String> = ghClient.get(paths.deptMapFile).body()
 
     override suspend fun getSchoolMap(): Map<String, School> = ghClient.get(paths.schoolMapFile).body()
-
-    companion object {
-        val FakeSource = GithubSource(
-            repoPath = "DennisTsar/RU-SIRS",
-            paths = WebsitePaths(
-                baseDir = "fake-data",
-                allInstructorsFile = "fake-data/data-9-by-prof-stats/allInstructors.json" // will not be required soon
-            )
-        )
-        val PublicSource = GithubSource(
-            repoPath = "DennisTsar/RU-SIRS-local",
-            paths = WebsitePaths(
-                allInstructorsFile = "json-data/extra-data/allInstructors.json",
-                schoolMapFile = "json-data/extra-data/schoolMap.json"
-            )
-        )
-    }
 }

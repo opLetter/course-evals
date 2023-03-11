@@ -19,10 +19,9 @@ import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.components.text.SpanTextStyle
 import io.github.opletter.courseevals.site.core.components.widgets.CustomDropDown
 import io.github.opletter.courseevals.site.core.components.widgets.SelectStyle
-import io.github.opletter.courseevals.site.core.misc.UsefulQuestions
-import io.github.opletter.courseevals.site.core.misc.UsefulQuestionsShort
 import io.github.opletter.courseevals.site.core.misc.jsBalanceTextById
 import io.github.opletter.courseevals.site.core.misc.smallCapsFont
+import io.github.opletter.courseevals.site.core.states.Questions
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
@@ -63,6 +62,7 @@ val QuestionSelectVariant by SelectStyle.addVariant {
 
 @Composable
 fun QuestionHeader(
+    questions: Questions,
     selectedQ: Int,
     modifier: Modifier = Modifier,
     onSelectedQDropDownChange: (Int) -> Unit,
@@ -75,7 +75,7 @@ fun QuestionHeader(
             val id = "survey-q"
             Box(HeaderStyle.toModifier(), Alignment.Center) {
                 SpanText(
-                    "\"${UsefulQuestions[selectedQ]}\"",
+                    "\"${questions.full[selectedQ]}\"",
                     Modifier.id(id),
                     SpanTextHeaderVariant,
                 )
@@ -87,8 +87,8 @@ fun QuestionHeader(
         CustomDropDown(
             hint = "Choose another question...",
             selectVariant = QuestionSelectVariant,
-            list = UsefulQuestionsShort,
-            onSelect = { onSelectedQDropDownChange(UsefulQuestionsShort.indexOf(it)) },
+            list = questions.short,
+            onSelect = { onSelectedQDropDownChange(questions.short.indexOf(it)) },
         )
     }
 }

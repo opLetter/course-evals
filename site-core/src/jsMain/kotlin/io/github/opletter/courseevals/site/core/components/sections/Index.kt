@@ -19,11 +19,11 @@ import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.components.text.SpanTextStyle
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
-import io.github.opletter.courseevals.common.remote.WebsiteDataSource
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNav
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNavStyle
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.ExtraOptions
 import io.github.opletter.courseevals.site.core.components.widgets.Logo
+import io.github.opletter.courseevals.site.core.states.College
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import io.github.opletter.courseevals.site.core.states.Status
 import kotlinx.browser.document
@@ -68,14 +68,15 @@ val ActionButtonVariant by ButtonStyle.addVariant {
 }
 
 @Composable
-fun HomePageContent(repository: WebsiteDataSource) {
+fun HomePageContent(college: College) {
     val ctx = rememberPageContext()
     val coroutineScope = rememberCoroutineScope()
 
     val viewModel = remember {
         DataPageVM(
-            repository = repository,
+            repository = college.dataSource,
             coroutineScope = coroutineScope,
+            college = college,
             urlParams = ctx.params,
         )
     }

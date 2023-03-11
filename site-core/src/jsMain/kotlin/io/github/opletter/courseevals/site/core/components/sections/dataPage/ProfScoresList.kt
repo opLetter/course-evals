@@ -22,9 +22,8 @@ import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.getColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.components.widgets.CustomGrid
-import io.github.opletter.courseevals.site.core.misc.UsefulQuestions
-import io.github.opletter.courseevals.site.core.misc.UsefulQuestionsShort
 import io.github.opletter.courseevals.site.core.misc.textEllipsis
+import io.github.opletter.courseevals.site.core.states.Questions
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.CheckboxInput
@@ -32,18 +31,28 @@ import org.jetbrains.compose.web.dom.Label
 import org.jetbrains.compose.web.dom.Text
 import com.varabyte.kobweb.compose.css.AlignSelf as KobAlignSelf
 
-val ProfScoresGridVariant by SimpleGridStyle.addVariant {
+// consider switching to fr units like on mobile
+// minmax() causes headers to fill full space + align with main grid (w/ and w/o scrollbar)
+// while 12rem still fits. Then, when "auto" gets applied, scrollbar causes offset with headers,
+// but headers remain stationary when scrollbar appears/disappears.
+// This solution seems optimal compared to using pure "auto" or pure raw length ("12rem")
+// Note: "12rem" chosen strategically such that it is reached between 1280px and 1366px
+// We want the maximum possible value while affecting as little screens as possible
+val Ratings9QsGridVariant by SimpleGridStyle.addVariant {
     base {
         Modifier.gridTemplateColumns("1fr 4.75fr 2fr 2fr")
     }
-    Breakpoint.XL { // consider switching to fr units like on mobile
-        // minmax() causes headers to fill full space + align with main grid (w/ and w/o scrollbar)
-        // while 12rem still fits. Then, when "auto" gets applied, scrollbar causes offset with headers,
-        // but headers remain stationary when scrollbar appears/disappears.
-        // This solution seems optimal compared to using pure "auto" or pure raw length ("12rem")
-        // Note: "12rem" chosen strategically such that it is reached between 1280px and 1366px
-        // We want the maximum possible value while affecting as little screens as possible
+    Breakpoint.XL {
         Modifier.gridTemplateColumns("2rem minmax(auto, 12rem) repeat(10, 4.25rem)")
+    }
+}
+
+val Ratings13QsGridVariant by SimpleGridStyle.addVariant {
+    base {
+        Modifier.gridTemplateColumns("1fr 4.75fr 2fr 2fr")
+    }
+    Breakpoint.XL {
+        Modifier.gridTemplateColumns("2rem minmax(auto, 12rem) repeat(14, 4.25rem)")
     }
 }
 
@@ -111,14 +120,15 @@ val ProfNameStyle by ComponentStyle(Modifier.role("button")) {
 @Composable
 fun ProfScoresList(
     list: Map<String, List<String>>,
+    questions: Questions,
     instructors: List<String> = emptyList(),
     onNameClick: (String) -> Unit = {},
     getProfUrl: (String) -> String,
 ) {
-    var selectedQ by remember { mutableStateOf(7) }
+    var selectedQ by remember { mutableStateOf(questions.defaultIndex) }
     var selectedQDropDown by remember { mutableStateOf(selectedQ) } // same as selectedQ but w/o # of Responses
 
-    QuestionHeader(selectedQDropDown, Modifier.displayUntil(Breakpoint.XL)) {
+    QuestionHeader(questions, selectedQDropDown, Modifier.displayUntil(Breakpoint.XL)) {
         selectedQ = it
         selectedQDropDown = it
     }
@@ -144,7 +154,7 @@ fun ProfScoresList(
                         onInput { showOnlyTeaching = !showOnlyTeaching }
                     }
             )
-            SpanText("Spring 2023 instructors only", Modifier.margin(leftRight = 0.3.cssRem))
+            SpanText("Fall 2023 instructors only", Modifier.margin(leftRight = 0.3.cssRem))
             FaChalkboardUser()
         }
         if (!list.keys.any { "[]" in it }) return@Column
@@ -167,10 +177,16 @@ fun ProfScoresList(
     val breakpoint by rememberBreakpoint()
     val mobileView by remember { derivedStateOf { breakpoint < Breakpoint.XL } }
 
+    val gridVariant = when (questions.short.size) {
+        9 -> Ratings9QsGridVariant
+        13 -> Ratings13QsGridVariant
+        else -> error("Invalid number of questions")
+    }
+
     Column(MainGridAreaStyle.toModifier()) {
-        CustomGrid(Modifier.fillMaxWidth(), variant = ProfScoresGridVariant) {
+        CustomGrid(Modifier.fillMaxWidth(), variant = gridVariant) {
             val numResponsesText = "# of Responses"
-            val lastQ = UsefulQuestions.size
+            val lastQ = questions.full.size
             Spacer() // for index column
             if (mobileView) {
                 val baseModifier = Modifier
@@ -202,7 +218,7 @@ fun ProfScoresList(
                     Text("Name")
                     FaUpRightFromSquare(Modifier.padding(bottom = 0.1.cssRem)) // more visually pleasing
                 }
-                UsefulQuestionsShort.plus(numResponsesText).forEachIndexed { index, text ->
+                questions.short.plus(numResponsesText).forEachIndexed { index, text ->
                     SpanText(
                         text,
                         Modifier
@@ -214,7 +230,7 @@ fun ProfScoresList(
                                 selectedQ = index
                                 if (index != lastQ) selectedQDropDown = index
                             }.thenIf(index == selectedQ, Modifier.fontWeight(FontWeight.Bold))
-                            .thenIf(index != lastQ) { Modifier.title(UsefulQuestions[index]) }
+                            .thenIf(index != lastQ) { Modifier.title(questions.full[index]) }
                     )
                 }
             }
@@ -227,6 +243,7 @@ fun ProfScoresList(
             mobileView = mobileView,
             selectedQ = selectedQ,
             selectedQDropDown = selectedQDropDown,
+            gridVariant = gridVariant,
             onNameClick = onNameClick,
             getProfUrl = getProfUrl
         )
@@ -241,6 +258,7 @@ private fun StatsGrid(
     mobileView: Boolean,
     selectedQ: Int,
     selectedQDropDown: Int,
+    gridVariant: ComponentVariant,
     onNameClick: (String) -> Unit,
     getProfUrl: (String) -> String,
 ) {
@@ -254,7 +272,7 @@ private fun StatsGrid(
                 .fontSize(0.9.cssRem)
                 .lineHeight(2.cssRem) // centers vertically
                 .overflowY(Overflow.Auto),
-            ProfScoresGridVariant
+            gridVariant,
         ) {
             // Profs starting with [] have no stats for this course, but are teaching it - see DataPageVM.mapToDisplay
             list.entries.run {
@@ -328,7 +346,7 @@ private fun ProfName(
                 FaChalkboardUser(
                     Modifier
                         .fontSize(iconFontSize)
-                        .title("Teaching this course in Spring 2023")
+                        .title("Teaching this course in Fall 2023")
                 )
                 if (!specialStats) return@Row
                 FaCircleExclamation(

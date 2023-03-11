@@ -77,7 +77,7 @@ fun MainNav(
             .then(modifier),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (showLogo) Logo()
+        if (showLogo) Logo(college = viewModel.college)
 
         if (viewModel.status == Status.InitialLoading) return@Column
 

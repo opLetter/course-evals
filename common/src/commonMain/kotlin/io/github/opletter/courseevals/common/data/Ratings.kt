@@ -7,19 +7,6 @@ class RatingStats(
     val numResponses: Int,
 )
 
-// returns list of (# of 1s, # of 2s, ... # of 5s) for each question
-// note that entries must have scores.size>=100 - maybe throw error?
-// ***IMPORTANT NOTE*** By default, don't give ratings for question index 7 - as it's mostly irrelevant
-fun List<Entry>.getTotalRatings(excludeQuestion7: Boolean = true): Ratings {
-    return map { entry ->
-        // group by question (there are 10 nums in table per question)
-        // + we only care about first 5 nums per Q (the actual ratings) which are all int amounts
-        entry.scores.chunked(10)
-            .map { it.subList(0, 5).map(Double::toInt) }
-            .run { if (excludeQuestion7) (subList(0, 7) + subList(8, 10)) else this }
-    }.combine()
-}
-
 fun Collection<Ratings>.combine(): Ratings {
     return reduce { accByQuestion, responsesByQ ->
         // nums from each entry get zipped with each other, by question

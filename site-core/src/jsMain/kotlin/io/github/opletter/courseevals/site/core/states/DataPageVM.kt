@@ -2,7 +2,6 @@ package io.github.opletter.courseevals.site.core.states
 
 import androidx.compose.runtime.*
 import io.github.opletter.courseevals.common.data.*
-import io.github.opletter.courseevals.common.remote.GithubSource
 import io.github.opletter.courseevals.common.remote.WebsiteDataSource
 import io.github.opletter.courseevals.site.core.misc.None
 import io.github.opletter.courseevals.site.core.misc.jsFormatNum
@@ -14,10 +13,13 @@ import kotlinx.coroutines.launch
 class DataPageVM(
     private val repository: WebsiteDataSource,
     private val coroutineScope: CoroutineScope,
+    val college: College,
     urlParams: Map<String, String>,
-    fakeData: Boolean = repository == GithubSource.FakeSource,
 ) {
-    val urlPrefix = if (fakeData) "fake" else ""
+    val urlPrefix = when {
+        college is College.Rutgers && college.fake -> "fake"
+        else -> ""
+    }
 
     var state: DataPageState by mutableStateOf(DataPageState())
         private set
@@ -28,7 +30,28 @@ class DataPageVM(
     private var initialLoading by mutableStateOf(true)
     var pageLoading by mutableStateOf(false)
 
-    val minSemVM = MinSemesterVM()
+    // Unsure about what to choose for this default value.
+    // Ideally it'd be as recent as possible (for page loading speed), but not too recent (for relevance)
+    // Chosen for now to be the 5th semester back (from which we have data)
+    // Considered making it the first semester of current-year seniors, but that may slow down pages too much
+    // for data that most people wouldn't want to see.
+    val minSemVM = when (college) {
+        is College.Rutgers -> MinSemesterVM(
+            semBounds = Semester.RU.valueOf(SemesterType.Spring, 2014) to Semester.RU.valueOf(
+                SemesterType.Spring,
+                2022
+            ),
+            default = Semester.RU.valueOf(SemesterType.Spring, 2020),
+            college = college.urlPath,
+        ) { Semester.RU(it).toString() }
+
+        is College.FSU -> MinSemesterVM(
+            semBounds = Semester.FSU.valueOf(SemesterType.Fall, 2013) to Semester.FSU.valueOf(SemesterType.Fall, 2022),
+            default = Semester.FSU.valueOf(SemesterType.Spring, 2020),
+            college = college.urlPath,
+        ) { Semester.FSU(it).toString() }
+    }
+
     private val updateState: () -> Unit = {
         with(state) {
             selectSchool(
@@ -94,7 +117,7 @@ class DataPageVM(
                 Status.InitialLoading -> ""
                 Status.Prof -> with(state) { "${prof.selected} (${getCode()})" }
                 Status.Dept -> globalData.deptMap[state.dept.selected]?.let { "$it (${getCode()})" }
-                    ?: throw IllegalStateException("Invalid dept (${state.dept.selected}")
+                    ?: error("Invalid dept (${state.dept.selected}")
 
                 else -> deptData.courseNames[state.course.selected]
                     ?.let { "$it (${getCode()})" } ?: getCode()
@@ -121,14 +144,13 @@ class DataPageVM(
             // to not slow down initial page load, add suggestions to DataList after search bar is initially clicked
             if (!searchBarClickedOnce) emptyList()
             else {
-                val semesterFilter = Semester(minSemVM.value)
                 val searchableProfs = globalData.allInstructors
                     .filterKeys { it in activeSchoolsByCode.keys }
-                    .values
-                    .flatten()
-                    .mapNotNull { prof ->
-                        if (prof.latestSem < semesterFilter) null
-                        else "${prof.name} (${prof.school}:${prof.dept})"
+                    .flatMap { (school, profs) ->
+                        profs.mapNotNull { prof ->
+                            if (prof.latestSem < minSemVM.value) null
+                            else "${prof.name} ($school:${prof.dept})"
+                        }
                     }
                 searchableDepts + searchableProfs
             }
@@ -177,7 +199,7 @@ class DataPageVM(
     fun selectDept(
         dept: String,
         school: School = activeSchoolsByCode[state.school.selected]
-            ?: throw IllegalStateException("Selected School (${state.school.selected}) Not Found"),
+            ?: error("Selected School (${state.school.selected}) Not Found"),
         course: String? = null,
         prof: String? = null,
     ) {
@@ -229,7 +251,7 @@ class DataPageVM(
 
     fun selectCourse(course: String) {
         val courseCode = with(course) {
-            if (endsWith(")")) dropLast(1).takeLast(3) else this
+            if (endsWith(")")) this.substringAfterBefore("(", ")") else this
         }
         state = state.copy(
             course = state.course.copy(selected = courseCode),
@@ -321,7 +343,7 @@ class DataPageVM(
 
     private fun School.associateDeptsToName(): List<Pair<String, String>> {
         return depts.associateWith {
-            globalData.deptMap[it] ?: throw IllegalStateException("Invalid Dept ($it)")
+            globalData.deptMap[it] ?: error("Invalid Dept ($it)")
         }.toList()
     }
 
@@ -413,6 +435,16 @@ data class DataPageState(
     val course: DropDownState<String> = DropDownState(),
     val prof: DropDownState<String> = DropDownState(),
 )
+
+data class Questions(
+    val full: List<String>,
+    val short: List<String>,
+    val defaultIndex: Int,
+) {
+    init {
+        require(full.size == short.size)
+    }
+}
 
 private fun String.isBlankOrNone(): Boolean = isBlank() || equals(None)
 

@@ -11,6 +11,7 @@ import com.varabyte.kobweb.silk.components.icons.fa.FaChalkboardUser
 import com.varabyte.kobweb.silk.components.text.SpanText
 import io.github.opletter.courseevals.site.core.components.widgets.PillButton
 import io.github.opletter.courseevals.site.core.states.ProfSummaryVM
+import io.github.opletter.courseevals.site.core.states.Questions
 import org.jetbrains.compose.web.css.FlexWrap
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.percent
@@ -18,10 +19,10 @@ import org.jetbrains.compose.web.css.unaryMinus
 import com.varabyte.kobweb.compose.css.AlignSelf as KobAlignSelf
 
 @Composable
-fun ProfSummary(viewModel: ProfSummaryVM) {
+fun ProfSummary(questions: Questions, viewModel: ProfSummaryVM) {
     CourseButtonsBar(viewModel.coursesToDisplay, viewModel.selectedCourse) { viewModel.selectedCourse = it }
 
-    QuestionHeader(viewModel.selectedQ) {
+    QuestionHeader(questions, viewModel.selectedQ) {
         viewModel.selectedQ = it
     }
 
@@ -57,7 +58,7 @@ private fun CourseButtonsBar(
                 ) {
                     Row(Modifier.columnGap(0.5.cssRem), verticalAlignment = Alignment.CenterVertically) {
                         SpanText(course)
-                        if (teaching) FaChalkboardUser(Modifier.title("Teaching this course in Spring 2023"))
+                        if (teaching) FaChalkboardUser(Modifier.title("Teaching this course in Fall 2023"))
                     }
                 }
             }

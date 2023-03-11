@@ -342,9 +342,12 @@ class DataPageVM(
         }
     }
 
-    private fun School.associateDeptsToName(): List<Pair<String, String>> {
-        return depts.associateWith {
-            globalData.deptMap[it] ?: error("Invalid Dept ($it)")
+    private fun School.associateDeptsToName(includeCode: Boolean = true): List<Pair<String, String>> {
+        return depts.associateWith { dept ->
+            globalData.deptMap[dept]?.let {
+                // considered using a "dept - " prefix but tht requires a monospace font to look good
+                "${it}${if (includeCode) " ($dept)" else ""}"
+            } ?: error("Invalid Dept ($dept)")
         }.toList()
     }
 

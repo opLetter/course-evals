@@ -3,6 +3,7 @@ package io.github.opletter.courseevals.site.core.states
 import androidx.compose.runtime.*
 import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.remote.WebsiteDataSource
+import io.github.opletter.courseevals.site.core.misc.College
 import io.github.opletter.courseevals.site.core.misc.None
 import io.github.opletter.courseevals.site.core.misc.jsFormatNum
 import kotlinx.coroutines.CoroutineScope

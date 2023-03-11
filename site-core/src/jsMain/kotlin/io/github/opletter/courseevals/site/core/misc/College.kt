@@ -1,8 +1,9 @@
-package io.github.opletter.courseevals.site.core.states
+package io.github.opletter.courseevals.site.core.misc
 
 import io.github.opletter.courseevals.common.remote.GithubSource
 import io.github.opletter.courseevals.common.remote.WebsiteDataSource
 import io.github.opletter.courseevals.common.remote.WebsitePaths
+import io.github.opletter.courseevals.site.core.states.Questions
 import kotlinx.browser.localStorage
 import org.w3c.dom.get
 

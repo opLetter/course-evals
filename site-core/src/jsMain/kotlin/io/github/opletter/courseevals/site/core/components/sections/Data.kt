@@ -25,9 +25,9 @@ import io.github.opletter.courseevals.site.core.components.sections.dataPage.*
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.ExtraOptions
 import io.github.opletter.courseevals.site.core.components.widgets.LoadingSpinner
 import io.github.opletter.courseevals.site.core.components.widgets.MobileNavButton
+import io.github.opletter.courseevals.site.core.misc.College
 import io.github.opletter.courseevals.site.core.misc.jsGoatCount
 import io.github.opletter.courseevals.site.core.misc.keyReset
-import io.github.opletter.courseevals.site.core.states.College
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import io.github.opletter.courseevals.site.core.states.Status
 import io.github.opletter.courseevals.site.core.states.getProfUrl

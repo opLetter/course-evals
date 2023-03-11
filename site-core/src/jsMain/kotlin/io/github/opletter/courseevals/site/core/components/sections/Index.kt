@@ -23,7 +23,7 @@ import io.github.opletter.courseevals.site.core.components.sections.dataPage.Mai
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNavStyle
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.ExtraOptions
 import io.github.opletter.courseevals.site.core.components.widgets.Logo
-import io.github.opletter.courseevals.site.core.states.College
+import io.github.opletter.courseevals.site.core.misc.College
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import io.github.opletter.courseevals.site.core.states.Status
 import kotlinx.browser.document

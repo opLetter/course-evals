@@ -410,16 +410,6 @@ private fun Map<String, Ratings>.toDisplayMap(addAverage: Boolean = true): Map<S
         }
 }
 
-private fun Map<String, RatingStats>.getAveStats(): RatingStats {
-    val stats = this.values.reduce { acc, pair ->
-        RatingStats(
-            ratings = acc.ratings.zip(pair.ratings) { a, b -> a + b },
-            numResponses = acc.numResponses + pair.numResponses
-        )
-    }
-    return RatingStats(ratings = stats.ratings.map { it / this.size }, numResponses = stats.numResponses)
-}
-
 private class GlobalData(
     val schoolsByCode: Map<String, School>,
     val deptMap: Map<String, String>,

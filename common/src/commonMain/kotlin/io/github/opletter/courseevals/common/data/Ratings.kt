@@ -29,3 +29,13 @@ fun List<Int>.getRatingAve(): Double = getRatingStats().first
 fun Ratings.getAvesAndTotal(): RatingStats { // list of aves per question + ave # of responses
     return RatingStats(ratings = map { it.getRatingAve() }, numResponses = map { it.sum() }.average().toInt())
 }
+
+fun Map<String, RatingStats>.getAveStats(): RatingStats {
+    val stats = this.values.reduce { acc, pair ->
+        RatingStats(
+            ratings = acc.ratings.zip(pair.ratings) { a, b -> a + b },
+            numResponses = acc.numResponses + pair.numResponses
+        )
+    }
+    return RatingStats(ratings = stats.ratings.map { it / this.size }, numResponses = stats.numResponses)
+}

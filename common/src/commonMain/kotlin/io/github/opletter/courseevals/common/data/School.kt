@@ -12,9 +12,14 @@ data class School(
 )
 
 enum class Campus(val fullName: String) {
+    // Rutgers
     NB("New-Brunswick"),
     CM("Camden"),
     NK("Newark"),
+    // FSU
+    MAIN("Tallahassee"),
+    PNM("Panama City"),
+    INTL("International"),
 }
 
 enum class LevelOfStudy(val fullName: String) {

@@ -19,7 +19,7 @@ inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(
             code = key,
             name = campusMap[key] ?: error("No name for $key"),
             depts = value.keys.sorted().toSet(),
-            campuses = Campus.values().toSet(),
+            campuses = setOf(Campus.valueOf(key.uppercase())),
             level = LevelOfStudy.U,
         )
     }.toMap().let {

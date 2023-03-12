@@ -4,6 +4,7 @@ import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TransitionTimingFunction
+import com.varabyte.kobweb.compose.css.functions.Gradient
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -30,7 +31,12 @@ val BarGraphStyle by ComponentStyle {
             .padding(topBottom = 0.33.cssRem, leftRight = 0.5.cssRem)
             .borderRadius(12.px)
             .color(Colors.White)
-            .background("radial-gradient(circle at center top, rgb(41, 41, 46) 0%, rgb(25, 25, 28) 100%)")
+            .backgroundImage(
+                object : Gradient {
+                    override fun toString(): String =
+                        "radial-gradient(circle at center top, rgb(41, 41, 46) 0%, rgb(25, 25, 28) 100%)"
+                }
+            )
     }
     Breakpoint.LG {
         Modifier

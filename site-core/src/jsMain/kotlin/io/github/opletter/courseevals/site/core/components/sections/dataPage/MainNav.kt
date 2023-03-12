@@ -2,12 +2,12 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
-import com.varabyte.kobweb.compose.css.CSSTransition
-import com.varabyte.kobweb.compose.css.FontWeight
-import com.varabyte.kobweb.compose.css.TransitionTimingFunction
+import com.varabyte.kobweb.compose.css.*
+import com.varabyte.kobweb.compose.css.functions.Gradient
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
@@ -25,17 +25,25 @@ import io.github.opletter.courseevals.site.core.states.Status
 import org.jetbrains.compose.web.css.*
 
 private fun lightBackground(yPercent: Int) =
-    "rgb(38,40,59) radial-gradient(circle at 60% $yPercent%, rgb(0, 121, 242) 0px, rgba(0, 121, 242, 0.5) 0px, transparent 45%)"
+    "radial-gradient(circle at 60% $yPercent%, rgb(0, 121, 242) 0px, rgba(0, 121, 242, 0.5) 0px, transparent 45%)"
 
 private fun darkBackground(yPercent: Int) =
-    "rgb(38,40,59) radial-gradient(circle at 60% $yPercent%, rgb(0, 121, 242) 0px, rgba(0, 121, 242, 0.5) 0px, transparent 45%)"
+    "radial-gradient(circle at 60% $yPercent%, rgb(0, 121, 242) 0px, rgba(0, 121, 242, 0.5) 0px, transparent 45%)"
 
 val MainNavStyle by ComponentStyle.base {
     val background = if (colorMode == ColorMode.LIGHT) lightBackground(60) else darkBackground(60)
 
     Modifier
-        .background(background)
-        .color(ColorMode.LIGHT.toSilkPalette().background)
+        .background(
+            CSSBackground(
+                color = Color.rgb(38, 40, 59),
+                image = BackgroundImage.of(
+                    object : Gradient {
+                        override fun toString(): String = background
+                    }
+                ),
+            ),
+        ).color(ColorMode.LIGHT.toSilkPalette().background)
 }
 
 val SideNavVariant by MainNavStyle.addVariantBase {
@@ -48,7 +56,16 @@ val SideNavVariant by MainNavStyle.addVariantBase {
         .top(0.px)
         .height(100.vh)
         .zIndex(100)
-        .background(background)
+        .background(
+            CSSBackground(
+                color = Color.rgb(38, 40, 59),
+                image = BackgroundImage.of(
+                    object : Gradient {
+                        override fun toString(): String = background
+                    }
+                ),
+            ),
+        )
 }
 
 val MobileNavVariant by MainNavStyle.addVariantBase {

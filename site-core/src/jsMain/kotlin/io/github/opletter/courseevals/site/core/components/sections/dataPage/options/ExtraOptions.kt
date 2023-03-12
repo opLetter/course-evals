@@ -10,6 +10,7 @@ import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import io.github.opletter.courseevals.site.core.components.widgets.ClosableTransitionObject
+import io.github.opletter.courseevals.site.core.misc.ExtraOptions
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.percent
@@ -53,8 +54,12 @@ fun ExtraOptions(viewModel: DataPageVM, open: Boolean) {
                     .transition(CSSTransition("opacity", 0.2.s))
                     .then(it),
             ) {
-                CampusOption(viewModel.campusVM, viewModel.levelOfStudyVM)
-                MinSemOption(viewModel.minSemVM)
+                viewModel.college.options.forEach { option ->
+                    when (option) {
+                        ExtraOptions.CAMPUS -> CampusOption(viewModel.campusVM, viewModel.levelOfStudyVM)
+                        ExtraOptions.MIN_SEM -> MinSemOption(viewModel.minSemVM)
+                    }
+                }
             }
         }
     }

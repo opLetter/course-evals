@@ -1,5 +1,6 @@
 package io.github.opletter.courseevals.site.core.misc
 
+import io.github.opletter.courseevals.common.data.Campus
 import io.github.opletter.courseevals.common.remote.GithubSource
 import io.github.opletter.courseevals.common.remote.WebsiteDataSource
 import io.github.opletter.courseevals.common.remote.WebsitePaths
@@ -11,6 +12,10 @@ sealed interface College {
     val fullName: String
     val urlPath: String
     val questions: Questions
+    /** All valid campuses for this college, and whether they should be enabled by default */
+    val campuses: Map<Campus, Boolean>
+    val showFullSchoolList: Boolean
+    val options: Set<ExtraOptions>
     val dataSource: WebsiteDataSource
 
     class Rutgers(val fake: Boolean = false) : College {
@@ -46,6 +51,9 @@ sealed interface College {
         private val usefulQuestionsShort = tenQsShortened.minus(tenQsShortened[7])
         override val questions = Questions(usefulQuestions, usefulQuestionsShort, 7)
 
+        override val campuses = mapOf(Campus.NB to true, Campus.CM to true, Campus.NK to true)
+        override val showFullSchoolList = false
+        override val options = setOf(ExtraOptions.CAMPUS, ExtraOptions.MIN_SEM)
         private val fakeSource = GithubSource(
             repoPath = "DennisTsar/RU-SIRS",
             paths = WebsitePaths(baseDir = "fakeData")
@@ -100,6 +108,9 @@ sealed interface College {
             "Overall rating for Instructor",
         )
         override val questions = Questions(questionsLong, questionsShort, 12)
+        override val campuses = mapOf(Campus.MAIN to true, Campus.PNM to false, Campus.INTL to false)
+        override val showFullSchoolList = true
+        override val options = setOf(ExtraOptions.MIN_SEM)
 
         override val dataSource = GithubSource(
             repoPath = "opletter/course-evals",
@@ -109,4 +120,8 @@ sealed interface College {
             ),
         )
     }
+}
+
+enum class ExtraOptions {
+    CAMPUS, MIN_SEM
 }

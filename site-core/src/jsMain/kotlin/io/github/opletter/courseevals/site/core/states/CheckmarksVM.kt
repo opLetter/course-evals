@@ -8,8 +8,8 @@ abstract class CheckmarksVM<T>(val updateState: () -> Unit) {
 
     protected abstract fun handleClick(data: T)
 
-    fun click(data: T) {
+    fun click(data: T, updateState: Boolean = true) {
         handleClick(data)
-        updateState()
+        if (updateState) updateState()
     }
 }

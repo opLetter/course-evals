@@ -1,41 +1,44 @@
 package io.github.opletter.courseevals.site.core.states
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateMapOf
 import io.github.opletter.courseevals.common.data.Campus
 import kotlinx.browser.localStorage
 import org.w3c.dom.get
 import org.w3c.dom.set
 
-private const val CAMPUS_KEY = "course-evals:rutgers:campuses"
+class CampusVM(
+    private val campuses: Map<Campus, Boolean>,
+    key: String,
+    updateState: () -> Unit,
+) : CheckmarksVM<Campus>(updateState) {
+    private val campusKey = "course-evals:$key:campuses"
 
-class CampusVM(updateState: () -> Unit) : CheckmarksVM<Campus>(updateState) {
-    private var checkedNB by mutableStateOf(true)
-    private var checkedCM by mutableStateOf(true)
-    private var checkedNK by mutableStateOf(true)
+    private val checksState = mutableStateMapOf<Campus, Boolean>()
+        .apply {
+            campuses.forEach { this[it.key] = it.value }
+        }
 
     init {
-        localStorage[CAMPUS_KEY].orEmpty()
+        localStorage[campusKey].orEmpty()
             .split(",")
             .map { it.toBoolean() }
-            .takeIf { it.size == 3 && true in it }
-            ?.let {
-                checkedNB = it[0]
-                checkedCM = it[1]
-                checkedNK = it[2]
+            .takeIf { it.size == campuses.size && true in it }
+            ?.forEachIndexed { index, b ->
+                checksState[campuses.keys.elementAt(index)] = b
             }
     }
 
     override val checks
-        get() = mapOf(Campus.NB to checkedNB, Campus.CM to checkedCM, Campus.NK to checkedNK)
+        get() = campuses.keys.associateWith { checksState[it]!! } // recreate map so that key order is maintained
 
     override fun handleClick(data: Campus) {
-        when (data) {
-            Campus.NB -> checkedNB = !checkedNB
-            Campus.CM -> checkedCM = !checkedCM
-            Campus.NK -> checkedNK = !checkedNK
-        }
-        localStorage[CAMPUS_KEY] = checks.values.joinToString(",")
+        checksState[data] = !(checksState[data] ?: error("No value for $data"))
+        localStorage[campusKey] = checks.values.joinToString(",")
+    }
+
+    fun selectOnly(campus: Campus) {
+        checksState.forEach { checksState[it.key] = false }
+        checksState[campus] = true
+        localStorage[campusKey] = checks.values.joinToString(",")
     }
 }

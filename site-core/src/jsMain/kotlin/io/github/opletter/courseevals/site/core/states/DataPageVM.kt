@@ -63,7 +63,7 @@ class DataPageVM(
             )
         }
     }
-    val campusVM = CampusVM(updateState)
+    val campusVM = CampusVM(college.campuses, college.urlPath, updateState)
     val levelOfStudyVM = LevelOfStudyVM(updateState)
 
     private val statsByProf by derivedStateOf {
@@ -103,11 +103,13 @@ class DataPageVM(
         }
     }
 
-    val activeSchoolsByCode by derivedStateOf {
+    private val activeSchoolsByCode by derivedStateOf {
         globalData.schoolsByCode.filterValues {
             it.campuses.intersect(campusVM.selected).isNotEmpty() && it.level in levelOfStudyVM.selected
         }
     }
+    private val schoolList
+        get() = if (college.showFullSchoolList) globalData.schoolsByCode.values else activeSchoolsByCode.values
 
     val teachingInstructors: List<String>
         get() = deptData.teachingMap[state.course.selected].takeIf { status == Status.Course }.orEmpty()
@@ -192,7 +194,9 @@ class DataPageVM(
         course: String? = null,
         prof: String? = null,
     ) {
-        val newSchool = activeSchoolsByCode[school] ?: activeSchoolsByCode.values.first()
+        val newSchool = globalData.schoolsByCode[school] ?: activeSchoolsByCode.values.first()
+        if (college.showFullSchoolList)
+            campusVM.selectOnly(Campus.valueOf(newSchool.code.uppercase()))
         val newDept = dept.takeIf { it in newSchool.depts } ?: newSchool.depts.first()
         selectDept(dept = newDept, school = newSchool, course = course, prof = prof)
     }
@@ -208,7 +212,7 @@ class DataPageVM(
         if (!isSameAsState(school.code, dept, course, prof) && !profsChanged) {
             // needed if campus is changed but currently selected school is still valid
             if (activeSchoolsByCode.keys != state.school.list)
-                state = state.copy(school = state.school.copy(list = activeSchoolsByCode.values))
+                state = state.copy(school = state.school.copy(list = schoolList))
             return
         }
         pageLoading = true
@@ -239,7 +243,7 @@ class DataPageVM(
             val courseValid = course != None && course in courses
             val oldState = state
             state = state.copy(
-                school = state.school.copy(activeSchoolsByCode.values, school.code),
+                school = state.school.copy(schoolList, school.code),
                 dept = state.dept.copy(school.associateDeptsToName(), dept),
                 course = state.course.copy(courses, course.takeIf { courseValid } ?: None),
                 prof = state.prof.copy(profs, prof.takeIf { !courseValid && it in profs } ?: None),
@@ -267,12 +271,13 @@ class DataPageVM(
         )
     }
 
-    fun refreshState() = selectSchool(
-        school = state.school.selected,
-        dept = state.dept.selected,
-        course = state.course.selected,
-        prof = state.prof.selected
-    )
+    fun refreshState() = Unit
+//    selectSchool(
+//        school = state.school.selected,
+//        dept = state.dept.selected,
+//        course = state.course.selected,
+//        prof = state.prof.selected
+//    )
 
     val profSummaryVM: ProfSummaryVM? by derivedStateOf {
         // 2nd condition perhaps not needed anymore probably
@@ -356,8 +361,11 @@ class DataPageVM(
         globalData.schoolsByCode[school]
             ?.takeIf { it.code !in activeSchoolsByCode.keys }
             ?.let {
+                // choose only first campus if many work - no need for others
+                // don't update state as it will be updated anyway after this functions
+                // and updating state here as well could cause some race conditions
                 if (it.campuses.intersect(campusVM.selected).isEmpty())
-                    campusVM.click(it.campuses.first()) // choose only first campus if many work - no need for others
+                    campusVM.click(it.campuses.first(), false)
                 if (it.level !in levelOfStudyVM.selected)
                     levelOfStudyVM.click(it.level)
             }
@@ -396,7 +404,7 @@ fun DataPageVM.getProfUrl(prof: String): String = getUrl(course = None, prof = p
 
 private fun Map<String, Ratings>.toDisplayMap(addAverage: Boolean = true): Map<String, List<String>> {
     return mapValues { (_, ratings) -> ratings.getAvesAndTotal() }
-        .let { if (!addAverage || size == 1) it else it.plus("Average" to it.getAveStats()) }
+        .let { if (!addAverage || it.size <= 1) it else it.plus("Average" to it.getAveStats()) }
         .mapValues { (_, stats) ->
             stats.ratings.map { jsFormatNum(num = it, decDigits = 1) } + stats.numResponses.toString()
         }

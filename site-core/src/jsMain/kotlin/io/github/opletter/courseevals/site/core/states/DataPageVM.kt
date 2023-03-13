@@ -121,6 +121,7 @@ class DataPageVM(
         var searchBoxInput by mutableStateOf("")
         var searchBarClickedOnce by mutableStateOf(false)
         var searchEnterHandled by mutableStateOf(true)
+        val searchBarPlaceholder = college.searchHint
 
         val searchBarSuggestions by derivedStateOf {
             // to not slow down initial page load, add suggestions to DataList after search bar is initially clicked
@@ -140,7 +141,9 @@ class DataPageVM(
 
         private val searchableDepts by derivedStateOf {
             activeSchoolsByCode.flatMap { (code, school) ->
-                school.depts.map { "$code:$it - ${globalData.deptMap[it]}" }
+                school.depts.map {
+                    "${getCode(school = code, dept = it, course = None)} - ${globalData.deptMap[it]}"
+                }
             }
         }
 
@@ -148,18 +151,37 @@ class DataPageVM(
             searchEnterHandled = false
             val input = searchBoxInput
             searchBoxInput = ""
-            // valid states: "SMITH, JOHN (01:198)", "01:198 - Computer Science ", "01:198", "01:198:112"
-            val school = input.substringAfterBefore("(", ":")
-            val dept = input.substringAfterBefore(":", ")")
 
-            if (input.contains("(")) { // assuming no depts have "(" in them - dangerous/wrong?
-                val prof = input.substringBefore(" (")
-                selectSchool(school = school, dept = dept, prof = prof)
-            } else {
-                val course = dept.substringAfter(":", None)
-                val newDept = dept.substringBefore(":").substringBefore(" ")
-                    .also { if (activeSchoolsByCode[school]?.depts?.contains(it) != true) return }
-                selectSchool(school = school, dept = newDept, course = course)
+            when (college) {
+                is College.Rutgers -> {
+                    // valid states: "SMITH, JOHN (01:198)", "01:198 - Computer Science ", "01:198", "01:198:112"
+                    val school = input.substringAfterBefore("(", ":")
+                    val dept = input.substringAfterBefore(":", ")")
+
+                    if (input.contains("(")) { // assuming no depts have "(" in them - dangerous/wrong?
+                        val prof = input.substringBefore(" (")
+                        selectSchool(school = school, dept = dept, prof = prof)
+                    } else {
+                        val course = dept.substringAfter(":", None)
+                        val newDept = dept.substringBefore(":").substringBefore(" ")
+                            .also { if (activeSchoolsByCode[school]?.depts?.contains(it) != true) return }
+                        selectSchool(school = school, dept = newDept, course = course)
+                    }
+                }
+
+                is College.FSU -> {
+                    if ("(" in input) {
+                        selectDept(
+                            dept = input.substringAfterBefore("(", ")"),
+                            prof = input.substringBefore(" ("),
+                        )
+                    } else {
+                        state.school.selected
+                        val dept = input.take(3)
+                            .also { if (it !in activeSchoolsByCode.values.first().depts) return }
+                        selectDept(dept = dept, course = input.drop(3))
+                    }
+                }
             }
         }
     }

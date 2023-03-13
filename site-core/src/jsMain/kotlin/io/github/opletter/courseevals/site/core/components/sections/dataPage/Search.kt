@@ -81,7 +81,7 @@ private fun SearchBar(
             viewModel.searchBoxInput,
             attrs = SearchBarStyle.toAttrs {
                 list(dataListId)
-                placeholder("'SMITH', '01:198:112', 'MATH', ...")
+                placeholder(viewModel.searchBarPlaceholder)
                 onClick { viewModel.searchBarClickedOnce = true }
                 onInput { viewModel.searchBoxInput = it.value.uppercase() }
             }

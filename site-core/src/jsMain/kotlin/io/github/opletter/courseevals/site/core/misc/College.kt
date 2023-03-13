@@ -14,6 +14,7 @@ sealed interface College {
     val fullName: String
     val urlPath: String
     val questions: Questions
+    val searchHint: String
 
     /** How to label the dept/course across the UI. `course` is empty if no course is selected. */
     val getCode: (school: String, dept: String, course: String) -> String
@@ -66,6 +67,7 @@ sealed interface College {
         private val usefulQuestions = tenQs.minus(tenQs[7])
         private val usefulQuestionsShort = tenQsShortened.minus(tenQsShortened[7])
         override val questions = Questions(usefulQuestions, usefulQuestionsShort, 7)
+        override val searchHint = "'SMITH', '01:198:112', 'MATH', ..."
         override val getCode = { school: String, dept: String, course: String ->
             "$school:$dept" + if (course.isEmpty()) "" else ":$course"
         }
@@ -133,6 +135,7 @@ sealed interface College {
             "Overall rating for Instructor",
         )
         override val questions = Questions(questionsLong, questionsShort, 12)
+        override val searchHint = "'SMITH', 'COP3330', 'MATH', ..."
         override val getCode = { _: String, dept: String, course: String ->
             // ignore the school, since it's a campus and only one campus is selected at a time
             dept + course

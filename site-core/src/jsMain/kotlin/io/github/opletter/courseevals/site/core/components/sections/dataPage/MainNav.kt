@@ -102,6 +102,7 @@ fun MainNav(
 
         inBetweenContent()
 
+        val labels = viewModel.college.dropDownLabels
         Column(
             Modifier
                 .fillMaxWidth()
@@ -111,7 +112,7 @@ fun MainNav(
                 .padding(topBottom = 0.75.cssRem, leftRight = 1.cssRem),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            SpanText("School", labelModifier)
+            SpanText(labels[0], labelModifier)
             CustomDropDown(
                 list = viewModel.state.school.list,
                 onSelect = { viewModel.selectSchool(school = it) },
@@ -121,7 +122,7 @@ fun MainNav(
                 selected = viewModel.state.school.selected,
             )
 
-            SpanText("Subject", labelModifier)
+            SpanText(labels[1], labelModifier)
             CustomDropDown(
                 list = viewModel.state.dept.list,
                 onSelect = { viewModel.selectDept(dept = it) },
@@ -131,7 +132,7 @@ fun MainNav(
                 selected = viewModel.state.dept.selected,
             )
 
-            SpanText("Course (Optional)", labelModifier)
+            SpanText(labels[2], labelModifier)
             key(viewModel.state.course.list.size / keyReset) {
                 CustomDropDown(
                     list = viewModel.coursesWithNames,
@@ -141,7 +142,7 @@ fun MainNav(
                 )
             }
 
-            SpanText("Instructor (Optional)", labelModifier)
+            SpanText(labels[3], labelModifier)
             key(viewModel.state.prof.list.size / keyReset) {
                 CustomDropDown(
                     list = viewModel.state.prof.list,

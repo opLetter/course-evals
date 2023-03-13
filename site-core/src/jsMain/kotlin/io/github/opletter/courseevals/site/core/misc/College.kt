@@ -15,6 +15,9 @@ sealed interface College {
     val urlPath: String
     val questions: Questions
 
+    /** Labels for the nav dropdowns, in order of appearance. Length: 4 */
+    val dropDownLabels: List<String>
+
     // Unsure about what to choose for this default value.
     // Ideally it'd be as recent as possible (for page loading speed), but not too recent (for relevance)
     // Chosen for now to be the 5th semester back (from which we have data)
@@ -60,6 +63,7 @@ sealed interface College {
         private val usefulQuestions = tenQs.minus(tenQs[7])
         private val usefulQuestionsShort = tenQsShortened.minus(tenQsShortened[7])
         override val questions = Questions(usefulQuestions, usefulQuestionsShort, 7)
+        override val dropDownLabels = listOf("School", "Subject", "Course (Optional)", "Instructor (Optional)")
 
         override val semesterOptions = SemesterOptions(
             bounds = Semester.RU.valueOf(SemesterType.Spring, 2014) to
@@ -123,6 +127,7 @@ sealed interface College {
             "Overall rating for Instructor",
         )
         override val questions = Questions(questionsLong, questionsShort, 12)
+        override val dropDownLabels = listOf("Campus", "Course Prefix", "Course (Optional)", "Instructor (Optional)")
         override val semesterOptions = SemesterOptions(
             bounds = Semester.FSU.valueOf(SemesterType.Fall, 2013) to
                     Semester.FSU.valueOf(SemesterType.Fall, 2022),

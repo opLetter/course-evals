@@ -19,7 +19,7 @@ import org.jetbrains.compose.web.dom.RangeInput
 import org.jetbrains.compose.web.dom.Text
 
 @Composable
-fun MinSemOption(state: MinSemesterVM<*>) {
+fun MinSemOption(state: MinSemesterVM) {
     Column(
         ExtraOptionStyle.toModifier(),
         horizontalAlignment = Alignment.CenterHorizontally,

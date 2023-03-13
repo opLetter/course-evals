@@ -1,6 +1,8 @@
 package io.github.opletter.courseevals.site.core.misc
 
 import io.github.opletter.courseevals.common.data.Campus
+import io.github.opletter.courseevals.common.data.Semester
+import io.github.opletter.courseevals.common.data.SemesterType
 import io.github.opletter.courseevals.common.remote.GithubSource
 import io.github.opletter.courseevals.common.remote.WebsiteDataSource
 import io.github.opletter.courseevals.common.remote.WebsitePaths
@@ -12,6 +14,14 @@ sealed interface College {
     val fullName: String
     val urlPath: String
     val questions: Questions
+
+    // Unsure about what to choose for this default value.
+    // Ideally it'd be as recent as possible (for page loading speed), but not too recent (for relevance)
+    // Chosen for now to be the 5th semester back (from which we have data)
+    // Considered making it the first semester of current-year seniors, but that may slow down pages too much
+    // for data that most people wouldn't want to see.
+    val semesterOptions: SemesterOptions<*>
+
     /** All valid campuses for this college, and whether they should be enabled by default */
     val campuses: Map<Campus, Boolean>
     val showFullSchoolList: Boolean
@@ -51,6 +61,11 @@ sealed interface College {
         private val usefulQuestionsShort = tenQsShortened.minus(tenQsShortened[7])
         override val questions = Questions(usefulQuestions, usefulQuestionsShort, 7)
 
+        override val semesterOptions = SemesterOptions(
+            bounds = Semester.RU.valueOf(SemesterType.Spring, 2014) to
+                    Semester.RU.valueOf(SemesterType.Spring, 2022),
+            default = Semester.RU.valueOf(SemesterType.Spring, 2020),
+        ) { Semester.RU(it) }
         override val campuses = mapOf(Campus.NB to true, Campus.CM to true, Campus.NK to true)
         override val showFullSchoolList = false
         override val options = setOf(ExtraOptions.CAMPUS, ExtraOptions.MIN_SEM)
@@ -108,6 +123,11 @@ sealed interface College {
             "Overall rating for Instructor",
         )
         override val questions = Questions(questionsLong, questionsShort, 12)
+        override val semesterOptions = SemesterOptions(
+            bounds = Semester.FSU.valueOf(SemesterType.Fall, 2013) to
+                    Semester.FSU.valueOf(SemesterType.Fall, 2022),
+            default = Semester.FSU.valueOf(SemesterType.Spring, 2020),
+        ) { Semester.FSU(it) }
         override val campuses = mapOf(Campus.MAIN to true, Campus.PNM to false, Campus.INTL to false)
         override val showFullSchoolList = true
         override val options = setOf(ExtraOptions.MIN_SEM)
@@ -125,3 +145,9 @@ sealed interface College {
 enum class ExtraOptions {
     CAMPUS, MIN_SEM
 }
+
+class SemesterOptions<T : Semester<T>>(
+    val bounds: Pair<T, T>,
+    val default: T,
+    val builder: (Int) -> T,
+)

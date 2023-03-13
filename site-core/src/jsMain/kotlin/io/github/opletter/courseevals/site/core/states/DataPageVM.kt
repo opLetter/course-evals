@@ -41,30 +41,7 @@ class DataPageVM(
             )
         }
     }
-
-    // Unsure about what to choose for this default value.
-    // Ideally it'd be as recent as possible (for page loading speed), but not too recent (for relevance)
-    // Chosen for now to be the 5th semester back (from which we have data)
-    // Considered making it the first semester of current-year seniors, but that may slow down pages too much
-    // for data that most people wouldn't want to see.
-    val minSemVM = when (college) {
-        is College.Rutgers -> MinSemesterVM(
-            semBounds = Semester.RU.valueOf(SemesterType.Spring, 2014) to Semester.RU.valueOf(
-                SemesterType.Spring,
-                2022
-            ),
-            default = Semester.RU.valueOf(SemesterType.Spring, 2020),
-            college = college.urlPath,
-            updateState = updateState,
-        ) { Semester.RU(it).toString() }
-
-        is College.FSU -> MinSemesterVM(
-            semBounds = Semester.FSU.valueOf(SemesterType.Fall, 2013) to Semester.FSU.valueOf(SemesterType.Fall, 2022),
-            default = Semester.FSU.valueOf(SemesterType.Spring, 2020),
-            college = college.urlPath,
-            updateState = updateState,
-        ) { Semester.FSU(it).toString() }
-    }
+    val minSemVM = MinSemesterVM(college.semesterOptions, college.urlPath, updateState)
     val campusVM = CampusVM(college.campuses, college.urlPath, updateState)
     val levelOfStudyVM = LevelOfStudyVM(updateState)
 

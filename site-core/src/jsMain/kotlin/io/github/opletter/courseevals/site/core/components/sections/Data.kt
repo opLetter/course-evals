@@ -86,12 +86,6 @@ fun DataPageContent(college: College) {
         }
     }
 
-    if (viewModel.status != Status.InitialLoading) {
-        remember(viewModel.minSemVM.value) {
-            viewModel.refreshState()
-        }
-    }
-
     // endregion
 
     Row(

@@ -14,10 +14,11 @@ import org.w3c.dom.set
 // In theory it'd be fine to save a value that's more recent than the default - but is that worth it?
 
 class MinSemesterVM<T : Semester<T>>(
-    private val semBounds: Pair<Semester<T>, Semester<T>>,
+    semBounds: Pair<Semester<T>, Semester<T>>,
     private val default: Semester<T>,
     college: String,
-    val getText: (Int) -> String,
+    private val updateState: () -> Unit,
+    private val getText: (Int) -> String,
 ) {
     private val storageKey = "course-evals:$college:minSemester"
 
@@ -50,6 +51,7 @@ class MinSemesterVM<T : Semester<T>>(
         num?.let {
             value = it.toInt()
             sessionStorage[storageKey] = value.toString()
+            updateState()
         }
     }
 

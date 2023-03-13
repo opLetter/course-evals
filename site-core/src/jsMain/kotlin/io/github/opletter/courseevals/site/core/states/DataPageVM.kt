@@ -31,6 +31,17 @@ class DataPageVM(
     private var initialLoading by mutableStateOf(true)
     var pageLoading by mutableStateOf(false)
 
+    private val updateState: () -> Unit = {
+        with(state) {
+            selectSchool(
+                school = school.selected,
+                dept = dept.selected,
+                course = course.selected,
+                prof = prof.selected,
+            )
+        }
+    }
+
     // Unsure about what to choose for this default value.
     // Ideally it'd be as recent as possible (for page loading speed), but not too recent (for relevance)
     // Chosen for now to be the 5th semester back (from which we have data)
@@ -44,24 +55,15 @@ class DataPageVM(
             ),
             default = Semester.RU.valueOf(SemesterType.Spring, 2020),
             college = college.urlPath,
+            updateState = updateState,
         ) { Semester.RU(it).toString() }
 
         is College.FSU -> MinSemesterVM(
             semBounds = Semester.FSU.valueOf(SemesterType.Fall, 2013) to Semester.FSU.valueOf(SemesterType.Fall, 2022),
             default = Semester.FSU.valueOf(SemesterType.Spring, 2020),
             college = college.urlPath,
+            updateState = updateState,
         ) { Semester.FSU(it).toString() }
-    }
-
-    private val updateState: () -> Unit = {
-        with(state) {
-            selectSchool(
-                school = school.selected,
-                dept = dept.selected,
-                course = course.selected,
-                prof = prof.selected,
-            )
-        }
     }
     val campusVM = CampusVM(college.campuses, college.urlPath, updateState)
     val levelOfStudyVM = LevelOfStudyVM(updateState)
@@ -270,14 +272,6 @@ class DataPageVM(
             course = state.course.copy(selected = None)
         )
     }
-
-    fun refreshState() = Unit
-//    selectSchool(
-//        school = state.school.selected,
-//        dept = state.dept.selected,
-//        course = state.course.selected,
-//        prof = state.prof.selected
-//    )
 
     val profSummaryVM: ProfSummaryVM? by derivedStateOf {
         // 2nd condition perhaps not needed anymore probably

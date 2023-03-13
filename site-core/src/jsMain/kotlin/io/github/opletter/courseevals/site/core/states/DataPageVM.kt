@@ -131,7 +131,7 @@ class DataPageVM(
                     .flatMap { (school, profs) ->
                         profs.mapNotNull { prof ->
                             if (prof.latestSem < minSemVM.value) null
-                            else "${prof.name} ($school:${prof.dept})"
+                            else "${prof.name} (${getCode(school = school, dept = prof.dept, course = None)})"
                         }
                     }
                 searchableDepts + searchableProfs
@@ -354,9 +354,7 @@ private fun DataPageVM.getCode(
     school: String = state.school.selected,
     dept: String = state.dept.selected,
     course: String = state.course.selected,
-): String {
-    return "$school:$dept" + with(course) { if (isBlankOrNone()) "" else ":$this" }
-}
+): String = college.getCode(school, dept, course.let { if (it.isBlankOrNone()) "" else it })
 
 private fun DataPageVM.getUrl(
     school: String = state.school.selected,

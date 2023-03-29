@@ -2,6 +2,7 @@ package io.github.opletter.courseevals.fsu
 
 import io.github.opletter.courseevals.common.data.pmap
 import io.github.opletter.courseevals.common.data.substringAfterBefore
+import io.github.opletter.courseevals.common.remote.makeFileAndDir
 import io.github.opletter.courseevals.fsu.remote.FSURepository
 import io.ktor.client.network.sockets.*
 import io.ktor.client.plugins.*

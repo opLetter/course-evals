@@ -66,7 +66,9 @@ sealed interface College {
         )
         private val usefulQuestions = tenQs.minus(tenQs[7])
         private val usefulQuestionsShort = tenQsShortened.minus(tenQsShortened[7])
-        override val questions = Questions(usefulQuestions, usefulQuestionsShort, 7)
+        override val questions = Questions(usefulQuestions, usefulQuestionsShort, 7) {
+            if (it < 7) "Disagree -> Agree" else "Poor -> Excellent"
+        }
         override val searchHint = "'SMITH', '01:198:112', 'MATH', ..."
         override val getCode = { school: String, dept: String, course: String ->
             "$school:$dept" + if (course.isEmpty()) "" else ":$course"
@@ -134,7 +136,9 @@ sealed interface College {
 //            "Overall course content rating",
             "Overall rating for Instructor",
         )
-        override val questions = Questions(questionsLong, questionsShort, 8)
+        override val questions = Questions(questionsLong, questionsShort, 8) {
+            if (it < 8) "Disagree -> Agree" else "Poor -> Excellent"
+        }
         override val searchHint = "'SMITH', 'COP3330', 'MATH', ..."
         override val getCode = { _: String, dept: String, course: String ->
             // ignore the school, since it's a campus and only one campus is selected at a time

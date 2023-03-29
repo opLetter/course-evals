@@ -281,8 +281,10 @@ class DataPageVM(
                 selectedProf = state.prof.selected,
                 deptUrl = getUrl(prof = None),
                 teachingCourses = deptData.teachingMap[state.prof.selected] ?: emptyList(),
+                defaultQuestion = college.questions.defaultIndex,
                 getText = { getCode(course = it ?: None) },
                 getCourseUrl = { getUrl(prof = None, course = it) },
+                getGraphLabel = college.questions.getGraphLabel,
                 goToDeptData = { selectProf(None) },
                 goToCourseData = { selectCourse(it) }
             )
@@ -433,11 +435,8 @@ data class Questions(
     val full: List<String>,
     val short: List<String>,
     val defaultIndex: Int,
-) {
-    init {
-        require(full.size == short.size)
-    }
-}
+    val getGraphLabel: (Int) -> String,
+)
 
 private fun String.isBlankOrNone(): Boolean = isBlank() || equals(None)
 

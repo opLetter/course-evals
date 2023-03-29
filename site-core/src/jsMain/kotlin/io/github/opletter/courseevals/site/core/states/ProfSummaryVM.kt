@@ -13,15 +13,17 @@ class ProfSummaryVM(
     selectedProf: String,
     deptUrl: String,
     teachingCourses: List<String>,
+    defaultQuestion: Int,
     getText: (String?) -> String,
     getCourseUrl: (String) -> String,
+    val getGraphLabel: (Int) -> String,
     goToDeptData: () -> Unit,
     goToCourseData: (String) -> Unit,
 ) {
     private val profStats = statsByProf[selectedProf]
         ?: error("Prof not found ($selectedProf)")
 
-    var selectedQ by mutableStateOf(7)
+    var selectedQ by mutableStateOf(defaultQuestion)
 
     var selectedCourse by mutableStateOf(0)
     private val courses = profStats.courseStats.keys
@@ -37,7 +39,7 @@ class ProfSummaryVM(
         }
         stats[selectedQ]
     }
-    val graphLabel get() = if (selectedQ < 7) "Disagree -> Agree" else "Poor -> Excellent"
+    val graphLabel get() = getGraphLabel(selectedQ)
 
     val average get() = jsFormatNum(num = graphNums.getRatingAve(), decDigits = 2)
     val numResponses get() = graphNums.sum()

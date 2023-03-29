@@ -6,9 +6,9 @@ on:
     branches:
       - master
     paths:
-      - site/**
-      - site-core/**
-      - common/**
+      - 'site/**'
+      - 'site-core/**'
+      - 'common/**'
       
 
   # Allows you to run this workflow manually from the Actions tab

@@ -193,7 +193,14 @@ private fun AveComparison(aveData: AveComparisonData, modifier: Modifier) {
 private fun ResponsesIcon(numResponses: Int, modifier: Modifier = Modifier) {
     val iconModifier = FaOutlineStyle.toModifier().then(modifier)
     when (numResponses) {
-        in 0..9 -> FaCircleExclamation(iconModifier.color(Colors.Red))
-        in 10..19 -> FaCircleExclamation(iconModifier.color(Colors.Yellow))
-    }
+        in 0..9 -> Modifier
+            .color(Colors.Red)
+            .title("This rating is based on a very small number of responses - interpret with caution")
+
+        in 10..19 -> Modifier
+            .color(Colors.Yellow)
+            .title("This rating is based on a small number of responses - interpret with caution")
+
+        else -> null
+    }?.let { FaCircleExclamation(iconModifier.then(it)) }
 }

@@ -95,7 +95,7 @@ sealed interface College {
 //                schoolMapFile = "json-data/extra-data/schoolMap.json"
 //            )
 //        )
-        val realSource = GithubSource(
+        private val realSource = GithubSource(
             repoPath = "DennisTsar/Rutgers-SIRS",
             token = localStorage["course-evals:rutgers:ghToken"],
         )

@@ -11,7 +11,6 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.addVariantBase
 import com.varabyte.kobweb.silk.components.style.base
@@ -52,7 +51,7 @@ val MainNavStyle by ComponentStyle.base {
 }
 
 val SideNavVariant by MainNavStyle.addVariantBase {
-    // Make background higher so gradient appears under drop downs
+    // Make background higher so gradient appears under dropdowns
     val background = if (colorMode == ColorMode.LIGHT) lightBackground(30) else darkBackground(30)
 
     Modifier
@@ -123,7 +122,7 @@ fun MainNav(
                 list = viewModel.state.dept.list,
                 onSelect = { viewModel.selectDept(dept = it) },
                 selectModifier = Modifier.fillMaxWidth(),
-                getText = { it.second }, // consider whether to include code
+                getText = { it.second },
                 getValue = { it.first },
                 selected = viewModel.state.dept.selected,
             )
@@ -133,7 +132,7 @@ fun MainNav(
                 CustomDropDown(
                     list = viewModel.coursesWithNames,
                     onSelect = { viewModel.selectCourse(it) },
-                    selectModifier = Modifier.width(25.percent).styleModifier { minWidth("fit-content") },
+                    selectModifier = Modifier.width(25.percent).minWidth(MinWidth.FitContent),
                     selected = viewModel.courseAsName,
                 )
             }
@@ -143,7 +142,7 @@ fun MainNav(
                 CustomDropDown(
                     list = viewModel.state.prof.list,
                     onSelect = { viewModel.selectProf(it) },
-                    selectModifier = Modifier.width(75.percent).styleModifier { maxWidth("fit-content") },
+                    selectModifier = Modifier.width(75.percent).maxWidth(MaxWidth.FitContent),
                     selected = viewModel.state.prof.selected,
                 )
             }

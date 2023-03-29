@@ -40,7 +40,7 @@ val SubHeadVariant by SpanTextStyle.addVariantBase {
         .textAlign(TextAlign.Center)
         .fontSize(1.4.cssRem)
         .lineHeight(1.25)
-        .fontWeight(700)
+        .fontWeight(FontWeight.Bold)
         .color(colorMode.toSilkPalette().background)
 }
 
@@ -53,7 +53,7 @@ val ActionButtonVariant by ButtonStyle.addVariant {
             .margin(top = 1.cssRem)
             .backgroundColor(background)
             .color(Colors.White)
-            .fontWeight(600)
+            .fontWeight(FontWeight.SemiBold)
             .textDecorationLine(TextDecorationLine.None) // because link by default is underlined
     }
     hover {

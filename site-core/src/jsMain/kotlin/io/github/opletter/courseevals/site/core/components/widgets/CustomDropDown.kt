@@ -70,7 +70,7 @@ fun <T> CustomDropDown(
         hint?.let {
             Option(
                 "none",
-                optionModifier.toAttrs() {
+                optionModifier.toAttrs {
                     disabled()
                     hidden()
                 },

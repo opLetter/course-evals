@@ -39,9 +39,9 @@ val AveragesBoxStyle by ComponentStyle {
     Breakpoint.LG {
         Modifier
             .fillMaxHeight()
+            .padding(1.5.cssRem)
             .flexBasis(0.percent)
             .fontSize(10.vh)
-            .padding(1.5.cssRem)
     }
 }
 
@@ -66,7 +66,7 @@ fun ProfStatsDesktop(viewModel: ProfSummaryVM) {
                 Modifier
                     .flexWrap(FlexWrap.Wrap)
                     .fontSize(45.percent)
-                    .lineHeight(100.percent), // maybe: responsesNumStyle.toModifier(),
+                    .lineHeight(100.percent),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -80,7 +80,7 @@ fun ProfStatsDesktop(viewModel: ProfSummaryVM) {
                 verticalArrangement = Arrangement.SpaceAround
             ) {
                 val bigModifier = Modifier
-                    .fontWeight(900)
+                    .fontWeight(FontWeight.Black)
                     .lineHeight(100.percent)
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     SpanText(viewModel.average, bigModifier)
@@ -115,7 +115,7 @@ fun ProfStatsMobile(viewModel: ProfSummaryVM) {
             .rowGap(0.5.cssRem)
     ) {
         val bigModifier = Modifier
-            .fontWeight(900)
+            .fontWeight(FontWeight.Black)
             .lineHeight(100.percent)
 
         AveColumn {

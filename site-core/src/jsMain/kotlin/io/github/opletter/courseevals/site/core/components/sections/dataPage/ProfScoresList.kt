@@ -148,7 +148,7 @@ fun ProfScoresList(
         Label(
             attrs = InfoBubbleStyle.toModifier()
                 .fontSize(115.percent)
-                .fontWeight(500)
+                .fontWeight(FontWeight.Medium)
                 .cursor(Cursor.Pointer)
                 .userSelect(UserSelect.None)
                 .toAttrs()

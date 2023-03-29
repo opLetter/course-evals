@@ -1,8 +1,9 @@
 package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.*
-import com.varabyte.kobweb.compose.css.*
-import com.varabyte.kobweb.compose.css.BackgroundSize
+import com.varabyte.kobweb.compose.css.CSSTransition
+import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.TransitionTimingFunction
 import com.varabyte.kobweb.compose.css.functions.RadialGradient
 import com.varabyte.kobweb.compose.css.functions.radialGradient
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
@@ -22,7 +23,6 @@ import com.varabyte.kobweb.silk.components.text.SpanText
 import io.github.opletter.courseevals.site.core.misc.jsFormatNum
 import io.github.opletter.courseevals.site.core.misc.smallCapsFont
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.css.keywords.CSSAutoKeyword
 import org.jetbrains.compose.web.dom.Text
 
 val BarGraphStyle by ComponentStyle {
@@ -71,7 +71,7 @@ val BarGraphBarStyle by ComponentStyle {
 }
 
 // side: linear-gradient(to bottom, #b2c2de, #a0b7c2)
-// bar graph abckground: radial-gradient(circle at center top, rgb(14 14 42) 0%, rgb(50 57 84) 100%)
+// bar graph background: radial-gradient(circle at center top, rgb(14 14 42) 0%, rgb(50 57 84) 100%)
 // bar gradient: linear-gradient(to bottom, #bfe8ff, #d8dbff)
 // background: radial-gradient(circle at center bottom, rgb(14 14 42) 0%, rgb(50 57 84) 100%)
 

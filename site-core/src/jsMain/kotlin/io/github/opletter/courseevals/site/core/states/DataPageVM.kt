@@ -279,9 +279,9 @@ class DataPageVM(
             ProfSummaryVM(
                 statsByProf = statsByProf,
                 selectedProf = state.prof.selected,
-                deptCode = getCode(course = None),
                 deptUrl = getUrl(prof = None),
                 teachingCourses = deptData.teachingMap[state.prof.selected] ?: emptyList(),
+                getText = { getCode(course = it ?: None) },
                 getCourseUrl = { getUrl(prof = None, course = it) },
                 goToDeptData = { selectProf(None) },
                 goToCourseData = { selectCourse(it) }

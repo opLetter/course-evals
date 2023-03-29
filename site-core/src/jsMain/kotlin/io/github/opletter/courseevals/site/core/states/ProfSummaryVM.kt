@@ -11,9 +11,9 @@ import io.github.opletter.courseevals.site.core.misc.jsFormatNum
 class ProfSummaryVM(
     statsByProf: Map<String, InstructorStats>,
     selectedProf: String,
-    deptCode: String,
     deptUrl: String,
     teachingCourses: List<String>,
+    getText: (String?) -> String,
     getCourseUrl: (String) -> String,
     goToDeptData: () -> Unit,
     goToCourseData: (String) -> Unit,
@@ -48,7 +48,7 @@ class ProfSummaryVM(
             average = jsFormatNum(num = deptAves, decDigits = 2),
             totalNum = statsByProf.size.toString(),
             url = deptUrl,
-            urlText = deptCode,
+            urlText = getText(null),
             onLinkClick = { goToDeptData() }
         )
     }
@@ -62,7 +62,7 @@ class ProfSummaryVM(
             average = jsFormatNum(num = courseAve.average(), decDigits = 2),
             totalNum = courseAve.size.toString(),
             url = getCourseUrl(course),
-            urlText = "$deptCode:$course",
+            urlText = getText(course),
             onLinkClick = { goToCourseData(course) }
         )
     }

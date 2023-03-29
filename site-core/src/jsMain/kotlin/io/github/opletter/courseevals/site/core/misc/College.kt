@@ -105,36 +105,36 @@ sealed interface College {
         override val urlPath = "fsu"
 
         private val questionsLong = listOf(
-            "The course materials helped me understand the subject matter.",
+//            "The course materials helped me understand the subject matter.",
             "The work required of me was appropriate based on course objectives.",
             "The tests, project, etc. accurately measured what I learned in this course.",
-            "This course encouraged me to think critically.",
-            "I learned a great deal in this course.",
+//            "This course encouraged me to think critically.",
+//            "I learned a great deal in this course.",
             "Instructor(s) provided clear expectations for the course.",
             "Instructor(s) communicated effectively.",
             "Instructor(s) stimulated my interest in the subject matter.",
             "Instructor(s) provided helpful feedback on my work.",
             "Instructor(s) demonstrated respect for students.",
             "Instructor(s) demonstrated mastery of the subject matter.",
-            "Overall course content rating.",
+//            "Overall course content rating.",
             "Overall rating for Instructor(s)"
         )
         private val questionsShort = listOf(
-            "Helpful course materials",
+//            "Helpful course materials",
             "Appropriate amount of work",
             "Accurate assessment of learning",
-            "Encouraged critical thinking",
-            "Learned a great deal",
+//            "Encouraged critical thinking",
+//            "Learned a great deal",
             "Instructor provided clear expectations",
-            "Instructor communication", // ?
+            "Instructor communicated well", // ?
             "Instructor stimulated interest",
             "Instructor provided helpful feedback",
             "Instructor demonstrated respect",
             "Instructor showed mastery of subject",
-            "Overall course content rating",
+//            "Overall course content rating",
             "Overall rating for Instructor",
         )
-        override val questions = Questions(questionsLong, questionsShort, 12)
+        override val questions = Questions(questionsLong, questionsShort, 8)
         override val searchHint = "'SMITH', 'COP3330', 'MATH', ..."
         override val getCode = { _: String, dept: String, course: String ->
             // ignore the school, since it's a campus and only one campus is selected at a time

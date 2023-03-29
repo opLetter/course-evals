@@ -153,8 +153,8 @@ sealed interface College {
         override val dataSource = GithubSource(
             repoPath = "opletter/course-evals",
             paths = WebsitePaths(
-                baseDir = "fsu/jsonData",
-                teachingDataDir = "fsu/jsonData/extraData/teachingF23",
+                baseDir = "colleges/fsu/jsonData",
+                teachingDataDir = "colleges/fsu/jsonData/extraData/teachingF23",
             ),
         )
     }

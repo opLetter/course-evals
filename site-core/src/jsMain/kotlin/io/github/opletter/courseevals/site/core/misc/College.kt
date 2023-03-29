@@ -17,7 +17,7 @@ sealed interface College {
     val searchHint: String
 
     /** How to label the dept/course across the UI. `course` is empty if no course is selected. */
-    val getCode: (school: String, dept: String, course: String) -> String
+    fun getCode(school: String, dept: String, course: String): String
 
     /** Labels for the nav dropdowns, in order of appearance. Length: 4 */
     val dropDownLabels: List<String>
@@ -70,9 +70,8 @@ sealed interface College {
             if (it < 7) "Disagree -> Agree" else "Poor -> Excellent"
         }
         override val searchHint = "'SMITH', '01:198:112', 'MATH', ..."
-        override val getCode = { school: String, dept: String, course: String ->
+        override fun getCode(school: String, dept: String, course: String): String =
             "$school:$dept" + if (course.isEmpty()) "" else ":$course"
-        }
         override val dropDownLabels = listOf("School", "Subject", "Course (Optional)", "Instructor (Optional)")
 
         override val semesterOptions = SemesterOptions(
@@ -140,10 +139,10 @@ sealed interface College {
             if (it < 8) "Disagree -> Agree" else "Poor -> Excellent"
         }
         override val searchHint = "'SMITH', 'COP3330', 'MATH', ..."
-        override val getCode = { _: String, dept: String, course: String ->
-            // ignore the school, since it's a campus and only one campus is selected at a time
-            dept + course
-        }
+
+        // ignore the school, since it's a campus and only one campus is selected at a time
+        override fun getCode(school: String, dept: String, course: String): String = dept + course
+
         override val dropDownLabels = listOf("Campus", "Course Prefix", "Course (Optional)", "Instructor (Optional)")
         override val semesterOptions = SemesterOptions(
             bounds = Semester.FSU.valueOf(SemesterType.Fall, 2013) to

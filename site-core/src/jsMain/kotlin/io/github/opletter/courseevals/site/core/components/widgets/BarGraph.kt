@@ -50,6 +50,17 @@ val BarGraphStyle by ComponentStyle {
     }
 }
 
+val BarGraphBarStyle by ComponentStyle {
+    val barColor = Color.rgb(198, 204, 211) // Color.rgb(0x647890)
+    base {
+        Modifier
+            .width(75.percent)
+            .backgroundColor(barColor)
+            .borderBottom(1.px, LineStyle.Solid, barColor) // needed for when num is 0
+            .transition(CSSTransition("height", 0.3.s, TransitionTimingFunction.EaseOut))
+    }
+}
+
 @Composable
 fun BarGraph(
     ratings: List<Int>,
@@ -60,7 +71,6 @@ fun BarGraph(
     var barAnimHeight by remember { mutableStateOf(0.percent) }
     var mouseOver: Boolean by remember { mutableStateOf(false) }
 
-    val barColor = Color.rgb(198, 204, 211) // Color.rgb(0x647890)
     val labelTextColor = Color.rgb(202, 0, 0)
 
     Column(BarGraphStyle.toModifier().then(modifier)) {
@@ -88,12 +98,8 @@ fun BarGraph(
                         else jsFormatNum(num = num.toDouble() / ratings.sum() * 100, decDigits = 0).let { "$it%" }
                     )
                     Box(
-                        Modifier
-                            .width(75.percent)
+                        BarGraphBarStyle.toModifier()
                             .height(barHeight)
-                            .backgroundColor(barColor)
-                            .borderBottom(1.px, LineStyle.Solid, barColor) // needed for when num is 0
-                            .transition(CSSTransition("height", 0.3.s, TransitionTimingFunction.EaseOut))
                             .onMouseEnter { mouseOver = true }
                             .onMouseLeave { mouseOver = false }
                     )

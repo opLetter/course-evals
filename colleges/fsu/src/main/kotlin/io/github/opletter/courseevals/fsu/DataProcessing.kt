@@ -105,11 +105,6 @@ fun getStatsByProf(): SchoolDeptsMap<Map<String, InstructorStats>> {
         }.writeToFiles("jsonData/statsByProf")
 }
 
-fun Semester.FSU.Companion.valueOf(str: String): Semester.FSU {
-    val (year, type) = str.split(" ")
-    return Semester.FSU.valueOf(SemesterType.valueOf(type), year.toInt())
-}
-
 // returns list of (# of 1s, # of 2s, ... # of 5s) for each question
 // note that entries must have scores.size>=100 - maybe throw error?
 // ***IMPORTANT NOTE*** By default, don't give ratings for question index 7 - as it's mostly irrelevant

@@ -78,7 +78,7 @@ sealed interface College {
             bounds = Semester.RU.valueOf(SemesterType.Spring, 2014) to
                     Semester.RU.valueOf(SemesterType.Spring, 2022),
             default = Semester.RU.valueOf(SemesterType.Spring, 2020),
-        ) { Semester.RU(it) }
+        ) { Semester.RU.valueOf(it) }
         override val campuses = mapOf(Campus.NB to true, Campus.CM to true, Campus.NK to true)
         override val showFullSchoolList = false
         override val options = setOf(ExtraOptions.CAMPUS, ExtraOptions.MIN_SEM)
@@ -148,7 +148,7 @@ sealed interface College {
             bounds = Semester.FSU.valueOf(SemesterType.Fall, 2013) to
                     Semester.FSU.valueOf(SemesterType.Fall, 2022),
             default = Semester.FSU.valueOf(SemesterType.Spring, 2020),
-        ) { Semester.FSU(it) }
+        ) { Semester.FSU.valueOf(it) }
         override val campuses = mapOf(Campus.MAIN to true, Campus.PNM to false, Campus.INTL to false)
         override val showFullSchoolList = true
         override val options = setOf(ExtraOptions.MIN_SEM)

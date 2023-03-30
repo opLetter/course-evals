@@ -130,3 +130,22 @@ fun createAllInstructors(): Map<String, List<Instructor>> {
         .writeText(Json.encodeToString(profList.toSortedMap().toMap()))
     return profList
 }
+
+fun removeUnusedQs() {
+    getCompleteSchoolDeptsMap<Map<String, InstructorStats>>("jsonData/statsByProf-full")
+        .mapEachDept { _, _, map ->
+            map.mapValues { (_, stats) ->
+                InstructorStats(
+                    stats.lastSem,
+                    courseStats = stats.courseStats.mapValues { (_, stat) ->
+                        stat.filterIndexed { index, _ ->
+                            index !in listOf(0, 3, 4, 11)
+                        }
+                    },
+                    overallStats = stats.overallStats.filterIndexed { index, _ ->
+                        index !in listOf(0, 3, 4, 11)
+                    },
+                )
+            }
+        }.writeToFiles("jsonData/statsByProf")
+}

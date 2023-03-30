@@ -24,7 +24,7 @@ sealed class Semester<T : Semester<T>>(val numValue: Int, validSemesters: List<S
         }
 
         fun valueOf(str: String): T {
-            val (year, type) = str.split(" ")
+            val (type, year) = str.split(" ")
             return valueOf(SemesterType.valueOf(type), year.toInt())
         }
     }

@@ -90,7 +90,11 @@ fun getStatsByProf(): SchoolDeptsMap<Map<String, InstructorStats>> {
                     val filteredReports = reports.filter { it.questions.size >= 13 }.takeIf { it.isNotEmpty() }
                         ?: return@mapValues null
                     InstructorStats(
-                        lastSem = reports.maxOf { Semester.Triple.valueOf(it.term).numValue },
+                        lastSem = reports.maxOf {
+                            Semester.Triple.valueOf(
+                                it.term.split(" ").reversed().joinToString(" ")
+                            ).numValue
+                        },
                         overallStats = filteredReports.getTotalRatings(),
                         courseStats = filteredReports.flatMap { report ->
                             "[A-Z]{3}\\d{4}[A-Z]?".toRegex().findAll(report.courseCode)

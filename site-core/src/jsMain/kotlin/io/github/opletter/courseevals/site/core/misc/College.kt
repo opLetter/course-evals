@@ -75,10 +75,10 @@ sealed interface College {
         override val dropDownLabels = listOf("School", "Subject", "Course (Optional)", "Instructor (Optional)")
 
         override val semesterOptions = SemesterOptions(
-            bounds = Semester.RU.valueOf(SemesterType.Spring, 2014) to
-                    Semester.RU.valueOf(SemesterType.Spring, 2022),
-            default = Semester.RU.valueOf(SemesterType.Spring, 2020),
-        ) { Semester.RU.valueOf(it) }
+            bounds = Semester.Double.valueOf(SemesterType.Spring, 2014) to
+                    Semester.Double.valueOf(SemesterType.Spring, 2022),
+            default = Semester.Double.valueOf(SemesterType.Spring, 2020),
+        ) { Semester.Double.valueOf(it) }
         override val campuses = mapOf(Campus.NB to true, Campus.CM to true, Campus.NK to true)
         override val showFullSchoolList = false
         override val options = setOf(ExtraOptions.CAMPUS, ExtraOptions.MIN_SEM)
@@ -145,10 +145,10 @@ sealed interface College {
 
         override val dropDownLabels = listOf("Campus", "Course Prefix", "Course (Optional)", "Instructor (Optional)")
         override val semesterOptions = SemesterOptions(
-            bounds = Semester.FSU.valueOf(SemesterType.Fall, 2013) to
-                    Semester.FSU.valueOf(SemesterType.Fall, 2022),
-            default = Semester.FSU.valueOf(SemesterType.Spring, 2020),
-        ) { Semester.FSU.valueOf(it) }
+            bounds = Semester.Triple.valueOf(SemesterType.Fall, 2013) to
+                    Semester.Triple.valueOf(SemesterType.Fall, 2022),
+            default = Semester.Triple.valueOf(SemesterType.Spring, 2020),
+        ) { Semester.Triple.valueOf(it) }
         override val campuses = mapOf(Campus.MAIN to true, Campus.PNM to false, Campus.INTL to false)
         override val showFullSchoolList = true
         override val options = setOf(ExtraOptions.MIN_SEM)

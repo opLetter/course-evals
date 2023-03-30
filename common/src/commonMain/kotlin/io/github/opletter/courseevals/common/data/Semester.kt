@@ -29,21 +29,21 @@ sealed class Semester<T : Semester<T>>(val numValue: Int, validSemesters: List<S
         }
     }
 
-    class RU private constructor(numValue: Int) : Semester<RU>(numValue, validSemesters) {
+    class Double private constructor(numValue: Int) : Semester<Double>(numValue, validSemesters) {
         override val factory = Companion
 
-        companion object : Factory<RU> {
+        companion object : Factory<Double> {
             override val validSemesters = listOf(SemesterType.Spring, SemesterType.Fall)
-            override fun valueOf(numValue: Int): RU = RU(numValue)
+            override fun valueOf(numValue: Int): Double = Double(numValue)
         }
     }
 
-    class FSU private constructor(numValue: Int) : Semester<FSU>(numValue, validSemesters) {
+    class Triple private constructor(numValue: Int) : Semester<Triple>(numValue, validSemesters) {
         override val factory = Companion
 
-        companion object : Factory<FSU> {
+        companion object : Factory<Triple> {
             override val validSemesters = listOf(SemesterType.Spring, SemesterType.Summer, SemesterType.Fall)
-            override fun valueOf(numValue: Int): FSU = FSU(numValue)
+            override fun valueOf(numValue: Int): Triple = Triple(numValue)
         }
     }
 }

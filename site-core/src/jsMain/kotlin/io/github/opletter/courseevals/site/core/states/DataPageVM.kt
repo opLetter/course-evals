@@ -147,6 +147,11 @@ class DataPageVM(
             }
         }
 
+        fun valueTransform(value: String): String = when (college) {
+            is College.Rutgers, College.FSU -> value.uppercase()
+            is College.USF -> value
+        }
+
         fun onEnterSearch() {
             searchEnterHandled = false
             val input = searchBoxInput

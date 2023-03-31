@@ -83,7 +83,7 @@ private fun SearchBar(
                 list(dataListId)
                 placeholder(viewModel.searchBarPlaceholder)
                 onClick { viewModel.searchBarClickedOnce = true }
-                onInput { viewModel.searchBoxInput = it.value.uppercase() }
+                onInput { viewModel.searchBoxInput = viewModel.valueTransform(it.value) }
             }
         )
         FaMagnifyingGlass(

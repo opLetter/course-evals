@@ -19,6 +19,9 @@ sealed interface College {
     /** How to label the dept/course across the UI. `course` is empty if no course is selected. */
     fun getCode(school: String, dept: String, course: String): String
 
+    /** Modify the input string of the search bar */
+    fun searchValueTransform(value: String): String
+
     /** Labels for the nav dropdowns, in order of appearance. Length: 4 */
     val dropDownLabels: List<String>
 
@@ -72,6 +75,8 @@ sealed interface College {
         override val searchHint = "'SMITH', '01:198:112', 'MATH', ..."
         override fun getCode(school: String, dept: String, course: String): String =
             "$school:$dept" + if (course.isEmpty()) "" else ":$course"
+
+        override fun searchValueTransform(value: String): String = value.uppercase()
         override val dropDownLabels = listOf("School", "Subject", "Course (Optional)", "Instructor (Optional)")
 
         override val semesterOptions = SemesterOptions(
@@ -146,6 +151,8 @@ sealed interface College {
         // ignore the school, since it's a campus and only one campus is selected at a time
         override fun getCode(school: String, dept: String, course: String): String = dept + course
 
+        override fun searchValueTransform(value: String): String = value.uppercase()
+
         override val dropDownLabels = listOf("Campus", "Course Prefix", "Course (Optional)", "Instructor (Optional)")
         override val semesterOptions = SemesterOptions(
             bounds = Semester.Triple.valueOf(SemesterType.Fall, 2013) to
@@ -193,6 +200,8 @@ sealed interface College {
 
         // ignore the school, since it's a campus and only one campus is selected at a time
         override fun getCode(school: String, dept: String, course: String): String = dept + course
+
+        override fun searchValueTransform(value: String): String = value
 
         override val dropDownLabels = listOf("TODO", "Subject", "Course (Optional)", "Instructor (Optional)")
         override val semesterOptions = SemesterOptions(

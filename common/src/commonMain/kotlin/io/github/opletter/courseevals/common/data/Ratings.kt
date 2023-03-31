@@ -17,7 +17,7 @@ fun Collection<Ratings>.combine(): Ratings {
 }
 
 fun List<Int>.getRatingStats(): Pair<Double, Int> {
-    val numResponses = sum()
+    val numResponses = sum().takeIf { it > 0 } ?: return 0.0 to 0
     val ave = mapIndexed { index, num ->
         (index + 1) * num
     }.sum().toDouble() / numResponses

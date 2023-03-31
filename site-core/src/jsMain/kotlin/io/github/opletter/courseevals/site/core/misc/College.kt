@@ -84,7 +84,10 @@ sealed interface College {
         override val options = setOf(ExtraOptions.CAMPUS, ExtraOptions.MIN_SEM)
         private val fakeSource = GithubSource(
             repoPath = "DennisTsar/RU-SIRS",
-            paths = WebsitePaths(baseDir = "fakeData")
+            paths = WebsitePaths(
+                baseDir = "fakeData",
+                teachingDataDir = "fakeData/extraData/teachingS23",
+            )
         )
 
         //        val PublicRUSource = GithubSource(
@@ -155,10 +158,7 @@ sealed interface College {
 
         override val dataSource = GithubSource(
             repoPath = "opletter/course-evals",
-            paths = WebsitePaths(
-                baseDir = "colleges/fsu/jsonData",
-                teachingDataDir = "colleges/fsu/jsonData/extraData/teachingF23",
-            ),
+            paths = WebsitePaths(baseDir = "colleges/fsu/jsonData"),
         )
     }
 
@@ -206,9 +206,7 @@ sealed interface College {
 
         override val dataSource = GithubSource(
             repoPath = "opletter/course-evals",
-            paths = WebsitePaths(
-                baseDir = "colleges/usf/jsonData",
-            ),
+            paths = WebsitePaths(baseDir = "colleges/usf/jsonData"),
         )
     }
 }

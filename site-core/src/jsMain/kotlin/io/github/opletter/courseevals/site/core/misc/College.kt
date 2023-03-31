@@ -161,6 +161,56 @@ sealed interface College {
             ),
         )
     }
+
+    object USF : College {
+        override val fullName = "University of South Florida"
+        override val urlPath = "usf"
+
+        private val questionsLong = listOf(
+            "Description of Course Objectives & Assignments",
+            "Communication of Ideas and Information",
+            "Expression of Expectations for Performance",
+            "Availability to Assist Students In or Out of Class",
+            "Respect and Concern for the Students",
+            "Stimulation of Interest in the Course",
+            "Facilitation of Learning",
+            "Overall Rating of the Instructor",
+        )
+        private val questionsShort = listOf(
+            "Description of Course",
+            "Communication of Ideas & Info",
+            "Expression of Expectations",
+            "Availability to Assist",
+            "Respect & Concern For Students",
+            "Stimulation of Interest",
+            "Facilitation of Learning",
+            "Overall Rating of Instructor",
+        )
+        override val questions = Questions(questionsLong, questionsShort, 7) {
+            "Poor -> Excellent"
+        }
+        override val searchHint = "'SMITH', 'COP3330', 'MATH', ..."
+
+        // ignore the school, since it's a campus and only one campus is selected at a time
+        override fun getCode(school: String, dept: String, course: String): String = dept + course
+
+        override val dropDownLabels = listOf("TODO", "Subject", "Course (Optional)", "Instructor (Optional)")
+        override val semesterOptions = SemesterOptions(
+            bounds = Semester.Triple.valueOf(SemesterType.Fall, 2012) to
+                    Semester.Triple.valueOf(SemesterType.Fall, 2022),
+            default = Semester.Triple.valueOf(SemesterType.Spring, 2020),
+        ) { Semester.Triple.valueOf(it) }
+        override val campuses = mapOf(Campus.MAIN to true)
+        override val showFullSchoolList = false
+        override val options = setOf(ExtraOptions.MIN_SEM)
+
+        override val dataSource = GithubSource(
+            repoPath = "opletter/course-evals",
+            paths = WebsitePaths(
+                baseDir = "colleges/usf/jsonData",
+            ),
+        )
+    }
 }
 
 enum class ExtraOptions {

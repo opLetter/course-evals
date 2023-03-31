@@ -47,6 +47,15 @@ import com.varabyte.kobweb.compose.css.AlignSelf as KobAlignSelf
 // This solution seems optimal compared to using pure "auto" or pure raw length ("12rem")
 // Note: "12rem" chosen strategically such that it is reached between 1280px and 1366px
 // We want the maximum possible value while affecting as little screens as possible
+val Ratings8QsGridVariant by SimpleGridStyle.addVariant {
+    base {
+        Modifier.gridTemplateColumns("1fr 4.75fr 2fr 2fr")
+    }
+    Breakpoint.XL {
+        Modifier.gridTemplateColumns("2rem minmax(auto, 12rem) repeat(9, 4.25rem)")
+    }
+}
+
 val Ratings9QsGridVariant by SimpleGridStyle.addVariant {
     base {
         Modifier.gridTemplateColumns("1fr 4.75fr 2fr 2fr")
@@ -187,6 +196,7 @@ fun ProfScoresList(
     val mobileView by remember { derivedStateOf { breakpoint < Breakpoint.XL } }
 
     val gridVariant = when (questions.short.size) {
+        8 -> Ratings8QsGridVariant
         9 -> Ratings9QsGridVariant
         13 -> Ratings13QsGridVariant
         else -> error("Invalid number of questions")

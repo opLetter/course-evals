@@ -169,7 +169,7 @@ class DataPageVM(
                     }
                 }
 
-                is College.FSU -> {
+                is College.FSU, College.USF -> {
                     if ("(" in input) {
                         selectDept(
                             dept = input.substringAfterBefore("(", ")"),

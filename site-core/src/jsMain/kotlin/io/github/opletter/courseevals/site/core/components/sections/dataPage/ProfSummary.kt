@@ -18,12 +18,12 @@ import com.varabyte.kobweb.compose.css.AlignSelf as KobAlignSelf
 
 @Composable
 fun ProfSummary(questions: Questions, viewModel: ProfSummaryVM) {
-    CourseButtonsBar(viewModel.coursesToDisplay, viewModel.selectedCourse) { viewModel.selectedCourse = it }
-
+    CourseButtonsBar(viewModel.coursesToDisplay, viewModel.selectedCourse) {
+        viewModel.selectedCourse = it
+    }
     QuestionHeader(questions, viewModel.selectedQ) {
         viewModel.selectedQ = it
     }
-
     // displayIf / displayUntil only shows one of these
     ProfStatsMobile(viewModel)
     ProfStatsDesktop(viewModel)
@@ -35,8 +35,7 @@ private fun CourseButtonsBar(
     selectedCourse: Int,
     onClick: (Int) -> Unit,
 ) {
-    // fixes issue on mobile where scrollbar appears too high
-    val mobileScrollbarOffset = 0.5.cssRem
+    val mobileScrollbarOffset = 0.5.cssRem // fixes issue on mobile where scrollbar appears too high
     Row(
         Modifier
             .maxWidth(100.percent)

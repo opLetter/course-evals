@@ -50,7 +50,6 @@ private fun CourseButtonsBar(
         courses.toList().forEachIndexed { index, (course, teaching) ->
             PillButton(
                 selected = index == selectedCourse,
-                modifier = Modifier.flexShrink(0),
                 onClick = { onClick(index) }
             ) {
                 Row(Modifier.columnGap(0.5.cssRem), verticalAlignment = Alignment.CenterVertically) {

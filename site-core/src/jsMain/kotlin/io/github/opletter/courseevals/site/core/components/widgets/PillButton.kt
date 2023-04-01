@@ -25,7 +25,7 @@ import org.jetbrains.compose.web.css.s
 private val basePillButtonModifier = Modifier
     .padding(topBottom = 0.25.cssRem, leftRight = 1.5.cssRem)
     .flexShrink(0)
-    .borderRadius(8.px)
+    .borderRadius(24.px)
     .fontFamily("inherit")
     .styleModifier { property("line-height", "normal") }
     .styleModifier { property("font-size", "inherit") }

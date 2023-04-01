@@ -1,9 +1,7 @@
 package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.*
-import com.varabyte.kobweb.compose.css.CSSTransition
-import com.varabyte.kobweb.compose.css.FontWeight
-import com.varabyte.kobweb.compose.css.TransitionTimingFunction
+import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.css.functions.RadialGradient
 import com.varabyte.kobweb.compose.css.functions.radialGradient
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
@@ -32,21 +30,21 @@ val BarGraphStyle by ComponentStyle {
             .padding(topBottom = 0.33.cssRem, leftRight = 0.5.cssRem)
             .borderRadius(12.px)
             .color(Colors.White)
-//            .backgroundImage(
-//                radialGradient(
-//                    RadialGradient.Shape.Circle,
-//                    rgb(14, 14, 42),
-//                    rgb(50, 57, 84),
-//                    CSSPosition(Edge.CenterX, Edge.Bottom),
-//                )
-//            )
             .backgroundImage(
                 radialGradient(
                     RadialGradient.Shape.Circle,
-                    rgb(41, 41, 46),
-                    rgb(25, 25, 28)
+                    rgb(14, 14, 42),
+                    rgb(50, 57, 84),
+                    CSSPosition(Edge.CenterX, Edge.Bottom),
                 )
             )
+//            .backgroundImage(
+//                radialGradient(
+//                    RadialGradient.Shape.Circle,
+//                    rgb(41, 41, 46),
+//                    rgb(25, 25, 28)
+//                )
+//            )
     }
     Breakpoint.LG {
         Modifier
@@ -59,7 +57,7 @@ val BarGraphStyle by ComponentStyle {
 }
 
 val BarGraphBarStyle by ComponentStyle {
-    val barColor = Color.rgb(250, 250, 250)
+    val barColor = Color.rgb(198, 204, 211) //Color.rgb(250, 250, 250)
     base {
         Modifier
             .width(75.percent)

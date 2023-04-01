@@ -55,6 +55,7 @@ val SideNavVariant by MainNavStyle.addVariantBase {
     val background = if (colorMode == ColorMode.LIGHT) lightBackground(30) else darkBackground(30)
 
     Modifier
+        .padding(top = 1.cssRem, left = 0.75.cssRem, right = 0.75.cssRem, bottom = 0.75.cssRem)
         .flexBasis(325.px) // allow some shrinking but no growing
         .position(Position.Sticky)
         .top(0.px)
@@ -65,6 +66,7 @@ val SideNavVariant by MainNavStyle.addVariantBase {
 
 val MobileNavVariant by MainNavStyle.addVariantBase {
     Modifier
+        .padding(0.75.cssRem)
         .position(Position.Fixed)
         .margin(topBottom = 2.cssRem, leftRight = 1.cssRem)
         .borderRadius(8.px)
@@ -83,12 +85,7 @@ fun MainNav(
         .fontWeight(FontWeight.Bold)
         .fontSize(1.1.cssRem)
 
-    Column(
-        Modifier
-            .padding(1.cssRem)
-            .then(modifier),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         if (showLogo) Logo(college = viewModel.college)
 
         if (viewModel.status == Status.InitialLoading) return@Column
@@ -104,7 +101,7 @@ fun MainNav(
                 .rowGap(0.3.cssRem)
                 .backgroundColor(Colors.Black.copyf(alpha = 0.5f))
                 .borderRadius(12.px)
-                .padding(topBottom = 0.75.cssRem, leftRight = 1.cssRem),
+                .padding(0.75.cssRem),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             SpanText(labels[0], labelModifier)

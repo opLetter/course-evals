@@ -118,7 +118,7 @@ fun DataPageContent(college: College) {
             }
 
             Spacer()
-            Footer(Modifier.margin(bottom = 1.cssRem))
+            Footer()
         }
 
         var navOpenMobile by remember { mutableStateOf(false) }

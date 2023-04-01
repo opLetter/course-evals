@@ -100,7 +100,9 @@ fun HomePageContent(college: College) {
             }
     ) {
         Column(
-            Modifier.fillMaxWidth(),
+            Modifier
+                .fillMaxWidth()
+                .padding(leftRight = 0.75.cssRem),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Logo()
@@ -140,7 +142,6 @@ private fun NavContent(viewModel: DataPageVM, setRouting: () -> Unit) {
             viewModel = viewModel,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(1.cssRem)
                 .borderRadius(12.px)
                 .textAlign(TextAlign.Center),
             showLogo = false,

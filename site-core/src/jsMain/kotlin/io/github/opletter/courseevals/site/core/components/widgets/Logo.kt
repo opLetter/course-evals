@@ -1,6 +1,7 @@
 package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.Composable
+import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
@@ -42,10 +43,11 @@ fun Logo(modifier: Modifier = Modifier, college: College? = null) {
                 SpanText(
                     it.fullName,
                     Modifier
-                        .fontFamily("sans-serif")
-                        .fontSize(1.5.cssRem)
-                        .color(Colors.White)
                         .margin(top = (-0.25).cssRem)
+                        .color(Colors.White)
+                        .textAlign(TextAlign.Center) // shouldn't overflow but just in case it does
+                        .fontFamily("sans-serif")
+                        .fontSize(1.3.cssRem)
                 )
             }
         }

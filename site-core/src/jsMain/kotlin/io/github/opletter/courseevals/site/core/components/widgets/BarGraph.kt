@@ -32,13 +32,12 @@ val BarGraphStyle by ComponentStyle {
             .padding(topBottom = 0.33.cssRem, leftRight = 0.5.cssRem)
             .borderRadius(12.px)
             .color(Colors.White)
-            //radial-gradient(circle at center bottom, rgb(14 14 42) 0%, rgb(50 57 84) 100%)
 //            .backgroundImage(
 //                radialGradient(
 //                    RadialGradient.Shape.Circle,
 //                    rgb(14, 14, 42),
 //                    rgb(50, 57, 84),
-//                    object : CSSPosition(""),
+//                    CSSPosition(Edge.CenterX, Edge.Bottom),
 //                )
 //            )
             .backgroundImage(
@@ -60,7 +59,7 @@ val BarGraphStyle by ComponentStyle {
 }
 
 val BarGraphBarStyle by ComponentStyle {
-    val barColor = Color.rgb(198, 204, 211) // Color.rgb(0x647890)
+    val barColor = Color.rgb(250, 250, 250)
     base {
         Modifier
             .width(75.percent)
@@ -69,13 +68,6 @@ val BarGraphBarStyle by ComponentStyle {
             .transition(CSSTransition("height", 0.3.s, TransitionTimingFunction.EaseOut))
     }
 }
-
-// side: linear-gradient(to bottom, #b2c2de, #a0b7c2)
-// bar graph background: radial-gradient(circle at center top, rgb(14 14 42) 0%, rgb(50 57 84) 100%)
-// bar gradient: linear-gradient(to bottom, #bfe8ff, #d8dbff)
-// background: radial-gradient(circle at center bottom, rgb(14 14 42) 0%, rgb(50 57 84) 100%)
-
-//BREAK
 
 @Composable
 fun BarGraph(

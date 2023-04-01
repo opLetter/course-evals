@@ -3,7 +3,6 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage.op
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.css.Overflow
-import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
@@ -37,28 +36,19 @@ fun ExtraOptions(viewModel: DataPageVM, open: Boolean) {
         open = open,
         startTransition = { opacity = 1 }
     ) {
-        // Box used so column can be scrolled
-        Box(
+        Column(
             Modifier
                 .fillMaxWidth()
-                .padding(leftRight = 1.cssRem)
                 .overflowY(Overflow.Auto)
+                .rowGap(0.5.cssRem)
+                .opacity(opacity)
+                .transition(CSSTransition("opacity", 0.2.s))
+                .then(it),
         ) {
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .maxHeight(100.percent)
-                    .overflowY(Overflow.Auto)
-                    .rowGap(0.5.cssRem)
-                    .opacity(opacity)
-                    .transition(CSSTransition("opacity", 0.2.s))
-                    .then(it),
-            ) {
-                viewModel.college.options.forEach { option ->
-                    when (option) {
-                        ExtraOptions.CAMPUS -> CampusOption(viewModel.campusVM, viewModel.levelOfStudyVM)
-                        ExtraOptions.MIN_SEM -> MinSemOption(viewModel.minSemVM)
-                    }
+            viewModel.college.options.forEach { option ->
+                when (option) {
+                    ExtraOptions.CAMPUS -> CampusOption(viewModel.campusVM, viewModel.levelOfStudyVM)
+                    ExtraOptions.MIN_SEM -> MinSemOption(viewModel.minSemVM)
                 }
             }
         }

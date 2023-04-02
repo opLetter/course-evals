@@ -44,7 +44,7 @@ private fun CourseButtonsBar(
             .padding(bottom = mobileScrollbarOffset)
             .margin(bottom = -mobileScrollbarOffset)
             .overflowX(Overflow.Auto)
-            .gap(0.5.cssRem)
+            .columnGap(0.5.cssRem)
             .fontSize(1.3.cssRem),
     ) {
         courses.toList().forEachIndexed { index, (course, teaching) ->

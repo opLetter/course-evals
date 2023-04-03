@@ -1,11 +1,9 @@
 package io.github.opletter.courseevals.fsu
 
 import io.github.opletter.courseevals.common.data.InstructorStats
-import io.github.opletter.courseevals.common.data.School
 import io.github.opletter.courseevals.common.data.SchoolDeptsMap
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.common.remote.ktorClient
-import io.github.opletter.courseevals.common.remote.makeFileAndDir
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import org.apache.pdfbox.pdmodel.PDDocument
@@ -58,7 +56,7 @@ inline fun <T, V> List<TeachingData>.processTeachingDataByDept(
             entries
                 .flatMap { it.entries }
                 .groupBy { it.courseNumber.take(3) }
-                .mapValues inner@{ (dept, entries) -> transform(campus, dept, entries) }
+                .mapValues { (dept, entries) -> transform(campus, dept, entries) }
                 .filterValues { it.isNotEmpty() }
         }
 }
@@ -71,35 +69,6 @@ suspend fun getTeachingProfs(writeDir: String, term: String = "2023-9") {
     }.processTeachingDataByDept { campus, dept, entries ->
         filterTeachingInstructors(campus, dept, entries)
     }.writeToFiles(writeDir, false)
-}
-
-suspend fun getCourseNames(writeDir: String? = null) {
-    val validDepts = File("jsonData/statsByProf/schools.json").decodeFromString<Map<String, School>>()
-        .flatMap { it.value.depts }.toSet()
-    listOf("1", "6", "9").flatMap { term ->
-        listOf("Undergraduate", "Graduate", "Law", "Medicine").flatMap { type ->
-            ktorClient.get("https://registrar.fsu.edu/class_search/2023-$term/$type.pdf")
-                .body<ByteArray>()
-                .getTeachingData()
-        }
-    }.also { data ->
-        if (writeDir == null) return@also
-        data.flatMap {
-            listOf("${it.campus}: ${it.department}") + it.entries.map { entry ->
-                if (entry.error.isNotBlank()) "BANANA: ${entry.error}"
-                else entry.toString()
-            }
-        }.joinToString("\n").let {
-            val file = makeFileAndDir("$writeDir.txt")
-            file.writeText(it)
-        }
-    }.processTeachingDataByDept { _, dept, entries ->
-        if (dept !in validDepts) {
-            println("Invalid dept: $dept")
-            return@processTeachingDataByDept emptyMap()
-        }
-        entries.associate { it.courseNumber.drop(3) to it.courseTitle }
-    }.writeToFiles("jsonData/extraData/courseNames", false)
 }
 
 private fun filterTeachingInstructors(

@@ -84,7 +84,7 @@ fun HomePageContent(college: College) {
     var routing by remember { mutableStateOf(false) }
 
     remember {
-        document.title = "EVALS"
+        document.title = "EVALS: ${college.urlPath.uppercase()}"
     }
 
     Box(

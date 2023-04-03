@@ -166,14 +166,14 @@ fun DataPageContent(college: College) {
             }
 
             viewModel.profSummaryVM?.let { ProfSummary(viewModel.college.questions, it) }
-            viewModel.mapToDisplay?.let {
-                key(it.size / keyReset) {
+            viewModel.mapToDisplay?.let { mapToDisplay ->
+                key(mapToDisplay.size / keyReset) {
                     ProfScoresList(
-                        it,
+                        mapToDisplay,
                         viewModel.college.questions,
                         viewModel.teachingInstructors,
-                        viewModel::selectProf,
-                        viewModel::getProfUrl,
+                        { viewModel.selectProf(it) },
+                        { viewModel.getProfUrl(it) },
                     )
                 }
             }

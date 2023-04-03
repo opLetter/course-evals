@@ -101,21 +101,17 @@ class DataPageVM(
                 Status.InitialLoading -> ""
                 Status.Prof -> with(state) { "${prof.selected} (${getCode()})" }
                 Status.Dept -> globalData.deptMap[state.dept.selected]?.let { "$it (${getCode()})" }
-                    ?: error("Invalid dept (${state.dept.selected}")
+                    ?: error("Invalid dept selected (${state.dept.selected})")
 
                 else -> deptData.courseNames[state.course.selected]
                     ?.let { "$it (${getCode()})" } ?: getCode()
             }
         }
 
-    val courseAsName: String
-        get() = state.course.selected.let { code ->
-            deptData.courseNames[code]?.let { "$it ($code)" } ?: code
-        }
+    private fun courseWithName(code: String): String = deptData.courseNames[code]?.let { "$it ($code)" } ?: code
+    val courseAsName: String get() = courseWithName(state.course.selected)
     val coursesWithNames: List<String> by derivedStateOf {
-        state.course.list.map { code ->
-            deptData.courseNames[code]?.let { "$it ($code)" } ?: code
-        }
+        state.course.list.map { courseWithName(it) }
     }
 
     @Stable
@@ -209,7 +205,7 @@ class DataPageVM(
     fun selectDept(
         dept: String,
         school: School = activeSchoolsByCode[state.school.selected]
-            ?: error("Selected School (${state.school.selected}) Not Found"),
+            ?: error("Selected school not found (${state.school.selected})"),
         course: String? = null,
         prof: String? = null,
     ) {
@@ -348,11 +344,9 @@ class DataPageVM(
     }
 
     private fun School.associateDeptsToName(includeCode: Boolean = true): List<Pair<String, String>> {
-        return depts.associateWith { dept ->
-            globalData.deptMap[dept]?.let {
-                if (includeCode) "$dept - $it" else it
-                // considered using a "dept - " prefix but tht requires a monospace font to look good
-            } ?: error("Invalid Dept ($dept)")
+        return depts.associateWith { code ->
+            globalData.deptMap[code]?.let { name -> if (includeCode) "$code - $name" else name }
+                ?: error("Invalid dept while associating to names ($code)")
         }.toList()
     }
 

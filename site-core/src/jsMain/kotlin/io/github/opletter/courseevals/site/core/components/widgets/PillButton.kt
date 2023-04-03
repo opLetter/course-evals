@@ -18,6 +18,7 @@ import com.varabyte.kobweb.silk.components.style.active
 import com.varabyte.kobweb.silk.components.style.addVariant
 import com.varabyte.kobweb.silk.components.style.focus
 import com.varabyte.kobweb.silk.components.style.hover
+import io.github.opletter.courseevals.site.core.SitePalettes
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.s
@@ -56,7 +57,7 @@ val PillButtonVariant by ButtonStyle.addVariant(Modifier.attrsModifier { attr("t
 
 val PillButtonSelectedVariant by ButtonStyle.addVariant(Modifier.attrsModifier { attr("type", "button") }) {
     val colorModifier = Modifier
-        .backgroundColor(Color.rgb(220, 10, 10))
+        .backgroundColor(SitePalettes[colorMode].accent)
         .color(Colors.White)
     base { basePillButtonModifier.then(colorModifier) }
     hover { colorModifier }

@@ -18,6 +18,8 @@ import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.theme.colors.ColorMode
+import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.misc.jsFormatNum
 import io.github.opletter.courseevals.site.core.misc.smallCapsFont
 import org.jetbrains.compose.web.css.*
@@ -77,7 +79,7 @@ fun BarGraph(
     var barAnimHeight by remember { mutableStateOf(0.percent) }
     var mouseOver: Boolean by remember { mutableStateOf(false) }
 
-    val labelTextColor = Color.rgb(202, 0, 0)
+    val labelTextColor = SitePalettes[ColorMode.LIGHT].accent
 
     Column(BarGraphStyle.toModifier().then(modifier)) {
         SpanText(

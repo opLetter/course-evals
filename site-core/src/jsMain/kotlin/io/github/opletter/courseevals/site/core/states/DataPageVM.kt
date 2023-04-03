@@ -312,7 +312,7 @@ class DataPageVM(
                 school = school,
                 dept = urlParams["dept"],
                 course = urlParams["course"],
-                prof = urlParams["prof"]?.decodeURL()?.uppercase(),
+                prof = urlParams["prof"]?.decodeURL(),
             )
         }
     }

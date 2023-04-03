@@ -6,7 +6,6 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.icons.fa.FaChartSimple
@@ -16,18 +15,17 @@ import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.theme.colors.ColorMode
+import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.misc.College
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.dom.Text
 
 val LogoStyle by ComponentStyle.base {
-    val color = if (colorMode == ColorMode.LIGHT) Color.rgb(220, 10, 10) else Colors.White
     Modifier
         .columnGap(0.5.cssRem)
         .fontSize(3.cssRem)
         .fontFamily("Montserrat", "sans-serif")
-        .color(color)
+        .color(SitePalettes[colorMode].accent)
 }
 
 @Composable

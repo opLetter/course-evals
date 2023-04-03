@@ -1,7 +1,10 @@
 package io.github.opletter.courseevals.site.pages
 
 import androidx.compose.runtime.*
-import com.varabyte.kobweb.compose.css.*
+import com.varabyte.kobweb.compose.css.CSSTransition
+import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.TextAlign
+import com.varabyte.kobweb.compose.css.TransitionTimingFunction
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Spacer
@@ -20,12 +23,9 @@ import com.varabyte.kobweb.silk.components.text.SpanText
 import io.github.opletter.courseevals.site.core.components.sections.Footer
 import io.github.opletter.courseevals.site.core.components.sections.SubHeadVariant
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNavStyle
-import io.github.opletter.courseevals.site.core.components.sections.dataPage.QuestionHeader
-import io.github.opletter.courseevals.site.core.components.sections.dataPage.SpanTextHeaderVariant
-import io.github.opletter.courseevals.site.core.components.widgets.BarGraph
 import io.github.opletter.courseevals.site.core.components.widgets.Logo
+import io.github.opletter.courseevals.site.core.misc.College
 import kotlinx.browser.document
-import kotlinx.browser.window
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
@@ -50,11 +50,6 @@ val MyLinkVariant by LinkStyle.addVariant(
 fun HomePage() {
     val ctx = rememberPageContext()
     var routing by remember { mutableStateOf(false) }
-
-    LaunchedEffect(window.location.href) {
-        // See kobweb config in build.gradle.kts which sets up highlight.js
-        js("hljs.highlightAll()")
-    }
 
     remember {
         document.title = "EVALS"
@@ -102,30 +97,15 @@ fun HomePage() {
                         .rowGap(1.cssRem),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Link(path = "fsu", variant = MyLinkVariant) {
-                        SpanText("Florida State University", Modifier.classNames("hello").id("hello"))
-                    }
-                    Link(path = "usf", variant = MyLinkVariant) {
-                        SpanText("University of South Florida")
+                    listOf(College.FSU, College.USF).forEach { college ->
+                        Link(path = college.urlPath, variant = MyLinkVariant) {
+                            SpanText(college.fullName)
+                        }
                     }
                 }
             }
 
             Spacer()
-
-//            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-//                SpanText(
-//                    "\"Quality of this website\"",
-//                    Modifier.margin(topBottom = 0.5.cssRem),
-//                    variant = SpanTextHeaderVariant,
-//                )
-//                BarGraph(
-//                    ratings = listOf(0, 0, 1, 4, 15),
-//                    label = "Poor -> Excellent",
-//                    Modifier.width(33.percent)
-//                        .background(CSSBackground(color = Colors.Black.copyf(alpha = 0.5f)))
-//                )
-//            }
         }
         // Associate the footer with the row that will get pushed off the bottom of the page if it can't fit.
         Footer(

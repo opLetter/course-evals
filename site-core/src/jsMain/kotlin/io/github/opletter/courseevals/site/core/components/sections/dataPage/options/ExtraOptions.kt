@@ -3,6 +3,7 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage.op
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.css.Overflow
+import com.varabyte.kobweb.compose.css.TransitionTimingFunction
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
@@ -42,8 +43,13 @@ fun ExtraOptions(viewModel: DataPageVM, open: Boolean) {
                 .overflowY(Overflow.Auto)
                 .rowGap(0.5.cssRem)
                 .opacity(opacity)
-                .transition(CSSTransition("opacity", 0.2.s))
-                .then(it),
+                .transition(
+                    CSSTransition(
+                        "opacity",
+                        0.2.s,
+                        if (open) TransitionTimingFunction.EaseIn else TransitionTimingFunction.EaseOut
+                    )
+                ).then(it),
         ) {
             viewModel.college.options.forEach { option ->
                 when (option) {

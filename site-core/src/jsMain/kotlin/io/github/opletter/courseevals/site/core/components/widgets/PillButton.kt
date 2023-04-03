@@ -25,7 +25,7 @@ import org.jetbrains.compose.web.css.s
 private val basePillButtonModifier = Modifier
     .padding(topBottom = 0.25.cssRem, leftRight = 1.5.cssRem)
     .flexShrink(0)
-    .borderRadius(24.px)
+    .borderRadius(8.px)
     .fontFamily("inherit")
     .styleModifier { property("line-height", "normal") }
     .styleModifier { property("font-size", "inherit") }
@@ -33,9 +33,9 @@ private val basePillButtonModifier = Modifier
         // shamelessly stolen from yt website
         CSSTransition(
             property = "background-color",
-            duration = 0.3.s, // maybe 0.5.s
+            duration = 0.5.s,
             timingFunction = TransitionTimingFunction.cubicBezier(0.05, 0.0, 0.0, 1.0)
-        )
+        ),
     )
 
 val PillButtonVariant by ButtonStyle.addVariant(Modifier.attrsModifier { attr("type", "button") }) {
@@ -56,7 +56,7 @@ val PillButtonVariant by ButtonStyle.addVariant(Modifier.attrsModifier { attr("t
 
 val PillButtonSelectedVariant by ButtonStyle.addVariant(Modifier.attrsModifier { attr("type", "button") }) {
     val colorModifier = Modifier
-        .backgroundColor(Colors.Black)
+        .backgroundColor(Color.rgb(220, 10, 10))
         .color(Colors.White)
     base { basePillButtonModifier.then(colorModifier) }
     hover { colorModifier }

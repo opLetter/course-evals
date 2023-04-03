@@ -16,6 +16,7 @@ import com.varabyte.kobweb.silk.components.icons.fa.FaMagnifyingGlass
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.toAttrs
+import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import org.jetbrains.compose.web.attributes.list
 import org.jetbrains.compose.web.attributes.onSubmit
@@ -33,7 +34,7 @@ val SearchBarStyle by ComponentStyle.base {
         .border(width = 0.px)
         .outline(width = 0.px)
         .backgroundColor(Color.rgba(220, 233, 250, 0.2f).darkened(0.1f))
-        .color(Colors.White)
+        .color(colorMode.toSilkPalette().background)
 }
 
 @Composable

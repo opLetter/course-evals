@@ -10,7 +10,6 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
@@ -31,7 +30,7 @@ val BarGraphStyle by ComponentStyle {
             .styleModifier { property("aspect-ratio", "4 / 3") }
             .padding(topBottom = 0.33.cssRem, leftRight = 0.5.cssRem)
             .borderRadius(12.px)
-            .color(Colors.White)
+            .color(colorMode.toSilkPalette().background)
             .backgroundImage(
                 radialGradient(
                     RadialGradient.Shape.Circle,

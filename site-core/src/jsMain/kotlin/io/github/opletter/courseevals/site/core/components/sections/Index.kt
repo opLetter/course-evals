@@ -7,7 +7,6 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Color
-import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.graphics.lightened
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
@@ -52,7 +51,7 @@ val ActionButtonVariant by ButtonStyle.addVariant {
             .width(50.percent)
             .margin(top = 1.cssRem)
             .backgroundColor(background)
-            .color(Colors.White)
+            .color(colorMode.toSilkPalette().background)
             .fontWeight(FontWeight.SemiBold)
             .textDecorationLine(TextDecorationLine.None) // because link by default is underlined
     }

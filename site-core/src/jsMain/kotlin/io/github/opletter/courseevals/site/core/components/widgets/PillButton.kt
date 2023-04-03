@@ -7,7 +7,6 @@ import com.varabyte.kobweb.compose.css.TransitionTimingFunction
 import com.varabyte.kobweb.compose.foundation.layout.BoxScope
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
-import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.graphics.lightened
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
@@ -17,6 +16,7 @@ import com.varabyte.kobweb.silk.components.style.active
 import com.varabyte.kobweb.silk.components.style.addVariant
 import com.varabyte.kobweb.silk.components.style.focus
 import com.varabyte.kobweb.silk.components.style.hover
+import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.px
@@ -57,7 +57,7 @@ val PillButtonVariant by ButtonStyle.addVariant(Modifier.attrsModifier { attr("t
 val PillButtonSelectedVariant by ButtonStyle.addVariant(Modifier.attrsModifier { attr("type", "button") }) {
     val colorModifier = Modifier
         .backgroundColor(SitePalettes[colorMode].accent)
-        .color(Colors.White)
+        .color(colorMode.toSilkPalette().background)
     base { basePillButtonModifier.then(colorModifier) }
     hover { colorModifier }
     focus { colorModifier }

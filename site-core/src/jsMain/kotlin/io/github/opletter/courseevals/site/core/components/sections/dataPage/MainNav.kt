@@ -19,6 +19,7 @@ import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.components.widgets.CustomDropDown
 import io.github.opletter.courseevals.site.core.components.widgets.Logo
+import io.github.opletter.courseevals.site.core.misc.SchoolStrategy
 import io.github.opletter.courseevals.site.core.misc.keyReset
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import io.github.opletter.courseevals.site.core.states.Status
@@ -104,15 +105,17 @@ fun MainNav(
                 .padding(0.75.cssRem),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            SpanText(labels[0], labelModifier)
-            CustomDropDown(
-                list = viewModel.state.school.list,
-                onSelect = { viewModel.selectSchool(school = it) },
-                selectModifier = Modifier.fillMaxWidth(),
-                getText = { "${it.code} - ${it.name}" },
-                getValue = { it.code },
-                selected = viewModel.state.school.selected,
-            )
+            if (viewModel.college.schoolStrategy != SchoolStrategy.SINGLE) {
+                SpanText(labels[0], labelModifier)
+                CustomDropDown(
+                    list = viewModel.state.school.list,
+                    onSelect = { viewModel.selectSchool(school = it) },
+                    selectModifier = Modifier.fillMaxWidth(),
+                    getText = { "${it.code} - ${it.name}" },
+                    getValue = { it.code },
+                    selected = viewModel.state.school.selected,
+                )
+            }
 
             SpanText(labels[1], labelModifier)
             CustomDropDown(

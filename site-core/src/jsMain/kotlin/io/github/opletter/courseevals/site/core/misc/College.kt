@@ -34,7 +34,7 @@ sealed interface College {
 
     /** All valid campuses for this college, and whether they should be enabled by default */
     val campuses: Map<Campus, Boolean>
-    val showFullSchoolList: Boolean
+    val schoolStrategy: SchoolStrategy
     val options: Set<ExtraOptions>
     val dataSource: WebsiteDataSource
 
@@ -85,7 +85,7 @@ sealed interface College {
             default = Semester.Double.valueOf(SemesterType.Spring, 2020),
         ) { Semester.Double.valueOf(it) }
         override val campuses = mapOf(Campus.NB to true, Campus.CM to true, Campus.NK to true)
-        override val showFullSchoolList = false
+        override val schoolStrategy = SchoolStrategy.NORMAL
         override val options = setOf(ExtraOptions.CAMPUS, ExtraOptions.MIN_SEM)
         private val fakeSource = GithubSource(
             repoPath = "DennisTsar/RU-SIRS",
@@ -160,7 +160,7 @@ sealed interface College {
             default = Semester.Triple.valueOf(SemesterType.Spring, 2020),
         ) { Semester.Triple.valueOf(it) }
         override val campuses = mapOf(Campus.MAIN to true, Campus.PNM to false, Campus.INTL to false)
-        override val showFullSchoolList = true
+        override val schoolStrategy = SchoolStrategy.SHOW_ALL
         override val options = setOf(ExtraOptions.MIN_SEM)
 
         override val dataSource = GithubSource(
@@ -210,7 +210,7 @@ sealed interface College {
             default = Semester.Triple.valueOf(SemesterType.Spring, 2020),
         ) { Semester.Triple.valueOf(it) }
         override val campuses = mapOf(Campus.MAIN to true)
-        override val showFullSchoolList = false
+        override val schoolStrategy = SchoolStrategy.SINGLE
         override val options = setOf(ExtraOptions.MIN_SEM)
 
         override val dataSource = GithubSource(
@@ -222,6 +222,10 @@ sealed interface College {
 
 enum class ExtraOptions {
     CAMPUS, MIN_SEM
+}
+
+enum class SchoolStrategy {
+    NORMAL, SHOW_ALL, SINGLE
 }
 
 class SemesterOptions<T : Semester<T>>(

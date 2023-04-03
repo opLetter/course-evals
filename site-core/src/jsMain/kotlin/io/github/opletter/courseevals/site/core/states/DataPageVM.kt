@@ -5,6 +5,7 @@ import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.remote.WebsiteDataSource
 import io.github.opletter.courseevals.site.core.misc.College
 import io.github.opletter.courseevals.site.core.misc.None
+import io.github.opletter.courseevals.site.core.misc.SchoolStrategy
 import io.github.opletter.courseevals.site.core.misc.jsFormatNum
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
@@ -88,7 +89,8 @@ class DataPageVM(
         }
     }
     private val schoolList
-        get() = if (college.showFullSchoolList) globalData.schoolsByCode.values else activeSchoolsByCode.values
+        get() = if (college.schoolStrategy == SchoolStrategy.SHOW_ALL) globalData.schoolsByCode.values
+        else activeSchoolsByCode.values
 
     val teachingInstructors: List<String>
         get() = deptData.teachingMap[state.course.selected].takeIf { status == Status.Course }.orEmpty()
@@ -198,7 +200,7 @@ class DataPageVM(
         prof: String? = null,
     ) {
         val newSchool = globalData.schoolsByCode[school] ?: activeSchoolsByCode.values.first()
-        if (college.showFullSchoolList)
+        if (college.schoolStrategy == SchoolStrategy.SHOW_ALL)
             campusVM.selectOnly(Campus.valueOf(newSchool.code.uppercase()))
         val newDept = dept.takeIf { it in newSchool.depts } ?: newSchool.depts.first()
         selectDept(dept = newDept, school = newSchool, course = course, prof = prof)
@@ -321,7 +323,8 @@ class DataPageVM(
         val params = paramsUrl.drop(1).split('&').associate {
             it.split('=', limit = 2).zipWithNext().getOrNull(0) ?: return
         }
-        val school = params["school"] ?: return
+        val school = params["school"]
+            ?: if (college.schoolStrategy != SchoolStrategy.SINGLE) return else state.school.selected
         val dept = params["dept"] ?: return
         val course = params["course"]
         val prof = params["prof"]?.decodeURL()
@@ -389,8 +392,8 @@ private fun DataPageVM.getUrl(
     prof: String = state.prof.selected,
 ): String {
     return "?" +
-            "school=$school" +
-            "&dept=$dept" +
+            (if (college.schoolStrategy != SchoolStrategy.SINGLE) "school=$school&" else "") +
+            "dept=$dept" +
             with(course) { if (isBlankOrNone()) "" else "&course=$this" } +
             with(prof) { if (isBlankOrNone()) "" else "&prof=${encodeURL()}" }
 }

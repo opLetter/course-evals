@@ -10,7 +10,6 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
@@ -19,6 +18,7 @@ import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
+import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.misc.jsFormatNum
 import io.github.opletter.courseevals.site.core.misc.smallCapsFont
@@ -59,7 +59,7 @@ val BarGraphStyle by ComponentStyle {
 }
 
 val BarGraphBarStyle by ComponentStyle {
-    val barColor = Color.rgb(198, 204, 211) //Color.rgb(250, 250, 250)
+    val barColor = colorMode.toSilkPalette().background
     base {
         Modifier
             .width(75.percent)

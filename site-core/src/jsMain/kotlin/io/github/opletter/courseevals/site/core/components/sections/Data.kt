@@ -137,7 +137,6 @@ fun DataPageContent(college: College) {
                 .padding(1.cssRem)
                 .rowGap(0.5.cssRem)
                 .textAlign(TextAlign.Center)
-                .backgroundColor(Color.rgb(237, 242, 244)) // Color.rgb(214,224,236)
                 .boxShadow(
                     offsetX = 10.px,
                     offsetY = 5.px,

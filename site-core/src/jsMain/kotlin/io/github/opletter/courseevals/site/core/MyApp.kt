@@ -74,12 +74,19 @@ fun updateTheme(ctx: InitSilkContext) {
 
 class SitePalette(
     val accent: Color,
+    val neutral: Color,
 )
 
 object SitePalettes {
     private val sitePalettes = mapOf(
-        ColorMode.LIGHT to SitePalette(accent = Color.rgb(220, 10, 10)),
-        ColorMode.DARK to SitePalette(accent = Colors.White),
+        ColorMode.LIGHT to SitePalette(
+            accent = Color.rgb(220, 10, 10),
+            neutral = Color.rgb(203, 203, 203), // Color.rgb(190, 190, 190)
+        ),
+        ColorMode.DARK to SitePalette(
+            accent = Colors.White,
+            neutral = Color.rgb(203, 203, 203),
+        ),
     )
 
     operator fun get(colorMode: ColorMode) = sitePalettes.getValue(colorMode)

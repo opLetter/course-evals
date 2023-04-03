@@ -30,6 +30,7 @@ import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.getColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
+import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.components.widgets.CustomGrid
 import io.github.opletter.courseevals.site.core.misc.textEllipsis
 import io.github.opletter.courseevals.site.core.states.Questions
@@ -84,7 +85,7 @@ val InfoBubbleStyle by ComponentStyle.base {
     Modifier
         .padding(6.px)
         .borderRadius(12.px)
-        .backgroundColor(Color.rgba(190, 190, 190, 0.8f))
+        .backgroundColor(SitePalettes[colorMode].neutral.toRgb().copyf(alpha = 0.8f))
         .boxShadow(offsetX = 5.px, offsetY = 5.px, blurRadius = 30.px, color = Color.rgba(0, 0, 0, 0.08f))
 }
 

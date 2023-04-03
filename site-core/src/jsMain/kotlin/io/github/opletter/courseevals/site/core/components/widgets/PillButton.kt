@@ -7,7 +7,6 @@ import com.varabyte.kobweb.compose.css.TransitionTimingFunction
 import com.varabyte.kobweb.compose.foundation.layout.BoxScope
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
-import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.graphics.lightened
 import com.varabyte.kobweb.compose.ui.modifiers.*
@@ -40,7 +39,7 @@ private val basePillButtonModifier = Modifier
     )
 
 val PillButtonVariant by ButtonStyle.addVariant(Modifier.attrsModifier { attr("type", "button") }) {
-    val baseColor = Color.rgb(190, 190, 190)
+    val baseColor = SitePalettes[colorMode].neutral
     base {
         basePillButtonModifier.backgroundColor(baseColor.lightened(0.2f))
     }

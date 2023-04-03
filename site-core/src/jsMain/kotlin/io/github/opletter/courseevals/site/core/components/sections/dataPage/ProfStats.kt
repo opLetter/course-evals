@@ -8,7 +8,6 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
@@ -23,6 +22,7 @@ import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.colors.getColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
+import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.components.widgets.BarGraph
 import io.github.opletter.courseevals.site.core.states.AveComparisonData
 import io.github.opletter.courseevals.site.core.states.ProfSummaryVM
@@ -33,7 +33,7 @@ val AveragesBoxStyle by ComponentStyle {
         Modifier
             .fillMaxWidth()
             .padding(0.25.cssRem)
-            .backgroundColor(Color.rgb(190, 190, 190))
+            .backgroundColor(SitePalettes[colorMode].neutral)
             .borderRadius(12.px)
     }
     Breakpoint.LG {

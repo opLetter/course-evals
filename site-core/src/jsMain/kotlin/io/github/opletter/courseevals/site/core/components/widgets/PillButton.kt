@@ -31,7 +31,7 @@ private val basePillButtonModifier = Modifier
         // shamelessly stolen from yt website
         CSSTransition(
             property = "background-color",
-            duration = 0.5.s,
+            duration = 0.3.s,
             timingFunction = TransitionTimingFunction.cubicBezier(0.05, 0.0, 0.0, 1.0)
         ),
     )

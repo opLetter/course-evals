@@ -167,7 +167,7 @@ private fun NavContent(viewModel: DataPageVM, setRouting: () -> Unit) {
             "Extra Options",
             Modifier
                 .alignSelf(AlignSelf.Center)
-                .margin(bottom = 0.5.cssRem)
+                .margin(top = 0.5.cssRem, bottom = 0.25.cssRem)
                 .fontSize(1.25.cssRem)
         )
         ExtraOptions(viewModel, open = true)

@@ -58,9 +58,6 @@ val ActionButtonVariant by ButtonStyle.addVariant {
     hover {
         Modifier.backgroundColor(background.lightened(0.15f))
     }
-    focus {
-        Modifier.backgroundColor(background.lightened(0.15f))
-    }
     active {
         Modifier.backgroundColor(background.lightened(0.25f))
     }

@@ -49,7 +49,7 @@ fun updateTheme(ctx: InitSilkContext) {
             button = MutableSilkPalette.Button(
                 default = lightButtonBase,
                 hover = lightButtonBase.lightened(byPercent = 0.2f),
-                focus = Colors.White.copy(alpha = 0),
+                focus = Colors.CornflowerBlue,
                 pressed = lightButtonBase.lightened(byPercent = 0.3f),
             ),
             border = Color.rgb(76, 76, 187),
@@ -64,7 +64,7 @@ fun updateTheme(ctx: InitSilkContext) {
             button = MutableSilkPalette.Button(
                 default = darkButtonBase,
                 hover = darkButtonBase.darkened(byPercent = 0.2f),
-                focus = Colors.White.copy(alpha = 0),
+                focus = Colors.LightSkyBlue,
                 pressed = darkButtonBase.darkened(byPercent = 0.3f),
             ),
             border = Colors.Red.darkened(0.15f),

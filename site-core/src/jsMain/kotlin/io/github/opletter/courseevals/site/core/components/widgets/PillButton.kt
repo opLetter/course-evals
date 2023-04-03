@@ -6,15 +6,13 @@ import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.css.TransitionTimingFunction
 import com.varabyte.kobweb.compose.foundation.layout.BoxScope
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.attrsModifier
-import com.varabyte.kobweb.compose.ui.graphics.lightened
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
 import com.varabyte.kobweb.silk.components.style.active
 import com.varabyte.kobweb.silk.components.style.addVariant
-import com.varabyte.kobweb.silk.components.style.focus
+import com.varabyte.kobweb.silk.components.style.focusVisible
 import com.varabyte.kobweb.silk.components.style.hover
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
@@ -38,29 +36,28 @@ private val basePillButtonModifier = Modifier
         ),
     )
 
-val PillButtonVariant by ButtonStyle.addVariant(Modifier.attrsModifier { attr("type", "button") }) {
+val PillButtonVariant by ButtonStyle.addVariant {
     val baseColor = SitePalettes[colorMode].neutral
     base {
-        basePillButtonModifier.backgroundColor(baseColor.lightened(0.2f))
+        basePillButtonModifier.backgroundColor(baseColor)
     }
     hover {
-        Modifier.backgroundColor(baseColor)
+        Modifier.backgroundColor(baseColor.darkened(0.1f))
     }
-    focus {
-        Modifier.backgroundColor(baseColor)
+    focusVisible {
+        Modifier.boxShadow(spreadRadius = 3.px, color = colorMode.toSilkPalette().button.focus, inset = true)
     }
     active {
         Modifier.backgroundColor(baseColor.darkened(0.2f))
     }
 }
 
-val PillButtonSelectedVariant by ButtonStyle.addVariant(Modifier.attrsModifier { attr("type", "button") }) {
+val PillButtonSelectedVariant by ButtonStyle.addVariant(Modifier.tabIndex(-1)) {
     val colorModifier = Modifier
         .backgroundColor(SitePalettes[colorMode].accent)
         .color(colorMode.toSilkPalette().background)
     base { basePillButtonModifier.then(colorModifier) }
     hover { colorModifier }
-    focus { colorModifier }
     active { colorModifier }
 }
 

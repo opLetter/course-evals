@@ -55,7 +55,7 @@ val SideNavVariant by MainNavStyle.addVariantBase {
     val background = if (colorMode == ColorMode.LIGHT) lightBackground(30) else darkBackground(30)
 
     Modifier
-        .padding(top = 1.cssRem, left = 0.75.cssRem, right = 0.75.cssRem, bottom = 0.75.cssRem)
+        .padding(top = 1.cssRem, leftRight = 0.75.cssRem, bottom = 0.75.cssRem)
         .flexBasis(325.px) // allow some shrinking but no growing
         .position(Position.Sticky)
         .top(0.px)

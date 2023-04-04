@@ -24,6 +24,8 @@ private val client = HttpClient().config {
 // Note: `VIEWSTATE` and EVENTVALIDATION are required, but not shared publicly as a precaution.
 // If you want to run this code, you'll need to get your own VIEWSTATE and EVENTVALIDATION
 // from the network tab of the evaluation website
+private const val VIEWSTATE = ""
+private const val EVENTVALIDATION = ""
 
 suspend fun getReportIdByPrefix(prefix: String, term: String): String {
     val response = client.post("https://fair.usf.edu/EvaluationMart/Default.aspx") {

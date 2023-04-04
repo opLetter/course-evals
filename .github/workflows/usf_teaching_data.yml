@@ -21,7 +21,7 @@ jobs:
 
       # Build & run application - get latest teaching data
       - name: Run
-        run: ./gradlew colleges:usf --args="-teaching"
+        run: ./gradlew colleges:usf:run --args="-teaching"
         
       # Update repo with generated files
       - name: Add & Commit

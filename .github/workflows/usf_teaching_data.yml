@@ -2,7 +2,7 @@ name: "USF: Update Teaching Data"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 10,22 * * *"
+    - cron: "0 8,10,12,14,16,18 * * *"
 jobs:
   run:
     name: Get & Commit

@@ -4,19 +4,17 @@ import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.functions.min
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
+import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.compose.ui.styleModifier
-import com.varabyte.kobweb.silk.components.icons.fa.FaCircleExclamation
 import com.varabyte.kobweb.silk.components.layout.breakpoint.displayIf
 import com.varabyte.kobweb.silk.components.layout.breakpoint.displayUntil
 import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
@@ -24,6 +22,7 @@ import com.varabyte.kobweb.silk.theme.colors.getColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.components.widgets.BarGraph
+import io.github.opletter.courseevals.site.core.components.widgets.ExclamationIcon
 import io.github.opletter.courseevals.site.core.states.AveComparisonData
 import io.github.opletter.courseevals.site.core.states.ProfSummaryVM
 import org.jetbrains.compose.web.css.*
@@ -45,12 +44,6 @@ val AveragesBoxStyle by ComponentStyle {
     }
 }
 
-val FaOutlineStyle by ComponentStyle.base {
-    Modifier.styleModifier {
-        property("text-shadow", "-2px 0 #000, 0 2px 0px #000, 2px 0 #000, 0 -2px #000")
-    }
-}
-
 @Composable
 fun ProfStatsDesktop(viewModel: ProfSummaryVM) {
     Row(
@@ -62,13 +55,11 @@ fun ProfStatsDesktop(viewModel: ProfSummaryVM) {
         horizontalArrangement = Arrangement.Center
     ) {
         AveColumn {
-            Row(
+            Box(
                 Modifier
-                    .flexWrap(FlexWrap.Wrap)
+                    .display(DisplayStyle.Block)
                     .fontSize(45.percent)
                     .lineHeight(100.percent),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
             ) {
                 ResponsesIcon(viewModel.numResponses)
                 SpanText(" ${viewModel.numResponses} ", Modifier.fontWeight(FontWeight.Bold))
@@ -123,12 +114,11 @@ fun ProfStatsMobile(viewModel: ProfSummaryVM) {
                 viewModel.average,
                 bigModifier.fontSize(min(20.vw, 5.cssRem))
             )
-            Row(
+            Box(
                 Modifier
+                    .display(DisplayStyle.Block)
                     .fillMaxWidth()
                     .fontSize(min(6.vw, 1.75.cssRem)),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
             ) {
                 ResponsesIcon(
                     viewModel.numResponses,
@@ -191,8 +181,7 @@ private fun AveComparison(aveData: AveComparisonData, modifier: Modifier) {
 
 @Composable
 private fun ResponsesIcon(numResponses: Int, modifier: Modifier = Modifier) {
-    val iconModifier = FaOutlineStyle.toModifier().then(modifier)
-    when (numResponses) {
+    val iconModifier = when (numResponses) {
         in 0..9 -> Modifier
             .color(Colors.Red)
             .title("This rating is based on a very small number of responses - interpret with caution")
@@ -201,6 +190,7 @@ private fun ResponsesIcon(numResponses: Int, modifier: Modifier = Modifier) {
             .color(Colors.Yellow)
             .title("This rating is based on a small number of responses - interpret with caution")
 
-        else -> null
-    }?.let { FaCircleExclamation(iconModifier.then(it)) }
+        else -> return
+    }
+    ExclamationIcon(iconModifier.then(modifier))
 }

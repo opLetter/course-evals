@@ -15,7 +15,6 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.icons.fa.FaChalkboardUser
-import com.varabyte.kobweb.silk.components.icons.fa.FaCircleExclamation
 import com.varabyte.kobweb.silk.components.icons.fa.FaUpRightFromSquare
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.layout.breakpoint.displayUntil
@@ -32,6 +31,7 @@ import com.varabyte.kobweb.silk.theme.colors.getColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.components.widgets.CustomGrid
+import io.github.opletter.courseevals.site.core.components.widgets.ExclamationIcon
 import io.github.opletter.courseevals.site.core.misc.textEllipsis
 import io.github.opletter.courseevals.site.core.states.Questions
 import org.jetbrains.compose.web.ExperimentalComposeWebApi
@@ -184,8 +184,8 @@ fun ProfScoresList(
                 .overflowWrap(OverflowWrap.BreakWord)
         ) {
             Text("Instructors with ")
-            FaCircleExclamation(
-                FaOutlineStyle.toModifier()
+            ExclamationIcon(
+                Modifier
                     .color(Colors.Yellow)
                     .margin(leftRight = 0.3.cssRem)
             )
@@ -376,9 +376,8 @@ private fun ProfName(
                         .title("Teaching this course in Fall 2023")
                 )
                 if (!specialStats) return@Row
-                FaCircleExclamation(
-                    FaOutlineStyle.toModifier()
-                        .then(rowModifier)
+                ExclamationIcon(
+                    Modifier
                         .padding(right = 4.px)
                         .color(Colors.Yellow)
                         .fontSize(iconFontSize)

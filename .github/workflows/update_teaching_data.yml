@@ -1,4 +1,4 @@
-name: "USF: Update Teaching Data"
+name: "Update Teaching Data"
 on:
   workflow_call:
     inputs:

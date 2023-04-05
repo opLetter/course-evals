@@ -7,4 +7,4 @@ jobs:
   get-and-commit:
     uses: opletter/course-evals/.github/workflows/update_teaching_data.yml@master
     with:
-      config-path: ./gradlew colleges:usf:run
+      command: ./gradlew colleges:usf:run

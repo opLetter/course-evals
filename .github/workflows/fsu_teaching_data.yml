@@ -8,3 +8,4 @@ jobs:
     uses: opletter/course-evals/.github/workflows/update_teaching_data.yml@master
     with:
       command: ./gradlew colleges:fsu:run
+      college: FSU

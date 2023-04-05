@@ -5,6 +5,9 @@ on:
       command:
         required: true
         type: string
+      college:
+        required: true
+        type: string
 jobs:
   triage:
     name: Get & Commit
@@ -34,7 +37,7 @@ jobs:
           git checkout master
           git add .
           if ! git diff-index --quiet HEAD; then
-            git commit -m "USF: Updated teaching data"
+            git commit -m "${{ inputs.college }}: Updated teaching data"
             git push
           else
             echo "CHANGE=false" >> $GITHUB_OUTPUT

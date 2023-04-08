@@ -2,7 +2,7 @@ name: "USF: Update Teaching Data"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 14,16,18,20,22 * * *"
+    - cron: "0 14,16,18,20,22 * * 1-5"
 jobs:
   get-and-commit:
     uses: opletter/course-evals/.github/workflows/update_teaching_data.yml@master

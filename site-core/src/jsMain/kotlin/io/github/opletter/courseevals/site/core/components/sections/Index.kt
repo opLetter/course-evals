@@ -2,7 +2,6 @@ package io.github.opletter.courseevals.site.core.components.sections
 
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.*
-import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -18,8 +17,8 @@ import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.components.text.SpanTextStyle
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
+import io.github.opletter.courseevals.site.core.components.layouts.HomePageLayout
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNav
-import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNavStyle
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.ExtraOptions
 import io.github.opletter.courseevals.site.core.components.widgets.Logo
 import io.github.opletter.courseevals.site.core.misc.College
@@ -83,12 +82,8 @@ fun HomePageContent(college: College) {
         document.title = "EVALS: ${college.urlPath.uppercase()}"
     }
 
-    Box(
-        MainNavStyle.toModifier()
-            .fillMaxWidth()
-            .minHeight(100.percent)
-            .padding(top = 0.5.cssRem)
-            .gridTemplateRows("1fr auto")
+    HomePageLayout(
+        Modifier
             .transition(CSSTransition("opacity", 0.25.s, TransitionTimingFunction.EaseInOut))
             .thenIf(routing, Modifier.opacity(0))
             .onTransitionEnd {
@@ -111,14 +106,6 @@ fun HomePageContent(college: College) {
                 NavContent(viewModel) { routing = true }
             }
         }
-        // Associate the footer with the row that will get pushed off the bottom of the page if it can't fit.
-        Footer(
-            Modifier
-                .margin(topBottom = 1.cssRem)
-                .align(Alignment.Center)
-                .gridRowStart(2)
-                .gridRowEnd(3)
-        )
     }
 }
 

@@ -9,6 +9,9 @@ sealed class Semester<T : Semester<T>>(val numValue: Int, validSemesters: List<S
     val type: SemesterType = validSemesters[numValue % validSemesters.size]
     val year: Int = numValue / validSemesters.size
 
+    fun prev(n: Int = 1): T = factory.valueOf(numValue - n)
+    fun next(n: Int = 1): T = factory.valueOf(numValue + n)
+
     operator fun rangeTo(other: T): List<T> = (numValue..other.numValue).map { factory.valueOf(it) }
     override fun compareTo(other: T): Int = numValue.compareTo(other.numValue)
     override fun toString(): String = "$type $year"

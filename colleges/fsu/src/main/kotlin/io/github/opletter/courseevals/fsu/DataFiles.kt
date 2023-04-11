@@ -2,12 +2,8 @@ package io.github.opletter.courseevals.fsu
 
 import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.io.File
-
-inline fun <reified T> File.decodeFromString(): T = Json.decodeFromString(this.readText())
 
 inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(
     writeDir: String,
@@ -29,13 +25,4 @@ inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(
             .writeText(Json.encodeToString(reports))
     }
     return this
-}
-
-inline fun <reified T> getCompleteSchoolDeptsMap(dir: String): SchoolDeptsMap<T> {
-    val schoolMap = Json.decodeFromString<Map<String, School>>(File("$dir/schools.json").readText())
-    return schoolMap.mapValues { (code, school) ->
-        school.depts.associateWith {
-            Json.decodeFromString(File("$dir/$code/$it.json").readText())
-        }
-    }
 }

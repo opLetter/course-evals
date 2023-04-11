@@ -25,3 +25,9 @@ inline fun <T, R> SchoolDeptsMap<T>.flatMapEachDept(transform: (String, String, 
         }
     }
 }
+
+fun <T, R> SchoolDeptsMap<Map<T, R>>.filterNotEmpty(): SchoolDeptsMap<Map<T, R>> {
+    return mapValues { (_, v) ->
+        v.filterValues { it.isNotEmpty() }
+    }.filterValues { it.isNotEmpty() }
+}

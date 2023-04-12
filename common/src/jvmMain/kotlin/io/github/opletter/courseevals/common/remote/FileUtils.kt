@@ -6,7 +6,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.io.File
 
-fun makeFileAndDir(filename: String): File = File(filename).apply { parentFile.mkdirs() }
+fun makeFileAndDir(filename: String): File = File(filename).apply { parentFile?.mkdirs() }
 
 inline fun <reified T> File.decodeFromString(): T = Json.decodeFromString(this.readText())
 

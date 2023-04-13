@@ -1,7 +1,6 @@
 import com.varabyte.kobweb.gradle.library.util.configAsKobwebLibrary
 import org.jetbrains.kotlin.gradle.targets.js.dukat.DukatTask
 
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.jetbrains.compose)

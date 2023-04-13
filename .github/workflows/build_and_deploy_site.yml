@@ -26,36 +26,53 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
       # Set up Java environment for the next steps
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: '11'
+          distribution: temurin
+          java-version: 11
 
-      # Validate wrapper
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
-      # Build application
-      - name: Build
-        run: ./gradlew site:kobwebExport -PkobwebReuseServer=false -PkobwebEnv=DEV -PkobwebRunLayout=KOBWEB -PkobwebBuildTarget=RELEASE -PkobwebExportLayout=STATIC
+      - name: Query Browser Cache ID
+        id: browser-cache-id
+        run: |
+          echo "value=$(./gradlew -q :site:kobwebBrowserCacheId)" >> $GITHUB_OUTPUT
+        shell: bash
 
-      # Stop kobweb server
-      - name: Stop Server
-        run: ./gradlew site:kobwebStop
-      
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+      - name: Cache Browser Dependencies
+        uses: actions/cache@v3
+        id: playwright-cache
         with:
-          path: ./site/.kobweb/site
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.browser-cache-id.outputs.value }}
+
+      - name: Fetch kobweb
+        uses: robinraju/release-downloader@v1.7
+        with:
+          repository: "varabyte/kobweb-cli"
+          tag: "v0.9.12"
+          fileName: "kobweb-0.9.12.zip"
+          tarBall: false
+          zipBall: false
+
+      - name: Unzip kobweb
+        run: |
+          unzip kobweb-0.9.12.zip
+
+      - name: Run export
+        run: |
+          cd site
+          ../kobweb-0.9.12/bin/kobweb export --layout static
 
   # Deployment job
   deploy:
@@ -67,4 +84,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v2

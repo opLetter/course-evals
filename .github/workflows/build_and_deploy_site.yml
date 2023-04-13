@@ -9,7 +9,6 @@ on:
       - 'site/**'
       - 'site-core/**'
       - 'common/**'
-      
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -32,7 +31,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # Set up Java environment for the next steps
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
@@ -79,7 +77,6 @@ jobs:
         with:
           path: ./site/.kobweb/site
 
-  # Deployment job
   deploy:
     environment:
       name: github-pages

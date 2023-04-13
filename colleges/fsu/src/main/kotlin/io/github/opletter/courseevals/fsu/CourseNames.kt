@@ -3,6 +3,7 @@ package io.github.opletter.courseevals.fsu
 import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.School
 import io.github.opletter.courseevals.common.data.SchoolDeptsMap
+import io.github.opletter.courseevals.common.remote.decodeFromString
 import io.github.opletter.courseevals.common.remote.ktorClient
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
 import io.ktor.client.call.*

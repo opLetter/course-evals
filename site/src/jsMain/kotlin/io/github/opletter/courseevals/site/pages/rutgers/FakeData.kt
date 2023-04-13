@@ -8,5 +8,5 @@ import io.github.opletter.courseevals.site.core.misc.College
 @Page
 @Composable
 fun FakeData() {
-    DataPageContent(college = College.Rutgers(fake = true))
+    DataPageContent(college = College.Rutgers.Fake)
 }

@@ -7,8 +7,6 @@ import io.github.opletter.courseevals.common.remote.GithubSource
 import io.github.opletter.courseevals.common.remote.WebsiteDataSource
 import io.github.opletter.courseevals.common.remote.WebsitePaths
 import io.github.opletter.courseevals.site.core.states.Questions
-import kotlinx.browser.localStorage
-import org.w3c.dom.get
 
 sealed interface College {
     val fullName: String
@@ -38,7 +36,7 @@ sealed interface College {
     val options: Set<ExtraOptions>
     val dataSource: WebsiteDataSource
 
-    class Rutgers(val fake: Boolean = false) : College {
+    class Rutgers(override val dataSource: WebsiteDataSource) : College {
         override val fullName = "Rutgers University"
         override val urlPath = "rutgers"
 
@@ -87,26 +85,37 @@ sealed interface College {
         override val campuses = mapOf(Campus.NB to true, Campus.CM to true, Campus.NK to true)
         override val schoolStrategy = SchoolStrategy.NORMAL
         override val options = setOf(ExtraOptions.CAMPUS, ExtraOptions.MIN_SEM)
-        private val fakeSource = GithubSource(
-            repoPath = "DennisTsar/RU-SIRS",
-            paths = WebsitePaths(
-                baseDir = "fakeData",
-                teachingDataDir = "fakeData/extraData/teachingS23",
-            )
-        )
 
-        //        val PublicRUSource = GithubSource(
-//            repoPath = "DennisTsar/RU-SIRS-local",
-//            paths = WebsitePaths(
-//                allInstructorsFile = "json-data/extra-data/allInstructors.json",
-//                schoolMapFile = "json-data/extra-data/schoolMap.json"
-//            )
-//        )
-        private val realSource = GithubSource(
-            repoPath = "DennisTsar/Rutgers-SIRS",
-            token = localStorage["course-evals:rutgers:ghToken"],
-        )
-        override val dataSource = if (fake) fakeSource else realSource
+        val fake = dataSource == fakeSource
+
+        companion object {
+            private val fakeSource = GithubSource(
+                repoPath = "DennisTsar/RU-SIRS",
+                paths = WebsitePaths(
+                    baseDir = "fakeData",
+                    teachingDataDir = "fakeData/extraData/teachingS23",
+                )
+            )
+
+            private fun realSource(token: String) = GithubSource(
+                repoPath = "DennisTsar/Rutgers-SIRS",
+                token = token,
+            )
+
+            private val publicRealSource = GithubSource(
+                repoPath = "DennisTsar/RU-SIRS-local",
+                paths = WebsitePaths(
+                    statsByProfDir = "jsonData/statsByProf-cleaned",
+                    teachingDataDir = "jsonData/extraData/teachingS23",
+                )
+            )
+
+            val Fake = Rutgers(fakeSource)
+            val PublicReal = Rutgers(publicRealSource)
+
+            @Suppress("FunctionName") // purposely mimic a constructor
+            fun PrivateReal(token: String) = Rutgers(realSource(token))
+        }
     }
 
     object FSU : College {

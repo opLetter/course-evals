@@ -8,5 +8,5 @@ import io.github.opletter.courseevals.site.core.misc.College
 @Page
 @Composable
 fun FakeIndex() {
-    HomePageContent(College.Rutgers(fake = true))
+    HomePageContent(College.Rutgers.Fake)
 }

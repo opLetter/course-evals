@@ -74,6 +74,11 @@ jobs:
           cd site
           ../kobweb-0.9.12/bin/kobweb export --layout static
 
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./site/.kobweb/site
+
   # Deployment job
   deploy:
     environment:

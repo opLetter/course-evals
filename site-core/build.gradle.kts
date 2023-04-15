@@ -1,5 +1,4 @@
 import com.varabyte.kobweb.gradle.library.util.configAsKobwebLibrary
-import org.jetbrains.kotlin.gradle.targets.js.dukat.DukatTask
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -19,12 +18,10 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 implementation(compose.runtime)
-                implementation(compose.web.core)
+                implementation(compose.html.core)
                 implementation(libs.bundles.kobweb)
                 implementation(project(":common"))
             }
         }
     }
 }
-
-tasks.withType<DukatTask> { enabled = false } // disable unnecessary task for minor performance boost

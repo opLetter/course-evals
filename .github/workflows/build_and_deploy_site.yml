@@ -77,7 +77,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
+          name: site
           path: ./site/.kobweb/site
+          if-no-files-found: error
 
   deploy:
     environment:

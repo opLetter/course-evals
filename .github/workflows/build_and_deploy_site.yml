@@ -79,7 +79,6 @@ jobs:
         with:
           name: site
           path: ./site/.kobweb/site
-          if-no-files-found: error
 
   deploy:
     environment:

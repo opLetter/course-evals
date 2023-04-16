@@ -1,6 +1,6 @@
 package io.github.opletter.courseevals.site.core.components.sections.dataPage.options
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.css.Overflow
 import com.varabyte.kobweb.compose.css.TransitionTimingFunction
@@ -31,18 +31,16 @@ val ExtraOptionStyle by ComponentStyle {
 
 @Composable
 fun ExtraOptions(viewModel: DataPageVM, open: Boolean) {
-    var opacity by remember(open) { mutableStateOf(0) }
-
     ClosableTransitionObject(
         open = open,
-        startTransition = { opacity = 1 }
+        openModifier = Modifier.opacity(1),
+        closedModifier = Modifier.opacity(0),
     ) {
         Column(
             Modifier
                 .fillMaxWidth()
                 .overflowY(Overflow.Auto)
                 .rowGap(0.5.cssRem)
-                .opacity(opacity)
                 .transition(
                     CSSTransition(
                         "opacity",

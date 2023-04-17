@@ -17,11 +17,11 @@ import com.varabyte.kobweb.silk.components.navigation.UndecoratedLinkVariant
 import com.varabyte.kobweb.silk.components.style.*
 import com.varabyte.kobweb.silk.components.text.SpanText
 import io.github.opletter.courseevals.site.core.components.layouts.HomePageLayout
+import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.DarkBackgroundBoxStyle
 import io.github.opletter.courseevals.site.core.components.widgets.LogoWithSubhead
 import io.github.opletter.courseevals.site.core.misc.College
 import kotlinx.browser.document
 import org.jetbrains.compose.web.css.cssRem
-import org.jetbrains.compose.web.css.px
 
 val MyLinkVariant by LinkStyle.addVariant(
     extraModifiers = { LinkStyle.toModifier(UndecoratedLinkVariant) }
@@ -60,13 +60,11 @@ fun HomePage() {
                         .margin(top = 2.5.cssRem)
                 )
                 Column(
-                    Modifier
+                    DarkBackgroundBoxStyle.toModifier()
                         .margin(topBottom = 0.5.cssRem)
                         .textAlign(TextAlign.Center)
                         .fontSize(1.5.cssRem)
                         .fontWeight(FontWeight.Bold)
-                        .backgroundColor(Colors.Black.copyf(alpha = 0.5f))
-                        .borderRadius(12.px)
                         .padding(1.5.cssRem)
                         .rowGap(1.cssRem),
                     horizontalAlignment = Alignment.CenterHorizontally,

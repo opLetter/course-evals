@@ -9,14 +9,15 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
 import com.varabyte.kobweb.compose.ui.graphics.Color
-import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.icons.fa.FaMagnifyingGlass
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.toAttrs
+import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.theme.toSilkPalette
+import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.DarkBackgroundBoxStyle
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import org.jetbrains.compose.web.attributes.list
 import org.jetbrains.compose.web.attributes.onSubmit
@@ -40,13 +41,10 @@ val SearchBarStyle by ComponentStyle.base {
 @Composable
 fun SearchForm(viewModel: DataPageVM.SearchBarVM) {
     Form(
-        attrs = Modifier
+        attrs = DarkBackgroundBoxStyle.toModifier()
             .fillMaxWidth()
             .margin(topBottom = 0.5.cssRem)
             .textAlign(TextAlign.Center)
-            .backgroundColor(Colors.Black.copyf(alpha = 0.5f))
-            .borderRadius(12.px)
-            .padding(0.75.cssRem)
             .toAttrs {
                 onSubmit {
                     it.preventDefault() // This stops the form from "submitting"

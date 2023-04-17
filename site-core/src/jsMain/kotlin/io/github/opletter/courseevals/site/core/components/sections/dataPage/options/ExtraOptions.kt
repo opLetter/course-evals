@@ -9,6 +9,7 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
+import com.varabyte.kobweb.silk.components.style.toModifier
 import io.github.opletter.courseevals.site.core.components.widgets.ClosableTransitionObject
 import io.github.opletter.courseevals.site.core.misc.ExtraOptions
 import io.github.opletter.courseevals.site.core.states.DataPageVM
@@ -17,13 +18,20 @@ import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.s
 
+val DarkBackgroundBoxStyle by ComponentStyle {
+    base {
+        Modifier
+            .backgroundColor(Colors.Black.copyf(alpha = 0.5f))
+            .borderRadius(12.px)
+            .padding(0.75.cssRem)
+    }
+}
+
 // should be used by all extra options
-val ExtraOptionStyle by ComponentStyle {
+val ExtraOptionStyle by ComponentStyle(extraModifiers = { DarkBackgroundBoxStyle.toModifier() }) {
     base {
         Modifier
             .fillMaxWidth()
-            .backgroundColor(Colors.Black.copyf(alpha = 0.5f))
-            .borderRadius(12.px)
             .padding(0.5.cssRem)
             .flexBasis(100.percent)
     }

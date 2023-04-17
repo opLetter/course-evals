@@ -14,9 +14,11 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.addVariantBase
 import com.varabyte.kobweb.silk.components.style.base
+import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
+import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.DarkBackgroundBoxStyle
 import io.github.opletter.courseevals.site.core.components.widgets.CustomDropDown
 import io.github.opletter.courseevals.site.core.components.widgets.Logo
 import io.github.opletter.courseevals.site.core.misc.SchoolStrategy
@@ -97,12 +99,9 @@ fun MainNav(
 
         val labels = viewModel.college.dropDownLabels
         Column(
-            Modifier
+            DarkBackgroundBoxStyle.toModifier()
                 .fillMaxWidth()
-                .rowGap(0.3.cssRem)
-                .backgroundColor(Colors.Black.copyf(alpha = 0.5f))
-                .borderRadius(12.px)
-                .padding(0.75.cssRem),
+                .rowGap(0.3.cssRem),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             if (viewModel.college.schoolStrategy != SchoolStrategy.SINGLE) {

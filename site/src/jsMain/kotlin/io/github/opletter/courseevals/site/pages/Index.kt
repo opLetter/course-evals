@@ -17,8 +17,7 @@ import com.varabyte.kobweb.silk.components.navigation.UndecoratedLinkVariant
 import com.varabyte.kobweb.silk.components.style.*
 import com.varabyte.kobweb.silk.components.text.SpanText
 import io.github.opletter.courseevals.site.core.components.layouts.HomePageLayout
-import io.github.opletter.courseevals.site.core.components.sections.SubHeadVariant
-import io.github.opletter.courseevals.site.core.components.widgets.Logo
+import io.github.opletter.courseevals.site.core.components.widgets.LogoWithSubhead
 import io.github.opletter.courseevals.site.core.misc.College
 import kotlinx.browser.document
 import org.jetbrains.compose.web.css.cssRem
@@ -50,11 +49,7 @@ fun HomePage() {
             Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Logo()
-            SpanText(
-                text = "View course evaluation results in an easy-to-read format.",
-                variant = SubHeadVariant
-            )
+            LogoWithSubhead()
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 SpanText(

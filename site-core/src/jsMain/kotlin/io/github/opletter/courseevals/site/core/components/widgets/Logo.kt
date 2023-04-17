@@ -1,6 +1,7 @@
 package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.Composable
+import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
@@ -12,9 +13,12 @@ import com.varabyte.kobweb.silk.components.icons.fa.FaChartSimple
 import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.navigation.UndecoratedLinkVariant
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
+import com.varabyte.kobweb.silk.components.style.addVariantBase
 import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.components.text.SpanTextStyle
+import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.misc.College
 import org.jetbrains.compose.web.css.cssRem
@@ -26,6 +30,16 @@ val LogoStyle by ComponentStyle.base {
         .fontSize(3.cssRem)
         .fontFamily("Montserrat", "sans-serif")
         .color(SitePalettes[colorMode].accent)
+}
+
+val SubHeadVariant by SpanTextStyle.addVariantBase {
+    Modifier
+        .padding(leftRight = 0.5.cssRem)
+        .textAlign(TextAlign.Center)
+        .fontSize(1.4.cssRem)
+        .lineHeight(1.25)
+        .fontWeight(FontWeight.Bold)
+        .color(colorMode.toSilkPalette().background)
 }
 
 @Composable
@@ -50,4 +64,13 @@ fun Logo(modifier: Modifier = Modifier, college: College? = null) {
             }
         }
     }
+}
+
+@Composable
+fun LogoWithSubhead() {
+    Logo()
+    SpanText(
+        text = "View course evaluation results in an easy-to-read format.",
+        variant = SubHeadVariant
+    )
 }

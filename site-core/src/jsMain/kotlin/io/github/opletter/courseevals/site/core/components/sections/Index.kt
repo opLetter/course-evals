@@ -12,15 +12,17 @@ import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
-import com.varabyte.kobweb.silk.components.style.*
+import com.varabyte.kobweb.silk.components.style.active
+import com.varabyte.kobweb.silk.components.style.addVariant
+import com.varabyte.kobweb.silk.components.style.hover
+import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.components.text.SpanTextStyle
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.components.layouts.HomePageLayout
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNav
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.ExtraOptions
-import io.github.opletter.courseevals.site.core.components.widgets.Logo
+import io.github.opletter.courseevals.site.core.components.widgets.LogoWithSubhead
 import io.github.opletter.courseevals.site.core.misc.College
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import io.github.opletter.courseevals.site.core.states.Status
@@ -31,16 +33,6 @@ import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.s
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Text
-
-val SubHeadVariant by SpanTextStyle.addVariantBase {
-    Modifier
-        .padding(leftRight = 0.5.cssRem)
-        .textAlign(TextAlign.Center)
-        .fontSize(1.4.cssRem)
-        .lineHeight(1.25)
-        .fontWeight(FontWeight.Bold)
-        .color(colorMode.toSilkPalette().background)
-}
 
 val ActionButtonVariant by ButtonStyle.addVariant {
     val background = if (colorMode == ColorMode.LIGHT) Color.rgb(217, 4, 41) else Color.rgb(221, 62, 25)
@@ -96,11 +88,7 @@ fun HomePageContent(college: College) {
                 .padding(leftRight = 0.75.cssRem),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Logo()
-            SpanText(
-                text = "View course evaluation results in an easy-to-read format.",
-                variant = SubHeadVariant
-            )
+            LogoWithSubhead()
 
             if (viewModel.status != Status.InitialLoading) {
                 NavContent(viewModel) { routing = true }

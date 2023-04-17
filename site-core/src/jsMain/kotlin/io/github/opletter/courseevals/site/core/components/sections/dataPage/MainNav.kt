@@ -46,7 +46,7 @@ private fun darkBackground(yPercent: Int) = CSSBackground(
 )
 
 val MainNavStyle by ComponentStyle.base {
-    val background = if (colorMode == ColorMode.LIGHT) lightBackground(60) else darkBackground(60)
+    val background = if (colorMode.isLight()) lightBackground(60) else darkBackground(60)
 
     Modifier
         .background(background)
@@ -55,7 +55,7 @@ val MainNavStyle by ComponentStyle.base {
 
 val SideNavVariant by MainNavStyle.addVariantBase {
     // Make background higher so gradient appears under dropdowns
-    val background = if (colorMode == ColorMode.LIGHT) lightBackground(30) else darkBackground(30)
+    val background = if (colorMode.isLight()) lightBackground(30) else darkBackground(30)
 
     Modifier
         .padding(top = 1.cssRem, leftRight = 0.75.cssRem, bottom = 0.75.cssRem)

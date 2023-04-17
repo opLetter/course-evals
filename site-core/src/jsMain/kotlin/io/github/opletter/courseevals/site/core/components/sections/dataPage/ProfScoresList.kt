@@ -26,7 +26,6 @@ import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.SilkTheme
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
-import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.getColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
@@ -92,7 +91,7 @@ val InfoBubbleStyle by ComponentStyle.base {
 val GridRowStyle by ComponentStyle {}
 
 val EvenRowVariant by GridRowStyle.addVariantBase {
-    val color = if (colorMode == ColorMode.LIGHT) Color.rgb(223, 239, 255) else Color.rgb(229, 221, 222)
+    val color = if (colorMode.isLight()) Color.rgb(223, 239, 255) else Color.rgb(229, 221, 222)
     Modifier.backgroundColor(color)
 }
 
@@ -101,7 +100,7 @@ val OddRowVariant by GridRowStyle.addVariantBase {
 }
 
 val AveRowVariant by GridRowStyle.addVariantBase {
-    val background = if (colorMode == ColorMode.LIGHT) Color.rgb(44, 62, 110) else Color.rgb(218, 105, 95)
+    val background = if (colorMode.isLight()) Color.rgb(44, 62, 110) else Color.rgb(218, 105, 95)
 
     Modifier
         .backgroundColor(background)

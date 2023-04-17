@@ -17,7 +17,6 @@ import com.varabyte.kobweb.silk.components.style.addVariant
 import com.varabyte.kobweb.silk.components.style.hover
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.components.layouts.HomePageLayout
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNav
@@ -35,7 +34,7 @@ import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Text
 
 val ActionButtonVariant by ButtonStyle.addVariant {
-    val background = if (colorMode == ColorMode.LIGHT) Color.rgb(217, 4, 41) else Color.rgb(221, 62, 25)
+    val background = if (colorMode.isLight()) Color.rgb(217, 4, 41) else Color.rgb(221, 62, 25)
 
     base {
         Modifier

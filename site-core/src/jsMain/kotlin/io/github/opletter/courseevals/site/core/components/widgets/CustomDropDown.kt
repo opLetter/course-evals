@@ -25,7 +25,7 @@ import org.w3c.dom.HTMLOptionElement
 import org.w3c.dom.get
 
 val SelectStyle by ComponentStyle.base {
-    val background = if (colorMode == ColorMode.LIGHT) Color.rgb(0xDCE9FA) else Color.rgb(241, 222, 218)
+    val background = if (colorMode.isLight()) Color.rgb(0xDCE9FA) else Color.rgb(241, 222, 218)
 
     Modifier
         .padding(4.px)

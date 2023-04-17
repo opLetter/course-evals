@@ -62,7 +62,6 @@ fun DataPageContent(college: College) {
 
     val viewModel = remember {
         DataPageVM(
-            repository = college.dataSource,
             coroutineScope = coroutineScope,
             college = college,
             urlParams = ctx.params,

@@ -13,11 +13,12 @@ import kotlinx.coroutines.launch
 
 @Stable
 class DataPageVM(
-    private val repository: WebsiteDataSource,
     private val coroutineScope: CoroutineScope,
     val college: College,
     urlParams: Map<String, String>,
 ) {
+    private val repository: WebsiteDataSource = college.dataSource
+
     val urlPrefix = when {
         college is College.Rutgers && college.fake -> "fake"
         else -> ""

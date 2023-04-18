@@ -37,7 +37,7 @@ val SpanTextHeaderVariant by SpanTextStyle.addVariant {
             .fontWeight(FontWeight.Bold)
             .smallCapsFont()
             .fontSize(1.5.cssRem)
-            .lineHeight(1.75.cssRem)
+            .lineHeight(1.5.cssRem)
     }
     Breakpoint.MD {
         Modifier

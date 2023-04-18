@@ -91,9 +91,6 @@ fun ProfStatsDesktop(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
         BarGraph(
             viewModel.graphNums,
             viewModel.graphLabel,
-            Modifier
-                .minHeight(100.percent)
-                .fontSize(1.5.cssRem),
         )
     }
 }
@@ -137,9 +134,6 @@ fun ProfStatsMobile(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
         BarGraph(
             viewModel.graphNums,
             viewModel.graphLabel,
-            Modifier
-                .fillMaxWidth()
-                .fontSize(min(4.5.vw, 1.5.cssRem)),
         )
 
         AveColumn {

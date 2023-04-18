@@ -3,6 +3,7 @@ package io.github.opletter.courseevals.site.core.components.widgets
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.css.functions.RadialGradient
+import com.varabyte.kobweb.compose.css.functions.min
 import com.varabyte.kobweb.compose.css.functions.radialGradient
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
@@ -27,6 +28,8 @@ import org.jetbrains.compose.web.dom.Text
 val BarGraphStyle by ComponentStyle {
     base {
         Modifier
+            .fillMaxWidth()
+            .fontSize(min(4.5.vw, 1.25.cssRem))
             .styleModifier { property("aspect-ratio", "4 / 3") }
             .padding(topBottom = 0.33.cssRem, leftRight = 0.5.cssRem)
             .borderRadius(12.px)
@@ -49,6 +52,9 @@ val BarGraphStyle by ComponentStyle {
     }
     Breakpoint.LG {
         Modifier
+            .width(Width.Unset)
+            .minHeight(100.percent)
+            .fontSize(1.5.cssRem)
             .styleModifier { property("aspect-ratio", "3.5 / 3") }
     }
     Breakpoint.XL {
@@ -72,7 +78,7 @@ val BarGraphBarStyle by ComponentStyle {
 fun BarGraph(
     ratings: List<Int>,
     label: String,
-    modifier: Modifier, // should have either height or width set & font size
+    modifier: Modifier = Modifier,
     max: Int = ratings.maxOrNull() ?: 0,
 ) {
     var barAnimHeight by remember { mutableStateOf(0.percent) }

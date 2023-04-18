@@ -45,13 +45,14 @@ val AveragesBoxStyle by ComponentStyle {
 }
 
 @Composable
-fun ProfStatsDesktop(viewModel: ProfSummaryVM) {
+fun ProfStatsDesktop(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
     Row(
         Modifier
             .displayIf(Breakpoint.LG)
             .flexGrow(1)
             .flexWrap(FlexWrap.Nowrap)
-            .margin(bottom = 2.cssRem),
+            .margin(bottom = 2.cssRem)
+            .then(modifier),
         horizontalArrangement = Arrangement.Center
     ) {
         AveColumn {
@@ -98,12 +99,13 @@ fun ProfStatsDesktop(viewModel: ProfSummaryVM) {
 }
 
 @Composable
-fun ProfStatsMobile(viewModel: ProfSummaryVM) {
+fun ProfStatsMobile(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
     Column(
         Modifier
             .displayUntil(Breakpoint.LG)
             .width(min(100.percent, 450.px))
             .rowGap(0.5.cssRem)
+            .then(modifier)
     ) {
         val bigModifier = Modifier
             .fontWeight(FontWeight.Black)

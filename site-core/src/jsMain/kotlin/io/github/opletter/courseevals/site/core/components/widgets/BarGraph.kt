@@ -29,7 +29,7 @@ val BarGraphStyle by ComponentStyle {
     base {
         Modifier
             .fillMaxWidth()
-            .fontSize(min(4.5.vw, 1.25.cssRem))
+            .fontSize(min(4.1.vw, 1.2.cssRem))
             .styleModifier { property("aspect-ratio", "4 / 3") }
             .padding(topBottom = 0.33.cssRem, leftRight = 0.5.cssRem)
             .borderRadius(12.px)

@@ -5,7 +5,6 @@ import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.graphics.lightened
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
-import com.varabyte.kobweb.silk.components.style.breakpoint.BreakpointSizes
 import com.varabyte.kobweb.silk.init.InitSilk
 import com.varabyte.kobweb.silk.init.InitSilkContext
 import com.varabyte.kobweb.silk.init.registerBaseStyle
@@ -13,7 +12,6 @@ import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.MutableSilkPalette
 import com.varabyte.kobweb.silk.theme.colors.MutableSilkPalettes
 import kotlinx.browser.localStorage
-import org.jetbrains.compose.web.css.cssRem
 
 private const val COLOR_MODE_KEY = "course-evals:colorMode"
 
@@ -24,15 +22,6 @@ fun updateTheme(ctx: InitSilkContext) {
     ctx.stylesheet.registerBaseStyle("body") {
         Modifier.fontFamily("Segoe UI", "Helvetica", "Tahoma", "sans-serif")
     }
-
-    // Breakpoints defined where layout breaks
-    // SideNav is MD+, while LG & XL are used
-    ctx.theme.breakpoints = BreakpointSizes(
-        sm = 30.cssRem,
-        md = 48.cssRem,
-        lg = 73.cssRem,
-        xl = 79.cssRem,
-    )
 
     // https://coolors.co/palette/2b2d42-8d99ae-edf2f4-ef233c-d90429
     // maybe: https://coolors.co/2b2d42-647890-8d99ae-dce9fa-edf2f4-f7cad0-ef233c-d90429

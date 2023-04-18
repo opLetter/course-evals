@@ -102,6 +102,7 @@ fun ProfStatsMobile(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
             .displayUntil(Breakpoint.LG)
             .width(min(100.percent, 450.px))
             .rowGap(0.5.cssRem)
+            .fontSize(min(20.vw, 5.cssRem))
             .then(modifier)
     ) {
         val bigModifier = Modifier
@@ -111,18 +112,18 @@ fun ProfStatsMobile(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
         AveColumn {
             SpanText(
                 viewModel.average,
-                bigModifier.fontSize(min(20.vw, 5.cssRem))
+                bigModifier.fontSize(95.percent)
             )
             Box(
                 Modifier
                     .display(DisplayStyle.Block)
                     .fillMaxWidth()
-                    .fontSize(min(6.vw, 1.75.cssRem)),
+                    .fontSize(31.percent),
             ) {
                 ResponsesIcon(
                     viewModel.numResponses,
                     Modifier
-                        .fontSize(min(6.vw, 2.cssRem))
+                        .fontSize(110.percent)
                         .margin(right = 0.5.cssRem)
                 )
                 SpanText("Average from")
@@ -139,11 +140,11 @@ fun ProfStatsMobile(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
         AveColumn {
             SpanText(
                 viewModel.aveComparison.average,
-                bigModifier.fontSize(min(17.vw, 4.25.cssRem))
+                bigModifier.fontSize(80.percent)
             )
             AveComparison(
                 viewModel.aveComparison,
-                Modifier.fontSize(min(5.vw, 1.5.cssRem))
+                Modifier.fontSize(27.percent)
             )
         }
     }

@@ -30,9 +30,10 @@ fun ProfSummary(questions: Questions, viewModel: ProfSummaryVM) {
 }
 
 @Composable
-private fun CourseButtonsBar(
+fun CourseButtonsBar(
     courses: Map<String, Boolean>,
     selectedCourse: Int,
+    modifier: Modifier = Modifier,
     onClick: (Int) -> Unit,
 ) {
     val mobileScrollbarOffset = 0.5.cssRem // fixes issue on mobile where scrollbar appears too high
@@ -45,7 +46,8 @@ private fun CourseButtonsBar(
             .margin(bottom = -mobileScrollbarOffset)
             .overflowX(Overflow.Auto)
             .columnGap(0.5.cssRem)
-            .fontSize(1.3.cssRem),
+            .fontSize(1.3.cssRem)
+            .then(modifier),
     ) {
         courses.toList().forEachIndexed { index, (course, teaching) ->
             PillButton(

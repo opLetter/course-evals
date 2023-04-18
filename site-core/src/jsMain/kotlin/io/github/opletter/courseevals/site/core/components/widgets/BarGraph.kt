@@ -14,6 +14,7 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
+import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
@@ -63,15 +64,13 @@ val BarGraphStyle by ComponentStyle {
     }
 }
 
-val BarGraphBarStyle by ComponentStyle {
+val BarGraphBarStyle by ComponentStyle.base {
     val barColor = colorMode.toSilkPalette().background
-    base {
-        Modifier
-            .width(75.percent)
-            .backgroundColor(barColor)
-            .borderBottom(1.px, LineStyle.Solid, barColor) // needed for when num is 0
-            .transition(CSSTransition("height", 0.3.s, TransitionTimingFunction.EaseOut))
-    }
+    Modifier
+        .width(75.percent)
+        .backgroundColor(barColor)
+        .borderBottom(1.px, LineStyle.Solid, barColor) // needed for when num is 0
+        .transition(CSSTransition("height", 0.3.s, TransitionTimingFunction.EaseOut))
 }
 
 @Composable

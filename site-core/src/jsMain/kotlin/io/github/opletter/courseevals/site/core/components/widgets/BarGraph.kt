@@ -32,7 +32,7 @@ val BarGraphStyle by ComponentStyle {
             .fillMaxWidth()
             .fontSize(min(4.1.vw, 1.2.cssRem))
             .styleModifier { property("aspect-ratio", "4 / 3") }
-            .padding(topBottom = 0.33.cssRem, leftRight = 0.5.cssRem)
+            .padding(topBottom = 0.33.cssRem, leftRight = 0.75.cssRem)
             .borderRadius(12.px)
             .color(colorMode.toSilkPalette().background)
             .backgroundImage(
@@ -56,6 +56,7 @@ val BarGraphStyle by ComponentStyle {
             .width(Width.Unset)
             .minHeight(100.percent)
             .fontSize(1.5.cssRem)
+            .padding(topBottom = 0.33.cssRem, leftRight = 1.cssRem)
             .styleModifier { property("aspect-ratio", "3.5 / 3") }
     }
     Breakpoint.XL {
@@ -89,7 +90,6 @@ fun BarGraph(
         SpanText(
             label,
             Modifier
-                .margin(left = 0.75.cssRem)
                 .color(labelTextColor)
                 .fontSize(175.percent)
                 .fontWeight(FontWeight.Bolder)

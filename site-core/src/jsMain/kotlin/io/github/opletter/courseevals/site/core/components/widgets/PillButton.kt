@@ -20,8 +20,7 @@ import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.s
 
-// todo: make this private once overrides can be based on original
-val basePillButtonModifier = Modifier
+private val basePillButtonModifier = Modifier
     .padding(topBottom = 0.25.cssRem, leftRight = 1.5.cssRem)
     .flexShrink(0)
     .borderRadius(8.px)

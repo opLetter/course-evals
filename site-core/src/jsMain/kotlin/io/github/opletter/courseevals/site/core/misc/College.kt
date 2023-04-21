@@ -1,6 +1,7 @@
 package io.github.opletter.courseevals.site.core.misc
 
 import io.github.opletter.courseevals.common.data.Campus
+import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.Semester
 import io.github.opletter.courseevals.common.data.SemesterType
 import io.github.opletter.courseevals.common.remote.GithubSource
@@ -97,16 +98,19 @@ sealed interface College {
                 )
             )
 
-            private fun realSource(token: String) = GithubSource(
-                repoPath = "DennisTsar/Rutgers-SIRS",
-                token = token,
-            )
+            private fun privateRealSource(token: String): WebsiteDataSource {
+                val privateSource = GithubSource(repoPath = "DennisTsar/Rutgers-SIRS", token = token)
+                // Only use private repo for what's necessary
+                return object : WebsiteDataSource by publicRealSource {
+                    override suspend fun getStatsByProf(school: String, dept: String): Map<String, InstructorStats> =
+                        privateSource.getStatsByProf(school, dept)
+                }
+            }
 
             private val publicRealSource = GithubSource(
-                repoPath = "DennisTsar/RU-SIRS-local",
                 paths = WebsitePaths(
-                    statsByProfDir = "jsonData/statsByProf-cleaned",
-                    teachingDataDir = "jsonData/extraData/teachingS23",
+                    baseDir = "colleges/rutgers/jsonData",
+                    statsByProfDir = "colleges/rutgers/jsonData/statsByProf-cleaned",
                 )
             )
 
@@ -114,7 +118,7 @@ sealed interface College {
             val PublicReal = Rutgers(publicRealSource)
 
             @Suppress("FunctionName") // purposely mimic a constructor
-            fun PrivateReal(token: String) = Rutgers(realSource(token))
+            fun PrivateReal(token: String) = Rutgers(privateRealSource(token))
         }
     }
 

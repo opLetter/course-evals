@@ -1,4 +1,4 @@
-package io.github.opletter.courseevals.common.data
+package io.github.opletter.courseevals.rutgers
 
 val TenQs = listOf(
     "The instructor was prepared for class and presented the material in an organized manner",
@@ -65,6 +65,7 @@ val moreQs = listOf(
     "I may choose to participate in a faculty member&amp;rsquo;s research while at Rutgers",
     "I may choose to participate in a faculty member's research while at Rutgers",
     "I now have a basic understanding of what scholarly inquiry or primary research is",
+    "I plan to use or share what I learned",
     "I realize I can approach other professors to discuss ideas and plans",
     "I realize I can approach this professor and/or other professors to discuss ideas and plans",
     "I registered for this course because I thought it would help me transition to Rutgers and learn about the resources available.",
@@ -74,6 +75,7 @@ val moreQs = listOf(
     "I sought extra help from my instructor",
     "I studied with another student from the seminar at least once",
     "I was satisfied with the degree of utilization and the quality of the WebCT or course web page in this course",
+    "I will make changes in my personal or business activities based on this presentation",
     "I worked with other students on class assignments or projects",
     "I would recommend this course to other new students",
     "I would recommend this course to other students",
@@ -90,6 +92,8 @@ val moreQs = listOf(
     "In this course I learned to evaluate conclusions and solutions based on appropriate criteria and to revise as necessary",
     "In this course I learned to provide support for arguments, solutions, and results",
     "Indicate the degree of your satisfaction with the MODE of presentation of the material",
+    "Information presented was consistent with program description and objectives",
+    "Information was valuable",
     "Inspired me to think in new ways",
     "Instructor encouraged student participation in class by questions and discussions",
     "Is this course required?",
@@ -98,6 +102,7 @@ val moreQs = listOf(
     "Lectures/seminars stimulated intellectual curiosity",
     "Made me feel engaged in the learning, rather than disconnected",
     "Made this a positive learning experience",
+    "Materials/handouts were useful",
     "My attendance record for this course was",
     "My experience in this class has encouraged me to continue taking German courses",
     "My grammar and writing skills have improved as a result of this course",
@@ -109,8 +114,13 @@ val moreQs = listOf(
     "My preparation for each class was",
     "My previous math classes prepared me well for this course",
     "My techniques of observation and inquiry in this field improved as a result of this course",
+    "Overall instruction and teaching was",
+    "Overall program content and presentation",
     "Overall, I have a better understanding of the techniques involved in audience analysis, speech preparation, and delivery of public presentations as a result of taking this course.",
     "Overall, I have a better understanding of the theory that explains public speaking techniques and outcomes achieved by speakers as a result of taking this course.",
+    "Presenter was easy to understand",
+    "Presenter was well prepared",
+    "Questions were clearly answered",
     "Rate the difficulty of the experiments",
     "Rate the pace of the course",
     "Rate the readings",
@@ -210,17 +220,6 @@ val moreQs = listOf(
     "What letter grade do you expect in the course?",
     "What was your GPA for previous Economics courses?",
     "Written assignments, quizzes and exams are appropriately designed and instructive",
-    // starting here are the new questions, so list is no longer sorted to not affect existing numbering
-    "I plan to use or share what I learned",
-    "I will make changes in my personal or business activities based on this presentation",
-    "Information presented was consistent with program description and objectives",
-    "Information was valuable",
-    "Materials/handouts were useful",
-    "Overall instruction and teaching was",
-    "Overall program content and presentation",
-    "Presenter was easy to understand",
-    "Presenter was well prepared",
-    "Questions were clearly answered",
 )
 
 val QsMap = (TenQs + moreQs).withIndex().associateBy({ it.value }, { it.index.toString() })

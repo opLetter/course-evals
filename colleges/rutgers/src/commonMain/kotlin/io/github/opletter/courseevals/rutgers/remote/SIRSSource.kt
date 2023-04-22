@@ -30,8 +30,7 @@ object SIRSSource : RemoteApi {
     suspend fun loggedIn(): Boolean {
         return try {
             sirsClient.get("/index.php").status == HttpStatusCode.OK
-        } catch (e: Throwable) {
-            println("caught throwable")
+        } catch (e: Throwable) { // js seems to throw Throwable for CORS restrictions
             false
         }
     }

@@ -167,11 +167,11 @@ fun DataPageContent(college: College) {
             viewModel.mapToDisplay?.let { mapToDisplay ->
                 key(mapToDisplay.size / keyReset) {
                     ProfScoresList(
-                        mapToDisplay,
-                        viewModel.college.questions,
-                        viewModel.teachingInstructors,
-                        { viewModel.selectProf(it) },
-                        { viewModel.getProfUrl(it) },
+                        list = mapToDisplay,
+                        questions = viewModel.college.questions,
+                        instructors = viewModel.teachingInstructors,
+                        onNameClick = { viewModel.selectProf(it) },
+                        getProfUrl = { viewModel.getProfUrl(it) },
                     )
                 }
             }

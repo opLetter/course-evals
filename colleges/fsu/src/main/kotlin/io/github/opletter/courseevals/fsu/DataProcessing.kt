@@ -1,6 +1,8 @@
 package io.github.opletter.courseevals.fsu
 
 import io.github.opletter.courseevals.common.data.*
+import io.github.opletter.courseevals.common.remote.decodeFromString
+import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

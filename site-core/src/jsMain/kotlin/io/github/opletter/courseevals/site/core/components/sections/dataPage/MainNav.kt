@@ -30,8 +30,7 @@ import org.jetbrains.compose.web.css.*
 private fun lightBackground(yPercent: Int) = CSSBackground(
     color = Color.rgb(38, 40, 59),
     image = radialGradient(RadialGradient.Shape.Circle, CSSPosition(60.percent, yPercent.percent)) {
-        add(Color.rgb(38, 40, 59), 0.px)
-        add(Color.rgba(0, 121, 242, 0.5f), 0.px)
+        add(Color.rgba(0, 121, 242, 0.5f), 0.percent)
         add(Colors.Transparent, 45.percent)
     }.toBackgroundImage()
 )
@@ -39,8 +38,7 @@ private fun lightBackground(yPercent: Int) = CSSBackground(
 private fun darkBackground(yPercent: Int) = CSSBackground(
     color = Color.rgb(186, 79, 69),
     image = radialGradient(RadialGradient.Shape.Circle, CSSPosition(60.percent, yPercent.percent)) {
-        add(Color.rgb(217, 4, 41), 0.px)
-        add(Color.rgb(152, 103, 93), 0.px)
+        add(Color.rgb(152, 103, 93), 0.percent)
         add(Colors.Transparent, 45.percent)
     }.toBackgroundImage()
 )

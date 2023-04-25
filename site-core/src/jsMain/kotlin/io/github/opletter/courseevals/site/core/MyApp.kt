@@ -64,6 +64,7 @@ fun updateTheme(ctx: InitSilkContext) {
 class SitePalette(
     val accent: Color,
     val neutral: Color,
+    val secondary: Color,
 )
 
 object SitePalettes {
@@ -71,10 +72,12 @@ object SitePalettes {
         ColorMode.LIGHT to SitePalette(
             accent = Color.rgb(220, 10, 10),
             neutral = Color.rgb(203, 203, 203), // Color.rgb(190, 190, 190)
+            secondary = Color.rgb(223, 239, 255),
         ),
         ColorMode.DARK to SitePalette(
             accent = Colors.White,
             neutral = Color.rgb(203, 203, 203),
+            secondary = Color.rgb(229, 221, 222),
         ),
     )
 

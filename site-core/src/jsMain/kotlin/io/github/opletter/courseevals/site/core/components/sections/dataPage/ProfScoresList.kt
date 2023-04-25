@@ -91,13 +91,11 @@ val InfoBubbleStyle by ComponentStyle.base {
 val GridRowStyle by ComponentStyle {}
 
 val EvenRowVariant by GridRowStyle.addVariantBase {
-    val color = if (colorMode.isLight()) Color.rgb(223, 239, 255) else Color.rgb(229, 221, 222)
-    Modifier.backgroundColor(color)
+    Modifier.backgroundColor(SitePalettes[colorMode].secondary)
 }
 
-val OddRowVariant by GridRowStyle.addVariantBase {
-    Modifier.backgroundColor(Color.rgb(0xEDF2F4))
-}
+// intentionally using blank variant to allow for easy experimentation & changes
+val OddRowVariant by GridRowStyle.addVariantBase { Modifier }
 
 val AveRowVariant by GridRowStyle.addVariantBase {
     val background = if (colorMode.isLight()) Color.rgb(44, 62, 110) else Color.rgb(218, 105, 95)

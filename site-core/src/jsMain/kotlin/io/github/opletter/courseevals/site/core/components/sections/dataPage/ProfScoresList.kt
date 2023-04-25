@@ -33,7 +33,6 @@ import io.github.opletter.courseevals.site.core.components.widgets.CustomGrid
 import io.github.opletter.courseevals.site.core.components.widgets.ExclamationIcon
 import io.github.opletter.courseevals.site.core.misc.textEllipsis
 import io.github.opletter.courseevals.site.core.states.Questions
-import org.jetbrains.compose.web.ExperimentalComposeWebApi
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.CheckboxInput
 import org.jetbrains.compose.web.dom.Label
@@ -132,7 +131,6 @@ val ProfNameStyle by ComponentStyle(Modifier.role("button")) {
     }
 }
 
-@OptIn(ExperimentalComposeWebApi::class)
 @Composable
 fun ProfScoresList(
     list: Map<String, List<String>>,
@@ -241,7 +239,7 @@ fun ProfScoresList(
                         Modifier
                             .width(11.cssRem) // wider than Box so that text extends longer
                             .margin(topBottom = 3.cssRem, leftRight = (-1).cssRem)
-                            .transform { rotate((-45).deg) }
+                            .rotate((-45).deg)
                             .cursor(Cursor.Pointer)
                             .onClick {
                                 selectedQ = index

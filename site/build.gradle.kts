@@ -69,36 +69,3 @@ kotlin {
         }
     }
 }
-
-// decreases js bundle size (possible a ktor-only issue? see: https://youtrack.jetbrains.com/issue/KTOR-1084)
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile>().named("compileProductionExecutableKotlinJs") {
-    kotlinOptions.freeCompilerArgs += "-Xir-per-module"
-}
-
-// for export, we want per-module compilation (as set above)
-// however, this causes the dev script to also be per-module, which breaks it when export tries to run it
-// so, we overwrite the dev script with the prod script - which has been compiled with webpack
-val exportHackTask = tasks.register("exportHackTask") {
-    val projectPath = projectDir.toPath()
-    val folder = com.varabyte.kobweb.project.KobwebFolder.inPath(projectPath)!!
-    val conf = com.varabyte.kobweb.project.conf.KobwebConfFile(folder).content!!
-
-    val devScript = projectPath.resolve(File(conf.server.files.dev.script).toPath()).toFile()
-    val prodScript = projectPath.resolve(File(conf.server.files.prod.script).toPath()).toFile()
-
-    inputs.file(prodScript)
-    outputs.file(devScript)
-
-    doLast {
-        prodScript.copyTo(devScript, overwrite = true)
-    }
-}
-
-afterEvaluate {
-    tasks.named("kobwebExport") {
-        dependsOn(exportHackTask)
-    }
-    exportHackTask.configure {
-        dependsOn(tasks.named("jsBrowserProductionWebpack"))
-    }
-}

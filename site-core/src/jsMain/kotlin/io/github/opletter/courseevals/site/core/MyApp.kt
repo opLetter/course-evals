@@ -23,6 +23,9 @@ fun updateTheme(ctx: InitSilkContext) {
         Modifier.fontFamily("Segoe UI", "Helvetica", "Tahoma", "sans-serif")
     }
 
+    // NOTE: For now, we use ColorMode.LIGHT to represent the default blue theme
+    // and ColorMode.DARK to represent the red theme
+
     // https://coolors.co/palette/2b2d42-8d99ae-edf2f4-ef233c-d90429
     // maybe: https://coolors.co/2b2d42-647890-8d99ae-dce9fa-edf2f4-f7cad0-ef233c-d90429
     val lightButtonBase = Color.rgb(0xD90429)
@@ -30,7 +33,7 @@ fun updateTheme(ctx: InitSilkContext) {
     ctx.theme.palettes = MutableSilkPalettes(
         light = MutableSilkPalette(
             background = Color.rgb(0xEDF2F4),
-            color = Colors.Black,//Color.rgb(0x2B2D42),
+            color = Colors.Black, // Color.rgb(0x2B2D42),
             link = MutableSilkPalette.Link(
                 default = Colors.Blue,
                 visited = Color.rgb(123, 0, 21),
@@ -44,11 +47,11 @@ fun updateTheme(ctx: InitSilkContext) {
             border = Color.rgb(76, 76, 187),
         ),
         dark = MutableSilkPalette(
-            background = Color.rgb(0x2B2D42),
+            background = Color.rgb(0xEDF2F4), // Color.rgb(0x2B2D42)
             color = Colors.Black,
             link = MutableSilkPalette.Link(
-                default = Colors.Cyan,
-                visited = Color.rgb(217, 4, 41),
+                default = Colors.Blue,
+                visited = Color.rgb(217, 4, 41), // Color.rgb(123, 0, 21),
             ),
             button = MutableSilkPalette.Button(
                 default = darkButtonBase,
@@ -72,12 +75,12 @@ object SitePalettes {
         ColorMode.LIGHT to SitePalette(
             accent = Color.rgb(220, 10, 10),
             neutral = Color.rgb(203, 203, 203), // Color.rgb(190, 190, 190)
-            secondary = Color.rgb(223, 239, 255),
+            secondary = Color.rgb(223, 239, 255), // Color.rgb(0xDCE9FA)
         ),
         ColorMode.DARK to SitePalette(
-            accent = Colors.White,
+            accent = Color.rgb(0x333333), // Colors.Black,
             neutral = Color.rgb(203, 203, 203),
-            secondary = Color.rgb(229, 221, 222),
+            secondary = Color.rgb(241, 222, 218),
         ),
     )
 

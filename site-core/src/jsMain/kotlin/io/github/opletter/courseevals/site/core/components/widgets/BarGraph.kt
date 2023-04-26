@@ -11,14 +11,16 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
+import com.varabyte.kobweb.silk.components.style.addVariantBase
 import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.theme.colors.ColorMode
+import com.varabyte.kobweb.silk.components.text.SpanTextStyle
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.misc.jsFormatNum
@@ -27,6 +29,22 @@ import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Text
 
 val BarGraphStyle by ComponentStyle {
+    val backgroundGradient = if (colorMode.isLight()) {
+        radialGradient(
+            RadialGradient.Shape.Circle,
+            Color.rgb(14, 14, 42), // rgb(41, 41, 46)
+            Color.rgb(50, 57, 84), // rgb(25, 25, 28)
+            CSSPosition(Edge.CenterX, Edge.Bottom), // none
+        )
+    } else {
+        radialGradient(
+            RadialGradient.Shape.Circle,
+            Color.rgb(186, 79, 69),
+            Color.rgb(255, 96, 63),
+            CSSPosition(Edge.CenterX, Edge.Bottom),
+        )
+    }
+
     base {
         Modifier
             .fillMaxWidth()
@@ -35,21 +53,7 @@ val BarGraphStyle by ComponentStyle {
             .padding(topBottom = 0.33.cssRem, leftRight = 0.75.cssRem)
             .borderRadius(12.px)
             .color(colorMode.toSilkPalette().background)
-            .backgroundImage(
-                radialGradient(
-                    RadialGradient.Shape.Circle,
-                    rgb(14, 14, 42),
-                    rgb(50, 57, 84),
-                    CSSPosition(Edge.CenterX, Edge.Bottom),
-                )
-            )
-//            .backgroundImage(
-//                radialGradient(
-//                    RadialGradient.Shape.Circle,
-//                    rgb(41, 41, 46),
-//                    rgb(25, 25, 28)
-//                )
-//            )
+            .backgroundImage(backgroundGradient)
     }
     Breakpoint.LG {
         Modifier
@@ -74,6 +78,12 @@ val BarGraphBarStyle by ComponentStyle.base {
         .transition(CSSTransition("height", 0.3.s, TransitionTimingFunction.EaseOut))
 }
 
+val BarGraphLabelVariant by SpanTextStyle.addVariantBase {
+    Modifier
+        .color(SitePalettes[colorMode].accent)
+        .fontWeight(FontWeight.Bolder)
+}
+
 @Composable
 fun BarGraph(
     ratings: List<Int>,
@@ -84,16 +94,13 @@ fun BarGraph(
     var barAnimHeight by remember { mutableStateOf(0.percent) }
     var mouseOver: Boolean by remember { mutableStateOf(false) }
 
-    val labelTextColor = SitePalettes[ColorMode.LIGHT].accent
-
     Column(BarGraphStyle.toModifier().then(modifier)) {
         SpanText(
             label,
             Modifier
-                .color(labelTextColor)
                 .fontSize(175.percent)
-                .fontWeight(FontWeight.Bolder)
-                .smallCapsFont()
+                .smallCapsFont(),
+            BarGraphLabelVariant,
         )
 
         Row(Modifier.fillMaxWidth().flexGrow(1)) {
@@ -117,10 +124,8 @@ fun BarGraph(
                     )
                     SpanText(
                         (index + 1).toString(),
-                        Modifier
-                            .fontSize(133.percent)
-                            .fontWeight(FontWeight.Bolder)
-                            .color(labelTextColor)
+                        Modifier.fontSize(133.percent),
+                        BarGraphLabelVariant
                     )
                 }
             }

@@ -5,7 +5,6 @@ import androidx.compose.runtime.DisposableEffect
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.dom.clearFocus
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
@@ -14,6 +13,7 @@ import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
+import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.misc.smallCapsFont
 import org.jetbrains.compose.web.attributes.disabled
 import org.jetbrains.compose.web.css.px
@@ -25,14 +25,12 @@ import org.w3c.dom.HTMLOptionElement
 import org.w3c.dom.get
 
 val SelectStyle by ComponentStyle.base {
-    val background = if (colorMode.isLight()) Color.rgb(0xDCE9FA) else Color.rgb(241, 222, 218)
-
     Modifier
         .padding(4.px)
         .borderRadius(1.vmin)
         .border(width = 0.px)
         .color(ColorMode.LIGHT.toSilkPalette().color)
-        .backgroundColor(background)
+        .backgroundColor(SitePalettes[colorMode].secondary)
         .fontFamily("inherit") // this is not the default for some reason
         .fontWeight(FontWeight.Bolder)
         .smallCapsFont()

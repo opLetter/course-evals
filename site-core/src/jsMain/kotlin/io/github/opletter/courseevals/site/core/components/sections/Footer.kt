@@ -9,6 +9,7 @@ import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
+import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.alignSelf
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.rowGap
@@ -33,10 +34,10 @@ val FooterStyle by ComponentStyle.base {
 val OppositeLinkVariant by LinkStyle.addVariant {
     val linkColors = colorMode.opposite().toSilkPalette().link
     link {
-        Modifier.color(linkColors.default)
+        Modifier.color(Colors.Cyan)
     }
     visited {
-        Modifier.color(linkColors.visited)
+        Modifier.color(linkColors.visited.darkened(0.1f))
     }
 }
 

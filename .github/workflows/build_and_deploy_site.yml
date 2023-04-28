@@ -25,10 +25,15 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  export:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    
     env:
       KOBWEB_CLI_VERSION: 0.9.12
+      
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -44,16 +49,13 @@ jobs:
 
       - name: Query Browser Cache ID
         id: browser-cache-id
-        run: |
-          echo "value=$(./gradlew -q :site:kobwebBrowserCacheId)" >> $GITHUB_OUTPUT
-        shell: bash
-
+        run: echo "value=$(./gradlew -q :site:kobwebBrowserCacheId)" >> $GITHUB_OUTPUT
+          
       - name: Cache Browser Dependencies
         uses: actions/cache@v3
         id: playwright-cache
         with:
-          path: |
-            ~/.cache/ms-playwright
+          path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ steps.browser-cache-id.outputs.value }}
 
       - name: Fetch kobweb
@@ -66,8 +68,7 @@ jobs:
           zipBall: false
 
       - name: Unzip kobweb
-        run: |
-          unzip kobweb-${{ env.KOBWEB_CLI_VERSION }}.zip
+        run: unzip kobweb-${{ env.KOBWEB_CLI_VERSION }}.zip
 
       - name: Run export
         run: |
@@ -84,7 +85,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: export
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

@@ -9,8 +9,8 @@ import org.w3c.dom.set
 class CampusVM(
     private val campuses: Map<Campus, Boolean>,
     key: String,
-    updateState: () -> Unit,
-) : CheckmarksVM<Campus>(updateState) {
+    refreshState: () -> Unit,
+) : CheckmarksVM<Campus>(refreshState) {
     private val campusKey = "course-evals:$key:campuses"
 
     private val checksState = mutableStateMapOf<Campus, Boolean>()

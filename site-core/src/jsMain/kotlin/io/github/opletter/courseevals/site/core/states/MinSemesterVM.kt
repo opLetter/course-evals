@@ -16,7 +16,7 @@ import org.w3c.dom.set
 class MinSemesterVM(
     private val options: SemesterOptions<*>,
     key: String,
-    private val updateState: () -> Unit,
+    private val refreshState: () -> Unit,
 ) {
     private val storageKey = "course-evals:$key:minSemester"
 
@@ -49,7 +49,7 @@ class MinSemesterVM(
         num?.let {
             value = it.toInt()
             sessionStorage[storageKey] = value.toString()
-            updateState()
+            refreshState()
         }
     }
 

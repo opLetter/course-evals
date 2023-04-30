@@ -10,7 +10,7 @@ import org.w3c.dom.set
 
 private const val LEVEL_OF_STUDY_KEY = "course-evals:rutgers:levelOfStudy"
 
-class LevelOfStudyVM(updateState: () -> Unit) : CheckmarksVM<LevelOfStudy>(updateState) {
+class LevelOfStudyVM(refreshState: () -> Unit) : CheckmarksVM<LevelOfStudy>(refreshState) {
     private var checkedUndergrad by mutableStateOf(true)
     private var checkedGrad by mutableStateOf(true)
 

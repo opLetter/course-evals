@@ -115,7 +115,6 @@ fun DataPageContent(college: College) {
                     Text("Show ${if (showMore) "less" else "more"} options")
                     if (showMore) FaCaretUp(Modifier.translateY(3.px)) else FaCaretDown(Modifier.translateY(1.px))
                 }
-
                 ExtraOptions(viewModel, open = showMore)
             }
 
@@ -124,13 +123,8 @@ fun DataPageContent(college: College) {
         }
 
         var navOpenMobile by remember { mutableStateOf(false) }
-        MobileNav(viewModel, open = navOpenMobile && !initialLoading) {
-            navOpenMobile = false
-        }
-
-        MobileNavButton {
-            navOpenMobile = true
-        }
+        MobileNav(viewModel, open = navOpenMobile && !initialLoading, onClose = { navOpenMobile = false })
+        MobileNavButton(onClick = { navOpenMobile = true })
 
         Column(
             modifier = Modifier

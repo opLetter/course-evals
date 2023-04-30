@@ -353,34 +353,32 @@ private fun ProfName(
         .title(prof)
         .onClick { if (!it.shiftKey && !it.ctrlKey) onNameClick(prof) }
 
-    if (teaching) {
-        // Box and minWidth are needed for text ellipsis to work :shrug:
-        Box(rowModifier.fillMaxWidth()) {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .columnGap(0.5.cssRem)
-                    .minWidth(0.px),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Link(path = getProfUrl(prof), text = prof, modifier = profTextModifier)
-                val iconFontSize = 110.percent
-                FaChalkboardUser(
-                    Modifier
-                        .fontSize(iconFontSize)
-                        .title("Teaching this course in Fall 2023")
-                )
-                if (!specialStats) return@Row
-                ExclamationIcon(
-                    Modifier
-                        .padding(right = 4.px)
-                        .color(Colors.Yellow)
-                        .fontSize(iconFontSize)
-                        .title("Instructor doesn't have stats for this course, so their overall stats are used.")
-                )
-            }
-        }
-    } else {
+    if (!teaching) {
         Link(path = getProfUrl(prof), text = prof, modifier = profTextModifier.then(rowModifier))
+        return
+    }
+
+    Row(
+        rowModifier
+            .fillMaxWidth()
+            .columnGap(0.5.cssRem)
+            .minWidth(0.px), // needed for text ellipsis to work
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Link(path = getProfUrl(prof), text = prof, modifier = profTextModifier)
+        val iconFontSize = 110.percent
+        FaChalkboardUser(
+            Modifier
+                .fontSize(iconFontSize)
+                .title("Teaching this course in Fall 2023")
+        )
+        if (!specialStats) return@Row
+        ExclamationIcon(
+            Modifier
+                .padding(right = 4.px)
+                .color(Colors.Yellow)
+                .fontSize(iconFontSize)
+                .title("Instructor doesn't have stats for this course, so their overall stats are used.")
+        )
     }
 }

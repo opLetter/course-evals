@@ -10,6 +10,7 @@ import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.attrsModifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.addVariant
@@ -86,6 +87,7 @@ fun QuestionHeader(
         }
         CustomDropDown(
             hint = "Choose another question...",
+            selectModifier = Modifier.attrsModifier { attr("aria-label", "question") },
             selectVariant = QuestionSelectVariant,
             list = questions.short,
             onSelect = { onSelectedQDropDownChange(questions.short.indexOf(it)) },

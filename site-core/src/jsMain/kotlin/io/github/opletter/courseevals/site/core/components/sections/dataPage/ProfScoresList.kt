@@ -250,7 +250,7 @@ fun ProfScoresList(
                         Tooltip(
                             ElementTarget.PreviousSibling,
                             questions.full[index],
-                            Modifier.margin(top = (-0.75).cssRem, left = (-4.75).cssRem),
+                            Modifier.margin(top = (-0.75).cssRem, left = (-2.33).cssRem),
                             PopupPlacement.Bottom,
                         )
                     }

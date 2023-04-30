@@ -24,7 +24,7 @@ import io.github.opletter.courseevals.site.core.components.sections.dataPage.opt
 import io.github.opletter.courseevals.site.core.components.widgets.LogoWithSubhead
 import io.github.opletter.courseevals.site.core.misc.College
 import io.github.opletter.courseevals.site.core.states.DataPageVM
-import io.github.opletter.courseevals.site.core.states.Status
+import io.github.opletter.courseevals.site.core.states.State
 import kotlinx.browser.document
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.percent
@@ -88,7 +88,7 @@ fun HomePageContent(college: College) {
         ) {
             LogoWithSubhead()
 
-            if (viewModel.status != Status.InitialLoading) {
+            if (viewModel.state !is State.InitialLoading) {
                 NavContent(viewModel) { routing = true }
             }
         }
@@ -100,7 +100,7 @@ private fun NavContent(viewModel: DataPageVM, setRouting: () -> Unit) {
     // route on successful search
     // issue: search of the same thing that's already selected in the dropdowns doesn't trigger this
     // probably not too big a deal, but would be nice to fix
-    remember(viewModel.state) {
+    remember(viewModel.navState) {
         if (!viewModel.searchBarVM.searchEnterHandled)
             setRouting()
         viewModel.searchBarVM.searchEnterHandled = true

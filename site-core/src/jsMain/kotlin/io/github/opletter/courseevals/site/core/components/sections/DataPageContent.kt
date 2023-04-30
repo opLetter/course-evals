@@ -29,7 +29,7 @@ import io.github.opletter.courseevals.site.core.misc.College
 import io.github.opletter.courseevals.site.core.misc.jsGoatCount
 import io.github.opletter.courseevals.site.core.misc.keyReset
 import io.github.opletter.courseevals.site.core.states.DataPageVM
-import io.github.opletter.courseevals.site.core.states.Status
+import io.github.opletter.courseevals.site.core.states.State
 import io.github.opletter.courseevals.site.core.states.getProfUrl
 import kotlinx.browser.document
 import kotlinx.browser.window
@@ -68,6 +68,9 @@ fun DataPageContent(college: College) {
         )
     }
 
+    val state = viewModel.state
+    val initialLoading = state is State.InitialLoading
+
     DisposableEffect(Unit) {
         val popStateListener = EventListener { viewModel.onPopState(window.location.search) }
         window.addEventListener("popstate", popStateListener)
@@ -79,7 +82,7 @@ fun DataPageContent(college: College) {
     remember(viewModel.url) {
         // set title before calling jsGoatCount() so that analytics contains proper title
         document.title = viewModel.pageTitle
-        if (viewModel.status != Status.InitialLoading) {
+        if (!initialLoading) {
             ctx.router.tryRoutingTo(viewModel.url)
             jsGoatCount()
         }
@@ -100,7 +103,7 @@ fun DataPageContent(college: College) {
         ) {
             MainNav(viewModel)
 
-            if (viewModel.status != Status.InitialLoading) {
+            if (!initialLoading) {
                 var showMore by remember { mutableStateOf(false) }
                 Row(
                     Modifier
@@ -121,7 +124,7 @@ fun DataPageContent(college: College) {
         }
 
         var navOpenMobile by remember { mutableStateOf(false) }
-        MobileNav(viewModel, open = navOpenMobile && viewModel.status != Status.InitialLoading) {
+        MobileNav(viewModel, open = navOpenMobile && !initialLoading) {
             navOpenMobile = false
         }
 
@@ -147,8 +150,8 @@ fun DataPageContent(college: College) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             // close mobile nav on successful (i.e. causes state change) search
-            remember(viewModel.state) {
-                if (viewModel.status != Status.InitialLoading && !viewModel.searchBarVM.searchEnterHandled) {
+            remember(viewModel.navState) {
+                if (!initialLoading && !viewModel.searchBarVM.searchEnterHandled) {
                     navOpenMobile = false
                     viewModel.searchBarVM.searchEnterHandled = true
                 }
@@ -159,21 +162,25 @@ fun DataPageContent(college: College) {
                 SpanText(viewModel.pageTitle)
                 if (viewModel.urlPrefix.isNotEmpty())
                     SpanText("FAKE DATA", Modifier.color(Colors.Red))
-                if (viewModel.status == Status.InitialLoading || viewModel.pageLoading)
+                if (initialLoading || viewModel.pageLoading)
                     LoadingSpinner()
             }
 
-            viewModel.profSummaryVM?.let { ProfSummary(viewModel.college.questions, it) }
-            viewModel.mapToDisplay?.let { mapToDisplay ->
-                key(mapToDisplay.size / keyReset) {
-                    ProfScoresList(
-                        list = mapToDisplay,
-                        questions = viewModel.college.questions,
-                        instructors = viewModel.teachingInstructors,
-                        onNameClick = { viewModel.selectProf(it) },
-                        getProfUrl = { viewModel.getProfUrl(it) },
-                    )
+            when (state) {
+                is State.Prof -> ProfSummary(viewModel.college.questions, state.profSummaryVM)
+                is State.TableData -> {
+                    key(state.mapToDisplay.size / keyReset) {
+                        ProfScoresList(
+                            list = state.mapToDisplay,
+                            questions = viewModel.college.questions,
+                            instructors = viewModel.teachingInstructors,
+                            onNameClick = { viewModel.selectProf(it) },
+                            getProfUrl = { viewModel.getProfUrl(it) },
+                        )
+                    }
                 }
+
+                else -> {}
             }
             viewModel.pageLoading = false
 

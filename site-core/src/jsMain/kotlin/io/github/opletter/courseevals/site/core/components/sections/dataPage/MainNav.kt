@@ -24,7 +24,7 @@ import io.github.opletter.courseevals.site.core.components.widgets.Logo
 import io.github.opletter.courseevals.site.core.misc.SchoolStrategy
 import io.github.opletter.courseevals.site.core.misc.keyReset
 import io.github.opletter.courseevals.site.core.states.DataPageVM
-import io.github.opletter.courseevals.site.core.states.Status
+import io.github.opletter.courseevals.site.core.states.State
 import org.jetbrains.compose.web.css.*
 
 private fun lightBackground(yPercent: Int) = CSSBackground(
@@ -89,7 +89,7 @@ fun MainNav(
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         if (showLogo) Logo(college = viewModel.college)
 
-        if (viewModel.status == Status.InitialLoading) return@Column
+        if (viewModel.state is State.InitialLoading) return@Column
 
         SearchForm(viewModel.searchBarVM)
 
@@ -105,27 +105,27 @@ fun MainNav(
             if (viewModel.college.schoolStrategy != SchoolStrategy.SINGLE) {
                 SpanText(labels[0], labelModifier)
                 CustomDropDown(
-                    list = viewModel.state.school.list,
+                    list = viewModel.navState.school.list,
                     onSelect = { viewModel.selectSchool(school = it) },
                     selectModifier = Modifier.fillMaxWidth(),
                     getText = { "${it.code} - ${it.name}" },
                     getValue = { it.code },
-                    selected = viewModel.state.school.selected,
+                    selected = viewModel.navState.school.selected,
                 )
             }
 
             SpanText(labels[1], labelModifier)
             CustomDropDown(
-                list = viewModel.state.dept.list,
+                list = viewModel.navState.dept.list,
                 onSelect = { viewModel.selectDept(dept = it) },
                 selectModifier = Modifier.fillMaxWidth(),
                 getText = { it.second },
                 getValue = { it.first },
-                selected = viewModel.state.dept.selected,
+                selected = viewModel.navState.dept.selected,
             )
 
             SpanText(labels[2], labelModifier)
-            key(viewModel.state.course.list.size / keyReset) {
+            key(viewModel.navState.course.list.size / keyReset) {
                 CustomDropDown(
                     list = viewModel.coursesWithNames,
                     onSelect = { viewModel.selectCourse(it) },
@@ -135,12 +135,12 @@ fun MainNav(
             }
 
             SpanText(labels[3], labelModifier)
-            key(viewModel.state.prof.list.size / keyReset) {
+            key(viewModel.navState.prof.list.size / keyReset) {
                 CustomDropDown(
-                    list = viewModel.state.prof.list,
+                    list = viewModel.navState.prof.list,
                     onSelect = { viewModel.selectProf(it) },
                     selectModifier = Modifier.width(75.percent).maxWidth(MaxWidth.FitContent),
-                    selected = viewModel.state.prof.selected,
+                    selected = viewModel.navState.prof.selected,
                 )
             }
 

@@ -16,7 +16,6 @@ import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.misc.smallCapsFont
-import org.jetbrains.compose.web.attributes.disabled
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.vmin
 import org.jetbrains.compose.web.dom.Option
@@ -67,13 +66,9 @@ fun <T> CustomDropDown(
             (selectElement.options[index] as HTMLOptionElement).selected = true
         }.let { registerRefScope(it) }
         hint?.let {
-            Option(
-                "none",
-                optionModifier.toAttrs {
-                    disabled()
-                    hidden()
-                },
-            ) { Text(getText(it)) }
+            Option("none", optionModifier.hidden().disabled().toAttrs()) {
+                Text(getText(it))
+            }
         }
         list.forEach {
             Option(

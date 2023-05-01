@@ -51,17 +51,16 @@ fun Logo(modifier: Modifier = Modifier, college: College? = null) {
                 FaChartSimple()
                 Text("EVALS")
             }
-            college?.let {
-                SpanText(
-                    it.fullName,
-                    Modifier
-                        .margin(top = (-0.25).cssRem)
-                        .color(Colors.White)
-                        .textAlign(TextAlign.Center) // shouldn't overflow but just in case it does
-                        .fontFamily("sans-serif")
-                        .fontSize(1.3.cssRem)
-                )
-            }
+            if (college == null) return@Column
+            SpanText(
+                college.fullName,
+                Modifier
+                    .margin(top = (-0.25).cssRem)
+                    .color(Colors.White)
+                    .textAlign(TextAlign.Center) // shouldn't overflow but just in case it does
+                    .fontFamily("sans-serif")
+                    .fontSize(1.3.cssRem)
+            )
         }
     }
 }

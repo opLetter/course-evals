@@ -1,9 +1,10 @@
 package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.dom.clearFocus
+import com.varabyte.kobweb.compose.dom.ref
+import com.varabyte.kobweb.compose.dom.registerRefScope
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
@@ -22,6 +23,7 @@ import org.jetbrains.compose.web.dom.Option
 import org.jetbrains.compose.web.dom.Select
 import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.HTMLOptionElement
+import org.w3c.dom.HTMLSelectElement
 import org.w3c.dom.get
 
 val SelectStyle by ComponentStyle.base {
@@ -59,12 +61,11 @@ fun <T> CustomDropDown(
                 }
             }
     ) {
-        DisposableEffect(selected, list) {
+        ref(selected, list) { selectElement: HTMLSelectElement ->
             val index = list.indexOfFirst { selected == getValue(it) }
                 .takeIf { it >= 0 && hint == null } ?: 0
-            (scopeElement.options[index] as HTMLOptionElement).selected = true
-            onDispose { }
-        }
+            (selectElement.options[index] as HTMLOptionElement).selected = true
+        }.let { registerRefScope(it) }
         hint?.let {
             Option(
                 "none",

@@ -1,6 +1,6 @@
 package io.github.opletter.courseevals.site.core.states
 
-abstract class CheckmarksVM<T>(val updateState: () -> Unit) {
+abstract class CheckmarksVM<T>(private val refreshState: () -> Unit) {
     abstract val checks: Map<T, Boolean>
 
     val selected get() = checks.filterValues { it }.keys
@@ -8,8 +8,8 @@ abstract class CheckmarksVM<T>(val updateState: () -> Unit) {
 
     protected abstract fun handleClick(data: T)
 
-    fun click(data: T, updateState: Boolean = true) {
+    fun click(data: T, refreshState: Boolean = true) {
         handleClick(data)
-        if (updateState) updateState()
+        if (refreshState) refreshState()
     }
 }

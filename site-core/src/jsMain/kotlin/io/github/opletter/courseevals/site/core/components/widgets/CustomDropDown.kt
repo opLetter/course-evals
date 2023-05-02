@@ -33,7 +33,7 @@ val SelectStyle by ComponentStyle.base {
         .color(ColorMode.LIGHT.toSilkPalette().color)
         .backgroundColor(SitePalettes[colorMode].secondary)
         .fontFamily("inherit") // this is not the default for some reason
-        .fontWeight(FontWeight.Bolder)
+        .fontWeight(FontWeight.Bold)
         .smallCapsFont()
 }
 

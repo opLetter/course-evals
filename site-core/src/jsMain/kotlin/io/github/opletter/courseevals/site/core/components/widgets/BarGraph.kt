@@ -81,7 +81,7 @@ val BarGraphBarStyle by ComponentStyle.base {
 val BarGraphLabelVariant by SpanTextStyle.addVariantBase {
     Modifier
         .color(SitePalettes[colorMode].accent)
-        .fontWeight(FontWeight.Bolder)
+        .fontWeight(FontWeight.Bold)
 }
 
 @Composable

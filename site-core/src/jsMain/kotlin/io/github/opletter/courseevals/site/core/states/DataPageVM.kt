@@ -63,14 +63,12 @@ class DataPageVM(
                 val profSummaryVM = ProfSummaryVM(
                     statsByProf = statsByProf,
                     selectedProf = navState.prof.selected,
-                    deptUrl = getUrl(prof = None),
-                    teachingCourses = deptData.teachingMap[navState.prof.selected] ?: emptyList(),
+                    teachingCourses = deptData.teachingMap[navState.prof.selected].orEmpty(),
                     defaultQuestion = college.questions.defaultIndex,
-                    getText = { getCode(course = it ?: None) },
-                    getCourseUrl = { getUrl(prof = None, course = it) },
                     getGraphLabel = college.questions.getGraphLabel,
-                    goToDeptData = { selectProf(None) },
-                    goToCourseData = { selectCourse(it) }
+                    getUrl = { getUrl(prof = None, course = it ?: None) },
+                    getUrlText = { getCode(course = it ?: None) },
+                    navigateTo = { if (it == null) selectProf(None) else selectCourse(it) }
                 )
                 State.Prof(profSummaryVM)
             }

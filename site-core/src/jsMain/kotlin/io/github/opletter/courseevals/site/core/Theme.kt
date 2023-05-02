@@ -20,7 +20,7 @@ fun updateTheme(ctx: InitSilkContext) {
     ctx.config.initialColorMode = localStorage.getItem(COLOR_MODE_KEY)?.let { ColorMode.valueOf(it) } ?: ColorMode.LIGHT
 
     ctx.stylesheet.registerBaseStyle("body") {
-        Modifier.fontFamily("Segoe UI", "Helvetica", "Tahoma", "sans-serif")
+        Modifier.fontFamily("system-ui", "Segoe UI", "Tahoma", "Helvetica", "sans-serif")
     }
 
     // NOTE: For now, we use ColorMode.LIGHT to represent the default blue theme

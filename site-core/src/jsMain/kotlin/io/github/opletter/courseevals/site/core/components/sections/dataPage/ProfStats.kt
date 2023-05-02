@@ -2,6 +2,8 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage
 
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.Overflow
+import com.varabyte.kobweb.compose.css.Visibility
 import com.varabyte.kobweb.compose.css.functions.min
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
@@ -15,9 +17,12 @@ import com.varabyte.kobweb.silk.components.layout.breakpoint.displayIf
 import com.varabyte.kobweb.silk.components.layout.breakpoint.displayUntil
 import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
+import com.varabyte.kobweb.silk.components.style.addVariant
+import com.varabyte.kobweb.silk.components.style.after
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.components.text.SpanTextStyle
 import com.varabyte.kobweb.silk.theme.colors.getColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
@@ -41,6 +46,19 @@ val AveragesBoxStyle by ComponentStyle {
             .padding(1.5.cssRem)
             .flexBasis(0.percent)
             .fontSize(10.vh)
+    }
+}
+
+// Hack: To avoid the width changing with different averages, we use hidden content
+// that is hopefully the max width that could occur, so this width will always be enforced
+val FixedWidthAveVariant by SpanTextStyle.addVariant {
+    after {
+        Modifier
+            .content("4.44") // 4 seems to be the widest number - not ideal since it can vary by font
+            .height(0.px)
+            .visibility(Visibility.Hidden)
+            .overflow(Overflow.Hidden)
+            .display(DisplayStyle.Block)
     }
 }
 
@@ -75,7 +93,7 @@ fun ProfStatsDesktop(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
                     .fontWeight(FontWeight.Black)
                     .lineHeight(100.percent)
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    SpanText(viewModel.average, bigModifier)
+                    SpanText(viewModel.average, bigModifier, FixedWidthAveVariant)
                     SpanText("Average", Modifier.fontSize(35.percent))
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {

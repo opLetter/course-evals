@@ -64,10 +64,10 @@ suspend fun getCompleteCourseNames(
         combined.mapValues { (key, subMap) ->
             val courseWithData = File("jsonData/statsByProf/$school/$key.json")
                 .takeIf { it.exists() }
-                ?.let { Json.decodeFromString<Map<String, InstructorStats>>(it.readText()) }
-                ?.flatMap { it.value.courseStats.keys }
-                ?.toSet()
-                ?: emptySet()
+                ?.let { file ->
+                    Json.decodeFromString<Map<String, InstructorStats>>(file.readText())
+                        .flatMap { it.value.courseStats.keys }.toSet()
+                }.orEmpty()
             subMap.filterKeys { it in courseWithData }
         }.onEach { (prefix, data) ->
             if (data.isEmpty() || writeDir == null) return@onEach

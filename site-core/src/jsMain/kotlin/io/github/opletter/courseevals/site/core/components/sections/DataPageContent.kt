@@ -119,7 +119,7 @@ fun DataPageContent(college: College) {
             }
 
             Spacer()
-            Footer()
+            Footer(linkVariant = OppositeLinkVariant)
         }
 
         var navOpenMobile by remember { mutableStateOf(false) }
@@ -180,7 +180,7 @@ fun DataPageContent(college: College) {
 
             Column(Modifier.fillMaxSize().displayUntil(Breakpoint.MD)) {
                 Spacer()
-                Footer(modifier = Modifier.margin(top = 1.cssRem), linkVariant = null)
+                Footer(modifier = Modifier.margin(top = 1.cssRem))
             }
         }
     }

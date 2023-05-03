@@ -8,6 +8,7 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.style.toModifier
 import io.github.opletter.courseevals.site.core.components.sections.Footer
+import io.github.opletter.courseevals.site.core.components.sections.OppositeLinkVariant
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNavStyle
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.percent
@@ -28,7 +29,8 @@ fun HomePageLayout(modifier: Modifier = Modifier, content: @Composable BoxScope.
             Modifier
                 .margin(topBottom = 1.cssRem)
                 .align(Alignment.Center)
-                .gridRow(2, 3)
+                .gridRow(2, 3),
+            OppositeLinkVariant,
         )
     }
 }

@@ -42,7 +42,7 @@ val OppositeLinkVariant by LinkStyle.addVariant {
 }
 
 @Composable
-fun Footer(modifier: Modifier = Modifier, linkVariant: ComponentVariant? = OppositeLinkVariant) {
+fun Footer(modifier: Modifier = Modifier, linkVariant: ComponentVariant? = null) {
     Column(
         FooterStyle.toModifier().then(modifier),
         horizontalAlignment = Alignment.CenterHorizontally,

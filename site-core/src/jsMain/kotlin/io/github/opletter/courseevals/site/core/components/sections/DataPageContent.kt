@@ -64,7 +64,7 @@ fun DataPageContent(college: College) {
         DataPageVM(
             coroutineScope = coroutineScope,
             college = college,
-            urlParams = ctx.params,
+            urlParams = ctx.route.params,
         )
     }
 

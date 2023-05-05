@@ -188,8 +188,7 @@ fun ProfScoresList(
         }
     }
 
-    val breakpoint by rememberBreakpoint()
-    val mobileView by remember { derivedStateOf { breakpoint < Breakpoint.XL } }
+    val mobileView = rememberBreakpoint() < Breakpoint.XL
 
     val gridVariant = when (questions.short.size) {
         8 -> Ratings8QsGridVariant

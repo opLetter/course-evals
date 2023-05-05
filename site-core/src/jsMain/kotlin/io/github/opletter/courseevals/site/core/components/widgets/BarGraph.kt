@@ -13,7 +13,6 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.addVariantBase
 import com.varabyte.kobweb.silk.components.style.base
@@ -49,7 +48,7 @@ val BarGraphStyle by ComponentStyle {
         Modifier
             .fillMaxWidth()
             .fontSize(min(4.1.vw, 1.2.cssRem))
-            .styleModifier { property("aspect-ratio", "4 / 3") }
+            .aspectRatio(4, 3)
             .padding(topBottom = 0.33.cssRem, leftRight = 0.75.cssRem)
             .borderRadius(12.px)
             .color(colorMode.toSilkPalette().background)
@@ -61,11 +60,10 @@ val BarGraphStyle by ComponentStyle {
             .minHeight(100.percent)
             .fontSize(1.5.cssRem)
             .padding(topBottom = 0.33.cssRem, leftRight = 1.cssRem)
-            .styleModifier { property("aspect-ratio", "3.5 / 3") }
+            .aspectRatio(3.5, 3)
     }
     Breakpoint.XL {
-        Modifier
-            .styleModifier { property("aspect-ratio", "4 / 3") }
+        Modifier.aspectRatio(4, 3)
     }
 }
 

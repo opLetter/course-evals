@@ -247,10 +247,10 @@ fun ProfScoresList(
                     )
                     if (index != lastQ) {
                         Tooltip(
-                            ElementTarget.PreviousSibling,
-                            questions.full[index],
-                            Modifier.margin(top = (-0.75).cssRem, left = (-2.33).cssRem),
-                            PopupPlacement.Bottom,
+                            target = ElementTarget.PreviousSibling,
+                            text = questions.full[index],
+                            modifier = Modifier.margin(top = (-0.75).cssRem, left = (-2.33).cssRem),
+                            placement = PopupPlacement.Bottom,
                         )
                     }
                 }

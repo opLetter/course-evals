@@ -5,6 +5,7 @@ import androidx.compose.runtime.key
 import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.css.functions.RadialGradient
 import com.varabyte.kobweb.compose.css.functions.radialGradient
+import com.varabyte.kobweb.compose.css.functions.toImage
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -35,7 +36,7 @@ private fun lightBackground(yPercent: Int) = CSSBackground(
     image = radialGradient(RadialGradient.Shape.Circle, CSSPosition(60.percent, yPercent.percent)) {
         add(Color.rgba(0, 121, 242, 0.5f), 0.percent)
         add(Colors.Transparent, 45.percent)
-    }.toBackgroundImage()
+    }.toImage()
 )
 
 private fun darkBackground(yPercent: Int) = CSSBackground(
@@ -43,7 +44,7 @@ private fun darkBackground(yPercent: Int) = CSSBackground(
     image = radialGradient(RadialGradient.Shape.Circle, CSSPosition(60.percent, yPercent.percent)) {
         add(Color.rgb(152, 103, 93), 0.percent)
         add(Colors.Transparent, 45.percent)
-    }.toBackgroundImage()
+    }.toImage()
 )
 
 val MainNavStyle by ComponentStyle.base {

@@ -5,10 +5,7 @@ import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.Overflow
 import com.varabyte.kobweb.compose.css.Visibility
 import com.varabyte.kobweb.compose.css.functions.min
-import com.varabyte.kobweb.compose.foundation.layout.Arrangement
-import com.varabyte.kobweb.compose.foundation.layout.Box
-import com.varabyte.kobweb.compose.foundation.layout.Column
-import com.varabyte.kobweb.compose.foundation.layout.Row
+import com.varabyte.kobweb.compose.foundation.layout.*
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
@@ -169,13 +166,12 @@ fun ProfStatsMobile(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun AveColumn(content: @Composable () -> Unit) {
+private fun AveColumn(content: @Composable ColumnScope.() -> Unit) {
     Column(
         AveragesBoxStyle.toModifier(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        content()
-    }
+        horizontalAlignment = Alignment.CenterHorizontally,
+        content = content
+    )
 }
 
 @Composable

@@ -175,7 +175,7 @@ private fun List<String>.getTeachingEntries(): List<TeachingEntry> {
                 val parts = line.single().split(" ")
                 TeachingEntry(
                     courseNumber = parts[1],
-                    courseTitle = parts.drop(2).takeWhile { !it.startsWith("00") }.joinToString(" "),
+                    courseTitle = parts.drop(2).takeWhile { !it.likelyClassSection() }.joinToString(" "),
                     instructor = parts
                         .takeLastWhile { it != "-" && "_" !in it }
                         .joinToString("")
@@ -190,7 +190,7 @@ private fun List<String>.getTeachingEntries(): List<TeachingEntry> {
                     val title = line.drop(2)
                         .joinToString(" ")
                         .splitToSequence(" ")
-                        .takeWhile { !it.startsWith("00") }
+                        .takeWhile { !it.likelyClassSection() }
                         .joinToString(" ")
                         .replace("  ", " ")
                     num to title
@@ -223,7 +223,7 @@ private fun List<String>.getTeachingEntries(): List<TeachingEntry> {
     }
 }
 
-fun mergeEntries(last: TeachingData, rolloverLines: String, entries: List<TeachingEntry>): TeachingData {
+private fun mergeEntries(last: TeachingData, rolloverLines: String, entries: List<TeachingEntry>): TeachingData {
     val newLast = last.entries.last().run {
         val firstCol = rolloverLines.substringBefore(" ")
             .takeIf { it.firstOrNull()?.isDigit() == true }
@@ -260,3 +260,6 @@ fun mergeEntries(last: TeachingData, rolloverLines: String, entries: List<Teachi
         }
     return last.copy(entries = newEntries)
 }
+
+// assuming less than 200 section ("0001" to "0199")
+private fun String.likelyClassSection() = startsWith("00") || startsWith("01")

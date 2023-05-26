@@ -170,38 +170,34 @@ private fun List<String>.getTeachingEntries(): List<TeachingEntry> {
     }.mapNotNull { lineParts -> // filter out dates
         lineParts.filterNot { it.matches("^\\d{1,2}/\\d{1,2}/\\d{4} ".toRegex()) }.takeIf { it.isNotEmpty() }
     }.map { line ->
-        when {
-            line.size == 1 -> {
+        when (line.size) {
+            1 -> {
                 val parts = line.single().split(" ")
                 TeachingEntry(
                     courseNumber = parts[1],
                     courseTitle = parts.drop(2).takeWhile { !it.likelyClassSection() }.joinToString(" "),
                     instructor = parts
                         .takeLastWhile { it != "-" && "_" !in it }
-                        .joinToString("")
-                        .replace("  ", " "),
+                        .joinToString(" ") { it.trim() },
                 )
             }
 
-            line.size < 5 -> TeachingEntry(error = line.joinToString(";"))
+            2, 3, 4 -> TeachingEntry(error = line.joinToString(";"))
             else -> {
                 val (courseNumber, courseTitle) = if (line[1].firstOrNull()?.isDigit() == true) {
                     val num = (line[0].substringAfter(" ").dropLast(1) + line[1])
                     val title = line.drop(2)
-                        .joinToString(" ")
-                        .splitToSequence(" ")
+                        .flatSplitBySpace()
                         .takeWhile { !it.likelyClassSection() }
-                        .joinToString(" ")
-                        .replace("  ", " ")
+                        .joinToString(" ") { it.trim() }
                     num to title
                 } else {
                     val num = line[0].substringBefore(" ")
                     val title = line
-                        .joinToString(" ")
-                        .splitToSequence(" ")
+                        .flatSplitBySpace()
                         .drop(1)
                         .takeWhile { it != "Regular" }
-                        .joinToString(" ")
+                        .joinToString(" ") { it.trim() }
                     num to title
                 }
                 TeachingEntry(
@@ -209,14 +205,11 @@ private fun List<String>.getTeachingEntries(): List<TeachingEntry> {
                     courseTitle = courseTitle,
                     instructor = line
                         .takeLastWhile { it != "AM" && it != "PM" }
-                        .joinToString(" ")
-                        .replace("  ", " ")
-                        .split(" ")
+                        .flatSplitBySpace()
                         .filter { "_" !in it && it != "-" }
-                        .joinToString(" ")
+                        .joinToString(" ") { it.trim() }
                         .replace("Panama", "")
                         .replace("Main ", "") // seems to only matter for the last entry in pdf
-                        .trim(),
                 )
             }
         }
@@ -263,3 +256,6 @@ private fun mergeEntries(last: TeachingData, rolloverLines: String, entries: Lis
 
 // assuming less than 200 section ("0001" to "0199")
 private fun String.likelyClassSection() = startsWith("00") || startsWith("01")
+
+private fun List<String>.flatSplitBySpace(): List<String> =
+    flatMap { it.split(" ") }.filter(String::isNotEmpty)

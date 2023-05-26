@@ -2,6 +2,7 @@ package io.github.opletter.courseevals.fsu
 
 import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.SchoolDeptsMap
+import io.github.opletter.courseevals.common.data.prepend
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.common.remote.decodeFromString
 import io.github.opletter.courseevals.common.remote.ktorClient
@@ -78,9 +79,12 @@ private fun filterTeachingInstructors(
     deptEntries: List<TeachingEntry>,
 ): Map<String, Set<String>> {
     val existingInstructors = runCatching {
-        File("jsonData/statsByProf/$campus/$dept.json")
-            .decodeFromString<Map<String, InstructorStats>>().keys
-    }.getOrElse { println("no file $dept"); return emptyMap() }
+        File("jsonData/statsByProf/$campus/$dept.json").decodeFromString<Map<String, InstructorStats>>().keys
+    }.getOrElse {
+        println("no file $dept")
+        return emptyMap()
+    }
+
     val coursesToProfs = deptEntries
         .groupBy { it.courseNumber.drop(3) }
         .mapValues { (_, entries) ->
@@ -105,64 +109,95 @@ private fun filterTeachingInstructors(
     val profToCourses = coursesToProfs.flatMap { (course, profs) ->
         profs.map { it to course }
     }.groupBy({ it.first }, { it.second }).mapValues { it.value.toSet() }
+
     return coursesToProfs + profToCourses
 }
 
 private fun List<String>.extractPageData(): Pair<String, List<TeachingEntry>> {
-    val locations = listOf(
+    val locations = setOf(
         "Engineerng", "Cty", "Rep", "Asolo", "Sarasota", "Ft Pierce", "Orlando",
         "Pensacola", "Daytona", "Other", "Flornce", "London", "Valncia",
     )
-    val locationsSpecial = listOf("Online", "SC")
-    return run {
+    val locationsSpecial = setOf("Online", "SC")
+
+    val mainLines = run {
         val headerIndex = indexOf("Facility Id Person Name Location").takeIf { it != -1 }
             ?: indexOf("Person Name Location").takeIf { it != -1 }
             ?: indexOf("Location").takeIf { it != -1 && this[it - 1] == "Name" }
             ?: error("Could not find header")
         drop(headerIndex + 1)
-    }.run {
-        val splitIndex = this.indexOfFirst { part ->
-            part.first().isDigit() && part.takeWhile { it != ' ' }.none { it.isLetter() }
-        }
-        val rollover = slice(0 until splitIndex)
-            .joinToString(" ")
-            .splitToSequence(" ")
-            .takeWhile {
-                it != "Regular" && it != "Academic" && it != "Session" && it != "RegularAcademic" && it != "Nursing"
-            }.joinToString(" ")
-        val entry = slice(splitIndex..lastIndex)
-            .filter {
-                it != "Panama" && it != "Sara" && it != "AM AM Sara" && it != "PM PM Sara" && it != "AM PM Sara"
-            }.run {
-                flatMapIndexed { index, line ->
-                    val fixedLine = if (getOrNull(index + 1)?.startsWith("00") == true) line
-                    else {
-                        locations
-                            .firstOrNull { line.trim().endsWith(it) }
-                            ?.let { line.trim().replace(it, "Main") }
-                            ?: locationsSpecial.firstOrNull { line.endsWith(it) }?.let { line.replace(it, "Main") }
-                            ?: line
-                    }
-                    fixedLine.let {
-                        if (it.endsWith("Main") && it != "Main")
-                            listOf(it.substringBefore(" Main"), "Main")
-                        else listOf(it)
-                    }
-                }
-            }
-        rollover to entry.getTeachingEntries()
     }
+
+    val splitIndex = mainLines.indexOfFirst { part ->
+        part.first().isDigit() && part.takeWhile { it != ' ' }.none { it.isLetter() }
+    }
+    val rollover = mainLines
+        .take(splitIndex)
+        .flatSplitBySpace()
+        .takeWhile {
+            it != "Regular" && it != "Academic" && it != "Session" && it != "RegularAcademic" && it != "Nursing"
+        }.joinToString(" ")
+    val entryLines = mainLines.drop(splitIndex).filter {
+        it != "Panama" && it != "Sara" && it != "AM AM Sara" && it != "PM PM Sara" && it != "AM PM Sara"
+    }
+    val entries = entryLines.flatMapIndexed { index, line ->
+        val fixedLine = if (entryLines.getOrNull(index + 1)?.likelyClassSection() == true) {
+            line
+        } else {
+            locations.firstOrNull { line.trim().endsWith(it) }?.let { line.trim().replace(it, "Main") }
+                ?: locationsSpecial.firstOrNull { line.endsWith(it) }?.let { line.replace(it, "Main") }
+                ?: line
+        }
+        fixedLine.let {
+            if (it.endsWith("Main") && it != "Main")
+                listOf(it.substringBefore(" Main"), "Main")
+            else listOf(it)
+        }
+    }.getTeachingEntries()
+
+    return rollover to entries
 }
 
 private fun List<String>.getTeachingEntries(): List<TeachingEntry> {
-    fun List<String>.splitBy(predicate: (index: Int, element: String) -> Boolean): List<List<String>> =
-        flatMapIndexed { index, element ->
+    fun List<String>.splitBy(predicate: (index: Int, element: String) -> Boolean): List<List<String>> {
+        return flatMapIndexed { index, element ->
             when {
                 index == 0 || index == lastIndex -> listOf(index)
                 predicate(index, element) -> listOf(index - 1, index + 1)
                 else -> emptyList()
             }
         }.windowed(size = 2, step = 2) { (from, to) -> slice(from..to) }
+    }
+
+    fun List<String>.getMultilineTeachingEntry(): TeachingEntry {
+        val instructor = takeLastWhile { it != "AM" && it != "PM" }
+            .flatSplitBySpace()
+            .filter { "_" !in it && it != "-" }
+            .joinToString(" ") { it.trim() }
+            .replace("Panama", "")
+            .replace("Main ", "") // seems to only matter for the last entry in pdf
+
+        return if (this[1].firstOrNull()?.isDigit() == true) {
+            TeachingEntry(
+                courseNumber = this[0].substringAfter(" ").dropLast(1) + this[1],
+                courseTitle = this.drop(2)
+                    .flatSplitBySpace()
+                    .takeWhile { !it.likelyClassSection() }
+                    .joinToString(" ") { it.trim() },
+                instructor = instructor,
+            )
+        } else {
+            TeachingEntry(
+                courseNumber = this[0].substringBefore(" "),
+                courseTitle = this
+                    .flatSplitBySpace()
+                    .drop(1)
+                    .takeWhile { it != "Regular" }
+                    .joinToString(" ") { it.trim() },
+                instructor = instructor,
+            )
+        }
+    }
 
     return splitBy { index, x ->
         val validStart = getOrNull(index + 1)?.firstOrNull()?.isDigit() == true
@@ -183,43 +218,14 @@ private fun List<String>.getTeachingEntries(): List<TeachingEntry> {
             }
 
             2, 3, 4 -> TeachingEntry(error = line.joinToString(";"))
-            else -> {
-                val (courseNumber, courseTitle) = if (line[1].firstOrNull()?.isDigit() == true) {
-                    val num = (line[0].substringAfter(" ").dropLast(1) + line[1])
-                    val title = line.drop(2)
-                        .flatSplitBySpace()
-                        .takeWhile { !it.likelyClassSection() }
-                        .joinToString(" ") { it.trim() }
-                    num to title
-                } else {
-                    val num = line[0].substringBefore(" ")
-                    val title = line
-                        .flatSplitBySpace()
-                        .drop(1)
-                        .takeWhile { it != "Regular" }
-                        .joinToString(" ") { it.trim() }
-                    num to title
-                }
-                TeachingEntry(
-                    courseNumber = courseNumber,
-                    courseTitle = courseTitle,
-                    instructor = line
-                        .takeLastWhile { it != "AM" && it != "PM" }
-                        .flatSplitBySpace()
-                        .filter { "_" !in it && it != "-" }
-                        .joinToString(" ") { it.trim() }
-                        .replace("Panama", "")
-                        .replace("Main ", "") // seems to only matter for the last entry in pdf
-                )
-            }
+            else -> line.getMultilineTeachingEntry()
         }
     }
 }
 
 private fun mergeEntries(last: TeachingData, rolloverLines: String, entries: List<TeachingEntry>): TeachingData {
     val newLast = last.entries.last().run {
-        val firstCol = rolloverLines.substringBefore(" ")
-            .takeIf { it.firstOrNull()?.isDigit() == true }
+        val firstCol = rolloverLines.substringBefore(" ").takeIf { it.firstOrNull()?.isDigit() == true }
         val (number, rollover) = if (firstCol != null) {
             "$courseNumber$firstCol" to rolloverLines.substringAfter(" ", "")
         } else courseNumber to rolloverLines
@@ -234,7 +240,7 @@ private fun mergeEntries(last: TeachingData, rolloverLines: String, entries: Lis
                 entry.error.isNotBlank() || entry.courseNumber.length > 6
                 || acc.isEmpty() || acc.first().courseNumber.length > 6
             ) {
-                listOf(entry) + acc
+                acc.prepend(entry)
             } else {
                 val prev = acc.first()
                 val (newNum, newTitle) = if (prev.error.isBlank()) {
@@ -248,7 +254,7 @@ private fun mergeEntries(last: TeachingData, rolloverLines: String, entries: Lis
                     courseNumber = entry.courseNumber + newNum,
                     courseTitle = (entry.courseTitle + " " + newTitle).replace("  ", ""),
                 )
-                listOf(newEntry) + acc.drop(1)
+                acc.drop(1).prepend(newEntry)
             }
         }
     return last.copy(entries = newEntries)

@@ -48,9 +48,7 @@ val PageTitleStyle by ComponentStyle {
             .fontWeight(FontWeight.Bold)
     }
     Breakpoint.MD {
-        Modifier
-            .padding(top = 0.5.cssRem)
-            .fontSize(2.cssRem)
+        Modifier.fontSize(2.cssRem)
     }
 }
 

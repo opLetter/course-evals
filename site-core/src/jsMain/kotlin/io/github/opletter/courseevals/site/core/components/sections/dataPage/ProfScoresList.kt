@@ -75,7 +75,7 @@ val Ratings13QsGridVariant by SimpleGridStyle.addVariant {
 
 val MainGridAreaStyle by ComponentStyle {
     Breakpoint.XL {
-        Modifier.padding(topBottom = 2.cssRem, leftRight = 2.25.cssRem) // leftRight covers diagonal text
+        Modifier.padding(topBottom = 1.cssRem, leftRight = 2.25.cssRem) // leftRight covers diagonal text
     }
 }
 
@@ -85,6 +85,10 @@ val InfoBubbleStyle by ComponentStyle.base {
         .borderRadius(12.px)
         .backgroundColor(SitePalettes[colorMode].neutral.toRgb().copyf(alpha = 0.8f))
         .boxShadow(offsetX = 5.px, offsetY = 5.px, blurRadius = 30.px, color = Color.rgba(0, 0, 0, 0.08f))
+}
+
+val TopInfoBubbleVariant by InfoBubbleStyle.addVariant {
+    Breakpoint.XL { Modifier.margin(top = 0.5.cssRem) }
 }
 
 val GridRowStyle by ComponentStyle {}
@@ -151,7 +155,7 @@ fun ProfScoresList(
     Column(Modifier.rowGap(0.5.cssRem), horizontalAlignment = Alignment.CenterHorizontally) {
         if (instructors.isEmpty()) return@Column
         Label(
-            attrs = InfoBubbleStyle.toModifier()
+            attrs = InfoBubbleStyle.toModifier(TopInfoBubbleVariant)
                 .fontSize(115.percent)
                 .fontWeight(FontWeight.Medium)
                 .cursor(Cursor.Pointer)

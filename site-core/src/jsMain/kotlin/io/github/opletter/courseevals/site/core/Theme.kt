@@ -34,31 +34,33 @@ fun updateTheme(ctx: InitSilkContext) {
         light = MutableSilkPalette(
             background = Color.rgb(0xEDF2F4),
             color = Colors.Black, // Color.rgb(0x2B2D42),
-            link = MutableSilkPalette.Link(
-                default = Colors.Blue,
-                visited = Color.rgb(123, 0, 21),
-            ),
             button = MutableSilkPalette.Button(
                 default = lightButtonBase,
                 hover = lightButtonBase.lightened(byPercent = 0.2f),
                 focus = Colors.CornflowerBlue,
                 pressed = lightButtonBase.lightened(byPercent = 0.3f),
             ),
+            link = MutableSilkPalette.Link(
+                default = Colors.Blue,
+                visited = Color.rgb(123, 0, 21),
+            ),
+            tab = ctx.theme.palettes.light.tab,
             border = Color.rgb(76, 76, 187),
         ),
         dark = MutableSilkPalette(
             background = Color.rgb(0xEDF2F4), // Color.rgb(0x2B2D42)
             color = Colors.Black,
-            link = MutableSilkPalette.Link(
-                default = Colors.Blue,
-                visited = Color.rgb(217, 4, 41), // Color.rgb(123, 0, 21),
-            ),
             button = MutableSilkPalette.Button(
                 default = darkButtonBase,
                 hover = darkButtonBase.darkened(byPercent = 0.2f),
                 focus = Colors.LightSkyBlue,
                 pressed = darkButtonBase.darkened(byPercent = 0.3f),
             ),
+            link = MutableSilkPalette.Link(
+                default = Colors.Blue,
+                visited = Color.rgb(217, 4, 41), // Color.rgb(123, 0, 21),
+            ),
+            tab = ctx.theme.palettes.dark.tab,
             border = Colors.Red.darkened(0.15f),
         )
     )

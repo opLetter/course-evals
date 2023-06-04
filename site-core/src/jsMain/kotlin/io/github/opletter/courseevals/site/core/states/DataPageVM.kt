@@ -268,9 +268,7 @@ class DataPageVM(
     }
 
     fun selectCourse(course: String) {
-        val courseCode = with(course) {
-            if (endsWith(")")) this.substringAfterBefore("(", ")") else this
-        }
+        val courseCode = course.substringAfterLast('(').substringBefore(')')
         navState = navState.copy(
             course = navState.course.copy(selected = courseCode),
             prof = navState.prof.copy(selected = None)

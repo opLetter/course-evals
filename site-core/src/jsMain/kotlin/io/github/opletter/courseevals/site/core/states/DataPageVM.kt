@@ -98,6 +98,7 @@ class DataPageVM(
     }
 
     private val activeSchoolsByCode by derivedStateOf {
+        println("activeSchoolsByCodeX: ${campusVM.selected} ${levelOfStudyVM.selected} ${globalData.schoolsByCode.keys}")
         globalData.schoolsByCode.filterValues {
             it.campuses.intersect(campusVM.selected).isNotEmpty() && it.level in levelOfStudyVM.selected
         }
@@ -208,9 +209,10 @@ class DataPageVM(
         course: String? = null,
         prof: String? = null,
     ) {
-        val newSchool = activeSchoolsByCode[school] ?: activeSchoolsByCode.values.first()
-        if (college.schoolStrategy == SchoolStrategy.SHOW_ALL)
-            campusVM.selectOnly(Campus.valueOf(newSchool.code.uppercase()))
+        val newSchool = activeSchoolsByCode[school]
+            ?: (if (college.schoolStrategy == SchoolStrategy.SHOW_ALL) globalData.schoolsByCode[school] else null)
+                ?.also { campusVM.selectOnly(Campus.valueOf(it.code.uppercase())) }
+            ?: activeSchoolsByCode.values.first()
         val newDept = dept.takeIf { it in newSchool.depts } ?: newSchool.depts.first()
         selectDept(dept = newDept, school = newSchool, course = course, prof = prof)
     }

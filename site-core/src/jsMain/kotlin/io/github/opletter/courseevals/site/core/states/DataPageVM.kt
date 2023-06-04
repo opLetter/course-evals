@@ -34,6 +34,7 @@ class DataPageVM(
     var pageLoading by mutableStateOf(false)
 
     private val refreshNavState: () -> Unit = {
+        println("refreshing")
         with(navState) {
             selectSchool(
                 school = school.selected,
@@ -207,7 +208,7 @@ class DataPageVM(
         course: String? = null,
         prof: String? = null,
     ) {
-        val newSchool = globalData.schoolsByCode[school] ?: activeSchoolsByCode.values.first()
+        val newSchool = activeSchoolsByCode[school] ?: activeSchoolsByCode.values.first()
         if (college.schoolStrategy == SchoolStrategy.SHOW_ALL)
             campusVM.selectOnly(Campus.valueOf(newSchool.code.uppercase()))
         val newDept = dept.takeIf { it in newSchool.depts } ?: newSchool.depts.first()

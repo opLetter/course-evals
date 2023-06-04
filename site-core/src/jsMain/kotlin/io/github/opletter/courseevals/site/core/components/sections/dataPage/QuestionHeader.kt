@@ -54,7 +54,9 @@ val SpanTextHeaderVariant by SpanTextStyle.addVariant {
 
 val QuestionSelectVariant by SelectStyle.addVariant {
     base {
-        Modifier.fontSize(1.cssRem).width(min(400.px, 90.percent))
+        Modifier
+            .fontSize(1.cssRem)
+            .width(min(400.px, 90.percent))
     }
     Breakpoint.MD {
         Modifier.width(Width.Unset)
@@ -69,17 +71,16 @@ fun QuestionHeader(
     onSelectedQDropDownChange: (Int) -> Unit,
 ) {
     Column(
-        modifier.fillMaxWidth().rowGap(0.5.cssRem),
+        Modifier
+            .fillMaxWidth()
+            .rowGap(0.5.cssRem)
+            .then(modifier),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         key(selectedQ) { // needed for jsBalanceTextById() to work upon text change
             val id = "survey-q"
             Box(HeaderStyle.toModifier(), Alignment.Center) {
-                SpanText(
-                    "\"${questions.full[selectedQ]}\"",
-                    Modifier.id(id),
-                    SpanTextHeaderVariant,
-                )
+                SpanText("\"${questions.full[selectedQ]}\"", Modifier.id(id), SpanTextHeaderVariant)
                 SideEffect {
                     jsBalanceTextById(id)
                 }

@@ -15,7 +15,7 @@ sealed interface College {
     val questions: Questions
     val searchHint: String
 
-    /** How to label the dept/course across the UI. `course` is empty if no course is selected. */
+    /** How to label the dept/course across the UI. [course] is empty if no course is selected. */
     fun getCode(school: String, dept: String, course: String): String
 
     /** Modify the input string of the search bar */

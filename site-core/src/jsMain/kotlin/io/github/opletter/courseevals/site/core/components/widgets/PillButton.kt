@@ -11,36 +11,31 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
-import com.varabyte.kobweb.silk.components.style.active
-import com.varabyte.kobweb.silk.components.style.addVariant
-import com.varabyte.kobweb.silk.components.style.focusVisible
-import com.varabyte.kobweb.silk.components.style.hover
+import com.varabyte.kobweb.silk.components.style.*
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.s
 
-private val basePillButtonModifier = Modifier
-    .padding(topBottom = 0.25.cssRem, leftRight = 1.5.cssRem)
-    .flexShrink(0)
-    .borderRadius(8.px)
-    .fontFamily("unset")
-    .lineHeight(LineHeight.Unset)
-    .fontSize(FontSize.Unset)
-    .transition(
-        // shamelessly stolen from yt website
-        CSSTransition(
-            property = "background-color",
-            duration = 0.3.s,
-            timingFunction = TransitionTimingFunction.cubicBezier(0.05, 0.0, 0.0, 1.0)
-        ),
-    )
-
 val PillButtonVariant by ButtonStyle.addVariant {
     val baseColor = SitePalettes[colorMode].neutral
     base {
-        basePillButtonModifier.backgroundColor(baseColor)
+        Modifier
+            .padding(topBottom = 0.25.cssRem, leftRight = 1.5.cssRem)
+            .flexShrink(0)
+            .borderRadius(8.px)
+            .fontFamily("unset")
+            .lineHeight(LineHeight.Unset)
+            .fontSize(FontSize.Unset)
+            .transition(
+                // shamelessly stolen from yt website
+                CSSTransition(
+                    property = "background-color",
+                    duration = 0.3.s,
+                    timingFunction = TransitionTimingFunction.cubicBezier(0.05, 0.0, 0.0, 1.0)
+                ),
+            ).backgroundColor(baseColor)
     }
     hover {
         Modifier.backgroundColor(baseColor.darkened(0.1f))
@@ -53,11 +48,13 @@ val PillButtonVariant by ButtonStyle.addVariant {
     }
 }
 
-val PillButtonSelectedVariant by ButtonStyle.addVariant(Modifier.tabIndex(-1)) {
+val PillButtonSelectedVariant by ButtonStyle.addVariant(
+    extraModifiers = { ButtonStyle.toModifier(PillButtonVariant).tabIndex(-1) }
+) {
     val colorModifier = Modifier
         .backgroundColor(SitePalettes[colorMode].accent)
         .color(colorMode.toSilkPalette().background)
-    base { basePillButtonModifier.then(colorModifier) }
+    base { colorModifier }
     hover { colorModifier }
     active { colorModifier }
 }

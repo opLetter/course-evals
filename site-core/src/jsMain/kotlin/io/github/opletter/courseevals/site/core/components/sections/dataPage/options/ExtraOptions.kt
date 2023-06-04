@@ -44,18 +44,14 @@ fun ExtraOptions(viewModel: DataPageVM, open: Boolean) {
         openModifier = Modifier.opacity(1),
         closedModifier = Modifier.opacity(0),
     ) {
+        val transitionTimingFunction = if (open) TransitionTimingFunction.EaseIn else TransitionTimingFunction.EaseOut
         Column(
             Modifier
                 .fillMaxWidth()
                 .overflowY(Overflow.Auto)
                 .rowGap(0.5.cssRem)
-                .transition(
-                    CSSTransition(
-                        "opacity",
-                        0.2.s,
-                        if (open) TransitionTimingFunction.EaseIn else TransitionTimingFunction.EaseOut
-                    )
-                ).then(it),
+                .transition(CSSTransition("opacity", 0.2.s, transitionTimingFunction))
+                .then(it),
         ) {
             viewModel.college.options.forEach { option ->
                 when (option) {

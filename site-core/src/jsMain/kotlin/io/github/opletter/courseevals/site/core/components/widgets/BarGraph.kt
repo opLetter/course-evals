@@ -34,14 +34,14 @@ val BarGraphStyle by ComponentStyle {
             RadialGradient.Shape.Circle,
             Color.rgb(14, 14, 42), // rgb(41, 41, 46)
             Color.rgb(50, 57, 84), // rgb(25, 25, 28)
-            CSSPosition(Edge.CenterX, Edge.Bottom), // none
+            CSSPosition(Edge.Bottom), // none
         )
     } else {
         radialGradient(
             RadialGradient.Shape.Circle,
             Color.rgb(186, 79, 69),
             Color.rgb(255, 96, 63),
-            CSSPosition(Edge.CenterX, Edge.Bottom),
+            CSSPosition(Edge.Bottom),
         )
     }
 
@@ -74,7 +74,6 @@ val BarGraphBarStyle by ComponentStyle.base {
         .width(75.percent)
         .backgroundColor(barColor)
         .borderBottom(1.px, LineStyle.Solid, barColor) // needed for when num is 0
-        .transition(CSSTransition("height", 0.3.s, TransitionTimingFunction.EaseOut))
 }
 
 val BarGraphLabelVariant by SpanTextStyle.addVariantBase {
@@ -133,7 +132,7 @@ fun BarGraph(
             }
         }
     }
-    SideEffect { // needed for animation to run AFTER initial recomposition
+    LaunchedEffect(Unit) { // needed for animation to run AFTER initial recomposition
         barAnimFactor = 1
     }
 }

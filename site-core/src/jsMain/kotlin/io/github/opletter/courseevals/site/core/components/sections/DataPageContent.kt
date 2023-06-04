@@ -70,7 +70,7 @@ fun DataPageContent(college: College) {
     val initialLoading = state is State.InitialLoading
 
     DisposableEffect(Unit) {
-        val popStateListener = EventListener { viewModel.onPopState(window.location.search) }
+        val popStateListener = EventListener { viewModel.onPopState(ctx.route.params) }
         window.addEventListener("popstate", popStateListener)
         onDispose {
             window.removeEventListener("popstate", popStateListener)

@@ -50,6 +50,6 @@ fun ClosableTransitionObject(
         open = open,
         startTransition = { modifier = if (open) openModifier else closedModifier },
     ) {
-        content(modifier.then(it))
+        content(it.then(modifier))
     }
 }

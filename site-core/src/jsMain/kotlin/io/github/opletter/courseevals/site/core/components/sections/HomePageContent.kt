@@ -59,11 +59,7 @@ fun HomePageContent(college: College) {
     val coroutineScope = rememberCoroutineScope()
 
     val viewModel = remember {
-        DataPageVM(
-            coroutineScope = coroutineScope,
-            college = college,
-            urlParams = ctx.route.params,
-        )
+        DataPageVM(coroutineScope = coroutineScope, college = college, urlParams = ctx.route.params)
     }
 
     var routing by remember { mutableStateOf(false) }

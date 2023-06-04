@@ -8,6 +8,7 @@ import io.github.opletter.courseevals.site.core.misc.None
 import io.github.opletter.courseevals.site.core.misc.SchoolStrategy
 import io.github.opletter.courseevals.site.core.misc.jsFormatNum
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -34,7 +35,6 @@ class DataPageVM(
     var pageLoading by mutableStateOf(false)
 
     private val refreshNavState: () -> Unit = {
-        println("refreshing")
         with(navState) {
             selectSchool(
                 school = school.selected,
@@ -60,7 +60,7 @@ class DataPageVM(
         when {
             initialLoading -> State.InitialLoading
 
-            !navState.prof.selected.isBlankOrNone() -> {
+            navState.prof.selected.isNotBlankOrNone() -> {
                 val profSummaryVM = ProfSummaryVM(
                     statsByProf = statsByProf,
                     selectedProf = navState.prof.selected,
@@ -74,7 +74,7 @@ class DataPageVM(
                 State.Prof(profSummaryVM)
             }
 
-            !navState.course.selected.isBlankOrNone() -> {
+            navState.course.selected.isNotBlankOrNone() -> {
                 val mapToDisplay = statsByProf
                     .mapNotNull { (prof, stats) ->
                         // Include profs that are teaching course but don't have stats for it - use their overall stats
@@ -138,8 +138,7 @@ class DataPageVM(
 
         val searchBarSuggestions by derivedStateOf {
             // to not slow down initial page load, add suggestions to DataList after search bar is initially clicked
-            if (!searchBarClickedOnce) emptyList()
-            else {
+            if (searchBarClickedOnce) {
                 val searchableProfs = globalData.allInstructors
                     .filterKeys { it in activeSchoolsByCode.keys }
                     .flatMap { (school, profs) ->
@@ -149,7 +148,7 @@ class DataPageVM(
                         }
                     }
                 searchableDepts + searchableProfs
-            }
+            } else emptyList()
         }
 
         private val searchableDepts by derivedStateOf {
@@ -235,34 +234,26 @@ class DataPageVM(
         coroutineScope.launch {
             // prevent unnecessary network requests & calculations
             val newDept = navState.school.selected != school.code || navState.dept.selected != dept
-            if (newDept) {
-                val allStatsByProf = async { repository.getStatsByProf(school.code, dept) }
-                val courseNames = async { repository.getCourseNamesOrEmpty(school.code, dept) }
-                val teachingMap = async { repository.getTeachingDataOrEmpty(school.code, dept) }
-                deptData = DeptData(
-                    teachingMap = teachingMap.await(),
-                    courseNames = courseNames.await(),
-                    allStatsByProf = allStatsByProf.await(),
-                )
-            }
+            if (newDept)
+                deptData = getDeptData(school.code, dept).await()
 
-            val profs = if (newDept || profsChanged)
+            val profs = if (newDept || profsChanged) {
                 statsByProf.keys.sorted().prepend(None)
-            else navState.prof.list
+            } else navState.prof.list
 
-            val courses = if (newDept || profsChanged) // if profs changed, courses may have changed too
+            val courses = if (newDept || profsChanged) { // if profs changed, courses may have changed too
                 statsByProf.values.flatMap { it.courseStats.keys }
                     .plus(deptData.teachingMap.keys.filter { it[0].isDigit() }) // add only courses from teachingMap
                     .toSet().sorted().prepend(None)
-            else navState.course.list
+            } else navState.course.list
 
-            val courseValid = course != None && course in courses
+            val validCourse = (course != None) && (course in courses)
             val oldState = navState
             navState = navState.copy(
                 school = navState.school.copy(schoolList, school.code),
                 dept = navState.dept.copy(school.associateDeptsToName(), dept),
-                course = navState.course.copy(courses, course.takeIf { courseValid } ?: None),
-                prof = navState.prof.copy(profs, prof.takeIf { !courseValid && it in profs } ?: None),
+                course = navState.course.copy(courses, course.takeIf { validCourse } ?: None),
+                prof = navState.prof.copy(profs, prof.takeIf { !validCourse && it in profs } ?: None),
             )
 
             initialLoading = false
@@ -309,12 +300,9 @@ class DataPageVM(
         }
     }
 
-    fun onPopState(paramsUrl: String) {
-        val params = paramsUrl.drop(1).split('&').associate {
-            it.split('=', limit = 2).zipWithNext().getOrNull(0) ?: return
-        }
+    fun onPopState(params: Map<String, String>) {
         val school = params["school"]
-            ?: if (college.schoolStrategy != SchoolStrategy.SINGLE) return else navState.school.selected
+            ?: if (college.schoolStrategy == SchoolStrategy.SINGLE) navState.school.selected else return
         val dept = params["dept"] ?: return
         val course = params["course"]
         val prof = params["prof"]?.decodeURL()
@@ -322,19 +310,27 @@ class DataPageVM(
         enableSchoolIfDisabled(school)
 
         // need to figure out how to deal wih invalid course/prof on pop -maybe?
-        if (school != navState.school.selected) {
-            selectSchool(school = school, dept = dept, course = course, prof = prof)
-        } else if (dept != navState.dept.selected) {
-            selectDept(dept = dept, course = course, prof = prof)
-        } else if (course != null) {
-            selectCourse(course)
-        } else if (prof != null) {
-            selectProf(prof)
-        } else if (navState.course.selected != None) {
-            selectCourse(None)
-        } else if (navState.prof.selected != None) {
-            selectProf(None)
+        when {
+            school != navState.school.selected ->
+                selectSchool(school = school, dept = dept, course = course, prof = prof)
+
+            dept != navState.dept.selected -> selectDept(dept = dept, course = course, prof = prof)
+            course != null -> selectCourse(course)
+            prof != null -> selectProf(prof)
+            navState.course.selected != None -> selectCourse(None)
+            navState.prof.selected != None -> selectProf(None)
         }
+    }
+
+    private suspend fun getDeptData(school: String, dept: String): Deferred<DeptData> = coroutineScope.async {
+        val allStatsByProf = async { repository.getStatsByProf(school, dept) }
+        val courseNames = async { repository.getCourseNamesOrEmpty(school, dept) }
+        val teachingMap = async { repository.getTeachingDataOrEmpty(school, dept) }
+        DeptData(
+            teachingMap = teachingMap.await(),
+            courseNames = courseNames.await(),
+            allStatsByProf = allStatsByProf.await(),
+        )
     }
 
     private fun School.associateDeptsToName(includeCode: Boolean = true): List<Pair<String, String>> {
@@ -371,26 +367,25 @@ private fun DataPageVM.getCode(
     school: String = navState.school.selected,
     dept: String = navState.dept.selected,
     course: String = navState.course.selected,
-): String = college.getCode(school, dept, course.let { if (it.isBlankOrNone()) "" else it })
+): String = college.getCode(school, dept, course.takeIf { it.isNotBlankOrNone() }.orEmpty())
 
 private fun DataPageVM.getUrl(
     school: String = navState.school.selected,
     dept: String = navState.dept.selected,
     course: String = navState.course.selected,
     prof: String = navState.prof.selected,
-): String {
-    return "?" +
-            (if (college.schoolStrategy != SchoolStrategy.SINGLE) "school=$school&" else "") +
-            "dept=$dept" +
-            with(course) { if (isBlankOrNone()) "" else "&course=$this" } +
-            with(prof) { if (isBlankOrNone()) "" else "&prof=${encodeURL()}" }
-}
+): String = listOf(
+    "school" to if (college.schoolStrategy != SchoolStrategy.SINGLE) school else null,
+    "dept" to dept,
+    "course" to course.takeIf { it.isNotBlankOrNone() },
+    "prof" to prof.takeIf { it.isNotBlankOrNone() }?.encodeURL(),
+).filter { it.second != null }.joinToString("&", prefix = "?") { (key, value) -> "$key=$value" }
 
 fun DataPageVM.getProfUrl(prof: String): String = getUrl(course = None, prof = prof)
 
 private fun Map<String, Ratings>.toDisplayMap(addAverage: Boolean = true): Map<String, List<String>> {
     return mapValues { (_, ratings) -> ratings.getAvesAndTotal() }
-        .let { if (!addAverage || it.size <= 1) it else it.plus("Average" to it.getAveStats()) }
+        .let { if (addAverage && it.size > 1) it.plus("Average" to it.getAveStats()) else it }
         .mapValues { (_, stats) ->
             stats.ratings.map { jsFormatNum(num = it, decDigits = 1) } + stats.numResponses.toString()
         }
@@ -427,7 +422,7 @@ data class Questions(
     val getGraphLabel: (Int) -> String,
 )
 
-private fun String.isBlankOrNone(): Boolean = isBlank() || equals(None)
+private fun String.isNotBlankOrNone(): Boolean = isNotBlank() && !equals(None)
 
 private val urlEncodings = listOf("," to "%2C", " " to "%20", "." to "%2E", "'" to "%27")
 private fun String.encodeURL(): String = urlEncodings.fold(this) { acc, (a, b) -> acc.replace(a, b) }

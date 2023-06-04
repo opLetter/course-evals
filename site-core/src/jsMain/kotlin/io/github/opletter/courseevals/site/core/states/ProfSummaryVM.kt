@@ -18,8 +18,8 @@ class ProfSummaryVM(
     navigateTo: (String?) -> Unit,
 ) {
     private val profStats = statsByProf[selectedProf] ?: error("Prof not found ($selectedProf)")
-    private val courses = profStats.courseStats.keys
-        .toSet().sorted().prepend("All Courses")
+    private val courses = profStats.courseStats.keys.sorted().prepend("All Courses")
+
     val coursesToDisplay = courses.associateWith { it in teachingCourses }
 
     var selectedQ by mutableStateOf(defaultQuestion)

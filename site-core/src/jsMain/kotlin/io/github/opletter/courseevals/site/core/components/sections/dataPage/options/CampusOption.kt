@@ -28,12 +28,7 @@ fun CampusOption(campusState: CampusVM, levelOfStudyState: LevelOfStudyVM) {
         ExtraOptionStyle.toModifier(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        SpanText(
-            "School Filter",
-            Modifier
-                .fontSize(125.percent)
-                .smallCapsFont()
-        )
+        SpanText("School Filter", Modifier.fontSize(125.percent).smallCapsFont())
         Row(
             Modifier
                 .fillMaxWidth()
@@ -43,11 +38,11 @@ fun CampusOption(campusState: CampusVM, levelOfStudyState: LevelOfStudyVM) {
         ) {
             Column(horizontalAlignment = Alignment.Start) {
                 SpanText("Campus", Modifier.fontSize(115.percent))
-                CheckMarkList(campusState) { it.fullName }
+                CheckMarkList(campusState, getString = { it.fullName })
             }
             Column(horizontalAlignment = Alignment.Start) {
                 SpanText("Level", Modifier.fontSize(115.percent))
-                CheckMarkList(levelOfStudyState) { it.fullName }
+                CheckMarkList(levelOfStudyState, getString = { it.fullName })
             }
         }
     }
@@ -59,10 +54,9 @@ private fun <T> CheckMarkList(state: CheckmarksVM<T>, getString: (T) -> String) 
         // disable clicking on checkmark if it is the only one checked -> good idea?
         val disabled = checked && state.onlyOneChecked
         Label(
-            attrs = Modifier.thenIf(
-                disabled,
-                Modifier.title("Select another option to uncheck this one.")
-            ).toAttrs()
+            attrs = Modifier
+                .thenIf(disabled, Modifier.title("Select another option to uncheck this one."))
+                .toAttrs()
         ) {
             CheckboxInput(
                 checked,

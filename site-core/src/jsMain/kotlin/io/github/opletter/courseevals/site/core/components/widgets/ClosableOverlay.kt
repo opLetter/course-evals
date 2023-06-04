@@ -5,7 +5,10 @@ import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.css.TouchAction
 import com.varabyte.kobweb.compose.css.TransitionTimingFunction
 import com.varabyte.kobweb.compose.ui.graphics.Colors
-import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
+import com.varabyte.kobweb.compose.ui.modifiers.onClick
+import com.varabyte.kobweb.compose.ui.modifiers.touchAction
+import com.varabyte.kobweb.compose.ui.modifiers.transition
 import com.varabyte.kobweb.silk.components.overlay.Overlay
 import org.jetbrains.compose.web.css.s
 
@@ -17,7 +20,6 @@ fun ClosableOverlay(open: Boolean, onClose: () -> Unit, onStart: () -> Unit = {}
             transitionModifier
                 .backgroundColor(Colors.Black.copyf(alpha = opacity.toFloat()))
                 .transition(CSSTransition("background-color", 0.3.s, TransitionTimingFunction.Linear))
-                .zIndex(150)
                 .onClick { onClose() }
                 .touchAction(TouchAction.None)
         ) {

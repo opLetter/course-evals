@@ -66,10 +66,7 @@ fun SearchForm(viewModel: DataPageVM.SearchBarVM) {
 }
 
 @Composable
-private fun SearchBar(
-    dataListId: String,
-    viewModel: DataPageVM.SearchBarVM,
-) {
+private fun SearchBar(dataListId: String, viewModel: DataPageVM.SearchBarVM) {
     Row(
         Modifier
             .columnGap(0.5.cssRem)

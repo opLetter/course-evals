@@ -95,10 +95,7 @@ fun ProfStatsDesktop(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     SpanText(viewModel.aveComparison.average, bigModifier.fontSize(85.percent))
-                    AveComparison(
-                        viewModel.aveComparison,
-                        Modifier.fontSize(25.percent)
-                    )
+                    AveComparison(viewModel.aveComparison, Modifier.fontSize(25.percent))
                 }
             }
         }
@@ -125,10 +122,7 @@ fun ProfStatsMobile(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
             .lineHeight(100.percent)
 
         AveColumn {
-            SpanText(
-                viewModel.average,
-                bigModifier.fontSize(95.percent)
-            )
+            SpanText(viewModel.average, bigModifier.fontSize(95.percent))
             Box(
                 Modifier
                     .display(DisplayStyle.Block)
@@ -147,20 +141,11 @@ fun ProfStatsMobile(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
             }
         }
 
-        BarGraph(
-            viewModel.graphNums,
-            viewModel.graphLabel,
-        )
+        BarGraph(viewModel.graphNums, viewModel.graphLabel)
 
         AveColumn {
-            SpanText(
-                viewModel.aveComparison.average,
-                bigModifier.fontSize(80.percent)
-            )
-            AveComparison(
-                viewModel.aveComparison,
-                Modifier.fontSize(27.percent)
-            )
+            SpanText(viewModel.aveComparison.average, bigModifier.fontSize(80.percent))
+            AveComparison(viewModel.aveComparison, Modifier.fontSize(27.percent))
         }
     }
 }
@@ -175,8 +160,8 @@ private fun AveColumn(content: @Composable ColumnScope.() -> Unit) {
 }
 
 @Composable
-private fun AveComparison(aveData: AveComparisonData, modifier: Modifier) {
-    Row(modifier.flexWrap(FlexWrap.Wrap), horizontalArrangement = Arrangement.Center) {
+private fun AveComparison(aveData: AveComparisonData, modifier: Modifier = Modifier) {
+    Row(Modifier.flexWrap(FlexWrap.Wrap).then(modifier), horizontalArrangement = Arrangement.Center) {
         SpanText("Average of")
         SpanText(" ${aveData.totalNum} ", Modifier.fontWeight(FontWeight.Bold))
         SpanText("profs in ")

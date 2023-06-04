@@ -44,16 +44,14 @@ val SubHeadVariant by SpanTextStyle.addVariantBase {
 
 @Composable
 fun Logo(modifier: Modifier = Modifier, college: College? = null) {
-    val path = if (college == null) "/" else "/${college.urlPath}"
-    Link(path = path, variant = UndecoratedLinkVariant) {
+    Link(path = "/${college?.urlPath.orEmpty()}", variant = UndecoratedLinkVariant) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Row(LogoStyle.toModifier().then(modifier), verticalAlignment = Alignment.CenterVertically) {
                 FaChartSimple()
                 Text("EVALS")
             }
-            if (college == null) return@Column
             SpanText(
-                college.fullName,
+                college?.fullName ?: return@Column,
                 Modifier
                     .margin(top = (-0.25).cssRem)
                     .color(Colors.White)
@@ -68,8 +66,5 @@ fun Logo(modifier: Modifier = Modifier, college: College? = null) {
 @Composable
 fun LogoWithSubhead() {
     Logo()
-    SpanText(
-        text = "View course evaluation results in an easy-to-read format.",
-        variant = SubHeadVariant
-    )
+    SpanText("View course evaluation results in an easy-to-read format", variant = SubHeadVariant)
 }

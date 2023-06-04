@@ -24,7 +24,6 @@ import com.varabyte.kobweb.silk.components.overlay.Tooltip
 import com.varabyte.kobweb.silk.components.style.*
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.theme.SilkTheme
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import com.varabyte.kobweb.silk.theme.colors.getColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
@@ -46,32 +45,18 @@ import com.varabyte.kobweb.compose.css.AlignSelf as KobAlignSelf
 // This solution seems optimal compared to using pure "auto" or pure raw length ("12rem")
 // Note: "12rem" chosen strategically such that it is reached between 1280px and 1366px
 // We want the maximum possible value while affecting as little screens as possible
-val Ratings8QsGridVariant by SimpleGridStyle.addVariant {
+private fun ComponentModifiers.ratingsGrid(numQs: Int) {
     base {
         Modifier.gridTemplateColumns("1fr 4.75fr 2fr 2fr")
     }
     Breakpoint.XL {
-        Modifier.gridTemplateColumns("2rem minmax(auto, 12rem) repeat(9, 4.25rem)")
+        Modifier.gridTemplateColumns("2rem minmax(auto, 12rem) repeat(${numQs + 1}, 4.25rem)")
     }
 }
 
-val Ratings9QsGridVariant by SimpleGridStyle.addVariant {
-    base {
-        Modifier.gridTemplateColumns("1fr 4.75fr 2fr 2fr")
-    }
-    Breakpoint.XL {
-        Modifier.gridTemplateColumns("2rem minmax(auto, 12rem) repeat(10, 4.25rem)")
-    }
-}
-
-val Ratings13QsGridVariant by SimpleGridStyle.addVariant {
-    base {
-        Modifier.gridTemplateColumns("1fr 4.75fr 2fr 2fr")
-    }
-    Breakpoint.XL {
-        Modifier.gridTemplateColumns("2rem minmax(auto, 12rem) repeat(14, 4.25rem)")
-    }
-}
+val Ratings8QsGridVariant by SimpleGridStyle.addVariant { ratingsGrid(8) }
+val Ratings9QsGridVariant by SimpleGridStyle.addVariant { ratingsGrid(9) }
+val Ratings13QsGridVariant by SimpleGridStyle.addVariant { ratingsGrid(13) }
 
 val MainGridAreaStyle by ComponentStyle {
     Breakpoint.XL {
@@ -202,7 +187,13 @@ fun ProfScoresList(
     }
 
     Column(MainGridAreaStyle.toModifier()) {
-        CustomGrid(Modifier.fillMaxWidth(), variant = gridVariant) {
+        CustomGrid(
+            Modifier
+                .fillMaxWidth()
+                .lineHeight(1.1)
+                .margin(bottom = 2.px),
+            variant = gridVariant,
+        ) {
             val numResponsesText = "# of Responses"
             val lastQ = questions.full.size
             Spacer() // for index column
@@ -234,7 +225,7 @@ fun ProfScoresList(
                     verticalAlignment = Alignment.Bottom
                 ) {
                     Text("Name")
-                    FaUpRightFromSquare(Modifier.padding(bottom = 0.1.cssRem)) // more visually pleasing
+                    FaUpRightFromSquare(Modifier.padding(bottom = 2.px)) // more visually pleasing
                 }
                 questions.short.plus(numResponsesText).forEachIndexed { index, text ->
                     SpanText(
@@ -287,7 +278,7 @@ private fun StatsGrid(
     onNameClick: (String) -> Unit,
     getProfUrl: (String) -> String,
 ) {
-    val palette = SilkTheme.palettes[getColorMode()]
+    val palette = getColorMode().toSilkPalette()
     key(showOnlyTeaching, mobileView) {
         CustomGrid(
             Modifier

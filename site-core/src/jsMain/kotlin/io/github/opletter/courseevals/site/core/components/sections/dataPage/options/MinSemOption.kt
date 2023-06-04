@@ -37,11 +37,12 @@ fun MinSemOption(state: MinSemesterVM) {
                 value = state.rangeValue,
                 min = state.bounds.first,
                 max = state.bounds.second,
-            ) {
-                // live update range, but only change data on release
-                onChange { state.setValue(it.value) }
-                onInput { state.setRangeValue(it.value) }
-            }
+                attrs = {
+                    // live update range, but only change data on release
+                    onInput { state.setRangeValue(it.value) }
+                    onChange { state.setValue(it.value) }
+                }
+            )
             if (state.showResetButton) {
                 FaRotateRight(
                     Modifier

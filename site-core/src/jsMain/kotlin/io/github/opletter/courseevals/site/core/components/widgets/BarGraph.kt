@@ -13,6 +13,7 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.addVariantBase
 import com.varabyte.kobweb.silk.components.style.base
@@ -89,7 +90,7 @@ fun BarGraph(
     modifier: Modifier = Modifier,
     max: Int = ratings.maxOrNull() ?: 0,
 ) {
-    var barAnimHeight by remember { mutableStateOf(0.percent) }
+    var barAnimFactor by remember { mutableStateOf(0) }
     var mouseOver: Boolean by remember { mutableStateOf(false) }
 
     Column(BarGraphStyle.toModifier().then(modifier)) {
@@ -108,15 +109,18 @@ fun BarGraph(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom,
                 ) {
-                    val barHeight = num.toDouble() / max * barAnimHeight
-                    Box(Modifier.height(100.percent - barHeight)) // needed so that real bar is correct height
+                    val transition = CSSTransition("flex-grow", 0.3.s, TransitionTimingFunction.EaseOut)
+                    val barWeight = num.toDouble() / max * barAnimFactor
+                    Box(Modifier.flexGrow(1 - barWeight).transition(transition))
                     Text(
                         if (mouseOver) num.toString()
                         else jsFormatNum(num = num.toDouble() / ratings.sum() * 100, decDigits = 0).let { "$it%" }
                     )
                     Box(
                         BarGraphBarStyle.toModifier()
-                            .height(barHeight)
+                            .flexGrow(barWeight)
+                            .transition(transition)
+                            .thenIf(barWeight > 0, Modifier.borderBottom(width = 0.px))
                             .onMouseEnter { mouseOver = true }
                             .onMouseLeave { mouseOver = false }
                     )
@@ -130,6 +134,6 @@ fun BarGraph(
         }
     }
     SideEffect { // needed for animation to run AFTER initial recomposition
-        barAnimHeight = 100.percent
+        barAnimFactor = 1
     }
 }

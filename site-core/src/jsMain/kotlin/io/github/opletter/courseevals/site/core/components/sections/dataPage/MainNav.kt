@@ -31,42 +31,43 @@ import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Label
 import org.jetbrains.compose.web.dom.Text
 
-private fun lightBackground(yPercent: Int) = CSSBackground(
-    color = Color.rgb(38, 40, 59),
-    image = radialGradient(RadialGradient.Shape.Circle, CSSPosition(60.percent, yPercent.percent)) {
-        add(Color.rgba(0, 121, 242, 0.5f), 0.percent)
-        add(Colors.Transparent, 45.percent)
-    }.toImage()
+private fun lightBackground(yPercent: Int) = Modifier.background(
+    Color.rgb(38, 40, 59),
+    CSSBackground(
+        image = radialGradient(RadialGradient.Shape.Circle, CSSPosition(60.percent, yPercent.percent)) {
+            add(Color.rgba(0, 121, 242, 0.5f), 0.percent)
+            add(Colors.Transparent, 45.percent)
+        }.toImage()
+    )
 )
 
-private fun darkBackground(yPercent: Int) = CSSBackground(
-    color = Color.rgb(186, 79, 69),
-    image = radialGradient(RadialGradient.Shape.Circle, CSSPosition(60.percent, yPercent.percent)) {
-        add(Color.rgb(152, 103, 93), 0.percent)
-        add(Colors.Transparent, 45.percent)
-    }.toImage()
+private fun darkBackground(yPercent: Int) = Modifier.background(
+    Color.rgb(186, 79, 69),
+    CSSBackground(
+        image = radialGradient(RadialGradient.Shape.Circle, CSSPosition(60.percent, yPercent.percent)) {
+            add(Color.rgb(152, 103, 93), 0.percent)
+            add(Colors.Transparent, 45.percent)
+        }.toImage()
+    )
 )
 
 val MainNavStyle by ComponentStyle.base {
-    val background = if (colorMode.isLight()) lightBackground(60) else darkBackground(60)
+    val backgroundModifier = if (colorMode.isLight()) lightBackground(60) else darkBackground(60)
 
-    Modifier
-        .background(background)
+    backgroundModifier
         .color(ColorMode.LIGHT.toSilkPalette().background)
 }
 
 val SideNavVariant by MainNavStyle.addVariantBase {
     // Make background higher so gradient appears under dropdowns
-    val background = if (colorMode.isLight()) lightBackground(30) else darkBackground(30)
+    val backgroundModifier = if (colorMode.isLight()) lightBackground(30) else darkBackground(30)
 
-    Modifier
+    backgroundModifier
         .padding(top = 1.cssRem, leftRight = 0.75.cssRem, bottom = 0.75.cssRem)
         .flexBasis(325.px) // allow some shrinking but no growing
         .position(Position.Sticky)
         .top(0.px)
         .height(100.vh)
-        .zIndex(100)
-        .background(background)
 }
 
 val MobileNavVariant by MainNavStyle.addVariantBase {

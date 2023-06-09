@@ -98,7 +98,6 @@ class DataPageVM(
     }
 
     private val activeSchoolsByCode by derivedStateOf {
-        println("activeSchoolsByCodeX: ${campusVM.selected} ${levelOfStudyVM.selected} ${globalData.schoolsByCode.keys}")
         globalData.schoolsByCode.filterValues {
             it.campuses.intersect(campusVM.selected).isNotEmpty() && it.level in levelOfStudyVM.selected
         }

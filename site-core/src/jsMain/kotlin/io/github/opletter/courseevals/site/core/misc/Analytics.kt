@@ -3,9 +3,9 @@ package io.github.opletter.courseevals.site.core.misc
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
 
-fun jsGoatCount(myPath: String? = null) {
+fun jsGoatCount(path: String? = null) {
     val options = js("{}")
-    myPath?.let { options["path"] = "test-$it" }
+    path?.let { options["path"] = it }
     js("window.goatcounter ? window.goatcounter.count(options) : null")
 }
 

@@ -23,7 +23,7 @@ kotlin {
                 implementation(libs.coroutines)
                 implementation(libs.serialization)
                 implementation(libs.bundles.ktor.main)
-                implementation(project(":common"))
+                implementation(projects.common)
             }
         }
 

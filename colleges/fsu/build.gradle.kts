@@ -14,7 +14,7 @@ dependencies {
     implementation(libs.ktor.client.cio)
     implementation(libs.bundles.ktor.main)
     implementation(libs.pdfbox)
-    implementation(project(":common"))
+    implementation(projects.common)
 }
 
 kotlin {

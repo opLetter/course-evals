@@ -14,7 +14,7 @@ dependencies {
     implementation(libs.serialization)
     implementation(libs.ktor.client.cio)
     implementation(libs.bundles.ktor.main)
-    implementation(project(":common"))
+    implementation(projects.common)
 }
 
 kotlin {

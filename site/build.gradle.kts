@@ -63,8 +63,8 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.html.core)
                 implementation(libs.bundles.kobweb)
-                implementation(project(":common"))
-                implementation(project(":site-core"))
+                implementation(projects.common)
+                implementation(projects.siteCore)
             }
         }
     }

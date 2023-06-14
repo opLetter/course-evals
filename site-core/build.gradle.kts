@@ -20,7 +20,7 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.html.core)
                 implementation(libs.bundles.kobweb)
-                implementation(project(":common"))
+                implementation(projects.common)
             }
         }
     }

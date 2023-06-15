@@ -21,11 +21,12 @@ class MinSemesterVM(
     private val storageKey = "course-evals:$key:minSemester"
 
     val bounds = options.bounds.run { first.numValue to second.numValue }
+    val default = options.default.numValue
 
     // We use `value` for the actual filter currently applied and `rangeValue` for the value shown on the slider
     // as the user drags it. We only want to actually update the filter when the user releases the slider,
 
-    var value by mutableStateOf(options.default.numValue)
+    var value by mutableStateOf(default)
         private set
 
     init {
@@ -35,15 +36,7 @@ class MinSemesterVM(
             ?.let { value = it }
     }
 
-    var rangeValue by mutableStateOf(value)
-        private set
-
-    val showResetButton get() = value != options.default.numValue
-    val text get() = options.builder(rangeValue).toString()
-
-    fun setRangeValue(num: Number?) {
-        num?.let { rangeValue = it.toInt() }
-    }
+    fun getText(num: Number) = options.builder(num.toInt()).toString()
 
     fun setValue(num: Number?) {
         num?.let {
@@ -51,11 +44,5 @@ class MinSemesterVM(
             sessionStorage[storageKey] = value.toString()
             refreshState()
         }
-    }
-
-    fun reset() {
-        val default = options.default.numValue
-        setValue(default)
-        setRangeValue(default)
     }
 }

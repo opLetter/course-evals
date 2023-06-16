@@ -53,9 +53,9 @@ fun SearchForm(viewModel: DataPageVM.SearchBarVM) {
             }
     ) {
         val dataListId = "search-list"
-        key(viewModel.searchBarSuggestions) {
+        key(viewModel.suggestions) {
             Datalist(Modifier.id(dataListId).toAttrs()) {
-                viewModel.searchBarSuggestions.forEach {
+                viewModel.suggestions.forEach {
                     Option(it) // tried using key() but it didn't seem to help
                 }
             }
@@ -74,12 +74,12 @@ private fun SearchBar(dataListId: String, viewModel: DataPageVM.SearchBarVM) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         SearchInput(
-            viewModel.searchBoxInput,
+            viewModel.input,
             attrs = SearchBarStyle.toAttrs {
                 list(dataListId)
-                placeholder(viewModel.searchBarPlaceholder)
-                onClick { viewModel.searchBarClickedOnce = true }
-                onInput { viewModel.searchBoxInput = viewModel.valueTransform(it.value) }
+                placeholder(viewModel.placeholder)
+                onClick { viewModel.active = true }
+                onInput { viewModel.input = viewModel.inputTransform(it.value) }
             }
         )
         FaMagnifyingGlass(

@@ -143,9 +143,9 @@ fun DataPageContent(college: College) {
         ) {
             // close mobile nav on successful (i.e. causes state change) search
             remember(viewModel.navState) {
-                if (!initialLoading && !viewModel.searchBarVM.searchEnterHandled) {
+                if (!initialLoading && !viewModel.searchBarVM.enterHandled) {
                     navOpenMobile = false
-                    viewModel.searchBarVM.searchEnterHandled = true
+                    viewModel.searchBarVM.enterHandled = true
                 }
             }
 

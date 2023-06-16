@@ -59,7 +59,7 @@ class ProfSummaryVM(
     }
 }
 
-data class AveComparisonData(
+class AveComparisonData(
     val average: String,
     val totalNum: String,
     val url: String,

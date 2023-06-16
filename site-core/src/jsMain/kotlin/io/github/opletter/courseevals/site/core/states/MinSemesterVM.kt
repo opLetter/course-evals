@@ -3,7 +3,7 @@ package io.github.opletter.courseevals.site.core.states
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import io.github.opletter.courseevals.site.core.misc.SemesterOptions
+import io.github.opletter.courseevals.site.core.misc.SemesterConfig
 import kotlinx.browser.sessionStorage
 import org.w3c.dom.get
 import org.w3c.dom.set
@@ -14,14 +14,14 @@ import org.w3c.dom.set
 // In theory it'd be fine to save a value that's more recent than the default - but is that worth it?
 
 class MinSemesterVM(
-    private val options: SemesterOptions<*>,
+    private val config: SemesterConfig<*>,
     key: String,
     private val refreshState: () -> Unit,
 ) {
     private val storageKey = "course-evals:$key:minSemester"
 
-    val bounds = options.bounds.run { first.numValue to second.numValue }
-    val default = options.default.numValue
+    val bounds = config.bounds.run { first.numValue to second.numValue }
+    val default = config.default.numValue
 
     // We use `value` for the actual filter currently applied and `rangeValue` for the value shown on the slider
     // as the user drags it. We only want to actually update the filter when the user releases the slider,
@@ -36,7 +36,7 @@ class MinSemesterVM(
             ?.let { value = it }
     }
 
-    fun getText(num: Number) = options.builder(num.toInt()).toString()
+    fun getText(num: Number) = config.builder(num.toInt()).toString()
 
     fun setValue(num: Number?) {
         num?.let {

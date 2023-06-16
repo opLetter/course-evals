@@ -135,7 +135,7 @@ fun MainNav(
                     list = viewModel.coursesWithNames,
                     onSelect = { viewModel.selectCourse(it) },
                     selectModifier = Modifier.width(25.percent).minWidth(MinWidth.FitContent).id(labels[2]),
-                    selected = viewModel.courseAsName,
+                    selected = viewModel.courseWithName,
                 )
             }
 

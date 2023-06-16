@@ -7,6 +7,6 @@ class WebsitePaths(
     val courseNamesDir: String = "$extraDir/courseNames",
     val teachingDataDir: String = "$extraDir/teachingF23",
     val allInstructorsFile: String = "$statsByProfDir/allInstructors.json",
-    val deptMapFile: String = "$extraDir/deptNames.json",
-    val schoolMapFile: String = "$statsByProfDir/schools.json",
+    val deptNamesFile: String = "$extraDir/deptNames.json",
+    val schoolsByCodeFile: String = "$statsByProfDir/schools.json",
 )

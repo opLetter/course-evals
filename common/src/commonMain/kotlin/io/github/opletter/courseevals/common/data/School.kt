@@ -26,7 +26,7 @@ enum class LevelOfStudy(val fullName: String) {
     U("Undergraduate"), G("Graduate")
 }
 
-suspend fun <T> Collection<School>.generateSchoolMap(
+suspend fun <T> Collection<School>.generateSchoolDeptsMap(
     generator: suspend (school: String, dept: String) -> T,
 ): SchoolDeptsMap<T> {
     return pmap { school ->

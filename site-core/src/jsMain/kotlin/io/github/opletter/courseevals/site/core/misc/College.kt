@@ -19,7 +19,7 @@ sealed interface College {
     fun getCode(school: String, dept: String, course: String): String
 
     /** Modify the input string of the search bar */
-    fun searchValueTransform(value: String): String
+    fun searchInputTransform(value: String): String
 
     /** Labels for the nav dropdowns, in order of appearance. Length: 4 */
     val dropDownLabels: List<String>
@@ -29,7 +29,7 @@ sealed interface College {
     // Chosen for now to be the 5th semester back (from which we have data)
     // Considered making it the first semester of current-year seniors, but that may slow down pages too much
     // for data that most people wouldn't want to see.
-    val semesterOptions: SemesterOptions<*>
+    val semesterConfig: SemesterConfig<*>
 
     /** All valid campuses for this college, and whether they should be enabled by default */
     val campuses: Map<Campus, Boolean>
@@ -75,10 +75,10 @@ sealed interface College {
         override fun getCode(school: String, dept: String, course: String): String =
             "$school:$dept" + if (course.isEmpty()) "" else ":$course"
 
-        override fun searchValueTransform(value: String): String = value.uppercase()
+        override fun searchInputTransform(value: String): String = value.uppercase()
         override val dropDownLabels = listOf("School", "Subject", "Course (Optional)", "Instructor (Optional)")
 
-        override val semesterOptions = SemesterOptions(
+        override val semesterConfig = SemesterConfig(
             bounds = Semester.Double.valueOf(SemesterType.Spring, 2014) to
                     Semester.Double.valueOf(SemesterType.Spring, 2022),
             default = Semester.Double.valueOf(SemesterType.Spring, 2020),
@@ -164,10 +164,10 @@ sealed interface College {
         // ignore the school, since it's a campus and only one campus is selected at a time
         override fun getCode(school: String, dept: String, course: String): String = dept + course
 
-        override fun searchValueTransform(value: String): String = value.uppercase()
+        override fun searchInputTransform(value: String): String = value.uppercase()
 
         override val dropDownLabels = listOf("Campus", "Course Prefix", "Course (Optional)", "Instructor (Optional)")
-        override val semesterOptions = SemesterOptions(
+        override val semesterConfig = SemesterConfig(
             bounds = Semester.Triple.valueOf(SemesterType.Fall, 2013) to
                     Semester.Triple.valueOf(SemesterType.Fall, 2022),
             default = Semester.Triple.valueOf(SemesterType.Spring, 2020),
@@ -214,10 +214,10 @@ sealed interface College {
         // ignore the school, since it's a campus and only one campus is selected at a time
         override fun getCode(school: String, dept: String, course: String): String = dept + course
 
-        override fun searchValueTransform(value: String): String = value
+        override fun searchInputTransform(value: String): String = value
 
         override val dropDownLabels = listOf("TODO", "Subject", "Course (Optional)", "Instructor (Optional)")
-        override val semesterOptions = SemesterOptions(
+        override val semesterConfig = SemesterConfig(
             bounds = Semester.Triple.valueOf(SemesterType.Fall, 2012) to
                     Semester.Triple.valueOf(SemesterType.Fall, 2022),
             default = Semester.Triple.valueOf(SemesterType.Spring, 2020),
@@ -241,7 +241,7 @@ enum class SchoolStrategy {
     NORMAL, SHOW_ALL, SINGLE
 }
 
-class SemesterOptions<T : Semester<T>>(
+class SemesterConfig<T : Semester<T>>(
     val bounds: Pair<T, T>,
     val default: T,
     val builder: (Int) -> T,

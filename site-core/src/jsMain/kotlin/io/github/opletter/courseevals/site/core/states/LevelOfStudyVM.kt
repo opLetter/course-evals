@@ -11,8 +11,8 @@ import org.w3c.dom.set
 private const val LEVEL_OF_STUDY_KEY = "course-evals:rutgers:levelOfStudy"
 
 class LevelOfStudyVM(refreshState: () -> Unit) : CheckmarksVM<LevelOfStudy>(refreshState) {
-    private var checkedUndergrad by mutableStateOf(true)
-    private var checkedGrad by mutableStateOf(true)
+    private var undergrad by mutableStateOf(true)
+    private var grad by mutableStateOf(true)
 
     init {
         localStorage[LEVEL_OF_STUDY_KEY].orEmpty()
@@ -20,17 +20,17 @@ class LevelOfStudyVM(refreshState: () -> Unit) : CheckmarksVM<LevelOfStudy>(refr
             .map { it.toBoolean() }
             .takeIf { it.size == 2 && true in it }
             ?.let {
-                checkedUndergrad = it[0]
-                checkedGrad = it[1]
+                undergrad = it[0]
+                grad = it[1]
             }
     }
 
-    override val checks get() = mapOf(LevelOfStudy.U to checkedUndergrad, LevelOfStudy.G to checkedGrad)
+    override val checks get() = mapOf(LevelOfStudy.U to undergrad, LevelOfStudy.G to grad)
 
     override fun handleClick(data: LevelOfStudy) {
         when (data) {
-            LevelOfStudy.U -> checkedUndergrad = !checkedUndergrad
-            LevelOfStudy.G -> checkedGrad = !checkedGrad
+            LevelOfStudy.U -> undergrad = !undergrad
+            LevelOfStudy.G -> grad = !grad
         }
         localStorage[LEVEL_OF_STUDY_KEY] = checks.values.joinToString(",")
     }

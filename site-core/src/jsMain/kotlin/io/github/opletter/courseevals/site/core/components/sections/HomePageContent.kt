@@ -97,9 +97,9 @@ private fun NavContent(viewModel: DataPageVM, setRouting: () -> Unit) {
     // issue: search of the same thing that's already selected in the dropdowns doesn't trigger this
     // probably not too big a deal, but would be nice to fix
     remember(viewModel.navState) {
-        if (!viewModel.searchBarVM.searchEnterHandled)
+        if (!viewModel.searchBarVM.enterHandled)
             setRouting()
-        viewModel.searchBarVM.searchEnterHandled = true
+        viewModel.searchBarVM.enterHandled = true
     }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {

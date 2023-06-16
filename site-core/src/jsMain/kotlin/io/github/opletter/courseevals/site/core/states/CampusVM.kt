@@ -11,7 +11,7 @@ class CampusVM(
     key: String,
     refreshState: () -> Unit,
 ) : CheckmarksVM<Campus>(refreshState) {
-    private val campusKey = "course-evals:$key:campuses"
+    private val storageKey = "course-evals:$key:campuses"
 
     private val checksState = mutableStateMapOf<Campus, Boolean>()
         .apply {
@@ -19,7 +19,7 @@ class CampusVM(
         }
 
     init {
-        localStorage[campusKey].orEmpty()
+        localStorage[storageKey].orEmpty()
             .split(",")
             .map { it.toBoolean() }
             .takeIf { it.size == campuses.size && true in it }
@@ -33,12 +33,12 @@ class CampusVM(
 
     override fun handleClick(data: Campus) {
         checksState[data] = !(checksState[data] ?: error("No value for $data"))
-        localStorage[campusKey] = checks.values.joinToString(",")
+        localStorage[storageKey] = checks.values.joinToString(",")
     }
 
     fun selectOnly(campus: Campus) {
         checksState.forEach { checksState[it.key] = false }
         checksState[campus] = true
-        localStorage[campusKey] = checks.values.joinToString(",")
+        localStorage[storageKey] = checks.values.joinToString(",")
     }
 }

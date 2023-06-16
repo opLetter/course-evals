@@ -10,16 +10,16 @@ interface WebsiteDataSource {
     suspend fun getTeachingDataOrEmpty(school: String, dept: String): Map<String, List<String>>
 
     suspend fun getAllInstructors(): Map<String, List<Instructor>>
-    suspend fun getDeptMap(): Map<String, String>
-    suspend fun getSchoolMap(): Map<String, School>
+    suspend fun getDeptNames(): Map<String, String>
+    suspend fun getSchoolsByCode(): Map<String, School>
 }
 
 /** Useful for testing */
 suspend fun WebsiteDataSource.getAllData(school: String, dept: String, print: Boolean = true) {
     val data = listOf(
-        getSchoolMap(),
+        getSchoolsByCode(),
         getAllInstructors(),
-        getDeptMap(),
+        getDeptNames(),
         getStatsByProf(school, dept),
         getCourseNamesOrEmpty(school, dept),
         getTeachingDataOrEmpty(school, dept),

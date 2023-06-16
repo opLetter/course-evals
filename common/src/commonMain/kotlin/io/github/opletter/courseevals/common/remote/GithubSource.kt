@@ -59,7 +59,7 @@ class GithubSource(
     override suspend fun getAllInstructors(): Map<String, List<Instructor>> =
         ghClient.get(paths.allInstructorsFile).body()
 
-    override suspend fun getDeptMap(): Map<String, String> = ghClient.get(paths.deptMapFile).body()
+    override suspend fun getDeptNames(): Map<String, String> = ghClient.get(paths.deptNamesFile).body()
 
-    override suspend fun getSchoolMap(): Map<String, School> = ghClient.get(paths.schoolMapFile).body()
+    override suspend fun getSchoolsByCode(): Map<String, School> = ghClient.get(paths.schoolsByCodeFile).body()
 }

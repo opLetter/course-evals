@@ -41,35 +41,30 @@ val UnstyledButtonVariant by ButtonStyle.addVariant {
 
 @Composable
 fun LabeledSlider(
-    startValue: Number,
+    initialValue: Number,
     bounds: Pair<Number, Number>,
     step: Number = 1,
     onRelease: (Number) -> Unit,
     modifier: Modifier = Modifier,
+    defaultValue: Number = initialValue,
     onSlide: (Number) -> Unit = {},
-    onReset: (() -> Unit)? = null,
     getText: (Number) -> String = { it.toString() },
-    resetContent: @Composable BoxScope.() -> Unit = { FaRotateRight() },
+    resetContent: (@Composable BoxScope.() -> Unit)? = { FaRotateRight() },
 ) {
-    var rangeValue by remember { mutableStateOf(startValue) }
+    var rangeValue by remember { mutableStateOf(initialValue) }
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Slider(
-            startValue,
-            bounds,
-            step,
-            onRelease,
+            initialValue = initialValue,
+            bounds = bounds,
+            step = step,
+            onRelease = onRelease,
+            modifier = Modifier.fillMaxWidth(),
+            defaultValue = defaultValue,
             onSlide = {
                 rangeValue = it
                 onSlide(it)
             },
-            onReset = onReset?.let {
-                {
-                    rangeValue = startValue
-                    it()
-                }
-            },
             resetContent = resetContent,
-            modifier = Modifier.fillMaxWidth(),
         )
         Text(getText(rangeValue))
     }
@@ -77,17 +72,17 @@ fun LabeledSlider(
 
 @Composable
 fun Slider(
-    startValue: Number,
+    initialValue: Number,
     bounds: Pair<Number, Number>,
     step: Number = 1,
     onRelease: (Number) -> Unit,
     modifier: Modifier = Modifier,
+    defaultValue: Number = initialValue,
     onSlide: (Number) -> Unit = {},
-    onReset: (() -> Unit)? = null,
-    resetContent: @Composable BoxScope.() -> Unit = { FaRotateRight() },
+    resetContent: (@Composable BoxScope.() -> Unit)? = { FaRotateRight() },
 ) {
-    var rangeValue by remember { mutableStateOf(startValue) }
-    var releaseValue by remember { mutableStateOf(startValue) } // used to determine if we should show the reset button
+    var rangeValue by remember { mutableStateOf(initialValue) }
+    var releaseValue by remember { mutableStateOf(initialValue) } // used to determine if we should show the reset button
     Box(
         Modifier
             .gridTemplateColumns("1fr auto 1fr")
@@ -112,23 +107,24 @@ fun Slider(
             }
         )
         ClosableTransitionObject(
-            open = onReset != null && releaseValue != startValue,
+            open = resetContent != null && releaseValue != defaultValue,
             openModifier = Modifier.opacity(1),
-            closedModifier = Modifier.opacity(0),
+            closedModifier = Modifier.opacity(0.4), // purposely start partially visible to avoid seeming laggy
         ) {
             Button(
                 onClick = {
-                    rangeValue = startValue
-                    releaseValue = startValue
-                    onReset!!()
+                    rangeValue = defaultValue
+                    releaseValue = defaultValue
+                    onSlide(defaultValue)
+                    onRelease(defaultValue)
                 },
                 Modifier
                     .gridColumn("3")
                     .transition(CSSTransition("opacity", 150.ms))
                     .then(it),
-                variant = UnstyledButtonVariant,
+                UnstyledButtonVariant,
             ) {
-                resetContent()
+                resetContent!!()
             }
         }
     }

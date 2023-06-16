@@ -17,6 +17,7 @@ import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.addVariantBase
 import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.DarkBackgroundBoxStyle
@@ -26,10 +27,8 @@ import io.github.opletter.courseevals.site.core.misc.SchoolStrategy
 import io.github.opletter.courseevals.site.core.misc.keyReset
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import io.github.opletter.courseevals.site.core.states.State
-import org.jetbrains.compose.web.attributes.forId
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Label
-import org.jetbrains.compose.web.dom.Text
 
 private fun lightBackground(yPercent: Int) = Modifier.background(
     Color.rgb(38, 40, 59),
@@ -108,45 +107,53 @@ fun MainNav(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             if (viewModel.college.schoolStrategy != SchoolStrategy.SINGLE) {
-                Label(attrs = labelModifier.toAttrs { forId(labels[0]) }) { Text(labels[0]) }
+                Label(attrs = Modifier.display(DisplayStyle.Contents).toAttrs()) {
+                    SpanText(labels[0], labelModifier)
+                    CustomDropDown(
+                        list = viewModel.navState.school.list,
+                        onSelect = { viewModel.selectSchool(school = it) },
+                        selectModifier = Modifier.fillMaxWidth(),
+                        getText = { "${it.code} - ${it.name}" },
+                        getValue = { it.code },
+                        selected = viewModel.navState.school.selected,
+                    )
+                }
+            }
+
+            Label(attrs = Modifier.display(DisplayStyle.Contents).toAttrs()) {
+                SpanText(labels[1], labelModifier)
                 CustomDropDown(
-                    list = viewModel.navState.school.list,
-                    onSelect = { viewModel.selectSchool(school = it) },
-                    selectModifier = Modifier.fillMaxWidth().id(labels[0]),
-                    getText = { "${it.code} - ${it.name}" },
-                    getValue = { it.code },
-                    selected = viewModel.navState.school.selected,
+                    list = viewModel.navState.dept.list,
+                    onSelect = { viewModel.selectDept(dept = it) },
+                    selectModifier = Modifier.fillMaxWidth(),
+                    getText = { it.second },
+                    getValue = { it.first },
+                    selected = viewModel.navState.dept.selected,
                 )
             }
 
-            Label(attrs = labelModifier.toAttrs { forId(labels[1]) }) { Text(labels[1]) }
-            CustomDropDown(
-                list = viewModel.navState.dept.list,
-                onSelect = { viewModel.selectDept(dept = it) },
-                selectModifier = Modifier.fillMaxWidth().id(labels[1]),
-                getText = { it.second },
-                getValue = { it.first },
-                selected = viewModel.navState.dept.selected,
-            )
-
-            Label(attrs = labelModifier.toAttrs { forId(labels[2]) }) { Text(labels[2]) }
-            key(viewModel.navState.course.list.size / keyReset) {
-                CustomDropDown(
-                    list = viewModel.coursesWithNames,
-                    onSelect = { viewModel.selectCourse(it) },
-                    selectModifier = Modifier.width(25.percent).minWidth(MinWidth.FitContent).id(labels[2]),
-                    selected = viewModel.courseWithName,
-                )
+            Label(attrs = Modifier.display(DisplayStyle.Contents).toAttrs()) {
+                SpanText(labels[2], labelModifier)
+                key(viewModel.navState.course.list.size / keyReset) {
+                    CustomDropDown(
+                        list = viewModel.coursesWithNames,
+                        onSelect = { viewModel.selectCourse(it) },
+                        selectModifier = Modifier.width(25.percent).minWidth(MinWidth.FitContent),
+                        selected = viewModel.courseWithName,
+                    )
+                }
             }
 
-            Label(attrs = labelModifier.toAttrs { forId(labels[3]) }) { Text(labels[3]) }
-            key(viewModel.navState.prof.list.size / keyReset) {
-                CustomDropDown(
-                    list = viewModel.navState.prof.list,
-                    onSelect = { viewModel.selectProf(it) },
-                    selectModifier = Modifier.width(75.percent).maxWidth(MaxWidth.FitContent).id(labels[3]),
-                    selected = viewModel.navState.prof.selected,
-                )
+            Label(attrs = Modifier.display(DisplayStyle.Contents).toAttrs()) {
+                SpanText(labels[3], labelModifier)
+                key(viewModel.navState.prof.list.size / keyReset) {
+                    CustomDropDown(
+                        list = viewModel.navState.prof.list,
+                        onSelect = { viewModel.selectProf(it) },
+                        selectModifier = Modifier.width(75.percent).maxWidth(MaxWidth.FitContent),
+                        selected = viewModel.navState.prof.selected,
+                    )
+                }
             }
 
             extraContent()

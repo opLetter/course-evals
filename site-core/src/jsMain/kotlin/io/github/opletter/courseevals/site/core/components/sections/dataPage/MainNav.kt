@@ -132,13 +132,16 @@ fun MainNav(
                 )
             }
 
+            // fit content, but the 25% prevents the parent from expanding and also serves as a min width
+            val dynamicWidthModifier = Modifier.width(25.percent).minWidth(MinWidth.FitContent)
+
             Label(attrs = Modifier.display(DisplayStyle.Contents).toAttrs()) {
                 SpanText(labels[2], labelModifier)
                 key(viewModel.navState.course.list.size / keyReset) {
                     CustomDropDown(
                         list = viewModel.coursesWithNames,
                         onSelect = { viewModel.selectCourse(it) },
-                        selectModifier = Modifier.width(25.percent).minWidth(MinWidth.FitContent),
+                        selectModifier = dynamicWidthModifier,
                         selected = viewModel.courseWithName,
                     )
                 }
@@ -150,7 +153,7 @@ fun MainNav(
                     CustomDropDown(
                         list = viewModel.navState.prof.list,
                         onSelect = { viewModel.selectProf(it) },
-                        selectModifier = Modifier.width(75.percent).maxWidth(MaxWidth.FitContent),
+                        selectModifier = dynamicWidthModifier,
                         selected = viewModel.navState.prof.selected,
                     )
                 }

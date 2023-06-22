@@ -7,6 +7,7 @@ import com.varabyte.kobweb.compose.foundation.layout.BoxScope
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.attrsModifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.forms.Button
@@ -121,7 +122,10 @@ fun Slider(
                 Modifier
                     .gridColumn("3")
                     .transition(CSSTransition("opacity", 150.ms))
-                    .then(it),
+                    .attrsModifier {
+                        attr("type", "reset")
+                        attr("aria-label", "reset")
+                    }.then(it),
                 UnstyledButtonVariant,
             ) {
                 resetContent!!()

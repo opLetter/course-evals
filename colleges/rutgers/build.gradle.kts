@@ -36,5 +36,5 @@ kotlin {
 }
 
 application {
-    mainClass.set("io.github.opletter.courseevals.rutgers.MainKt")
+    mainClass = "io.github.opletter.courseevals.rutgers.MainKt"
 }

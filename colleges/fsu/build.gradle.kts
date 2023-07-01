@@ -22,5 +22,5 @@ kotlin {
 }
 
 application {
-    mainClass.set("io.github.opletter.courseevals.fsu.MainKt")
+    mainClass = "io.github.opletter.courseevals.fsu.MainKt"
 }

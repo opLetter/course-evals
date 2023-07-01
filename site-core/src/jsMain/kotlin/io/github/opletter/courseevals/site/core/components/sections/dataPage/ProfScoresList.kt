@@ -47,10 +47,12 @@ import com.varabyte.kobweb.compose.css.AlignSelf as KobAlignSelf
 // We want the maximum possible value while affecting as little screens as possible
 private fun ComponentModifiers.ratingsGrid(numQs: Int) {
     base {
-        Modifier.gridTemplateColumns("1fr 4.75fr 2fr 2fr")
+        Modifier.gridTemplateColumns { size(1.fr); size(4.75.fr); size(2.fr); size(2.fr) }
     }
     Breakpoint.XL {
-        Modifier.gridTemplateColumns("2rem minmax(auto, 12rem) repeat(${numQs + 1}, 4.25rem)")
+        Modifier.gridTemplateColumns {
+            size(2.cssRem); minmax(auto, 12.cssRem); repeat(numQs + 1) { size(4.25.cssRem) }
+        }
     }
 }
 

@@ -15,7 +15,7 @@ version = "1.0-SNAPSHOT"
 kobweb {
     app {
         index {
-            description.set("View course evaluation results in an easy-to-read format")
+            description = "View course evaluation results in an easy-to-read format"
             head.add {
                 script {
                     consumer.onTagContent(

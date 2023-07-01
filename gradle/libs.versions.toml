@@ -1,11 +1,11 @@
 [versions]
 jetbrains-compose = "1.4.0"
-kobweb = "0.13.5"
+kobweb = "0.13.6"
 kotlin = "1.8.20"
-ktor = "2.3.1"
-coroutines = "1.7.1"
+ktor = "2.3.2"
+coroutines = "1.7.2"
 serialization = "1.5.1"
-pdfbox = "2.0.28"
+pdfbox = "2.0.29"
 
 [libraries]
 kobweb-core = { module = "com.varabyte.kobweb:kobweb-core", version.ref = "kobweb" }

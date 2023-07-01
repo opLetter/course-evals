@@ -15,7 +15,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.icons.fa.FaCaretDown
 import com.varabyte.kobweb.silk.components.icons.fa.FaCaretUp
-import com.varabyte.kobweb.silk.components.layout.breakpoint.displayIf
+import com.varabyte.kobweb.silk.components.layout.breakpoint.displayIfAtLeast
 import com.varabyte.kobweb.silk.components.layout.breakpoint.displayUntil
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
@@ -96,7 +96,7 @@ fun DataPageContent(college: College) {
         Column(
             MainNavStyle.toModifier(SideNavVariant)
                 .rowGap(0.5.cssRem)
-                .displayIf(Breakpoint.MD),
+                .displayIfAtLeast(Breakpoint.MD),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MainNav(viewModel)

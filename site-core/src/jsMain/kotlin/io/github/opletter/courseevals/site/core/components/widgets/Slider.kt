@@ -17,6 +17,7 @@ import com.varabyte.kobweb.silk.components.style.active
 import com.varabyte.kobweb.silk.components.style.addVariant
 import com.varabyte.kobweb.silk.components.style.hover
 import org.jetbrains.compose.web.css.cssRem
+import org.jetbrains.compose.web.css.fr
 import org.jetbrains.compose.web.css.ms
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.RangeInput
@@ -86,7 +87,7 @@ fun Slider(
     var releaseValue by remember { mutableStateOf(initialValue) } // used to determine if we should show the reset button
     Box(
         Modifier
-            .gridTemplateColumns("1fr auto 1fr")
+            .gridTemplateColumns { size(1.fr); size(auto); size(1.fr) }
             .columnGap(0.5.cssRem)
             .then(modifier),
         contentAlignment = Alignment.Center,

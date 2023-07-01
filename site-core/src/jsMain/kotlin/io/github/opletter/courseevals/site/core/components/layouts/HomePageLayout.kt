@@ -11,6 +11,7 @@ import io.github.opletter.courseevals.site.core.components.sections.Footer
 import io.github.opletter.courseevals.site.core.components.sections.OppositeLinkVariant
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNavStyle
 import org.jetbrains.compose.web.css.cssRem
+import org.jetbrains.compose.web.css.fr
 import org.jetbrains.compose.web.css.percent
 
 @Composable
@@ -20,7 +21,7 @@ fun HomePageLayout(modifier: Modifier = Modifier, content: @Composable BoxScope.
             .fillMaxWidth()
             .minHeight(100.percent)
             .padding(top = 0.5.cssRem)
-            .gridTemplateRows("1fr auto")
+            .gridTemplateRows { size(1.fr); size(auto) }
             .then(modifier)
     ) {
         content()

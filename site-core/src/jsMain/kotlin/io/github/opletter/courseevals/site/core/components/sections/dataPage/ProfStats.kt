@@ -10,7 +10,7 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.silk.components.layout.breakpoint.displayIf
+import com.varabyte.kobweb.silk.components.layout.breakpoint.displayIfAtLeast
 import com.varabyte.kobweb.silk.components.layout.breakpoint.displayUntil
 import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
@@ -63,7 +63,7 @@ val FixedWidthAveVariant by SpanTextStyle.addVariant {
 fun ProfStatsDesktop(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
     Row(
         Modifier
-            .displayIf(Breakpoint.LG)
+            .displayIfAtLeast(Breakpoint.LG)
             .flexGrow(1)
             .flexWrap(FlexWrap.Nowrap)
             .margin(bottom = 2.cssRem)

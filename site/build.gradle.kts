@@ -54,7 +54,7 @@ kobweb {
 }
 
 kotlin {
-    configAsKobwebApplication("course-evals")
+    configAsKobwebApplication(rootProject.name)
 
     sourceSets {
         @Suppress("UNUSED_VARIABLE")

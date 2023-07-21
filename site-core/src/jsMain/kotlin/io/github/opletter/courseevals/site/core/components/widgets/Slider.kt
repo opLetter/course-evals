@@ -43,48 +43,47 @@ val UnstyledButtonVariant by ButtonStyle.addVariant {
 
 @Composable
 fun LabeledSlider(
-    initialValue: Number,
+    rangeValue: Number,
     bounds: Pair<Number, Number>,
     step: Number = 1,
     onRelease: (Number) -> Unit,
     modifier: Modifier = Modifier,
-    defaultValue: Number = initialValue,
+    defaultValue: Number = rangeValue,
     onSlide: (Number) -> Unit = {},
     getText: (Number) -> String = { it.toString() },
     resetContent: (@Composable BoxScope.() -> Unit)? = { FaRotateRight() },
 ) {
-    var rangeValue by remember { mutableStateOf(initialValue) }
+    var visualRangeValue by remember { mutableStateOf(rangeValue) }
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Slider(
-            initialValue = initialValue,
+            rangeValue = rangeValue,
             bounds = bounds,
             step = step,
             onRelease = onRelease,
             modifier = Modifier.fillMaxWidth(),
             defaultValue = defaultValue,
             onSlide = {
-                rangeValue = it
+                visualRangeValue = it
                 onSlide(it)
             },
             resetContent = resetContent,
         )
-        Text(getText(rangeValue))
+        Text(getText(visualRangeValue))
     }
 }
 
 @Composable
 fun Slider(
-    initialValue: Number,
+    rangeValue: Number,
     bounds: Pair<Number, Number>,
     step: Number = 1,
     onRelease: (Number) -> Unit,
     modifier: Modifier = Modifier,
-    defaultValue: Number = initialValue,
+    defaultValue: Number = rangeValue,
     onSlide: (Number) -> Unit = {},
     resetContent: (@Composable BoxScope.() -> Unit)? = { FaRotateRight() },
 ) {
-    var rangeValue by remember { mutableStateOf(initialValue) }
-    var releaseValue by remember { mutableStateOf(initialValue) } // used to determine if we should show the reset button
+    var visualRangeValue by remember { mutableStateOf(rangeValue) }
     Box(
         Modifier
             .gridTemplateColumns { size(1.fr); size(auto); size(1.fr) }
@@ -93,35 +92,31 @@ fun Slider(
         contentAlignment = Alignment.Center,
     ) {
         RangeInput(
-            value = rangeValue,
+            value = visualRangeValue,
             min = bounds.first,
             max = bounds.second,
             step = step,
-            attrs = Modifier.gridColumn("2").toAttrs {
+            attrs = Modifier.gridColumnStart(2).toAttrs {
                 onInput {
-                    rangeValue = it.value!!
+                    visualRangeValue = it.value!!
                     onSlide(it.value!!)
                 }
-                onChange {
-                    releaseValue = rangeValue
-                    onRelease(rangeValue)
-                }
+                onChange { onRelease(visualRangeValue) }
             }
         )
         ClosableTransitionObject(
-            open = resetContent != null && releaseValue != defaultValue,
+            open = resetContent != null && rangeValue != defaultValue,
             openModifier = Modifier.opacity(1),
             closedModifier = Modifier.opacity(0.4), // purposely start partially visible to avoid seeming laggy
         ) {
             Button(
                 onClick = {
-                    rangeValue = defaultValue
-                    releaseValue = defaultValue
+                    visualRangeValue = defaultValue
                     onSlide(defaultValue)
                     onRelease(defaultValue)
                 },
                 Modifier
-                    .gridColumn("3")
+                    .gridColumnStart(3)
                     .transition(CSSTransition("opacity", 150.ms))
                     .attrsModifier {
                         attr("type", "reset")

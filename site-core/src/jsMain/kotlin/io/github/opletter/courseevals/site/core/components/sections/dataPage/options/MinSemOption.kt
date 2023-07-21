@@ -1,7 +1,6 @@
 package io.github.opletter.courseevals.site.core.components.sections.dataPage.options
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -22,9 +21,8 @@ fun MinSemOption(state: MinSemesterVM) {
     ) {
         SpanText("Recency Filter", Modifier.fontSize(125.percent).smallCapsFont())
         Text("Hide profs with no data since")
-        val initialValue = remember { state.value }
         LabeledSlider(
-            initialValue,
+            state.value,
             state.bounds,
             defaultValue = state.default,
             onRelease = { state.setValue(it) },

@@ -6,7 +6,7 @@ import io.github.opletter.courseevals.common.remote.WebsiteDataSource
 import io.github.opletter.courseevals.site.core.misc.College
 import io.github.opletter.courseevals.site.core.misc.None
 import io.github.opletter.courseevals.site.core.misc.SchoolStrategy
-import io.github.opletter.courseevals.site.core.misc.jsFormatNum
+import io.github.opletter.courseevals.site.core.misc.toFixed
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -386,7 +386,7 @@ private fun Map<String, Ratings>.toDisplayMap(addAverage: Boolean = true): Map<S
     return mapValues { (_, ratings) -> ratings.getAvesAndTotal() }
         .let { if (addAverage && it.size > 1) it.plus("Average" to it.getAveStats()) else it }
         .mapValues { (_, stats) ->
-            stats.ratings.map { jsFormatNum(num = it, decDigits = 1) } + stats.numResponses.toString()
+            stats.ratings.map { it.toFixed(1) } + stats.numResponses.toString()
         }
 }
 

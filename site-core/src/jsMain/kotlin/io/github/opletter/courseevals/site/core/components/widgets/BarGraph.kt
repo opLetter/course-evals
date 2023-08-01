@@ -23,10 +23,10 @@ import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.components.text.SpanTextStyle
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
-import io.github.opletter.courseevals.site.core.misc.jsFormatNum
 import io.github.opletter.courseevals.site.core.misc.smallCapsFont
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Text
+import kotlin.math.roundToInt
 
 val BarGraphStyle by ComponentStyle {
     val backgroundGradient = if (colorMode.isLight()) {
@@ -113,7 +113,7 @@ fun BarGraph(
                     Box(Modifier.flexGrow(1 - barWeight).transition(transition))
                     Text(
                         if (mouseOver) num.toString()
-                        else jsFormatNum(num = num.toDouble() / ratings.sum() * 100, decDigits = 0).let { "$it%" }
+                        else (num.toDouble() / ratings.sum() * 100).roundToInt().let { "$it%" }
                     )
                     Box(
                         BarGraphBarStyle.toModifier()

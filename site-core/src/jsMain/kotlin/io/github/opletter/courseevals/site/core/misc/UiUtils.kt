@@ -17,10 +17,11 @@ fun Modifier.textEllipsis(): Modifier =
 fun Modifier.smallCapsFont(): Modifier =
     styleModifier { property("font-variant", "small-caps") }
 
-@Suppress("UNUSED_PARAMETER")
+private external fun balanceText(selector: String, options: dynamic)
+
 fun jsBalanceTextById(id: String) {
-    js("if (typeof balanceText === 'function') balanceText('#'+id, {watch: true})")
+    if (jsTypeOf(js("balanceText")) != "function") return
+    balanceText("#$id", js("{watch: true}"))
 }
 
-@Suppress("UNUSED_PARAMETER")
-fun jsFormatNum(num: Number, decDigits: Int): String = js("num.toFixed(decDigits)") as String
+fun Double.toFixed(decDigits: Int): String = asDynamic().toFixed(decDigits) as String

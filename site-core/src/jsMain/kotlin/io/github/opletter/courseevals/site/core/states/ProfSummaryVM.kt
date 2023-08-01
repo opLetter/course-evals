@@ -4,7 +4,7 @@ import androidx.compose.runtime.*
 import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.getRatingAve
 import io.github.opletter.courseevals.common.data.prepend
-import io.github.opletter.courseevals.site.core.misc.jsFormatNum
+import io.github.opletter.courseevals.site.core.misc.toFixed
 
 @Stable
 class ProfSummaryVM(
@@ -34,7 +34,7 @@ class ProfSummaryVM(
         }
     val graphLabel get() = getGraphLabel(selectedQ)
 
-    val average get() = jsFormatNum(num = graphNums.getRatingAve(), decDigits = 2)
+    val average get() = graphNums.getRatingAve().toFixed(2)
     val numResponses get() = graphNums.sum()
 
     private val deptStats by derivedStateOf {
@@ -50,7 +50,7 @@ class ProfSummaryVM(
     val aveComparison by derivedStateOf {
         val selectedCourseOrNull = courses[selectedCourse].takeIf { selectedCourse != 0 }
         AveComparisonData(
-            average = jsFormatNum(num = (courseStats ?: deptStats).average(), decDigits = 2),
+            average = (courseStats ?: deptStats).average().toFixed(2),
             totalNum = (courseStats ?: deptStats).size.toString(),
             url = getUrl(selectedCourseOrNull),
             urlText = getUrlText(selectedCourseOrNull),

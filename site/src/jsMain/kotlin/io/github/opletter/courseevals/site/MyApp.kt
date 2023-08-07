@@ -12,7 +12,7 @@ import com.varabyte.kobweb.silk.components.layout.Surface
 import com.varabyte.kobweb.silk.components.style.breakpoint.BreakpointSizes
 import com.varabyte.kobweb.silk.init.InitSilk
 import com.varabyte.kobweb.silk.init.InitSilkContext
-import com.varabyte.kobweb.silk.theme.colors.getColorMode
+import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import kotlinx.browser.localStorage
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.vh
@@ -35,7 +35,7 @@ fun setBreakpoints(ctx: InitSilkContext) {
 @Composable
 fun MyApp(content: @Composable () -> Unit) {
     SilkApp {
-        val colorMode = getColorMode()
+        val colorMode = ColorMode.current
         remember(colorMode) {
             localStorage.setItem(COLOR_MODE_KEY, colorMode.name)
         }

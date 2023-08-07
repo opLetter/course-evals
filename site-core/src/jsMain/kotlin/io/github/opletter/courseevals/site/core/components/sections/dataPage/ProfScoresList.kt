@@ -25,7 +25,7 @@ import com.varabyte.kobweb.silk.components.style.*
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
-import com.varabyte.kobweb.silk.theme.colors.getColorMode
+import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.components.widgets.CustomGrid
@@ -88,7 +88,7 @@ val EvenRowVariant by GridRowStyle.addVariantBase {
 val OddRowVariant by GridRowStyle.addVariantBase { Modifier }
 
 val AveRowVariant by GridRowStyle.addVariantBase {
-    val background = if (colorMode.isLight()) Color.rgb(44, 62, 110) else Color.rgb(218, 105, 95)
+    val background = if (colorMode.isLight) Color.rgb(44, 62, 110) else Color.rgb(218, 105, 95)
 
     Modifier
         .backgroundColor(background)
@@ -280,7 +280,7 @@ private fun StatsGrid(
     onNameClick: (String) -> Unit,
     getProfUrl: (String) -> String,
 ) {
-    val palette = getColorMode().toSilkPalette()
+    val palette = ColorMode.current.toSilkPalette()
     key(showOnlyTeaching, mobileView) {
         CustomGrid(
             Modifier

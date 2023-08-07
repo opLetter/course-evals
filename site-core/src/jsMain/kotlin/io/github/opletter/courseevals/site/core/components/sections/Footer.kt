@@ -32,7 +32,7 @@ val FooterStyle by ComponentStyle.base {
 }
 
 val OppositeLinkVariant by LinkStyle.addVariant {
-    val linkColors = colorMode.opposite().toSilkPalette().link
+    val linkColors = colorMode.opposite.toSilkPalette().link
     link {
         Modifier.color(Colors.Cyan)
     }

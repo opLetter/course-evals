@@ -29,7 +29,7 @@ import org.jetbrains.compose.web.dom.Text
 import kotlin.math.roundToInt
 
 val BarGraphStyle by ComponentStyle {
-    val backgroundGradient = if (colorMode.isLight()) {
+    val backgroundGradient = if (colorMode.isLight) {
         radialGradient(
             RadialGradient.Shape.Circle,
             Color.rgb(14, 14, 42), // rgb(41, 41, 46)

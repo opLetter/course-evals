@@ -20,7 +20,7 @@ import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.components.text.SpanTextStyle
-import com.varabyte.kobweb.silk.theme.colors.getColorMode
+import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.components.widgets.BarGraph
@@ -169,7 +169,7 @@ private fun AveComparison(aveData: AveComparisonData, modifier: Modifier = Modif
             path = aveData.url,
             text = aveData.urlText,
             modifier = Modifier
-                .color(getColorMode().toSilkPalette().link.default)
+                .color(ColorMode.current.toSilkPalette().link.default)
                 .onClick { if (!it.ctrlKey && !it.shiftKey) aveData.onLinkClick() }
         )
     }

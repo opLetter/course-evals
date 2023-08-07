@@ -34,7 +34,7 @@ import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Text
 
 val ActionButtonVariant by ButtonStyle.addVariant {
-    val background = if (colorMode.isLight()) Color.rgb(217, 4, 41) else Color.rgb(221, 62, 25)
+    val background = if (colorMode.isLight) Color.rgb(217, 4, 41) else Color.rgb(221, 62, 25)
 
     base {
         Modifier

@@ -2,6 +2,7 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage
 
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.*
+import com.varabyte.kobweb.compose.css.StyleVariable
 import com.varabyte.kobweb.compose.dom.ElementTarget
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -45,20 +46,22 @@ import com.varabyte.kobweb.compose.css.AlignSelf as KobAlignSelf
 // This solution seems optimal compared to using pure "auto" or pure raw length ("12rem")
 // Note: "12rem" chosen strategically such that it is reached between 1280px and 1366px
 // We want the maximum possible value while affecting as little screens as possible
-private fun ComponentModifiers.ratingsGrid(numQs: Int) {
+val RatingsGridVariant by SimpleGridStyle.addVariant {
     base {
         Modifier.gridTemplateColumns { size(1.fr); size(4.75.fr); size(2.fr); size(2.fr) }
     }
     Breakpoint.XL {
         Modifier.gridTemplateColumns {
-            size(2.cssRem); minmax(auto, 12.cssRem); repeat(numQs + 1) { size(4.25.cssRem) }
+            size(2.cssRem); minmax(auto, 12.cssRem); repeat(QuestionCountVar + 1) { size(4.25.cssRem) }
         }
     }
 }
 
-val Ratings8QsGridVariant by SimpleGridStyle.addVariant { ratingsGrid(8) }
-val Ratings9QsGridVariant by SimpleGridStyle.addVariant { ratingsGrid(9) }
-val Ratings13QsGridVariant by SimpleGridStyle.addVariant { ratingsGrid(13) }
+operator fun <T : Number> StyleVariable.NumberValue<T>.plus(other: T): T {
+    return "calc(var(--${this.name}) + $other)".unsafeCast<T>()
+}
+
+val QuestionCountVar by StyleVariable<Int>()
 
 val MainGridAreaStyle by ComponentStyle {
     Breakpoint.XL {
@@ -181,20 +184,16 @@ fun ProfScoresList(
 
     val mobileView = rememberBreakpoint() < Breakpoint.XL
 
-    val gridVariant = when (questions.short.size) {
-        8 -> Ratings8QsGridVariant
-        9 -> Ratings9QsGridVariant
-        13 -> Ratings13QsGridVariant
-        else -> error("Invalid number of questions")
-    }
-
-    Column(MainGridAreaStyle.toModifier()) {
+    Column(
+        MainGridAreaStyle.toModifier()
+            .setVariable(QuestionCountVar, questions.full.size)
+    ) {
         CustomGrid(
             Modifier
                 .fillMaxWidth()
                 .lineHeight(1.1)
                 .margin(bottom = 2.px),
-            variant = gridVariant,
+            variant = RatingsGridVariant,
         ) {
             val numResponsesText = "# of Responses"
             val lastQ = questions.full.size
@@ -261,7 +260,7 @@ fun ProfScoresList(
             mobileView = mobileView,
             selectedQ = selectedQ,
             selectedQDropDown = selectedQDropDown,
-            gridVariant = gridVariant,
+            gridVariant = RatingsGridVariant,
             onNameClick = onNameClick,
             getProfUrl = getProfUrl
         )

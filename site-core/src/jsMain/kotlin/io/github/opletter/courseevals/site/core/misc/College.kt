@@ -92,14 +92,15 @@ sealed interface College {
         companion object {
             private val fakeSource = GithubSource(
                 repoPath = "DennisTsar/RU-SIRS",
-                paths = WebsitePaths(
-                    baseDir = "fakeData",
-                    teachingDataDir = "fakeData/extraData/teachingS23",
-                )
+                paths = WebsitePaths("") // TODO
             )
 
             private fun privateRealSource(token: String): WebsiteDataSource {
-                val privateSource = GithubSource(repoPath = "DennisTsar/Rutgers-SIRS", token = token)
+                val privateSource = GithubSource(
+                    paths = WebsitePaths(""), // TODO
+                    repoPath = "DennisTsar/Rutgers-SIRS",
+                    token = token
+                )
                 // Only use private repo for what's necessary
                 return object : WebsiteDataSource by publicRealSource {
                     override suspend fun getStatsByProf(school: String, dept: String): Map<String, InstructorStats> =
@@ -109,8 +110,8 @@ sealed interface College {
 
             private val publicRealSource = GithubSource(
                 paths = WebsitePaths(
-                    baseDir = "colleges/rutgers/jsonData",
-                    statsByProfDir = "colleges/rutgers/jsonData/statsByProf-cleaned",
+                    baseDir = "rutgers/processed",
+                    statsByProfDir = "rutgers/processed/statsByProf-cleaned",
                 )
             )
 
@@ -169,17 +170,14 @@ sealed interface College {
         override val dropDownLabels = listOf("Campus", "Course Prefix", "Course (Optional)", "Instructor (Optional)")
         override val semesterConfig = SemesterConfig(
             bounds = Semester.Triple.valueOf(SemesterType.Fall, 2013) to
-                    Semester.Triple.valueOf(SemesterType.Fall, 2022),
-            default = Semester.Triple.valueOf(SemesterType.Spring, 2020),
+                    Semester.Triple.valueOf(SemesterType.Spring, 2023),
+            default = Semester.Triple.valueOf(SemesterType.Fall, 2020),
         ) { Semester.Triple.valueOf(it) }
         override val campuses = mapOf(Campus.MAIN to true, Campus.PNM to false, Campus.INTL to false)
         override val schoolStrategy = SchoolStrategy.SHOW_ALL
         override val options = setOf(ExtraOptions.MIN_SEM)
 
-        override val dataSource = GithubSource(
-            repoPath = "opletter/course-evals",
-            paths = WebsitePaths(baseDir = "colleges/fsu/jsonData"),
-        )
+        override val dataSource = GithubSource(paths = WebsitePaths(baseDir = "fsu/processed"))
     }
 
     object USF : College {
@@ -226,10 +224,7 @@ sealed interface College {
         override val schoolStrategy = SchoolStrategy.SINGLE
         override val options = setOf(ExtraOptions.MIN_SEM)
 
-        override val dataSource = GithubSource(
-            repoPath = "opletter/course-evals",
-            paths = WebsitePaths(baseDir = "colleges/usf/jsonData"),
-        )
+        override val dataSource = GithubSource(paths = WebsitePaths(baseDir = "usf/processed"))
     }
 }
 

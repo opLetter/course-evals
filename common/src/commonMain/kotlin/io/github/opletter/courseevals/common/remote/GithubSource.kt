@@ -17,8 +17,8 @@ import kotlinx.serialization.json.Json
  * In practice, that data can just be accessed locally.
  */
 class GithubSource(
-    repoPath: String = "opletter/course-evals",
-    private val paths: WebsitePaths = WebsitePaths(),
+    private val paths: WebsitePaths,
+    repoPath: String = "opletter/course-evals-data",
     token: String? = null,
 ) : RemoteApi, WebsiteDataSource {
     private val ghClient = client.config {

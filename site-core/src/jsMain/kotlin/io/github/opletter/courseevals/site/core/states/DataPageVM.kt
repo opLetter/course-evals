@@ -277,13 +277,12 @@ class DataPageVM(
 
     init {
         coroutineScope.launch {
-            val allInstructors = async { repository.getAllInstructors() }
             val deptNames = async { repository.getDeptNames() }
             val schoolsByCode = async { repository.getSchoolsByCode() }
             collegeData = CollegeData(
                 schoolsByCode = schoolsByCode.await(),
                 deptNames = deptNames.await(),
-                allInstructors = allInstructors.await(),
+                allInstructors = emptyMap(), // don't fetch right away since it's not needed for main content
             )
             searchBarVM = SearchBarVM()
 
@@ -295,6 +294,12 @@ class DataPageVM(
                 dept = urlParams["dept"],
                 course = urlParams["course"],
                 prof = urlParams["prof"]?.decodeUrl(),
+            )
+
+            collegeData = CollegeData(
+                schoolsByCode = collegeData.schoolsByCode,
+                deptNames = collegeData.deptNames,
+                allInstructors = repository.getAllInstructors(),
             )
         }
     }

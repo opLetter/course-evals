@@ -17,6 +17,7 @@ import kotlinx.serialization.json.Json
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
 import java.io.File
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
@@ -115,20 +116,17 @@ suspend fun FSURepository.getReportsForCourse(
         .also { println("Chunk size: $it") }
     return allReports.chunked(chunkSize).flatMapIndexed { index, chunk ->
         if (index % 3 == 1) {
-            println("A: Delaying 0.75 minute")
-            delay(0.75.minutes)
+            delayAndLog(0.75.minutes) { "A: Delaying $it" }
         }
         chunk.pmap { htmlResponse ->
             val metadata = ReportMetadata.fromString(htmlResponse)
             val pdfReport = flow { emit(getPdfBytes(metadata.ids).getStatsFromPdf()) }
                 .retry(3) {
                     it.printStackTrace()
-                    (it is HttpRequestTimeoutException || it is ConnectTimeoutException)
-                        .also { retry ->
-                            if (!retry) return@also
-                            println("D: retrying, delaying 15 seconds")
-                            delay(15.seconds)
-                        }
+                    if (it is HttpRequestTimeoutException || it is ConnectTimeoutException) {
+                        delayAndLog(15.seconds) { time -> "D: retrying, delaying $time" }
+                        true
+                    } else false
                 }.catch {
                     it.printStackTrace()
                     println("D2: Failed getting report")
@@ -208,13 +206,11 @@ suspend fun getAllData(writeDir: String, keys: List<String> = CourseSearchKeys) 
             emit(reports.ifEmpty { null })
         }.retry(3) {
             it.printStackTrace()
-            println("B: retrying, delaying 1 minute")
-            delay(1.minutes)
+            delayAndLog(1.minutes) { time -> "B: retrying, delaying $time" }
             it is HttpRequestTimeoutException || it is ConnectTimeoutException
         }.catch {
             it.printStackTrace()
-            println("B2: failed 3 times. delaying 1 minute")
-            delay(1.minutes)
+            delayAndLog(1.minutes) { time -> "B2: failed 3 times. delaying $time" }
         }.singleOrNull()
 
         reports?.let {
@@ -222,11 +218,14 @@ suspend fun getAllData(writeDir: String, keys: List<String> = CourseSearchKeys) 
                 .writeText(Json.encodeToString(it.distinct())) // for some reason there may be a few duplicates
         } ?: makeFileAndDir("$writeDir/failed/$courseKey.json").writeText("{}")
 
-        println("C: Done with key $courseKey, delaying 0.5 minute")
-        delay(0.5.minutes)
+        delayAndLog(0.5.minutes) { time -> "C: Done with key $courseKey, delaying $time" }
         if (index % 11 == 10) {
-            println("E: Taking a well-deserved break (2 minutes)")
-            delay(2.minutes)
+            delayAndLog(2.minutes) { time -> "E: Taking a well-deserved break ($time)" }
         }
     }
+}
+
+private suspend fun delayAndLog(time: Duration, message: (time: Duration) -> String) {
+    println(message(time))
+    delay(time)
 }

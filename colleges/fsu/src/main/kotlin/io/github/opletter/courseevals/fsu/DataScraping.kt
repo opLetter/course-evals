@@ -12,12 +12,13 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
 import java.io.File
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 @Serializable
 data class PdfReport(
@@ -25,6 +26,14 @@ data class PdfReport(
     val course: String,
     val instructor: String,
     val questions: List<QuestionStats>,
+)
+
+@Serializable
+data class QuestionStats(
+    val question: String,
+    val results: List<Int>, // should be size 5 - num responses of each type
+    val numResponses: Int,
+    val numRespondents: Int,
 )
 
 @Serializable
@@ -59,64 +68,77 @@ data class ReportMetadata(
 
 @Serializable
 data class Report(
-    /** Note that some may erroneously have "SEE MORE ON LAST PAGE" or "SECTIONS)" before the actual name **/
+    // Note that some may erroneously have "SEE MORE ON LAST PAGE" or "SECTIONS)" before the actual name
+    // "Report-ERROR" represents broken pdf
     val pdfInstructor: String,
-    /** Formatted as "Last, First" */
+    // Formatted as "Last, First"
     val htmlInstructor: String,
+    // Formatted as "2020 Fall"
     val term: String,
     val courseCode: String,
     val courseName: String,
-    val area: String = "", // missing from <=reports-10
-    val questions: List<QuestionStats>,
-    val ids: List<String> = emptyList(),
-    val pdfUrl: String = "",
-)
-
-@Serializable
-data class QuestionStats(
-    val question: String,
-    val results: List<Int>, // should be size 5 - num responses of each type
-    val numResponses: Int,
+    val area: String,
+    // may be -1
     val numRespondents: Int,
-)
+    // keys are question numbers from (see [QuestionMapping]), values are # of ratings 5-1 (# of 5s, # of 4s, ...)
+    val ratings: Map<Int, List<Int>>,
+    // used to get the pdf url
+    val ids: List<String>,
+) {
+    companion object {
+        fun from(pdfReport: PdfReport, metadata: ReportMetadata): Report {
+            return Report(
+                pdfInstructor = pdfReport.instructor,
+                htmlInstructor = metadata.instructor,
+                term = metadata.term,
+                courseCode = metadata.code,
+                courseName = metadata.course,
+                area = metadata.area,
+                numRespondents = (pdfReport.questions.map { it.numRespondents } - (-1)).distinct().singleOrNull() ?: -1,
+                ratings = pdfReport.questions.associate {
+                    val cleanQuestion = it.question.replace("\u00A0", "")
+                    QuestionMapping[cleanQuestion]!! to it.results
+                },
+                ids = metadata.ids,
+            )
+        }
+    }
+}
 
-fun List<QuestionStats>.cleanText(): List<String> = map { stats -> stats.question.filter { it.code != 160 } }
-
-suspend fun FSURepository.getReportForCourse(courseKey: String, getChunkSize: (listSize: Int) -> Int): List<Report> {
+suspend fun FSURepository.getReportsForCourse(
+    courseKey: String,
+    tempDir: String,
+    getChunkSize: (listSize: Int) -> Int,
+): List<Report> {
     val allReports = getAllReports(course = courseKey)
     val chunkSize = getChunkSize(allReports.size)
         .also { println("Chunk size: $it") }
     return allReports.chunked(chunkSize).flatMapIndexed { index, chunk ->
         if (index % 3 == 1) {
             println("A: Delaying 0.75 minute")
-            delay(45_000L)
+            delay(0.75.minutes)
         }
         chunk.pmap { htmlResponse ->
             val metadata = ReportMetadata.fromString(htmlResponse)
-            val report = flow { emit(getPdfBytes(metadata.ids).getStatsFromPdf()) }
+            val pdfReport = flow { emit(getPdfBytes(metadata.ids).getStatsFromPdf()) }
                 .retry(3) {
                     it.printStackTrace()
                     (it is HttpRequestTimeoutException || it is ConnectTimeoutException)
                         .also { retry ->
                             if (!retry) return@also
                             println("D: retrying, delaying 15 seconds")
-                            delay(15_000)
+                            delay(15.seconds)
                         }
                 }.catch {
                     it.printStackTrace()
                     println("D2: Failed getting report")
                 }.singleOrNull()
-                ?: return@pmap Report(
-                    pdfInstructor = "Report-ERROR",
-                    htmlInstructor = metadata.instructor,
-                    term = metadata.term,
-                    courseName = metadata.course,
-                    courseCode = metadata.code, // may be cut off in html/"report"
-                    questions = emptyList(),
-                    ids = metadata.ids, // only significant for data retrieval purposes
+                ?: return@pmap Report.from(
+                    PdfReport("Report-ERROR", "Report-ERROR", "Report-ERROR", emptyList()),
+                    metadata,
                 )
 
-            val (reportCode, reportCourse) = report.course.split(" : ")
+            val (reportCode, reportCourse) = pdfReport.course.split(" : ")
                 .let { if (it.size == 2) it else List(2) { "Error" } }
             if (reportCourse != metadata.course) {
                 println("MismatchB: $reportCourse != ${metadata.course} $metadata")
@@ -124,25 +146,12 @@ suspend fun FSURepository.getReportForCourse(courseKey: String, getChunkSize: (l
             if (reportCode != metadata.code) {
                 println("MismatchB: $reportCode != ${metadata.code} $metadata")
             }
-//            if (report.instructor.split(" ")
-//                    .takeIf { it.size == 2 }?.let { i -> "${i[1]}, ${i[0]}" } != metadata.instructor
-//            ) {
-//                println("MismatchA: ${report.instructor} != ${metadata.instructor} $metadata")
-//            }
-            if (report.term != metadata.term) {
-                println("MismatchB: ${report.term} != ${metadata.term} $metadata")
+            if (pdfReport.term != metadata.term) {
+                println("MismatchB: ${pdfReport.term} != ${metadata.term} $metadata")
             }
-            Report(
-                pdfInstructor = report.instructor,
-                htmlInstructor = metadata.instructor,
-                term = metadata.term,
-                courseName = metadata.course,
-                courseCode = metadata.code, // may be cut off in html/"report"
-                questions = report.questions,
-                ids = metadata.ids, // only significant for data retrieval purposes
-            )
+            Report.from(pdfReport, metadata)
         }.also { reports ->
-            val tempPath = "json-data/reports-8/temp/$courseKey.json"
+            val tempPath = "$tempDir/$courseKey.json"
             val tempContents = File(tempPath).takeIf { it.exists() }?.readText() ?: "[]"
             val earlierReports = Json.decodeFromString<List<Report>>(tempContents)
             makeFileAndDir(tempPath).writeText(Json.encodeToString(earlierReports + reports))
@@ -168,12 +177,8 @@ fun ByteArray.getStatsFromPdf(): PdfReport {
                     results = lines.drop(2)
                         .takeWhile { it[0] != '0' }
                         .map { it.substringAfterBefore(") ", " ").toInt() },
-                    numResponses = responseRate[0].toIntOrNull() ?: (-1).also {
-                        println("Invalid response rate[0]: $responseRate")
-                    },
-                    numRespondents = responseRate.getOrNull(1)?.toIntOrNull() ?: (-1).also {
-                        println("Invalid response rate[1]: $responseRate")
-                    },
+                    numResponses = responseRate[0].toIntOrNull() ?: -1,
+                    numRespondents = responseRate.getOrNull(1)?.toIntOrNull() ?: -1,
                 )
             }
         if (generalData.size < 3) {
@@ -194,32 +199,34 @@ fun ByteArray.getStatsFromPdf(): PdfReport {
     }
 }
 
-suspend fun getAllData(dir: String = "json-data/reports-8") {
+suspend fun getAllData(writeDir: String, keys: List<String> = CourseSearchKeys) {
     val repo = FSURepository().also { it.login() }
 
-    CourseSearchKeys.forEachIndexed { index, courseKey ->
+    keys.forEachIndexed { index, courseKey ->
         val reports: List<Report>? = flow {
-            emit(repo.getReportForCourse(courseKey) { if (it > 200) 40 else 50 }.ifEmpty { null })
+            val reports = repo.getReportsForCourse(courseKey, "$writeDir/temp") { if (it > 200) 40 else 50 }
+            emit(reports.ifEmpty { null })
         }.retry(3) {
             it.printStackTrace()
             println("B: retrying, delaying 1 minute")
-            delay(60_000)
+            delay(1.minutes)
             it is HttpRequestTimeoutException || it is ConnectTimeoutException
         }.catch {
             it.printStackTrace()
             println("B2: failed 3 times. delaying 1 minute")
-            delay(60_000)
+            delay(1.minutes)
         }.singleOrNull()
 
         reports?.let {
-            makeFileAndDir("$dir/$courseKey.json").writeText(Json.encodeToString(it))
-        } ?: makeFileAndDir("$dir/failed/$courseKey.json").writeText("{}")
+            makeFileAndDir("$writeDir/$courseKey.json")
+                .writeText(Json.encodeToString(it.distinct())) // for some reason there may be a few duplicates
+        } ?: makeFileAndDir("$writeDir/failed/$courseKey.json").writeText("{}")
 
         println("C: Done with key $courseKey, delaying 0.5 minute")
-        delay(30_000)
+        delay(0.5.minutes)
         if (index % 11 == 10) {
             println("E: Taking a well-deserved break (2 minutes)")
-            delay(120_000)
+            delay(2.minutes)
         }
     }
 }

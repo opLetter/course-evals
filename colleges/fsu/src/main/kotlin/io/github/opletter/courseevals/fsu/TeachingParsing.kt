@@ -63,23 +63,24 @@ inline fun <T, V> List<TeachingData>.processTeachingDataByDept(
         }
 }
 
-suspend fun getTeachingProfs(writeDir: String, term: String = "2023-9") {
+suspend fun getTeachingProfs(readDir: String, writeDir: String, term: String = "2023-9") {
     listOf("Undergraduate", "Graduate", "Law", "Medicine").flatMap { type ->
         ktorClient.get("https://registrar.fsu.edu/class_search/$term/$type.pdf")
             .body<ByteArray>()
             .getTeachingData()
     }.processTeachingDataByDept { campus, dept, entries ->
-        filterTeachingInstructors(campus, dept, entries)
+        filterTeachingInstructors(readDir, campus, dept, entries)
     }.writeToFiles(writeDir, false)
 }
 
 private fun filterTeachingInstructors(
+    readDir: String,
     campus: String,
     dept: String,
     deptEntries: List<TeachingEntry>,
 ): Map<String, Set<String>> {
     val existingInstructors = runCatching {
-        File("jsonData/statsByProf/$campus/$dept.json").decodeFromString<Map<String, InstructorStats>>().keys
+        File("$readDir/$campus/$dept.json").decodeFromString<Map<String, InstructorStats>>().keys
     }.getOrElse {
         println("no file $dept")
         return emptyMap()

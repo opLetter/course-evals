@@ -8,13 +8,12 @@ import io.github.opletter.courseevals.common.remote.ktorClient
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 
-private suspend fun getCourseNamesFromTeachingData(): SchoolDeptsMap<Map<String, String>> {
-    val validDepts = File("jsonData/statsByProf/schools.json").decodeFromString<Map<String, School>>()
+private suspend fun getCourseNamesFromTeachingData(readDir: String): SchoolDeptsMap<Map<String, String>> {
+    val validDepts = File("$readDir/schools.json").decodeFromString<Map<String, School>>()
         .flatMap { it.value.depts }.toSet()
 
     return listOf("1", "6", "9").flatMap { term ->
@@ -51,18 +50,16 @@ private fun getCourseNamesFromCsv(): Map<String, Map<String, String>> {
         }
 }
 
-suspend fun getCompleteCourseNames(
-    writeDir: String? = "jsonData/extraData/courseNames",
-): SchoolDeptsMap<Map<String, String>> {
+suspend fun getCompleteCourseNames(readDir: String, writeDir: String?): SchoolDeptsMap<Map<String, String>> {
     val fromCsv = getCourseNamesFromCsv()
-    val fromTeachingData = getCourseNamesFromTeachingData()
+    val fromTeachingData = getCourseNamesFromTeachingData(readDir)
 
     return fromTeachingData.mapValues { (school, deptMap) ->
         // Assuming that all schools/campuses have same course names per code
         val combined = fromCsv + deptMap.mapValues { (key, value) -> fromCsv[key]?.plus(value) ?: value }
 
         combined.mapValues { (key, subMap) ->
-            val courseWithData = File("jsonData/statsByProf/$school/$key.json")
+            val courseWithData = File("$readDir/$school/$key.json")
                 .takeIf { it.exists() }
                 ?.let { file ->
                     Json.decodeFromString<Map<String, InstructorStats>>(file.readText())

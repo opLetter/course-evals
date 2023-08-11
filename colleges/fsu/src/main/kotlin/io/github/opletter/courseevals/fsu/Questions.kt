@@ -22,6 +22,8 @@ val QuestionsComplete = QuestionsLimited + listOf(
     "Is this a required course for you?"
 )
 
+val QuestionMapping = QuestionsComplete.withIndex().associate { it.value to it.index }
+
 // chatGPT suggestions:
 // Effective course materials.
 // Appropriate course requirements.

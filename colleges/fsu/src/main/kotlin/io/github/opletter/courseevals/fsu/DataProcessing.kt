@@ -21,7 +21,7 @@ val campusMap = mapOf(
 
 // CoursePrefixes.txt comes from https://registrar.fsu.edu/bulletin/undergraduate/information/course_prefix/
 fun getDeptNames(writeDir: String): Map<String, String> {
-    val coursePrefixHTML = File("src/main/resources/CoursePrefixes.txt").readText()
+    val coursePrefixHTML = readResource("CoursePrefixes.txt")
         .split("<tr class=\"TableAllLeft\">")
         .drop(2)
         .associate { row ->
@@ -38,8 +38,7 @@ fun getDeptNames(writeDir: String): Map<String, String> {
 }
 
 fun organizeReports(readDir: String, writeDir: String): SchoolDeptsMap<List<Report>> {
-    val list = File("src/main/resources/Areas.txt").readLines()
-        .map { AreaEntry.fromString(it) }
+    val list = readResource("Areas.txt").lines().map { AreaEntry.fromString(it) }
 
     val uniqueCodes = list.groupBy({ it.code }, { it.code }).filter { it.value.size == 1 }.keys
 

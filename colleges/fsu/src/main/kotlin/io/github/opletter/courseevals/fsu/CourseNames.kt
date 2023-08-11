@@ -35,7 +35,7 @@ private suspend fun getCourseNamesFromTeachingData(readDir: String): SchoolDepts
 
 // CSV downloaded from https://flscns.fldoe.org/PbCourseDescriptions.aspx
 private fun getCourseNamesFromCsv(): Map<String, Map<String, String>> {
-    return File("CourseDescriptions.csv").readText()
+    return readResource("CourseDescriptions.csv")
         .split("FSU,")
         .drop(1)
         .groupBy { it.take(3) }

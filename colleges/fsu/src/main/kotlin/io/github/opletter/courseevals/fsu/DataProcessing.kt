@@ -121,7 +121,7 @@ fun getStatsByProf(
 // ***IMPORTANT NOTE*** By default, don't give ratings for question index 7 - as it's mostly irrelevant
 fun List<Report>.getTotalRatings(includeQuestions: List<Int>): Ratings {
     return mapNotNull { report ->
-        includeQuestions.map { report.ratings[it]!! }
+        includeQuestions.map { report.ratings.getValue(it) }
     }.combine().map { it.reversed() } // reversed so that rankings go from 0-5
 }
 

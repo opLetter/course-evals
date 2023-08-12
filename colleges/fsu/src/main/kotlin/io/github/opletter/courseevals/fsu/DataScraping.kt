@@ -44,7 +44,7 @@ data class ReportMetadata(
     val instructor: String,
     val term: String,
     val area: String,
-    /** Used to get the pdf url; should be length 4 */
+    // Used to get the pdf url; should be length 4
     val ids: List<String>,
 ) {
     companion object {
@@ -69,21 +69,39 @@ data class ReportMetadata(
 
 @Serializable
 data class Report(
-    // Note that some may erroneously have "SEE MORE ON LAST PAGE" or "SECTIONS)" before the actual name
-    // "Report-ERROR" represents broken pdf
+    /**
+     * The instructor name parsed from the pdf report.
+     *
+     * Note that this may contain incorrect values, like "SEE MORE ON LAST PAGE" or "SECTIONS)" before the actual name.
+     *
+     * "Report-ERROR" represents a broken (inaccessible) pdf.
+     */
     val pdfInstructor: String,
-    // Formatted as "Last, First"
+    /** The instructor name as it appears in the html search results. Formatted as "Last, First". */
     val htmlInstructor: String,
-    // Formatted as "2020 Fall"
+    /** The term as it appears in the html search results. Formatted as "2023 Spring". */
     val term: String,
+    /**
+     * The course code as it appears in the html search results.
+     *
+     * Includes section numbers, and may contain several codes combined by slashes.
+     */
     val courseCode: String,
+    /** The course name as it appears in the html search results. */
     val courseName: String,
+    /** The area as it appears in the html search results. */
     val area: String,
-    // may be -1
+    /** The number of respondents as parsed from the pdf report. May be -1. */
     val numRespondents: Int,
-    // keys are question numbers from (see [QuestionMapping]), values are # of ratings 5-1 (# of 5s, # of 4s, ...)
+    /**
+     * The ratings, gathered from the pdf report.
+     *
+     * Keys are question numbers from [QuestionMapping], values are # of ratings 5-1 (# of 5s, # of 4s, ...).
+     */
     val ratings: Map<Int, List<Int>>,
-    // used to get the pdf url
+    /**
+     * The ids present in the html search results, used for getting the pdf report url. Should have a length of 4.
+     */
     val ids: List<String>,
 ) {
     companion object {
@@ -96,10 +114,7 @@ data class Report(
                 courseName = metadata.course,
                 area = metadata.area,
                 numRespondents = (pdfReport.questions.map { it.numRespondents } - (-1)).distinct().singleOrNull() ?: -1,
-                ratings = pdfReport.questions.associate {
-                    val cleanQuestion = it.question.replace("\u00A0", "")
-                    QuestionMapping[cleanQuestion]!! to it.results
-                },
+                ratings = pdfReport.questions.associate { QuestionMapping.getValue(it.question) to it.results },
                 ids = metadata.ids,
             )
         }
@@ -171,7 +186,7 @@ fun ByteArray.getStatsFromPdf(): PdfReport {
 
                 val responseRate = lines.last().substringBefore(" ").split("/")
                 QuestionStats(
-                    question = lines[0], //.filter { it.code != 160 },
+                    question = lines[0].replace("\u00A0", ""),
                     results = lines.drop(2)
                         .takeWhile { it[0] != '0' }
                         .map { it.substringAfterBefore(") ", " ").toInt() },
@@ -179,21 +194,22 @@ fun ByteArray.getStatsFromPdf(): PdfReport {
                     numRespondents = responseRate.getOrNull(1)?.toIntOrNull() ?: -1,
                 )
             }
-        if (generalData.size < 3) {
+        return if (generalData.size < 3) {
             println("Invalid general data: $generalData")
-            return PdfReport(
+            PdfReport(
                 term = "Error ${generalData.getOrNull(0)}",
                 course = "Error ${generalData.getOrNull(1)}",
                 instructor = "Error ${generalData.getOrNull(2)}",
                 questions = stats,
             )
+        } else {
+            PdfReport(
+                term = generalData[0],
+                course = generalData.drop(1).dropLast(1).joinToString("").substringAfter("Course: "),
+                instructor = generalData.last(),
+                questions = stats,
+            )
         }
-        return PdfReport(
-            term = generalData[0],
-            course = generalData.drop(1).dropLast(1).joinToString("").substringAfter("Course: "),
-            instructor = generalData.last(),
-            questions = stats,
-        )
     }
 }
 

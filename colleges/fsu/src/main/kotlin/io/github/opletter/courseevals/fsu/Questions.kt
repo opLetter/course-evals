@@ -13,13 +13,13 @@ val QuestionsLimited = listOf(
     "Instructor(s) demonstrated respect for students.",
     "Instructor(s) demonstrated mastery of the subject matter.",
     "Overall course content rating.",
-    "Overall rating for Instructor(s)"
+    "Overall rating for Instructor(s)",
 )
 val QuestionsComplete = QuestionsLimited + listOf(
     "What is your year in school?",
     "What is your cumulative GPA?",
     "What grade do you expect to receive in this course?",
-    "Is this a required course for you?"
+    "Is this a required course for you?",
 )
 
 val QuestionMapping = QuestionsComplete.withIndex().associate { it.value to it.index }

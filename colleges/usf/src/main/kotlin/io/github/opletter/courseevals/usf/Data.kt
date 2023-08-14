@@ -4,16 +4,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Entry(
-    val prof: String,
-    val course: String,
-    val term: String,
-    val enrolled: String,
-    val responded: String,
-    val ratings: List<List<Int>>,
-)
-
-@Serializable
 data class FullEntry(
     val deptInfo: String,
     val prof: String,

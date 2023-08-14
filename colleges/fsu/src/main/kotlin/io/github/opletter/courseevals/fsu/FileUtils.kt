@@ -26,8 +26,3 @@ inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(
     }
     return this
 }
-
-fun readResource(pathname: String): String {
-    val stream = {}.javaClass.classLoader.getResource(pathname) ?: error("resource not found: $pathname")
-    return stream.readText()
-}

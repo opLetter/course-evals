@@ -6,6 +6,7 @@ import io.github.opletter.courseevals.common.data.SchoolDeptsMap
 import io.github.opletter.courseevals.common.remote.decodeFromString
 import io.github.opletter.courseevals.common.remote.ktorClient
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
+import io.github.opletter.courseevals.common.remote.readResource
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import kotlinx.serialization.encodeToString

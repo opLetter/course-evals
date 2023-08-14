@@ -17,3 +17,8 @@ inline fun <reified T> getCompleteSchoolDeptsMap(dir: String): SchoolDeptsMap<T>
         }
     }
 }
+
+fun readResource(pathname: String): String {
+    val stream = {}.javaClass.classLoader.getResource(pathname) ?: error("resource not found: $pathname")
+    return stream.readText()
+}

@@ -4,6 +4,7 @@ import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.remote.decodeFromString
 import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
+import io.github.opletter.courseevals.common.remote.readResource
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File

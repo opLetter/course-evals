@@ -2,12 +2,12 @@ package io.github.opletter.courseevals.usf
 
 import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import kotlinx.serialization.decodeFromString
+import io.github.opletter.courseevals.common.remote.readResource
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 
-suspend fun getDeptNames(): Map<String, String> {
+suspend fun getDeptNames(writeDir: String?): Map<String, String> {
     // some depts are no longer in use, but we still want the names
     // acquired from https://usfonline.admin.usf.edu/pls/prod/bwckschd.p_disp_dyn_sched
     val presetNames = mapOf(
@@ -16,17 +16,20 @@ suspend fun getDeptNames(): Map<String, String> {
         "ELR" to "Electrical Labs & Related Areas",
         "ETI" to "Engineering Technology: Indst",
         "FOW" to "For & Bibl Lang, Comp Lit",
+        "HBR" to "Modern Hebrew Language",
         "ISC" to "Interdisciplinary Sciences",
         "ISE" to "Not Used in Scns",
         "SLA" to "Second Language Acquisition",
     )
-
-    val prefixNames = presetNames +
-            getCourseData().associate { it.prefix to it.courseType.substringAfter(" - ") }
-
-    check(prefixes.all { it in prefixNames })
-    makeFileAndDir("jsonData/extraData/deptNames.json")
-        .writeText(Json.encodeToString(prefixNames.toSortedMap().toMap()))
+    val curNames = getCourseData().associate { it.prefix to it.courseType.substringAfter(" - ") }
+    val prefixNames = (presetNames + curNames).filter { it.key in Prefixes }
+    check(Prefixes.all { it in prefixNames }) {
+        "not all prefixes have names: ${Prefixes.filter { it !in prefixNames }}"
+    }
+    writeDir?.let {
+        makeFileAndDir("$it/dept-names.json")
+            .writeText(Json.encodeToString(prefixNames.toSortedMap().toMap()))
+    }
     return prefixNames
 }
 
@@ -40,7 +43,7 @@ private suspend fun getCourseNamesFromUSF(): Map<String, Map<String, String>> {
 
 // CSV downloaded from https://flscns.fldoe.org/PbCourseDescriptions.aspx
 private fun getCourseNamesFromCsv(): Map<String, Map<String, String>> {
-    return File("CourseDescriptions.csv").readText()
+    return readResource("CourseDescriptions.csv")
         .split("USF,")
         .drop(1)
         .groupBy { it.take(3) }
@@ -56,22 +59,23 @@ private fun getCourseNamesFromCsv(): Map<String, Map<String, String>> {
 }
 
 suspend fun getCompleteCourseNames(
-    writeDir: String? = "jsonData/extraData/courseNames/0",
+    readDir: String,
+    writeDir: String?,
 ): Map<String, Map<String, String>> {
     val fromUSF = getCourseNamesFromUSF()
     val fromCsv = getCourseNamesFromCsv()
     val combined = fromCsv + fromUSF.mapValues { (key, value) -> fromCsv[key]?.plus(value) ?: value }
 
     return combined
-        .filterKeys { it in prefixes }
+        .filterKeys { it in Prefixes }
         .mapValues { (key, subMap) ->
-            val courseWithData = File("jsonData/statsByProf/0/$key.json")
+            val courseWithData = File("$readDir/0/$key.json")
                 .let { Json.decodeFromString<Map<String, InstructorStats>>(it.readText()) }
                 .flatMap { it.value.courseStats.keys }
                 .toSet()
             subMap.filterKeys { it in courseWithData }
         }.onEach { (prefix, data) ->
-            makeFileAndDir("$writeDir/$prefix.json")
+            makeFileAndDir("$writeDir/0/$prefix.json")
                 .writeText(Json.encodeToString(data.toSortedMap().toMap()))
         }
 }

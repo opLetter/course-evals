@@ -2,12 +2,14 @@ package io.github.opletter.courseevals.usf
 
 import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 
-suspend fun getTeachingProfs(writeDir: String? = "jsonData/extraData/teachingF23/0"): Map<String, Map<String, Set<String>>> {
+suspend fun getTeachingProfs(
+    readDir: String,
+    writeDir: String?,
+): Map<String, Map<String, Set<String>>> {
     return getTeachingDataContent()
         .substringBefore("<table  CLASS=\"datadisplaytable\" summary=\"This is")
         .split("<tr>")
@@ -19,11 +21,11 @@ suspend fun getTeachingProfs(writeDir: String? = "jsonData/extraData/teachingF23
         }.map { it.split("<td CLASS=\"dddefault\">") }
         .onEach { if (it.size < 5) println("~$it~") }
         .groupBy { it[3].substringBefore("</td>") }
-        .filterKeys { it in prefixes }
-        .mapValues { processSubjectData(it.key, it.value) }
+        .filterKeys { it in Prefixes }
+        .mapValues { processSubjectData(readDir, it.key, it.value) }
         .onEach { (subject, data) ->
             if (writeDir == null || data.isEmpty()) return@onEach
-            makeFileAndDir("$writeDir/$subject.json")
+            makeFileAndDir("$writeDir/0/$subject.json")
                 .writeText(Json.encodeToString(data.toSortedMap().toMap()))
         }.also { teachingMap ->
             val profCount = teachingMap.values.sumOf { subjectMap ->
@@ -36,22 +38,22 @@ suspend fun getTeachingProfs(writeDir: String? = "jsonData/extraData/teachingF23
         }
 }
 
-private fun processSubjectData(subject: String, data: List<List<String>>): Map<String, Set<String>> {
-    val existingInstructors = File("jsonData/statsByProf/0/$subject.json").readText()
+private fun processSubjectData(readDir: String, subject: String, data: List<List<String>>): Map<String, Set<String>> {
+    val existingInstructors = File("$readDir/0/$subject.json").readText()
         .let { Json.decodeFromString<Map<String, InstructorStats>>(it) }
         .keys
     val teachingInstructors = data
         .map { it[17].substringBefore(" (") to it[4].substringBefore("<") }
-        .filterNot { it.first.contains("To Be Announced") }
+        .filterNot { "To Be Announced" in it.first }
         .mapNotNull { (name, course) ->
             val first = name.substringBefore(" ").trim()
             val last = name.substringAfterLast(" ").trim()
 
             val foundName = existingInstructors.singleOrNull { prof ->
-                prof.toComparable() == (last + first).toComparable()
+                prof.normalized() == (last + first).normalized()
             } ?: existingInstructors.singleOrNull { prof ->
                 val preLast = name.split(" ").filter { it.isNotEmpty() }.dropLast(1)
-                prof.toComparable() == (preLast.last() + last + first).toComparable()
+                prof.normalized() == (preLast.last() + last + first).normalized()
             }
             foundName?.let { it to course }
         }
@@ -67,4 +69,4 @@ private fun processSubjectData(subject: String, data: List<List<String>>): Map<S
     return coursesToProfs + profToCourses
 }
 
-private fun String.toComparable(): String = this.uppercase().filter { it.isLetter() }
+private fun String.normalized(): String = this.uppercase().filter { it.isLetter() }

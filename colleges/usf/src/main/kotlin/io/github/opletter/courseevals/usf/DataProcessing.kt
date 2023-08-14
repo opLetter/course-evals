@@ -1,8 +1,8 @@
 package io.github.opletter.courseevals.usf
 
 import io.github.opletter.courseevals.common.data.*
+import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
@@ -13,13 +13,13 @@ fun List<FullEntry>.getTotalRatings(): Ratings {
 
 fun getTerms(): List<String> {
     return listOf("01", "05", "08").flatMap { sem ->
-        (2005..2022).map { year -> "$year$sem" }
-    } - setOf("200501", "200505")
+        (2006..2022).map { year -> "$year$sem" }
+    } + setOf("200508", "202301")
 }
 
-fun getFullDataFromFiles(dir: String = "rawData-full"): Map<String, List<FullEntry>> {
+fun getFullDataFromFiles(dir: String): Map<String, List<FullEntry>> {
     val terms = getTerms()
-    return prefixes.associateWith { prefix ->
+    return Prefixes.associateWith { prefix ->
         terms.flatMap { term ->
             File("$dir/$prefix/$term.json").readText()
                 .let { Json.decodeFromString<List<FullEntry>>(it) }
@@ -27,14 +27,14 @@ fun getFullDataFromFiles(dir: String = "rawData-full"): Map<String, List<FullEnt
     }
 }
 
-fun getStatsByProf(writeDir: String? = "jsonData/statsByProf/0"): Map<String, Map<String, InstructorStats>> {
-    return getFullDataFromFiles().mapValues { (_, entries) ->
-        entries.filterNot { entry ->
-            entry.deptInfo.startsWith("Lakeland") ||
-                    Semester.Triple.valueOf(entry.term) < Semester.Triple.valueOf(SemesterType.Fall, 2012)
-        }
-    }.mapValues { (_, entries) ->
+fun getStatsByProf(
+    data: Map<String, List<FullEntry>>,
+    writeDir: String?,
+    minSem: Semester.Triple = Semester.Triple.valueOf(SemesterType.Fall, 2012),
+): Map<String, Map<String, InstructorStats>> {
+    return data.mapValues { (_, entries) ->
         entries
+            .filter { !it.deptInfo.startsWith("Lakeland") && Semester.Triple.valueOf(it.term) >= minSem }
             .groupBy { it.prof.uppercase().replace(" ", "") }
             .map { (_, profEntries) ->
                 val newKey = profEntries.maxBy { Semester.Triple.valueOf(it.term).numValue }.prof
@@ -49,36 +49,28 @@ fun getStatsByProf(writeDir: String? = "jsonData/statsByProf/0"): Map<String, Ma
     }.also {
         if (writeDir == null) return@also
         it.forEach { (prefix, profs) ->
-            makeFileAndDir("$writeDir/$prefix.json")
+            makeFileAndDir("$writeDir/0/$prefix.json") // "0" is the school
                 .writeText(Json.encodeToString(profs))
         }
     }
 }
 
-fun getAllInstructors(writeDir: String? = "jsonData/statsByProf"): List<Instructor> {
-    return prefixes.associateWith { subject ->
-        File("jsonData/statsByProf/0/$subject.json").readText()
-            .let { Json.decodeFromString<Map<String, InstructorStats>>(it) }
-    }.flatMap { (subject, stats) ->
-        stats.map { Instructor(it.key, subject, it.value.lastSem) }
-    }.also {
-        if (writeDir == null) return@also
-        makeFileAndDir("$writeDir/allInstructors.json")
-            .writeText(Json.encodeToString(mapOf("0" to it)))
-    }
+fun getAllInstructors(readDir: String, writeDir: String?): List<Instructor> {
+    return getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(readDir)
+        .getValue("0")
+        .flatMap { (subject, stats) ->
+            stats.map { Instructor(it.key, subject, it.value.lastSem) }
+        }.also {
+            if (writeDir == null) return@also
+            makeFileAndDir("$writeDir/instructors.json")
+                .writeText(Json.encodeToString(mapOf("0" to it)))
+        }
 }
 
-fun getSchoolsData(writeDir: String? = "jsonData/statsByProf"): School {
-    return School(
-        "0",
-        "All",
-        prefixes.toSet(),
-        setOf(Campus.MAIN),
-        LevelOfStudy.U
-    ).also {
+fun getSchoolsData(writeDir: String?): School {
+    return School("0", "All", Prefixes.toSet(), setOf(Campus.MAIN), LevelOfStudy.U).also {
         if (writeDir == null) return@also
         makeFileAndDir("$writeDir/schools.json")
             .writeText(Json.encodeToString(mapOf("0" to it)))
     }
 }
-

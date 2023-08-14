@@ -8,12 +8,11 @@ import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 private val client = HttpClient().config {
     install(HttpTimeout) {
-        requestTimeoutMillis = 60_000 // used 10 minutes for getFullData
+        requestTimeoutMillis = 60_000 * 5
     }
     install(Logging) {
         logger = Logger.SIMPLE
@@ -44,23 +43,6 @@ suspend fun getReportIdByPrefix(prefix: String, term: String): String {
     return response.substringAfterBefore("reportid=", "&")
 }
 
-suspend fun getReportId(profId: String, startTerm: String = "200508", endTerm: String = "202208"): String {
-    val response = client.post("https://fair.usf.edu/EvaluationMart/Default.aspx") {
-        val payload = FormDataContent(Parameters.build {
-            append("__VIEWSTATE", VIEWSTATE)
-            append("__EVENTVALIDATION", EVENTVALIDATION)
-            append("ctl00\$ContentPlaceHolder1\$ddlPerson", profId)
-            append("ctl00\$ContentPlaceHolder1\$ddlRType", "D")
-            append("ctl00\$ContentPlaceHolder1\$ddlRLevel", "3")
-            append("ctl00\$ContentPlaceHolder1\$ddlStartterm", startTerm)
-            append("ctl00\$ContentPlaceHolder1\$ddlEndTerm", endTerm)
-            append("ctl00\$ContentPlaceHolder1\$Submit1", "Submit")
-        })
-        setBody(payload)
-    }.bodyAsText()
-    return response.substringAfterBefore("reportid=", "&")
-}
-
 private fun parseRatingsFromEntry(entry: String): List<List<Int>> {
     return entry.substringAfter("</th></tr><tr><td align=center>")
         .split("</td><td align=center>", "</td></tr><tr><td align=center>")
@@ -70,25 +52,6 @@ private fun parseRatingsFromEntry(entry: String): List<List<Int>> {
             val questionCode = line[0]
             check(questionCode == "E${index + 1}")
             line.drop(2).dropLast(3).filterIndexed { i, _ -> i % 2 == 0 }.reversed().map { it.toInt() }
-        }
-}
-
-suspend fun getEntries(reportId: String): List<Entry> {
-    return client.get("https://fair.usf.edu/EvaluationMart/EvaluationsReport.aspx") {
-        parameter("reportid", reportId)
-        parameter("reporttype", "I")
-    }.bodyAsText()
-        .substringBefore("<br /><br />")
-        .split("Instructor : ")
-        .drop(1)
-        .map { entry ->
-            val prof = entry.substringBefore("</th><th")
-            val course = entry.substringAfter("colspan=2>").split(" ").take(2).joinToString(" ")
-            val term = entry.substringAfterBefore("Course Term : ", "<")
-            val enrolled = entry.substringAfterBefore("Enrolled : ", "<")
-            val responded = entry.substringAfterBefore("Responded : ", "<")
-            val ratings = parseRatingsFromEntry(entry)
-            Entry(prof, course, term, enrolled, responded, ratings)
         }
 }
 
@@ -160,4 +123,44 @@ suspend fun getTeachingDataContent(): String {
     return client.post("https://usfonline.admin.usf.edu/pls/prod/bwckschd.p_get_crse_unsec") {
         setBody(payload)
     }.bodyAsText()
+}
+
+// unused for current scraping methods but kept around just in case
+
+@Suppress("unused")
+suspend fun getReportId(profId: String, startTerm: String = "200508", endTerm: String = "202208"): String {
+    val response = client.post("https://fair.usf.edu/EvaluationMart/Default.aspx") {
+        val payload = FormDataContent(Parameters.build {
+            append("__VIEWSTATE", VIEWSTATE)
+            append("__EVENTVALIDATION", EVENTVALIDATION)
+            append("ctl00\$ContentPlaceHolder1\$ddlPerson", profId)
+            append("ctl00\$ContentPlaceHolder1\$ddlRType", "D")
+            append("ctl00\$ContentPlaceHolder1\$ddlRLevel", "3")
+            append("ctl00\$ContentPlaceHolder1\$ddlStartterm", startTerm)
+            append("ctl00\$ContentPlaceHolder1\$ddlEndTerm", endTerm)
+            append("ctl00\$ContentPlaceHolder1\$Submit1", "Submit")
+        })
+        setBody(payload)
+    }.bodyAsText()
+    return response.substringAfterBefore("reportid=", "&")
+}
+
+@Suppress("unused")
+suspend fun getEntries(reportId: String): List<Entry> {
+    return client.get("https://fair.usf.edu/EvaluationMart/EvaluationsReport.aspx") {
+        parameter("reportid", reportId)
+        parameter("reporttype", "I")
+    }.bodyAsText()
+        .substringBefore("<br /><br />")
+        .split("Instructor : ")
+        .drop(1)
+        .map { entry ->
+            val prof = entry.substringBefore("</th><th")
+            val course = entry.substringAfter("colspan=2>").split(" ").take(2).joinToString(" ")
+            val term = entry.substringAfterBefore("Course Term : ", "<")
+            val enrolled = entry.substringAfterBefore("Enrolled : ", "<")
+            val responded = entry.substringAfterBefore("Responded : ", "<")
+            val ratings = parseRatingsFromEntry(entry)
+            Entry(prof, course, term, enrolled, responded, ratings)
+        }
 }

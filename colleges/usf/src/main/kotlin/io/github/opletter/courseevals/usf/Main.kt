@@ -16,7 +16,7 @@ suspend fun `Overview of data gathering process`() {
     val coreDir = "$rootDir/core"
 
     getData(reportsDir)
-    getStatsByProf(getFullDataFromFiles(reportsDir), statsDir)
+    getStatsByProf(getReportsFromFiles(reportsDir), statsDir)
     getSchoolsData(statsDir)
     getAllInstructors(statsDir, statsDir)
 

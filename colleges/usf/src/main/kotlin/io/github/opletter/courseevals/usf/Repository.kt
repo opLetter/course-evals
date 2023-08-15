@@ -43,8 +43,8 @@ suspend fun getReportIdByPrefix(prefix: String, term: String): String {
     return response.substringAfterBefore("reportid=", "&")
 }
 
-private fun parseRatingsFromEntry(entry: String): List<List<Int>> {
-    return entry.substringAfter("</th></tr><tr><td align=center>")
+private fun parseRatingsFromReport(report: String): List<List<Int>> {
+    return report.substringAfter("</th></tr><tr><td align=center>")
         .split("</td><td align=center>", "</td></tr><tr><td align=center>")
         .also { check(it.size == 120) }
         .chunked(15)
@@ -55,7 +55,7 @@ private fun parseRatingsFromEntry(entry: String): List<List<Int>> {
         }
 }
 
-suspend fun getFullEntries(reportId: String): List<FullEntry> {
+suspend fun getReports(reportId: String): List<Report> {
     return client.get("https://fair.usf.edu/EvaluationMart/EvaluationsReport.aspx") {
         parameter("reportid", reportId)
         parameter("reporttype", "D")
@@ -63,17 +63,17 @@ suspend fun getFullEntries(reportId: String): List<FullEntry> {
         .substringBefore("<br /><br />")
         .split("</div><br><br><table width=100% class=arpt border=1><tr><th colspan=2>")
         .drop(1)
-        .map { entry ->
-            FullEntry(
-                deptInfo = entry.substringBefore("</th><th colspan=1>"),
-                prof = entry.substringAfterBefore("</th><th colspan=1>Instructor : ", "</th>"),
-                term = entry.substringAfterBefore("<th colspan=2>Course Term : ", "</th>"),
-                courseTitle = entry.substringAfterBefore("<th colspan=2>Course Title : ", "</th>"),
-                courseID = entry.substringAfterBefore("<th colspan=2>Course ID : ", "</th>"),
-                enrolled = entry.substringAfterBefore("<th>Number Enrolled : ", "</th>"),
-                responded = entry.substringAfterBefore("<th>Number Responded : ", "</th>"),
-                ratings = parseRatingsFromEntry(entry),
-            ).also { println(it) }
+        .map { report ->
+            Report(
+                deptInfo = report.substringBefore("</th><th colspan=1>"),
+                prof = report.substringAfterBefore("</th><th colspan=1>Instructor : ", "</th>"),
+                term = report.substringAfterBefore("<th colspan=2>Course Term : ", "</th>"),
+                courseTitle = report.substringAfterBefore("<th colspan=2>Course Title : ", "</th>"),
+                courseID = report.substringAfterBefore("<th colspan=2>Course ID : ", "</th>"),
+                enrolled = report.substringAfterBefore("<th>Number Enrolled : ", "</th>"),
+                responded = report.substringAfterBefore("<th>Number Responded : ", "</th>"),
+                ratings = parseRatingsFromReport(report),
+            )
         }
 }
 

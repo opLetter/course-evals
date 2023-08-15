@@ -1,13 +1,14 @@
 package io.github.opletter.courseevals.usf
 
 import io.github.opletter.courseevals.common.data.*
+import io.github.opletter.courseevals.common.remote.decodeFromString
 import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 
-fun List<FullEntry>.getTotalRatings(): Ratings {
+fun List<Report>.getTotalRatings(): Ratings {
     return map { it.ratings }.combine()
 }
 
@@ -17,18 +18,15 @@ fun getTerms(): List<String> {
     } + setOf("200508", "202301")
 }
 
-fun getFullDataFromFiles(dir: String): Map<String, List<FullEntry>> {
+fun getReportsFromFiles(dir: String): Map<String, List<Report>> {
     val terms = getTerms()
     return Prefixes.associateWith { prefix ->
-        terms.flatMap { term ->
-            File("$dir/$prefix/$term.json").readText()
-                .let { Json.decodeFromString<List<FullEntry>>(it) }
-        }
+        terms.flatMap { File("$dir/$prefix/$it.json").decodeFromString<List<Report>>() }
     }
 }
 
 fun getStatsByProf(
-    data: Map<String, List<FullEntry>>,
+    data: Map<String, List<Report>>,
     writeDir: String?,
     minSem: Semester.Triple = Semester.Triple.valueOf(SemesterType.Fall, 2012),
 ): Map<String, Map<String, InstructorStats>> {

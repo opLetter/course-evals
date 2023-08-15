@@ -12,7 +12,7 @@ suspend fun getData(writeDir: String, terms: List<String> = getTerms(), prefixes
                 println("$prefix $year")
                 try {
                     val reportId = getReportIdByPrefix(prefix, year)
-                    val data = getFullEntries(reportId)
+                    val data = getReports(reportId)
                     makeFileAndDir("$writeDir/$prefix/$year.json").writeText(Json.encodeToString(data))
                 } catch (e: Exception) {
                     e.printStackTrace()

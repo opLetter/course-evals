@@ -59,13 +59,12 @@ suspend fun getCompleteCourseNames(readDir: String, writeDir: String?): SchoolDe
         // Assuming that all schools/campuses have same course names per code
         val combined = fromCsv + deptMap.mapValues { (key, value) -> fromCsv[key]?.plus(value) ?: value }
 
-        combined.mapValues { (key, subMap) ->
+        combined.mapValues inner@{ (key, subMap) ->
             val courseWithData = File("$readDir/$school/$key.json")
-                .takeIf { it.exists() }
-                ?.let { file ->
-                    Json.decodeFromString<Map<String, InstructorStats>>(file.readText())
-                        .flatMap { it.value.courseStats.keys }.toSet()
-                }.orEmpty()
+                .let { if (!it.exists()) return@inner emptyMap() else it }
+                .decodeFromString<Map<String, InstructorStats>>()
+                .flatMap { it.value.courseStats.keys }
+                .toSet()
             subMap.filterKeys { it in courseWithData }
         }.onEach { (prefix, data) ->
             if (data.isEmpty() || writeDir == null) return@onEach

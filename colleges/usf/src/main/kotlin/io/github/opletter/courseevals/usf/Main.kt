@@ -9,7 +9,7 @@ suspend fun main(args: Array<String>) {
 // this function shouldn't be called,
 // but we declare it so that the functions it uses can be considered "used"
 @Suppress("unused", "FunctionName")
-suspend fun `Overview of data gathering process`() {
+private suspend fun `Overview of data gathering process`() {
     val rootDir = "data-test"
     val reportsDir = "$rootDir/reports"
     val statsDir = "$rootDir/stats-by-prof"

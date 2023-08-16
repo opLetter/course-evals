@@ -69,7 +69,7 @@ fun HomePage() {
                         .rowGap(1.cssRem),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    listOf(College.FSU, College.USF).forEach { college ->
+                    listOf(College.TXST, College.FSU, College.USF).sortedBy { it.fullName }.forEach { college ->
                         Link(path = college.urlPath, variant = MyLinkVariant) {
                             SpanText(college.fullName)
                         }

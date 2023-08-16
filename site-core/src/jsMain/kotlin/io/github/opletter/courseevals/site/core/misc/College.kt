@@ -204,17 +204,15 @@ sealed interface College {
             "Facilitation of Learning",
             "Overall Rating of Instructor",
         )
-        override val questions = Questions(questionsLong, questionsShort, 7) {
-            "Poor -> Excellent"
-        }
-        override val searchHint = "'SMITH', 'COP3330', 'MATH', ..."
+        override val questions = Questions(questionsLong, questionsShort, 7) { "Poor -> Excellent" }
+        override val searchHint = "'Smith', 'COP3330', 'PHY', ..."
 
-        // ignore the school, since it's a campus and only one campus is selected at a time
+        // ignore the school since there's only one
         override fun getCode(school: String, dept: String, course: String): String = dept + course
 
         override fun searchInputTransform(value: String): String = value
 
-        override val dropDownLabels = listOf("TODO", "Subject", "Course (Optional)", "Instructor (Optional)")
+        override val dropDownLabels = listOf("N/A", "Subject", "Course (Optional)", "Instructor (Optional)")
         override val semesterConfig = SemesterConfig(
             bounds = Semester.Triple.valueOf(SemesterType.Fall, 2012) to
                     Semester.Triple.valueOf(SemesterType.Spring, 2023),
@@ -225,6 +223,45 @@ sealed interface College {
         override val options = setOf(ExtraOptions.MIN_SEM)
 
         override val dataSource = GithubSource(paths = WebsitePaths(baseDir = "usf/processed"))
+    }
+
+    object TXST : College {
+        override val fullName = "Texas State University"
+        override val urlPath = "txst"
+
+        private val questionsLong = listOf(
+            "The instructor provided opportunity to learn",
+            "The instructor communicated effectively",
+            "The instructor conducted class as scheduled",
+            "The course goals were made clear",
+            "The course was organized effectively",
+        )
+        private val questionsShort = listOf(
+            "Provided Opportunity to Learn",
+            "Communicated Effectively",
+            "Held Class as Scheduled",
+            "Gave Clear Goals",
+            "Organized Effectively",
+        )
+        override val questions = Questions(questionsLong, questionsShort, 0) { "Disagree -> Agree" }
+        override val searchHint = "'Smith', 'CS3338', 'MATH', ..."
+
+        // ignore the school since there's only one
+        override fun getCode(school: String, dept: String, course: String): String = dept + course
+
+        override fun searchInputTransform(value: String): String = value
+
+        override val dropDownLabels = listOf("N/A", "Course Prefix", "Course (Optional)", "Instructor (Optional)")
+        override val semesterConfig = SemesterConfig(
+            bounds = Semester.Triple.valueOf(SemesterType.Fall, 2021) to
+                    Semester.Triple.valueOf(SemesterType.Spring, 2023),
+            default = Semester.Triple.valueOf(SemesterType.Fall, 2021),
+        ) { Semester.Triple.valueOf(it) }
+        override val campuses = mapOf(Campus.MAIN to true)
+        override val schoolStrategy = SchoolStrategy.SINGLE
+        override val options = setOf(ExtraOptions.MIN_SEM)
+
+        override val dataSource = GithubSource(paths = WebsitePaths(baseDir = "txst/processed"))
     }
 }
 

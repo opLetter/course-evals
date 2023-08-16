@@ -182,14 +182,14 @@ class DataPageVM(
                     }
                 }
 
-                is College.FSU, College.USF -> {
+                College.FSU, College.USF, College.TXST -> {
                     if ("(" in input) {
                         selectDept(
                             dept = input.substringAfterBefore("(", ")"),
                             prof = input.substringBefore(" ("),
                         )
                     } else {
-                        val dept = input.take(3)
+                        val dept = input.takeWhile { it.isLetter() }.uppercase()
                             .also { if (it !in activeSchoolsByCode.values.first().depts) return }
                         selectDept(dept = dept, course = input.drop(3))
                     }

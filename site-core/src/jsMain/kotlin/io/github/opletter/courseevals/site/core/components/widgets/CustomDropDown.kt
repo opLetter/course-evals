@@ -17,7 +17,6 @@ import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.misc.smallCapsFont
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.vmin
 import org.jetbrains.compose.web.dom.Option
 import org.jetbrains.compose.web.dom.Select
 import org.jetbrains.compose.web.dom.Text
@@ -28,7 +27,7 @@ import org.w3c.dom.get
 val SelectStyle by ComponentStyle.base {
     Modifier
         .padding(4.px)
-        .borderRadius(1.vmin)
+        .borderRadius(6.px)
         .border(width = 0.px)
         .color(ColorMode.LIGHT.toSilkPalette().color)
         .backgroundColor(SitePalettes[colorMode].secondary)

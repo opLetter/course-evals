@@ -171,7 +171,7 @@ class DataPageVM(
                     val school = input.substringAfterBefore("(", ":")
                     val dept = input.substringAfterBefore(":", ")")
 
-                    if (input.contains("(")) { // assuming no depts have "(" in them - dangerous/wrong?
+                    if (input.contains("(") && " - " !in input) {
                         val prof = input.substringBefore(" (")
                         selectSchool(school = school, dept = dept, prof = prof)
                     } else {
@@ -183,15 +183,14 @@ class DataPageVM(
                 }
 
                 College.FSU, College.USF, College.TXST -> {
-                    if ("(" in input) {
-                        selectDept(
-                            dept = input.substringAfterBefore("(", ")"),
-                            prof = input.substringBefore(" ("),
-                        )
+                    if ("(" in input && " - " !in input) {
+                        val dept = input.substringAfterBefore("(", ")")
+                            .also { if (it !in activeSchoolsByCode.values.first().depts) return }
+                        selectDept(dept = dept, prof = input.substringBefore(" ("))
                     } else {
                         val dept = input.takeWhile { it.isLetter() }.uppercase()
                             .also { if (it !in activeSchoolsByCode.values.first().depts) return }
-                        selectDept(dept = dept, course = input.drop(3))
+                        selectDept(dept = dept, course = input.substringAfter(dept))
                     }
                 }
             }

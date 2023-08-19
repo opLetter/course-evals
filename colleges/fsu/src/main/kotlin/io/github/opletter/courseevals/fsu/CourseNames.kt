@@ -28,7 +28,7 @@ private suspend fun getCourseNamesFromTeachingData(readDir: String): SchoolDepts
             println("Invalid dept: $dept")
             return@processTeachingDataByDept emptyMap()
         }
-        entries.associate { it.courseNumber.drop(3) to it.courseTitle }
+        entries.associate { it.courseNumber.drop(3) to it.courseTitle.trim() }
     }
 }
 
@@ -47,7 +47,7 @@ private fun getCourseNamesFromCsv(): Map<String, Map<String, String>> {
                     else it.substringBefore(",")
                 }
                 line.drop(4).takeWhile { it != ' ' && it != ',' } to name
-            }.onEach { println(it) }
+            }
         }
 }
 

@@ -57,7 +57,6 @@ kotlin {
     configAsKobwebApplication(rootProject.name)
 
     sourceSets {
-        @Suppress("UNUSED_VARIABLE")
         val jsMain by getting {
             dependencies {
                 implementation(compose.runtime)

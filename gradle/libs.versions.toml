@@ -2,8 +2,8 @@
 jetbrains-compose = "1.4.1"
 kobweb = "0.13.10"
 kotlin = "1.8.20"
-ktor = "2.3.2"
-coroutines = "1.7.2"
+ktor = "2.3.3"
+coroutines = "1.7.3"
 serialization = "1.5.1"
 pdfbox = "2.0.29"
 

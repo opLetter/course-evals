@@ -104,14 +104,14 @@ private fun filterTeachingInstructors(
                     ?: existingInstructors.singleOrNull { it.substringBefore("-") == last }
                     ?: existingInstructors.singleOrNull { it.substringAfterBefore("-", ",") == last }
                     ?: existingInstructors.singleOrNull { it.substringBefore(",") == last.replace("Jr", "") }
-            }.toSet()
+            }.toSortedSet()
         }.filterValues { it.isNotEmpty() }
 
     val profToCourses = coursesToProfs.flatMap { (course, profs) ->
         profs.map { it to course }
-    }.groupBy({ it.first }, { it.second }).mapValues { it.value.toSet() }
+    }.groupBy({ it.first }, { it.second }).mapValues { it.value.toSortedSet() }
 
-    return coursesToProfs + profToCourses
+    return (coursesToProfs + profToCourses).toSortedMap()
 }
 
 private fun List<String>.extractPageData(): Pair<String, List<TeachingEntry>> {

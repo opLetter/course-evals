@@ -60,13 +60,13 @@ private fun processSubjectData(readDir: String, subject: String, data: List<List
 
     val coursesToProfs = teachingInstructors
         .groupBy({ it.second }, { it.first })
-        .mapValues { it.value.toSet() }
+        .mapValues { it.value.toSortedSet() }
 
     val profToCourses = coursesToProfs.flatMap { (course, profs) ->
         profs.map { it to course }
-    }.groupBy({ it.first }, { it.second }).mapValues { it.value.toSet() }
+    }.groupBy({ it.first }, { it.second }).mapValues { it.value.toSortedSet() }
 
-    return coursesToProfs + profToCourses
+    return (coursesToProfs + profToCourses).toSortedMap()
 }
 
 private fun String.normalized(): String = this.uppercase().filter { it.isLetter() }

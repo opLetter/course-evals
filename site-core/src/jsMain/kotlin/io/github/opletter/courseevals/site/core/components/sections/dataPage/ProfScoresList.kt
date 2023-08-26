@@ -2,7 +2,6 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage
 
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.*
-import com.varabyte.kobweb.compose.css.StyleVariable
 import com.varabyte.kobweb.compose.dom.ElementTarget
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -141,7 +140,7 @@ fun ProfScoresList(
         selectedQDropDown = it
     }
 
-    var showOnlyTeaching by mutableStateOf(false)
+    var showOnlyTeaching by remember { mutableStateOf(false) }
     Column(Modifier.rowGap(0.5.cssRem), horizontalAlignment = Alignment.CenterHorizontally) {
         if (instructors.isEmpty()) return@Column
         Label(

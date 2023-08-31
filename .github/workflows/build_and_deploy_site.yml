@@ -33,6 +33,9 @@ jobs:
 
     env:
       KOBWEB_CLI_VERSION: 0.9.13
+      GRADLE_ENTERPRISE_INJECTION_ENABLED: true
+      GRADLE_ENTERPRISE_URL: https://scans.gradle.com/
+      GRADLE_ENTERPRISE_PLUGIN_VERSION: 3.14.1
 
     steps:
       - name: Checkout

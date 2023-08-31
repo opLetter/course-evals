@@ -6,19 +6,6 @@ pluginManagement {
     }
 }
 
-plugins {
-    id("com.gradle.enterprise") version ("3.14.1")
-}
-
-gradleEnterprise {
-    if (System.getenv("CI") != null) {
-        buildScan {
-            termsOfServiceUrl = "https://gradle.com/terms-of-service"
-            termsOfServiceAgree = "yes"
-        }
-    }
-}
-
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "course-evals"

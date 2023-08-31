@@ -2,40 +2,36 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
-import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.css.TextAlign
-import com.varabyte.kobweb.compose.foundation.layout.Row
-import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
 import com.varabyte.kobweb.compose.ui.graphics.Color
+import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
+import com.varabyte.kobweb.silk.components.forms.*
 import com.varabyte.kobweb.silk.components.icons.fa.FaMagnifyingGlass
-import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.base
-import com.varabyte.kobweb.silk.components.style.toAttrs
+import com.varabyte.kobweb.silk.components.style.addVariantBase
 import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.theme.colors.ColorVar
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.DarkBackgroundBoxStyle
+import io.github.opletter.courseevals.site.core.components.style.UnsetButtonSize
+import io.github.opletter.courseevals.site.core.components.style.UnstyledButtonVariant
 import io.github.opletter.courseevals.site.core.states.DataPageVM
-import org.jetbrains.compose.web.attributes.list
+import org.jetbrains.compose.web.attributes.ButtonType
 import org.jetbrains.compose.web.attributes.onSubmit
-import org.jetbrains.compose.web.attributes.placeholder
 import org.jetbrains.compose.web.css.cssRem
-import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.dom.*
+import org.jetbrains.compose.web.dom.Datalist
+import org.jetbrains.compose.web.dom.Form
+import org.jetbrains.compose.web.dom.Option
+import org.jetbrains.compose.web.dom.Text
 
-val SearchBarStyle by ComponentStyle.base {
+val SearchBarInput by InputGroupStyle.addVariantBase {
     Modifier
-        .flex(1)
-        .padding(0.5.cssRem)
-        .borderRadius(12.px)
-        .fontSize(1.cssRem)
-        .border(width = 0.px)
-        .outline(width = 0.px)
+        .setVariable(InputBorderColorVar, Colors.Transparent)
+        .setVariable(ColorVar, colorMode.toSilkPalette().background)
         .backgroundColor(Color.rgba(220, 233, 250, 0.2f).darkened(0.1f))
-        .color(colorMode.toSilkPalette().background)
 }
 
 @Composable
@@ -67,28 +63,26 @@ fun SearchForm(viewModel: DataPageVM.SearchBarVM) {
 
 @Composable
 private fun SearchBar(dataListId: String, viewModel: DataPageVM.SearchBarVM) {
-    Row(
-        Modifier
-            .columnGap(0.5.cssRem)
-            .margin(bottom = 0.25.cssRem),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        SearchInput(
+    InputGroup(Modifier.margin(bottom = 0.25.cssRem), variant = SearchBarInput) {
+        TextInput(
             viewModel.input,
-            attrs = SearchBarStyle.toAttrs {
-                list(dataListId)
-                placeholder(viewModel.placeholder)
-                onClick { viewModel.active = true }
-                onInput { viewModel.input = viewModel.inputTransform(it.value) }
-            }
-        )
-        FaMagnifyingGlass(
+            { viewModel.input = viewModel.inputTransform(it) },
             Modifier
-                .fillMaxHeight()
-                .fontSize(1.5.cssRem)
-                .cursor(Cursor.Pointer)
-                .attrsModifier { attr("type", "submit") } // not needed but probably good to have
-                .onClick { viewModel.onEnterSearch() }
+                .onClick { viewModel.active = true }
+                .attrsModifier { attr("list", dataListId) },
+            placeholder = viewModel.placeholder,
+            focusBorderColor = Colors.Transparent,
         )
+        RightInset {
+            Button(
+                onClick = {},
+                modifier = Modifier.attrsModifier { attr("aria-label", "Search") },
+                variant = UnstyledButtonVariant,
+                size = UnsetButtonSize,
+                type = ButtonType.Submit,
+            ) {
+                FaMagnifyingGlass()
+            }
+        }
     }
 }

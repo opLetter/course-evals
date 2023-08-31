@@ -1,7 +1,7 @@
 package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.*
-import com.varabyte.kobweb.compose.css.*
+import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.BoxScope
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -11,35 +11,14 @@ import com.varabyte.kobweb.compose.ui.attrsModifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.forms.Button
-import com.varabyte.kobweb.silk.components.forms.ButtonStyle
 import com.varabyte.kobweb.silk.components.icons.fa.FaRotateRight
-import com.varabyte.kobweb.silk.components.style.active
-import com.varabyte.kobweb.silk.components.style.addVariant
-import com.varabyte.kobweb.silk.components.style.hover
+import io.github.opletter.courseevals.site.core.components.style.UnsetButtonSize
+import io.github.opletter.courseevals.site.core.components.style.UnstyledButtonVariant
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.fr
 import org.jetbrains.compose.web.css.ms
-import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.RangeInput
 import org.jetbrains.compose.web.dom.Text
-
-val UnstyledButtonVariant by ButtonStyle.addVariant {
-    base {
-        Modifier
-            .color(CSSColor.Unset)
-            .backgroundColor(BackgroundColor.Unset)
-            .lineHeight(LineHeight.Unset)
-            .fontSize(FontSize.Unset)
-            .padding(0.px)
-            .borderRadius(0.px)
-    }
-    hover {
-        Modifier.backgroundColor(BackgroundColor.Unset)
-    }
-    active {
-        Modifier.backgroundColor(BackgroundColor.Unset)
-    }
-}
 
 @Composable
 fun LabeledSlider(
@@ -123,6 +102,7 @@ fun Slider(
                         attr("aria-label", "reset")
                     }.then(it),
                 UnstyledButtonVariant,
+                UnsetButtonSize,
             ) {
                 resetContent!!()
             }

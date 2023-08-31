@@ -2,10 +2,7 @@ package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.Composable
 import androidx.compose.web.events.SyntheticMouseEvent
-import com.varabyte.kobweb.compose.css.CSSTransition
-import com.varabyte.kobweb.compose.css.FontSize
-import com.varabyte.kobweb.compose.css.LineHeight
-import com.varabyte.kobweb.compose.css.TransitionTimingFunction
+import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.foundation.layout.BoxScope
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
@@ -14,6 +11,7 @@ import com.varabyte.kobweb.silk.components.forms.ButtonStyle
 import com.varabyte.kobweb.silk.components.style.*
 import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
+import io.github.opletter.courseevals.site.core.components.style.SmediumButtonSize
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.s
@@ -25,6 +23,7 @@ val PillButtonVariant by ButtonStyle.addVariant {
             .padding(topBottom = 0.25.cssRem, leftRight = 1.5.cssRem)
             .flexShrink(0)
             .borderRadius(8.px)
+            .fontWeight(FontWeight.Normal)
             .fontFamily("unset")
             .lineHeight(LineHeight.Unset)
             .fontSize(FontSize.Unset)
@@ -70,6 +69,7 @@ fun PillButton(
         onClick = onClick,
         modifier = modifier,
         variant = if (selected) PillButtonSelectedVariant else PillButtonVariant,
+        size = SmediumButtonSize,
         content = content
     )
 }

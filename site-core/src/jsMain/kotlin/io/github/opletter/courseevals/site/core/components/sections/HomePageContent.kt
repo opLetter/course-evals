@@ -2,6 +2,7 @@ package io.github.opletter.courseevals.site.core.components.sections
 
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.*
+import com.varabyte.kobweb.compose.css.AlignSelf
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -11,7 +12,9 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.rememberPageContext
+import com.varabyte.kobweb.silk.components.forms.ButtonHeightVar
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
+import com.varabyte.kobweb.silk.components.forms.toModifier
 import com.varabyte.kobweb.silk.components.style.active
 import com.varabyte.kobweb.silk.components.style.addVariant
 import com.varabyte.kobweb.silk.components.style.hover
@@ -21,15 +24,13 @@ import com.varabyte.kobweb.silk.theme.toSilkPalette
 import io.github.opletter.courseevals.site.core.components.layouts.HomePageLayout
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNav
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.ExtraOptions
+import io.github.opletter.courseevals.site.core.components.style.SmediumButtonSize
 import io.github.opletter.courseevals.site.core.components.widgets.LogoWithSubhead
 import io.github.opletter.courseevals.site.core.misc.College
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import io.github.opletter.courseevals.site.core.states.State
 import kotlinx.browser.document
-import org.jetbrains.compose.web.css.cssRem
-import org.jetbrains.compose.web.css.percent
-import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.s
+import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Text
 
@@ -37,12 +38,11 @@ val ActionButtonVariant by ButtonStyle.addVariant {
     val background = if (colorMode.isLight) Color.rgb(217, 4, 41) else Color.rgb(221, 62, 25)
 
     base {
-        Modifier
-            .width(50.percent)
-            .margin(top = 1.cssRem)
+        SmediumButtonSize.toModifier()
             .backgroundColor(background)
             .color(colorMode.toSilkPalette().background)
-            .fontWeight(FontWeight.SemiBold)
+            .borderRadius(4.px)
+            .lineHeight(ButtonHeightVar.value()) // centers vertically
             .textDecorationLine(TextDecorationLine.None) // because link by default is underlined
     }
     hover {
@@ -124,6 +124,8 @@ private fun NavContent(viewModel: DataPageVM, setRouting: () -> Unit) {
             A(
                 href = "${viewModel.urlPrefix}data${viewModel.url}",
                 attrs = ButtonStyle.toModifier(ActionButtonVariant)
+                    .width(50.percent)
+                    .margin(top = 1.cssRem)
                     .onClick {
                         it.preventDefault()
                         setRouting()

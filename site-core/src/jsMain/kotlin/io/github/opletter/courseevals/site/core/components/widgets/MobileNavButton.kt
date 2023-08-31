@@ -22,13 +22,11 @@ fun MobileNavButton(onClick: (SyntheticMouseEvent) -> Unit) {
             modifier = Modifier
                 .bottom(20.px)
                 .right(30.px)
-                .padding(15.px)
+                .aspectRatio(1)
                 .borderRadius(50.percent)
                 .position(Position.Fixed)
                 .displayUntil(Breakpoint.MD)
-                .attrsModifier { attr("aria-label", "open nav") }
-        ) {
-            FaBars(Modifier.fontSize(15.px))
-        }
+                .attrsModifier { attr("aria-label", "open nav") },
+        ) { FaBars() }
     }
 }

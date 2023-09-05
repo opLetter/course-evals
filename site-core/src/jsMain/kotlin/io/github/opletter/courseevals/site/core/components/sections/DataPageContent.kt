@@ -10,7 +10,6 @@ import com.varabyte.kobweb.compose.foundation.layout.Spacer
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Color
-import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.icons.fa.FaCaretDown
@@ -152,8 +151,6 @@ fun DataPageContent(college: College) {
             Row(PageTitleStyle.toModifier(), verticalAlignment = Alignment.CenterVertically) {
                 // consider what to do with long titles + prof names vs dept names
                 SpanText(viewModel.pageTitle)
-                if (viewModel.urlPrefix.isNotEmpty())
-                    SpanText("FAKE DATA", Modifier.color(Colors.Red))
                 if (initialLoading || viewModel.pageLoading)
                     LoadingSpinner()
             }

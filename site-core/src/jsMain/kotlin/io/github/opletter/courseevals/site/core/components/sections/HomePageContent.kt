@@ -2,7 +2,6 @@ package io.github.opletter.courseevals.site.core.components.sections
 
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.*
-import com.varabyte.kobweb.compose.css.AlignSelf
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -30,7 +29,10 @@ import io.github.opletter.courseevals.site.core.misc.College
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import io.github.opletter.courseevals.site.core.states.State
 import kotlinx.browser.document
-import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.cssRem
+import org.jetbrains.compose.web.css.percent
+import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.s
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Text
 
@@ -73,7 +75,7 @@ fun HomePageContent(college: College) {
             .transition(CSSTransition("opacity", 0.25.s, TransitionTimingFunction.EaseInOut))
             .thenIf(routing, Modifier.opacity(0))
             .onTransitionEnd {
-                if (routing) ctx.router.tryRoutingTo("${viewModel.urlPrefix}data${viewModel.url}")
+                if (routing) ctx.router.tryRoutingTo("data${viewModel.url}")
             }
     ) {
         Column(
@@ -122,7 +124,7 @@ private fun NavContent(viewModel: DataPageVM, setRouting: () -> Unit) {
             // Use an A tag instead of a button so that right-clicking works like a normal link
             // But on normal click we want transition to happen first, so we prevent the default behavior
             A(
-                href = "${viewModel.urlPrefix}data${viewModel.url}",
+                href = "data${viewModel.url}",
                 attrs = ButtonStyle.toModifier(ActionButtonVariant)
                     .width(50.percent)
                     .margin(top = 1.cssRem)

@@ -1,7 +1,6 @@
 package io.github.opletter.courseevals.site.core.misc
 
 import io.github.opletter.courseevals.common.data.Campus
-import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.Semester
 import io.github.opletter.courseevals.common.data.SemesterType
 import io.github.opletter.courseevals.common.remote.GithubSource
@@ -87,25 +86,19 @@ sealed interface College {
         override val schoolStrategy = SchoolStrategy.NORMAL
         override val options = setOf(ExtraOptions.CAMPUS, ExtraOptions.MIN_SEM)
 
-        val fake = dataSource == fakeSource
-
         companion object {
-            private val fakeSource = GithubSource(
-                repoPath = "DennisTsar/RU-SIRS",
-                paths = WebsitePaths("") // TODO
-            )
-
             private fun privateRealSource(token: String): WebsiteDataSource {
                 val privateSource = GithubSource(
-                    paths = WebsitePaths(""), // TODO
-                    repoPath = "DennisTsar/Rutgers-SIRS",
+                    paths = WebsitePaths("rutgers/processed"), // TODO
+                    repoPath = "DennisTsar/Rutgers-Evals-Data",
                     token = token
                 )
-                // Only use private repo for what's necessary
-                return object : WebsiteDataSource by publicRealSource {
-                    override suspend fun getStatsByProf(school: String, dept: String): Map<String, InstructorStats> =
-                        privateSource.getStatsByProf(school, dept)
-                }
+                // TODO: Only use private repo for what's necessary (when public is updated)
+                return privateSource
+//                return object : WebsiteDataSource by publicRealSource {
+//                    override suspend fun getStatsByProf(school: String, dept: String): Map<String, InstructorStats> =
+//                        privateSource.getStatsByProf(school, dept)
+//                }
             }
 
             private val publicRealSource = GithubSource(
@@ -115,7 +108,6 @@ sealed interface College {
                 )
             )
 
-            val Fake = Rutgers(fakeSource)
             val PublicReal = Rutgers(publicRealSource)
 
             @Suppress("FunctionName") // purposely mimic a constructor

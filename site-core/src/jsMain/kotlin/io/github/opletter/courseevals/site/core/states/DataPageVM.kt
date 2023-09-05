@@ -20,11 +20,6 @@ class DataPageVM(
 ) {
     private val repository: WebsiteDataSource = college.dataSource
 
-    val urlPrefix = when {
-        college is College.Rutgers && college.fake -> "fake"
-        else -> ""
-    }
-
     var navState by mutableStateOf(NavState())
         private set
 

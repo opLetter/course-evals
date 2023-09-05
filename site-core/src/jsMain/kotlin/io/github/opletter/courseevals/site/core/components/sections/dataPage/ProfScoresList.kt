@@ -14,7 +14,6 @@ import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
-import com.varabyte.kobweb.silk.components.forms.Checkbox
 import com.varabyte.kobweb.silk.components.icons.fa.FaChalkboardUser
 import com.varabyte.kobweb.silk.components.icons.fa.FaUpRightFromSquare
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
@@ -145,19 +144,6 @@ fun ProfScoresList(
     Column(Modifier.rowGap(0.5.cssRem), horizontalAlignment = Alignment.CenterHorizontally) {
         if (instructors.isEmpty()) return@Column
 
-
-        Checkbox(
-            showOnlyTeaching,
-            { showOnlyTeaching = it },
-            InfoBubbleStyle.toModifier(TopInfoBubbleVariant)
-                .fontSize(115.percent)
-                .fontWeight(FontWeight.Medium)
-                .cursor(Cursor.Pointer)
-                .userSelect(UserSelect.None)
-        ) {
-            SpanText("Fall 2023 instructors only")
-            FaChalkboardUser()
-        }
         Label(
             attrs = InfoBubbleStyle.toModifier(TopInfoBubbleVariant)
                 .fontSize(115.percent)

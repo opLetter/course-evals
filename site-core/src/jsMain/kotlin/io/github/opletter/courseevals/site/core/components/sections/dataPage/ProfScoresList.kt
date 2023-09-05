@@ -2,7 +2,6 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage
 
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.*
-import com.varabyte.kobweb.compose.css.StyleVariable
 import com.varabyte.kobweb.compose.dom.ElementTarget
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -15,6 +14,7 @@ import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
+import com.varabyte.kobweb.silk.components.forms.Checkbox
 import com.varabyte.kobweb.silk.components.icons.fa.FaChalkboardUser
 import com.varabyte.kobweb.silk.components.icons.fa.FaUpRightFromSquare
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
@@ -144,6 +144,20 @@ fun ProfScoresList(
     var showOnlyTeaching by remember { mutableStateOf(false) }
     Column(Modifier.rowGap(0.5.cssRem), horizontalAlignment = Alignment.CenterHorizontally) {
         if (instructors.isEmpty()) return@Column
+
+
+        Checkbox(
+            showOnlyTeaching,
+            { showOnlyTeaching = it },
+            InfoBubbleStyle.toModifier(TopInfoBubbleVariant)
+                .fontSize(115.percent)
+                .fontWeight(FontWeight.Medium)
+                .cursor(Cursor.Pointer)
+                .userSelect(UserSelect.None)
+        ) {
+            SpanText("Fall 2023 instructors only")
+            FaChalkboardUser()
+        }
         Label(
             attrs = InfoBubbleStyle.toModifier(TopInfoBubbleVariant)
                 .fontSize(115.percent)
@@ -288,7 +302,7 @@ private fun StatsGrid(
                 .borderTop(5.px, LineStyle.Solid, palette.border)
                 .fontSize(0.9.cssRem)
                 .lineHeight(2.cssRem) // centers vertically
-                .overflowY(Overflow.Auto),
+                .overflow { y(Overflow.Auto) },
             gridVariant,
         ) {
             // Profs starting with [] have no stats for this course, but are teaching it - see DataPageVM.mapToDisplay

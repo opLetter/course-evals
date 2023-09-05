@@ -48,7 +48,7 @@ fun ExtraOptions(viewModel: DataPageVM, open: Boolean) {
         Column(
             Modifier
                 .fillMaxWidth()
-                .overflowY(Overflow.Auto)
+                .overflow { y(Overflow.Auto) }
                 .rowGap(0.5.cssRem)
                 .transition(CSSTransition("opacity", 0.2.s, transitionTimingFunction))
                 .then(it),

@@ -240,7 +240,7 @@ fun ProfScoresList(
                     verticalAlignment = Alignment.Bottom
                 ) {
                     Text("Name")
-                    FaUpRightFromSquare(Modifier.padding(bottom = 2.px)) // more visually pleasing
+                    FaUpRightFromSquare()
                 }
                 questions.short.plus(numResponsesText).forEachIndexed { index, text ->
                     SpanText(

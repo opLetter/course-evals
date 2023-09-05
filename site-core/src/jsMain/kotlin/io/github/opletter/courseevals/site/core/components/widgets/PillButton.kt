@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.web.events.SyntheticMouseEvent
 import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.foundation.layout.BoxScope
+import com.varabyte.kobweb.compose.foundation.layout.RowScope
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.forms.Button
@@ -63,7 +64,7 @@ fun PillButton(
     selected: Boolean,
     modifier: Modifier = Modifier,
     onClick: (SyntheticMouseEvent) -> Unit,
-    content: @Composable BoxScope.() -> Unit = {},
+    content: @Composable RowScope.() -> Unit = {},
 ) {
     Button(
         onClick = onClick,

@@ -5,6 +5,7 @@ import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.BoxScope
 import com.varabyte.kobweb.compose.foundation.layout.Column
+import com.varabyte.kobweb.compose.foundation.layout.RowScope
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
@@ -30,7 +31,7 @@ fun LabeledSlider(
     defaultValue: Number = rangeValue,
     onSlide: (Number) -> Unit = {},
     getText: (Number) -> String = { it.toString() },
-    resetContent: (@Composable BoxScope.() -> Unit)? = { FaRotateRight() },
+    resetContent: (@Composable RowScope.() -> Unit)? = { FaRotateRight() },
 ) {
     var visualRangeValue by remember { mutableStateOf(rangeValue) }
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
@@ -60,7 +61,7 @@ fun Slider(
     modifier: Modifier = Modifier,
     defaultValue: Number = rangeValue,
     onSlide: (Number) -> Unit = {},
-    resetContent: (@Composable BoxScope.() -> Unit)? = { FaRotateRight() },
+    resetContent: (@Composable RowScope.() -> Unit)? = { FaRotateRight() },
 ) {
     var visualRangeValue by remember { mutableStateOf(rangeValue) }
     Box(
@@ -102,7 +103,7 @@ fun Slider(
                         attr("aria-label", "reset")
                     }.then(it),
                 UnstyledButtonVariant,
-                UnsetButtonSize,
+                size = UnsetButtonSize,
             ) {
                 resetContent!!()
             }

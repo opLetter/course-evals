@@ -6,7 +6,7 @@ import io.github.opletter.courseevals.common.data.substringAfterBefore
 import kotlinx.serialization.Serializable
 
 @Serializable
-class Entry(
+data class Entry(
     val instructor: String,
     val term: String,
     val code: String,
@@ -33,7 +33,7 @@ class Entry(
         enrolled = s.substringAfterBefore("Enrollment=  ", ",").toInt(),
         responses = s.substringAfterBefore("Responses= ", " ").toInt(),
         // all the numbers for one entry, row by row
-        scores = s.split("<td  class=\"mono").drop(1)
+        scores = s.substringAfter("class=\"chart\"").split("class=\"mono").drop(1)
             .map { it.substringAfterBefore(">", "<").toDouble() },
         questions = s.split("<td  class='qText' >")
             .drop(1)
@@ -50,7 +50,7 @@ class Entry(
 
     val course get() = code.split(':')[2]
 
-    override fun toString(): String {
-        return "$instructor, $term, $code, $courseName, $indexNum, $note, $enrolled, $responses, size:${scores.size}, $questions"
-    }
+//    override fun toString(): String {
+//        return "$instructor, $term, $code, $courseName, $indexNum, $note, $enrolled, $responses, size:${scores.size}, $questions"
+//    }
 }

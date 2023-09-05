@@ -14,8 +14,8 @@ fun SchoolDeptsMap<Map<String, InstructorStats>>.getAllInstructors(): Map<String
     }
 }
 
-fun getInstructorStats(writeDir: String? = "jsonData/statsByProf"): SchoolDeptsMap<Map<String, InstructorStats>> {
-    return getCompleteSchoolDeptsMap<List<Entry>>("jsonData/entries")
+fun getInstructorStats(readDir: String, writeDir: String): SchoolDeptsMap<Map<String, InstructorStats>> {
+    return getCompleteSchoolDeptsMap<List<Entry>>(readDir)
         .semicolonCleanup()
         .mapEachDept { _, _, entries ->
             // filter out depts that aren't used recently to not clutter the UI
@@ -26,10 +26,9 @@ fun getInstructorStats(writeDir: String? = "jsonData/statsByProf"): SchoolDeptsM
             else entries.filterValid().mapByProfStats()
         }.filterNotEmpty()
         .also {
-            if (writeDir == null) return@also
             it.writeToFiles(writeDir)
             val allInstructors = it.getAllInstructors()
-            makeFileAndDir("$writeDir/allInstructors.json")
+            makeFileAndDir("$writeDir/instructors.json")
                 .writeText(Json.encodeToString(allInstructors))
         }
 }

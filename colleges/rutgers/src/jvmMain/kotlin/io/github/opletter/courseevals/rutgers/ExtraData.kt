@@ -10,16 +10,20 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 
-suspend fun getDeptNames(writePath: String? = "jsonData/extraData/deptNames.json"): Map<String, String> {
+suspend fun getDeptNames(writeDir: String?): Map<String, String> {
     return SOCSource.getSOCData().subjects.associate { it.code to it.description }
-        .also { if (writePath != null) makeFileAndDir(writePath).writeText(Json.encodeToString(it)) }
+        .also {
+            if (writeDir != null)
+                makeFileAndDir("$writeDir/dept-names.json").writeText(Json.encodeToString(it))
+        }
 }
 
 suspend fun generateCourseNameMappings(
     latestSemester: Semester.Double,
-    semestersBack: Int = 5,
-    writeDir: String? = "jsonData/extraData/courseNames",
-    oldDataPath: String? = "jsonData/old/courseNames",
+    semestersBack: Int,
+    schoolsDir: String,
+    writeDir: String?,
+    oldDataPath: String?,
 ): SchoolDeptsMap<Map<String, String>> {
     if (semestersBack < 1) throw IllegalArgumentException("semestersBack must be >= 1")
     return SOCSource.getCoursesOverTime(latestSemester, semestersBack)
@@ -37,17 +41,17 @@ suspend fun generateCourseNameMappings(
                 }
         }.let {
             // only write course names that will be used
-            val schools = File("jsonData/statsByProf/schools.json").decodeFromString<Map<String, School>>()
+            val schools = File("$schoolsDir/schools.json").decodeFromString<Map<String, School>>()
             it.mapEachDept { school, dept, data ->
                 if (schools[school]?.depts?.contains(dept) == true) data else emptyMap()
             }.filterNotEmpty()
         }.also { data ->
-            writeDir?.let { data.writeToFiles(it, writeSchoolMap = false) }
+            writeDir?.let { data.writeToFiles("$it/course-names", writeSchoolMap = false) }
         }
 }
 
-suspend fun getTeachingData(writeDir: String?): SchoolDeptsMap<Map<String, Collection<String>>> {
-    val profsByDept = getCompleteSchoolDeptsMap<Map<String, InstructorStats>>("jsonData/statsByProf")
+suspend fun getTeachingData(readDir: String, writeDir: String?): SchoolDeptsMap<Map<String, Collection<String>>> {
+    val profsByDept = getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(readDir)
         .mapEachDept { _, _, map -> map.keys }
 
     val coursesToProfs = SOCSource.getCoursesOverTime(Semester.Double.valueOf(SemesterType.Fall, 2023), 1)

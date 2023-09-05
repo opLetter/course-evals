@@ -8,8 +8,8 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 
-fun copyInstructorStatsWithoutStats() {
-    getCompleteSchoolDeptsMap<Map<String, InstructorStats>>("jsonData/statsByProf").mapEachDept { _, _, stats ->
+fun copyInstructorStatsWithoutStats(readDir: String, writeDir: String) {
+    getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(readDir).mapEachDept { _, _, stats ->
         stats.mapValues { (_, stats) ->
             InstructorStats(
                 lastSem = stats.lastSem,
@@ -17,10 +17,10 @@ fun copyInstructorStatsWithoutStats() {
                 courseStats = stats.courseStats.mapValues { emptyList() }
             )
         }
-    }.writeToFiles("jsonData/statsByProf-cleaned")
-    val allInstructors = File("jsonData/statsByProf/allInstructors.json")
+    }.writeToFiles(writeDir)
+    val allInstructors = File("$readDir/instructors.json")
         .decodeFromString<Map<String, List<Instructor>>>()
-    makeFileAndDir("jsonData/statsByProf-cleaned/allInstructors.json")
+    makeFileAndDir("$writeDir/instructors.json")
         .writeText(Json.encodeToString(allInstructors))
 }
 

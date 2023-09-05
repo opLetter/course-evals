@@ -36,7 +36,7 @@ object SIRSSource : RemoteApi {
     }
 
     private suspend fun HttpResponse.mapSIRSPageToEntries(): List<Entry> =
-        body<String>().split("\t\t<strong>  ").drop(1).map(::Entry)
+        body<String>().split("<strong>  ").drop(1).map(::Entry)
 
     suspend fun getEntriesByDeptOrCourse(
         semester: Semester.Double,

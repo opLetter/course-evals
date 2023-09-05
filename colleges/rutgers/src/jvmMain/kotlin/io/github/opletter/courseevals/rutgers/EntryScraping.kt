@@ -20,7 +20,7 @@ suspend fun getEntriesFromSIRS(
         depts.forEach depts@{ dept ->
             // Wanted to make this more async but that breaks Rutgers servers
             val entries = SIRSSource.getEntriesOverSems(schoolCode, dept, semesters)
-
+                .also { println("Got ${it.size} entries for $schoolCode/$dept") }
             if (entries.isEmpty()) return@depts
 
             val deptStr = dept.replace(":", "sc") // ensure valid filename

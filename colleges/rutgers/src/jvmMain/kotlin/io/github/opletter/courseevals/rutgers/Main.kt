@@ -1,21 +1,17 @@
 package io.github.opletter.courseevals.rutgers
 
+import io.github.opletter.courseevals.common.data.Semester
+import io.github.opletter.courseevals.common.data.SemesterType
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
+import io.github.opletter.courseevals.rutgers.remote.SIRSSource
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 
 
 suspend fun main(args: Array<String>) {
-    if ("-teaching" in args)
-        getTeachingData("jsonData/extraData/teachingF23")
-//    getInstructorStats()
-//    copyInstructorStatsWithoutStats()
-//    getDeptNames()
-//    generateCourseNameMappings(Semester.Double.valueOf(SemesterType.Fall, 2023))
-//    getTeachingData("jsonData/extraData/teachingF23")
-
+    // TODO: figure out
 //    getGeneralSchoolMap().onEach { println(it) }
 //        .let {
 //            makeFileAndDir("jsonData/entries/schools.json")
@@ -23,6 +19,35 @@ suspend fun main(args: Array<String>) {
 //        }
 //    getCompleteSchoolDeptsMap<Map<String, InstructorStats>>("jsonData/statsByProf")
 //        .printPossibleNameAdjustments(false)
+}
+
+// this function shouldn't be called,
+// but we declare it so that the functions it uses can be considered "used"
+@Suppress("unused", "FunctionName")
+private suspend fun `Overview of data gathering process`() {
+    val baseDir = "data-test"
+    val rawDir = "$baseDir/raw"
+    val processedDir = "$baseDir/processed"
+    val statsByProfDir = "$processedDir/stats-by-prof"
+    val coreDir = "$processedDir/core"
+
+    val semesters = Semester.Double.valueOf(SemesterType.Fall, 2013)..
+            Semester.Double.valueOf(SemesterType.Spring, 2023)
+    val schoolMap = SIRSSource.getCompleteSchoolMap(semesters)
+    getEntriesFromSIRS(schoolMap, rawDir, semesters)
+
+    getInstructorStats(rawDir, statsByProfDir)
+    copyInstructorStatsWithoutStats(statsByProfDir, "$statsByProfDir-cleaned")
+
+    getDeptNames("$coreDir/dept-names")
+    generateCourseNameMappings(
+        latestSemester = Semester.Double.valueOf(SemesterType.Fall, 2023),
+        semestersBack = 5,
+        schoolsDir = statsByProfDir,
+        writeDir = "$coreDir/course-names",
+        oldDataPath = "jsonData/old/courseNames" // TODO: inspect
+    )
+    getTeachingData(statsByProfDir, "$coreDir/teaching-F23")
 }
 
 fun writeNameMappingsToJson() {
@@ -46,5 +71,3 @@ fun writeNameMappingsToJson() {
                 .writeText(Json.encodeToString(map))
         }
 }
-
-

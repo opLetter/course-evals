@@ -42,7 +42,6 @@ fun updateTheme(ctx: InitSilkContext) {
             default = Colors.Blue,
             visited = Color.rgb(123, 0, 21),
         )
-        border = Color.rgb(76, 76, 187)
     }
     ctx.theme.palettes.dark.apply {
         background = Color.rgb(0xEDF2F4) // Color.rgb(0x2B2D42)
@@ -57,7 +56,6 @@ fun updateTheme(ctx: InitSilkContext) {
             default = Colors.Blue,
             visited = Color.rgb(217, 4, 41), // Color.rgb(123, 0, 21),
         )
-        border = Colors.Red.darkened(0.15f)
     }
 }
 
@@ -65,6 +63,7 @@ class SitePalette(
     val accent: Color,
     val neutral: Color,
     val secondary: Color,
+    val gridAccent: Color,
 )
 
 object SitePalettes {
@@ -73,11 +72,13 @@ object SitePalettes {
             accent = Color.rgb(220, 10, 10),
             neutral = Color.rgb(203, 203, 203), // Color.rgb(190, 190, 190)
             secondary = Color.rgb(223, 239, 255), // Color.rgb(0xDCE9FA)
+            gridAccent = Color.rgb(76, 76, 187),
         ),
         ColorMode.DARK to SitePalette(
             accent = Color.rgb(0x333333), // Colors.Black,
             neutral = Color.rgb(203, 203, 203),
             secondary = Color.rgb(241, 222, 218),
+            gridAccent = Colors.Red.darkened(0.15f),
         ),
     )
 

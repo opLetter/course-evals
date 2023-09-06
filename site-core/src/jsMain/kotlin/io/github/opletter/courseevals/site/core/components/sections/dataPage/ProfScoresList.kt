@@ -102,7 +102,7 @@ val AveRowVariant by GridRowStyle.addVariantBase {
 
 // "role:button" prevents mobile text highlight on click
 val ProfNameStyle by ComponentStyle(Modifier.role("button")) {
-    val color = colorMode.toSilkPalette().border
+    val color = SitePalettes[colorMode].gridAccent
     base {
         Modifier
             .textAlign(TextAlign.Start)
@@ -269,13 +269,12 @@ private fun StatsGrid(
     onNameClick: (String) -> Unit,
     getProfUrl: (String) -> String,
 ) {
-    val palette = ColorMode.current.toSilkPalette()
     key(showOnlyTeaching, mobileView) {
         CustomGrid(
             Modifier
                 .fillMaxWidth()
                 .maxHeight(55.vh)
-                .borderTop(5.px, LineStyle.Solid, palette.border)
+                .borderTop(5.px, LineStyle.Solid, SitePalettes[ColorMode.current].gridAccent)
                 .fontSize(0.9.cssRem)
                 .lineHeight(2.cssRem) // centers vertically
                 .overflow { y(Overflow.Auto) },

@@ -82,10 +82,7 @@ fun ProfStatsDesktop(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
                 SpanText("responses")
             }
 
-            Column(
-                Modifier.flex(1),
-                verticalArrangement = Arrangement.SpaceAround
-            ) {
+            Column(Modifier.flex(1), verticalArrangement = Arrangement.SpaceAround) {
                 val bigModifier = Modifier
                     .fontWeight(FontWeight.Black)
                     .lineHeight(100.percent)
@@ -100,10 +97,7 @@ fun ProfStatsDesktop(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
             }
         }
 
-        BarGraph(
-            viewModel.graphNums,
-            viewModel.graphLabel,
-        )
+        BarGraph(viewModel.graphNums, viewModel.graphLabel)
     }
 }
 

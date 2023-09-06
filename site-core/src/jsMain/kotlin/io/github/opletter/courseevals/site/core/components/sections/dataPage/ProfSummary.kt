@@ -44,7 +44,7 @@ fun CourseButtonsBar(
             .alignSelf(AlignSelf.Start)
             .padding(bottom = mobileScrollbarOffset)
             .margin(bottom = -mobileScrollbarOffset)
-            .overflowX(Overflow.Auto)
+            .overflow { x(Overflow.Auto) }
             .columnGap(0.5.cssRem)
             .fontSize(1.3.cssRem)
             .then(modifier),

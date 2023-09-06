@@ -13,7 +13,8 @@ import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
-import com.varabyte.kobweb.compose.ui.toAttrs
+import com.varabyte.kobweb.silk.components.forms.Checkbox
+import com.varabyte.kobweb.silk.components.forms.CheckboxVars
 import com.varabyte.kobweb.silk.components.icons.fa.FaChalkboardUser
 import com.varabyte.kobweb.silk.components.icons.fa.FaUpRightFromSquare
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
@@ -33,8 +34,6 @@ import io.github.opletter.courseevals.site.core.components.widgets.ExclamationIc
 import io.github.opletter.courseevals.site.core.misc.textEllipsis
 import io.github.opletter.courseevals.site.core.states.Questions
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.CheckboxInput
-import org.jetbrains.compose.web.dom.Label
 import org.jetbrains.compose.web.dom.Text
 import com.varabyte.kobweb.compose.css.AlignSelf as KobAlignSelf
 
@@ -70,7 +69,7 @@ val MainGridAreaStyle by ComponentStyle {
 
 val InfoBubbleStyle by ComponentStyle.base {
     Modifier
-        .padding(6.px)
+        .padding(topBottom = 0.25.cssRem, leftRight = 0.5.cssRem)
         .borderRadius(12.px)
         .backgroundColor(SitePalettes[colorMode].neutral.toRgb().copyf(alpha = 0.8f))
         .boxShadow(offsetX = 5.px, offsetY = 5.px, blurRadius = 30.px, color = Color.rgba(0, 0, 0, 0.08f))
@@ -144,25 +143,16 @@ fun ProfScoresList(
     Column(Modifier.rowGap(0.5.cssRem), horizontalAlignment = Alignment.CenterHorizontally) {
         if (instructors.isEmpty()) return@Column
 
-        Label(
-            attrs = InfoBubbleStyle.toModifier(TopInfoBubbleVariant)
+        Checkbox(
+            showOnlyTeaching,
+            { showOnlyTeaching = it },
+            InfoBubbleStyle.toModifier(TopInfoBubbleVariant)
+                .setVariable(CheckboxVars.TransitionDuration, 0.ms) // for responsive feel
                 .fontSize(115.percent)
-                .fontWeight(FontWeight.Medium)
-                .cursor(Cursor.Pointer)
-                .userSelect(UserSelect.None)
-                .toAttrs()
+                .fontWeight(FontWeight.Medium),
+            borderColor = Colors.Black.copyf(alpha = 0.5f),
         ) {
-            CheckboxInput(
-                showOnlyTeaching,
-                Modifier
-                    .cursor(Cursor.Pointer)
-                    .size(1.cssRem)
-                    .verticalAlign(VerticalAlign.Bottom)
-                    .toAttrs {
-                        onInput { showOnlyTeaching = !showOnlyTeaching }
-                    }
-            )
-            SpanText("Fall 2023 instructors only", Modifier.margin(leftRight = 0.3.cssRem))
+            Text("Fall 2023 instructors only")
             FaChalkboardUser()
         }
         if (!list.keys.any { "[]" in it }) return@Column
@@ -176,7 +166,7 @@ fun ProfScoresList(
             ExclamationIcon(
                 Modifier
                     .color(Colors.Yellow)
-                    .margin(leftRight = 0.3.cssRem)
+                    .margin(leftRight = 0.125.cssRem)
             )
             Text(" don't have stats for this course, so their overall stats are used")
         }

@@ -1,15 +1,16 @@
 package io.github.opletter.courseevals.site.core.components.sections.dataPage.options
 
 import androidx.compose.runtime.Composable
-import com.varabyte.kobweb.compose.css.VerticalAlign
+import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
-import com.varabyte.kobweb.compose.ui.toAttrs
+import com.varabyte.kobweb.silk.components.forms.Checkbox
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import io.github.opletter.courseevals.site.core.misc.smallCapsFont
@@ -19,8 +20,7 @@ import io.github.opletter.courseevals.site.core.states.LevelOfStudyVM
 import org.jetbrains.compose.web.css.FlexWrap
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.percent
-import org.jetbrains.compose.web.dom.CheckboxInput
-import org.jetbrains.compose.web.dom.Label
+import org.jetbrains.compose.web.dom.Text
 
 @Composable
 fun CampusOption(campusState: CampusVM, levelOfStudyState: LevelOfStudyVM) {
@@ -53,21 +53,18 @@ private fun <T> CheckMarkList(state: CheckmarksVM<T>, getString: (T) -> String) 
     state.checks.forEach { (data, checked) ->
         // disable clicking on checkmark if it is the only one checked -> good idea?
         val disabled = checked && state.onlyOneChecked
-        Label(
-            attrs = Modifier
-                .thenIf(disabled, Modifier.title("Select another option to uncheck this one."))
-                .toAttrs()
-        ) {
-            CheckboxInput(
-                checked,
+        Checkbox(
+            modifier = Modifier.thenIf(
+                disabled,
                 Modifier
-                    .verticalAlign(VerticalAlign.Bottom)
-                    .thenIf(disabled, Modifier.disabled())
-                    .toAttrs {
-                        onInput { state.click(data) }
-                    }
-            )
-            SpanText(getString(data), Modifier.margin(left = 0.5.cssRem))
-        }
+                    .opacity(0.7) // less extreme than default disabled
+                    .cursor(Cursor.Default)
+                    .title("Select another option to uncheck this one.")
+            ),
+            checked = checked,
+            onCheckedChange = { state.click(data) },
+            enabled = !disabled,
+            borderColor = Colors.White.copyf(alpha = 0.5f),
+        ) { Text(getString(data)) }
     }
 }

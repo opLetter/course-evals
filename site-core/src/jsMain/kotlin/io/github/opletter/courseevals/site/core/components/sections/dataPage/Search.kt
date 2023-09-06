@@ -29,7 +29,7 @@ import org.jetbrains.compose.web.dom.Text
 
 val SearchBarInput by InputGroupStyle.addVariantBase {
     Modifier
-        .setVariable(InputBorderColorVar, Colors.Transparent)
+        .setVariable(InputVars.BorderColor, Colors.Transparent)
         .setVariable(ColorVar, colorMode.toSilkPalette().background)
         .backgroundColor(Color.rgba(220, 233, 250, 0.2f).darkened(0.1f))
 }

@@ -11,8 +11,8 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.rememberPageContext
-import com.varabyte.kobweb.silk.components.forms.ButtonHeightVar
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
+import com.varabyte.kobweb.silk.components.forms.ButtonVars
 import com.varabyte.kobweb.silk.components.forms.toModifier
 import com.varabyte.kobweb.silk.components.style.active
 import com.varabyte.kobweb.silk.components.style.addVariant
@@ -44,7 +44,7 @@ val ActionButtonVariant by ButtonStyle.addVariant {
             .backgroundColor(background)
             .color(colorMode.toSilkPalette().background)
             .borderRadius(4.px)
-            .lineHeight(ButtonHeightVar.value()) // centers vertically
+            .lineHeight(ButtonVars.Height.value()) // centers vertically
             .textDecorationLine(TextDecorationLine.None) // because link by default is underlined
     }
     hover {

@@ -64,6 +64,7 @@ val SideNavVariant by MainNavStyle.addVariantBase {
     backgroundModifier
         .padding(top = 1.cssRem, leftRight = 0.75.cssRem, bottom = 0.75.cssRem)
         .flexBasis(325.px) // allow some shrinking but no growing
+        .minWidth(300.px)
         .position(Position.Sticky)
         .top(0.px)
         .height(100.vh)

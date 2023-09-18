@@ -86,7 +86,7 @@ val EvenRowVariant by GridRowStyle.addVariantBase {
 }
 
 // intentionally using blank variant to allow for easy experimentation & changes
-val OddRowVariant by GridRowStyle.addVariantBase { Modifier }
+val OddRowVariant by GridRowStyle.addVariant { }
 
 val AveRowVariant by GridRowStyle.addVariantBase {
     val background = if (colorMode.isLight) Color.rgb(44, 62, 110) else Color.rgb(218, 105, 95)

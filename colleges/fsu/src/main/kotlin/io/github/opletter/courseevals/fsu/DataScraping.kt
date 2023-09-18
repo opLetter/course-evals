@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.Loader
 import org.apache.pdfbox.text.PDFTextStripper
 import java.io.File
 import kotlin.time.Duration
@@ -173,7 +173,7 @@ suspend fun FSURepository.getReportsForCourse(
 }
 
 fun ByteArray.getStatsFromPdf(): PdfReport {
-    PDDocument.load(this).use { doc ->
+    Loader.loadPDF(this).use { doc ->
         val text = PDFTextStripper().getText(doc)
         val generalData = text.substringAfterBefore("Florida State University\r\n", "Instructor:").lines()
         val stats = text.split("\\d+ - ".toRegex())

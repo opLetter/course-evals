@@ -5,7 +5,7 @@ kotlin = "1.9.10"
 ktor = "2.3.4"
 coroutines = "1.7.3"
 serialization = "1.6.0"
-pdfbox = "2.0.29"
+pdfbox = "3.0.0"
 
 [libraries]
 kobweb-core = { module = "com.varabyte.kobweb:kobweb-core", version.ref = "kobweb" }

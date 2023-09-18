@@ -8,7 +8,7 @@ import io.github.opletter.courseevals.common.remote.decodeFromString
 import io.github.opletter.courseevals.common.remote.ktorClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.Loader
 import org.apache.pdfbox.text.PDFTextStripper
 import java.io.File
 
@@ -27,7 +27,7 @@ data class TeachingEntry(
 
 // https://registrar.fsu.edu/class_search/
 fun ByteArray.getTeachingData(): List<TeachingData> {
-    return PDDocument.load(this).use { doc ->
+    return Loader.loadPDF(this).use { doc ->
         PDFTextStripper().getText(doc).split("Page \\d+".toRegex()).drop(1)
     }.fold(emptyList()) { acc, text ->
         val lines = text.lines()

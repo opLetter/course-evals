@@ -22,7 +22,7 @@ suspend fun getGeneralSchoolMap(
         .values
         .flatten()
 
-    return socData.schools.toList().pmap { school ->
+    return socData.schools.pmap { school ->
         if (school.code !in sirsSchools)
             return@pmap null
         val depts = (4028..4044).flatMap { num ->

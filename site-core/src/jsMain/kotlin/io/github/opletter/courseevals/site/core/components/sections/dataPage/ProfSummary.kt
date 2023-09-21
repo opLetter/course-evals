@@ -48,7 +48,7 @@ fun CourseButtonsBar(
             .then(modifier)
     ) {
         Row(Modifier.columnGap(0.5.cssRem)) {
-            courses.toList().forEachIndexed { index, (course, teaching) ->
+            courses.entries.forEachIndexed { index, (course, teaching) ->
                 PillButton(selected = index == selectedCourse, onClick = { onClick(index) }) {
                     Row(Modifier.columnGap(0.5.cssRem), verticalAlignment = Alignment.CenterVertically) {
                         SpanText(course)

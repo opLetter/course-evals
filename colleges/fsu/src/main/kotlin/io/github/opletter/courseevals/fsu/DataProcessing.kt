@@ -109,8 +109,8 @@ fun getStatsByProf(
                             .map { it.value.drop(3) }
                             .toSet()
                             .associateWith { report }
-                            .toList()
-                    }.groupBy({ it.first }, { it.second })
+                            .entries
+                    }.groupBy({ it.key }, { it.value })
                         .mapValues { (_, reports) -> reports.getTotalRatings(includeQuestions) }
                 )
             }.filterValues { it != null }.mapValues { it.value!! }

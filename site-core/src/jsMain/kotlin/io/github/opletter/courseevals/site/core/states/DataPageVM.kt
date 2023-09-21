@@ -217,7 +217,7 @@ class DataPageVM(
         prof: String? = null,
     ) {
         val profsChanged = navState.prof.list.size != (statsByProf.size + 1) // (+1 for None)
-        if (!isSameAsState(school.code, dept, course, prof) && !profsChanged) {
+        if (currentlySelected(school.code, dept, course, prof) && !profsChanged) {
             // needed if campus is changed but currently selected school is still valid
             if (activeSchoolsByCode.keys != navState.school.list)
                 navState = navState.copy(school = navState.school.copy(list = schoolsToShow))
@@ -354,11 +354,11 @@ class DataPageVM(
     }
 }
 
-private fun DataPageVM.isSameAsState(school: String, dept: String, course: String?, prof: String?): Boolean {
-    return school != navState.school.selected ||
-            dept != navState.dept.selected ||
-            (course ?: None) != navState.course.selected ||
-            (prof ?: None) != navState.prof.selected
+private fun DataPageVM.currentlySelected(school: String, dept: String, course: String?, prof: String?): Boolean {
+    return school == navState.school.selected &&
+            dept == navState.dept.selected &&
+            (course ?: None) == navState.course.selected &&
+            (prof ?: None) == navState.prof.selected
 }
 
 private fun DataPageVM.getCode(

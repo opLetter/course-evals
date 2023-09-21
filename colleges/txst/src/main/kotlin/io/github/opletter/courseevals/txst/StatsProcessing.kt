@@ -30,7 +30,7 @@ fun getStatsByProf(readDir: String, writeDir: String?): Map<String, Map<String, 
                         report.course to (it.instructor.plid to it.scores)
                     }
                 }.groupBy { it.second.first }
-                .toList()
+                .entries
                 .associate { (profId, profStats) ->
                     allProfs[profId]!!.displayName.normalizeName() to InstructorStats(
                         lastSem = parseSemester(profStats.maxOf { it.first.semester }),

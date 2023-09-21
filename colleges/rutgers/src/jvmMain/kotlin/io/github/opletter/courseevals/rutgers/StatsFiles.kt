@@ -36,8 +36,7 @@ fun getInstructorStats(readDir: String, writeDir: String): SchoolDeptsMap<Map<St
 
 // combines all schools & depts that have semicolons into same dirs/files
 fun SchoolDeptsMap<List<Entry>>.semicolonCleanup(): SchoolDeptsMap<List<Entry>> {
-    return toList()
-        .groupBy({ it.first.substringBefore(";") }, { it.second })
+    return entries.groupBy({ it.key.substringBefore(";") }, { it.value })
         .mapValues { (_, listOfMaps) ->
             listOfMaps.reduce { acc, map ->
                 val newDepts = map.filterKeys { it !in acc.keys }
@@ -45,8 +44,8 @@ fun SchoolDeptsMap<List<Entry>>.semicolonCleanup(): SchoolDeptsMap<List<Entry>> 
                     val otherEntries = map[dept] ?: return@internalMap entries
                     entries + otherEntries
                 } + newDepts
-            }.toList()
-                .groupBy({ it.first.substringBefore(";") }, { it.second })
+            }.entries
+                .groupBy({ it.key.substringBefore(";") }, { it.value })
                 .mapValues { it.value.flatten() }
         }
 }

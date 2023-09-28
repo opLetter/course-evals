@@ -19,7 +19,8 @@ import com.varabyte.kobweb.silk.components.style.addVariant
 import com.varabyte.kobweb.silk.components.style.hover
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.theme.toSilkPalette
+import com.varabyte.kobweb.silk.theme.colors.palette.background
+import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.components.layouts.HomePageLayout
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNav
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.ExtraOptions
@@ -42,7 +43,7 @@ val ActionButtonVariant by ButtonStyle.addVariant {
     base {
         SmediumButtonSize.toModifier()
             .backgroundColor(background)
-            .color(colorMode.toSilkPalette().background)
+            .color(colorMode.toPalette().background)
             .borderRadius(4.px)
             .lineHeight(ButtonVars.Height.value()) // centers vertically
             .textDecorationLine(TextDecorationLine.None) // because link by default is underlined

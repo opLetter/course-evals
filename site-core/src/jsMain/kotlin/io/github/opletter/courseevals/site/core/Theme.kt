@@ -9,7 +9,10 @@ import com.varabyte.kobweb.silk.init.InitSilk
 import com.varabyte.kobweb.silk.init.InitSilkContext
 import com.varabyte.kobweb.silk.init.registerBaseStyle
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
-import com.varabyte.kobweb.silk.theme.colors.MutableSilkPalette
+import com.varabyte.kobweb.silk.theme.colors.palette.background
+import com.varabyte.kobweb.silk.theme.colors.palette.button
+import com.varabyte.kobweb.silk.theme.colors.palette.color
+import com.varabyte.kobweb.silk.theme.colors.palette.link
 import kotlinx.browser.localStorage
 
 private const val COLOR_MODE_KEY = "course-evals:colorMode"
@@ -32,27 +35,27 @@ fun updateTheme(ctx: InitSilkContext) {
     ctx.theme.palettes.light.apply {
         background = Color.rgb(0xEDF2F4)
         color = Colors.Black // Color.rgb(0x2B2D42),
-        button = MutableSilkPalette.Button(
+        button.set(
             default = lightButtonBase,
             hover = lightButtonBase.lightened(byPercent = 0.2f),
             focus = Colors.CornflowerBlue,
             pressed = lightButtonBase.lightened(byPercent = 0.3f),
         )
-        link = MutableSilkPalette.Link(
+        link.set(
             default = Colors.Blue,
             visited = Color.rgb(123, 0, 21),
         )
     }
     ctx.theme.palettes.dark.apply {
         background = Color.rgb(0xEDF2F4) // Color.rgb(0x2B2D42)
-        color = Colors.Black
-        button = MutableSilkPalette.Button(
+//        color = Colors.Black
+        button.set(
             default = darkButtonBase,
             hover = darkButtonBase.darkened(byPercent = 0.2f),
             focus = Colors.LightSkyBlue,
             pressed = darkButtonBase.darkened(byPercent = 0.3f),
         )
-        link = MutableSilkPalette.Link(
+        link.set(
             default = Colors.Blue,
             visited = Color.rgb(217, 4, 41), // Color.rgb(123, 0, 21),
         )

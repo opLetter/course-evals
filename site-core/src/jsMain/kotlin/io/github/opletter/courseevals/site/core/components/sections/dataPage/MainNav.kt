@@ -19,7 +19,8 @@ import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
-import com.varabyte.kobweb.silk.theme.toSilkPalette
+import com.varabyte.kobweb.silk.theme.colors.palette.background
+import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.DarkBackgroundBoxStyle
 import io.github.opletter.courseevals.site.core.components.widgets.CustomDropDown
 import io.github.opletter.courseevals.site.core.components.widgets.Logo
@@ -54,7 +55,7 @@ val MainNavStyle by ComponentStyle.base {
     val backgroundModifier = if (colorMode.isLight) lightBackground(60) else darkBackground(60)
 
     backgroundModifier
-        .color(ColorMode.LIGHT.toSilkPalette().background)
+        .color(ColorMode.LIGHT.toPalette().background)
 }
 
 val SideNavVariant by MainNavStyle.addVariantBase {

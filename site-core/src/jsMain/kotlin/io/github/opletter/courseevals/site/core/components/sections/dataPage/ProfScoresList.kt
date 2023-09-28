@@ -27,7 +27,8 @@ import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
-import com.varabyte.kobweb.silk.theme.toSilkPalette
+import com.varabyte.kobweb.silk.theme.colors.palette.background
+import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.components.widgets.CustomGrid
 import io.github.opletter.courseevals.site.core.components.widgets.ExclamationIcon
@@ -93,7 +94,7 @@ val AveRowVariant by GridRowStyle.addVariantBase {
 
     Modifier
         .backgroundColor(background)
-        .color(colorMode.toSilkPalette().background)
+        .color(colorMode.toPalette().background)
         .position(Position.Sticky)
         .top(0.px)
         .bottom((-1).px) // 0 still causes a sliver to sometimes show through

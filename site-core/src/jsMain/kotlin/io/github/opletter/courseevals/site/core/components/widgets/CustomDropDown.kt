@@ -13,7 +13,8 @@ import com.varabyte.kobweb.silk.components.style.ComponentVariant
 import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
-import com.varabyte.kobweb.silk.theme.toSilkPalette
+import com.varabyte.kobweb.silk.theme.colors.palette.color
+import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.misc.smallCapsFont
 import org.jetbrains.compose.web.css.px
@@ -29,7 +30,7 @@ val SelectStyle by ComponentStyle.base {
         .padding(4.px)
         .borderRadius(6.px)
         .border(width = 0.px)
-        .color(ColorMode.LIGHT.toSilkPalette().color)
+        .color(ColorMode.LIGHT.toPalette().color)
         .backgroundColor(SitePalettes[colorMode].secondary)
         .fontFamily("inherit") // this is not the default for some reason
         .fontWeight(FontWeight.Bold)

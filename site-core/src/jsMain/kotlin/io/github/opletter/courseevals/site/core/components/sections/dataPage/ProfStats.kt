@@ -21,7 +21,8 @@ import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.components.text.SpanTextStyle
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
-import com.varabyte.kobweb.silk.theme.toSilkPalette
+import com.varabyte.kobweb.silk.theme.colors.palette.link
+import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.components.widgets.BarGraph
 import io.github.opletter.courseevals.site.core.components.widgets.ExclamationIcon
@@ -163,7 +164,7 @@ private fun AveComparison(aveData: AveComparisonData, modifier: Modifier = Modif
             path = aveData.url,
             text = aveData.urlText,
             modifier = Modifier
-                .color(ColorMode.current.toSilkPalette().link.default)
+                .color(ColorMode.current.toPalette().link.default)
                 .onClick { if (!it.ctrlKey && !it.shiftKey) aveData.onLinkClick() }
         )
     }

@@ -18,7 +18,8 @@ import com.varabyte.kobweb.silk.components.style.base
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.components.text.SpanTextStyle
-import com.varabyte.kobweb.silk.theme.toSilkPalette
+import com.varabyte.kobweb.silk.theme.colors.palette.background
+import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.misc.College
 import org.jetbrains.compose.web.css.cssRem
@@ -39,7 +40,7 @@ val SubHeadVariant by SpanTextStyle.addVariantBase {
         .fontSize(1.4.cssRem)
         .lineHeight(1.25)
         .fontWeight(FontWeight.Bold)
-        .color(colorMode.toSilkPalette().background)
+        .color(colorMode.toPalette().background)
 }
 
 @Composable

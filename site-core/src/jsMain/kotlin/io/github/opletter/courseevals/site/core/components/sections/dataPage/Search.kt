@@ -13,8 +13,9 @@ import com.varabyte.kobweb.silk.components.forms.*
 import com.varabyte.kobweb.silk.components.icons.fa.FaMagnifyingGlass
 import com.varabyte.kobweb.silk.components.style.addVariantBase
 import com.varabyte.kobweb.silk.components.style.toModifier
-import com.varabyte.kobweb.silk.theme.colors.ColorVar
-import com.varabyte.kobweb.silk.theme.toSilkPalette
+import com.varabyte.kobweb.silk.components.style.vars.color.ColorVar
+import com.varabyte.kobweb.silk.theme.colors.palette.background
+import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.DarkBackgroundBoxStyle
 import io.github.opletter.courseevals.site.core.components.style.UnsetButtonSize
 import io.github.opletter.courseevals.site.core.components.style.UnstyledButtonVariant
@@ -30,7 +31,7 @@ import org.jetbrains.compose.web.dom.Text
 val SearchBarInput by InputGroupStyle.addVariantBase {
     Modifier
         .setVariable(InputVars.BorderColor, Colors.Transparent)
-        .setVariable(ColorVar, colorMode.toSilkPalette().background)
+        .setVariable(ColorVar, colorMode.toPalette().background)
         .backgroundColor(Color.rgba(220, 233, 250, 0.2f).darkened(0.1f))
 }
 

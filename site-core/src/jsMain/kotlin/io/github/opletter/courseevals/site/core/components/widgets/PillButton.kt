@@ -3,14 +3,15 @@ package io.github.opletter.courseevals.site.core.components.widgets
 import androidx.compose.runtime.Composable
 import androidx.compose.web.events.SyntheticMouseEvent
 import com.varabyte.kobweb.compose.css.*
-import com.varabyte.kobweb.compose.foundation.layout.BoxScope
 import com.varabyte.kobweb.compose.foundation.layout.RowScope
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
 import com.varabyte.kobweb.silk.components.style.*
-import com.varabyte.kobweb.silk.theme.toSilkPalette
+import com.varabyte.kobweb.silk.theme.colors.palette.background
+import com.varabyte.kobweb.silk.theme.colors.palette.button
+import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.components.style.SmediumButtonSize
 import org.jetbrains.compose.web.css.cssRem
@@ -41,7 +42,7 @@ val PillButtonVariant by ButtonStyle.addVariant {
         Modifier.backgroundColor(baseColor.darkened(0.1f))
     }
     focusVisible {
-        Modifier.boxShadow(spreadRadius = 3.px, color = colorMode.toSilkPalette().button.focus, inset = true)
+        Modifier.boxShadow(spreadRadius = 3.px, color = colorMode.toPalette().button.focus, inset = true)
     }
     active {
         Modifier.backgroundColor(baseColor.darkened(0.2f))
@@ -53,7 +54,7 @@ val PillButtonSelectedVariant by ButtonStyle.addVariant(
 ) {
     val colorModifier = Modifier
         .backgroundColor(SitePalettes[colorMode].accent)
-        .color(colorMode.toSilkPalette().background)
+        .color(colorMode.toPalette().background)
     base { colorModifier }
     hover { colorModifier }
     active { colorModifier }

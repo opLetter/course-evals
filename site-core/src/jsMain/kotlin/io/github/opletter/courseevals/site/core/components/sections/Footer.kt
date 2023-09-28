@@ -19,7 +19,8 @@ import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.navigation.LinkStyle
 import com.varabyte.kobweb.silk.components.style.*
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.theme.toSilkPalette
+import com.varabyte.kobweb.silk.theme.colors.palette.link
+import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.misc.goatCounterClick
 import io.github.opletter.courseevals.site.core.misc.jsGoatBindEvents
 import org.jetbrains.compose.web.css.cssRem
@@ -32,7 +33,7 @@ val FooterStyle by ComponentStyle.base {
 }
 
 val OppositeLinkVariant by LinkStyle.addVariant {
-    val linkColors = colorMode.opposite.toSilkPalette().link
+    val linkColors = colorMode.opposite.toPalette().link
     link {
         Modifier.color(Colors.Cyan)
     }

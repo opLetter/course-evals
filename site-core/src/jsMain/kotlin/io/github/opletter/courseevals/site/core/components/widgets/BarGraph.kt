@@ -21,7 +21,8 @@ import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.components.text.SpanTextStyle
-import com.varabyte.kobweb.silk.theme.toSilkPalette
+import com.varabyte.kobweb.silk.theme.colors.palette.background
+import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.misc.smallCapsFont
 import org.jetbrains.compose.web.css.*
@@ -52,7 +53,7 @@ val BarGraphStyle by ComponentStyle {
             .aspectRatio(4, 3)
             .padding(topBottom = 0.33.cssRem, leftRight = 0.75.cssRem)
             .borderRadius(12.px)
-            .color(colorMode.toSilkPalette().background)
+            .color(colorMode.toPalette().background)
             .backgroundImage(backgroundGradient)
     }
     Breakpoint.LG {
@@ -69,7 +70,7 @@ val BarGraphStyle by ComponentStyle {
 }
 
 val BarGraphBarStyle by ComponentStyle.base {
-    val barColor = colorMode.toSilkPalette().background
+    val barColor = colorMode.toPalette().background
     Modifier
         .width(75.percent)
         .backgroundColor(barColor)

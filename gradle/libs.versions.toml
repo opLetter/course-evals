@@ -1,6 +1,6 @@
 [versions]
 jetbrains-compose = "1.5.1"
-kobweb = "0.14.0"
+kobweb = "0.14.1"
 kotlin = "1.9.10"
 ktor = "2.3.4"
 coroutines = "1.7.3"
@@ -9,8 +9,8 @@ pdfbox = "3.0.0"
 
 [libraries]
 kobweb-core = { module = "com.varabyte.kobweb:kobweb-core", version.ref = "kobweb" }
-kobweb-silk-core = { module = "com.varabyte.kobweb:kobweb-silk", version.ref = "kobweb" }
-kobweb-silk-icons-fa = { module = "com.varabyte.kobweb:kobweb-silk-icons-fa", version.ref = "kobweb" }
+kobweb-silk = { module = "com.varabyte.kobweb:kobweb-silk", version.ref = "kobweb" }
+silk-icons-fa = { module = "com.varabyte.kobwebx:silk-icons-fa", version.ref = "kobweb" }
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
@@ -26,7 +26,7 @@ serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", v
 pdfbox = { module = "org.apache.pdfbox:pdfbox", version.ref = "pdfbox" }
 
 [bundles]
-kobweb = ["kobweb-core", "kobweb-silk-core", "kobweb-silk-icons-fa"]
+kobweb = ["kobweb-core", "kobweb-silk", "silk-icons-fa"]
 ktor-main = [
     "ktor-client-core", "ktor-client-encoding", "ktor-client-logging", "ktor-client-serialization",
     "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"

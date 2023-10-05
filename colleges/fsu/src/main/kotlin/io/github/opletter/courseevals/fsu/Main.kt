@@ -4,9 +4,10 @@ import io.github.opletter.courseevals.fsu.remote.FSURepository
 import io.github.opletter.courseevals.fsu.remote.getAllValidCourseKeys
 
 suspend fun main(args: Array<String>) {
-    // TODO: restore
-//    if ("-teaching" in args)
-//        getTeachingProfs("jsonData/extraData/teachingF23")
+    if ("-teaching" in args) {
+        val rootDir = "../../data/fsu/processed"
+        getTeachingProfs("$rootDir/stats-by-prof", "$rootDir/core/teaching-S24")
+    }
 }
 
 // this function shouldn't be called,

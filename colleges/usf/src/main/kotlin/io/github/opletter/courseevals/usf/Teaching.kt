@@ -50,11 +50,15 @@ private fun processSubjectData(readDir: String, subject: String, data: List<List
             val first = name.substringBefore(" ").trim()
             val last = name.substringAfterLast(" ").trim()
 
+            // attempt to handle "Doe, John", "Doe, John A", "Del Doe, John"
             val foundName = existingInstructors.singleOrNull { prof ->
                 prof.normalized() == (last + first).normalized()
             } ?: existingInstructors.singleOrNull { prof ->
                 val preLast = name.split(" ").filter { it.isNotEmpty() }.dropLast(1)
                 prof.normalized() == (preLast.last() + last + first).normalized()
+            } ?: existingInstructors.singleOrNull { prof ->
+                val preLast = name.split(" ").filter { it.isNotEmpty() }.dropLast(1)
+                prof.normalized() == (last + first + preLast.last()).normalized()
             }
             foundName?.let { it to course }
         }

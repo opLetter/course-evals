@@ -153,7 +153,7 @@ fun ProfScoresList(
                 .fontWeight(FontWeight.Medium),
             borderColor = Colors.Black.copyf(alpha = 0.5f),
         ) {
-            Text("Fall 2023 instructors only")
+            Text("Spring 2024 instructors only")
             FaChalkboardUser()
         }
         if (!list.keys.any { "[]" in it }) return@Column
@@ -355,7 +355,7 @@ private fun ProfName(
         FaChalkboardUser(
             Modifier
                 .fontSize(iconFontSize)
-                .title("Teaching this course in Fall 2023")
+                .title("Teaching this course in Spring 2024")
         )
         if (!specialStats) return@Row
         ExclamationIcon(

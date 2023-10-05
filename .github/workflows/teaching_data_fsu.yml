@@ -1,0 +1,38 @@
+# This file was generated using Kotlin DSL (.github/workflows/teaching.main.kts).
+# If you want to modify the workflow, please change the Kotlin file and regenerate this YAML file.
+# Generated with https://github.com/typesafegithub/github-workflows-kt
+
+name: 'FSU: Update Teaching Data'
+on:
+  workflow_dispatch: { }
+  schedule:
+    - cron: '0 16 * * 1'
+jobs:
+  get_and_commit:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - id: 'step-0'
+        name: 'Checkout'
+        uses: 'actions/checkout@v4'
+      - id: 'step-1'
+        name: 'Set up Java'
+        uses: 'actions/setup-java@v3'
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - id: 'step-2'
+        name: 'Run'
+        run: './gradlew colleges:fsu:run --args="teaching"'
+      - id: 'step-3'
+        name: 'Add & Commit'
+        run: |-
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout master
+          git add .
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "FSU: Updated teaching data"
+            git push
+          else
+            echo "CHANGE=false" >> $GITHUB_OUTPUT
+          fi

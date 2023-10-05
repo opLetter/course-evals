@@ -11,10 +11,8 @@ suspend fun getDeptNames(writeDir: String?): Map<String, String> {
     // some depts are no longer in use, but we still want the names
     // acquired from https://usfonline.admin.usf.edu/pls/prod/bwckschd.p_disp_dyn_sched
     val presetNames = mapOf(
-        "CJT" to "Criminal Justice Technologies",
+        "EAP" to "English for Foreign Students",
         "EED" to "Education: Emotional Disordrs",
-        "ELR" to "Electrical Labs & Related Areas",
-        "ETI" to "Engineering Technology: Indst",
         "FOW" to "For & Bibl Lang, Comp Lit",
         "HBR" to "Modern Hebrew Language",
         "ISC" to "Interdisciplinary Sciences",

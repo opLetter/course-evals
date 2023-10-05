@@ -3,6 +3,8 @@ package io.github.opletter.courseevals.usf
 // determined by both https://usfonline.admin.usf.edu/pls/prod/bwckgens.p_proc_term_date && [getCourseData]
 // We skip the following prefixes that seem to exist but have no data:
 // ARE, BMS, CHD, DPT, ENY, EPD, IDC, MDC, MDE, MDI, MDR, MDT, MDX, MEL, NEB, PAS, PHT, RAT, RSD
+// and the following that have data but not within our time range:
+// CJJ, CJT, ELR, ETI
 val Prefixes = listOf(
     "ACG",
     "ADE",
@@ -49,9 +51,7 @@ val Prefixes = listOf(
     "CIS",
     "CJC",
     "CJE",
-    "CJJ",
     "CJL",
-    "CJT",
     "CLA",
     "CLP",
     "CLT",
@@ -101,7 +101,6 @@ val Prefixes = listOf(
     "EGS",
     "EIN",
     "ELD",
-    "ELR",
     "EMA",
     "EME",
     "EML",
@@ -116,7 +115,6 @@ val Prefixes = listOf(
     "ESE",
     "ESI",
     "ETG",
-    "ETI",
     "EUH",
     "EUS",
     "EVR",

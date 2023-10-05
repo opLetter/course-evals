@@ -47,6 +47,10 @@ fun getStatsByProf(
     }.also {
         if (writeDir == null) return@also
         it.forEach { (prefix, profs) ->
+            if (profs.isEmpty()) {
+                println("no profs for $prefix")
+                return@forEach
+            }
             makeFileAndDir("$writeDir/0/$prefix.json") // "0" is the school
                 .writeText(Json.encodeToString(profs))
         }

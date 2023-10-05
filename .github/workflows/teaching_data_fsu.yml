@@ -29,7 +29,7 @@ jobs:
           distribution: 'temurin'
       - id: 'step-3'
         name: 'Run'
-        run: './gradlew colleges:fsu:run --args="-teaching"'
+        run: './gradlew colleges:fsu:run --args="-teaching ../../data/fsu/processed/stats-by-prof ../../data/fsu/processed/core/teaching-S24"'
       - id: 'step-4'
         name: 'Add & Commit'
         run: |-

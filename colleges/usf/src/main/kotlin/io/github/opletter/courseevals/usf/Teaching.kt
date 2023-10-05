@@ -9,8 +9,9 @@ import java.io.File
 suspend fun getTeachingProfs(
     readDir: String,
     writeDir: String?,
+    term: String,
 ): Map<String, Map<String, Set<String>>> {
-    return getTeachingDataContent()
+    return getTeachingDataContent(term)
         .substringBefore("<table  CLASS=\"datadisplaytable\" summary=\"This is")
         .split("<tr>")
         .asSequence()

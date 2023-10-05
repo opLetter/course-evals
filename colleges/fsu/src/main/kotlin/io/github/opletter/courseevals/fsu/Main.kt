@@ -4,9 +4,8 @@ import io.github.opletter.courseevals.fsu.remote.FSURepository
 import io.github.opletter.courseevals.fsu.remote.getAllValidCourseKeys
 
 suspend fun main(args: Array<String>) {
-    if ("-teaching" in args) {
-        val rootDir = "../../data/fsu/processed"
-        getTeachingProfs("$rootDir/stats-by-prof", "$rootDir/core/teaching-S24")
+    args.indexOf("-teaching").takeIf { it != -1 }?.let {
+        getTeachingProfs(readDir = args[it + 1], writeDir = args[it + 2], term = "202401")
     }
 }
 
@@ -37,5 +36,5 @@ private suspend fun `Overview of data gathering process`() {
     // core
     getCompleteCourseNames(statsByProfDir, courseNamesDir)
     getDeptNames(coreDir)
-    getTeachingProfs(statsByProfDir, teachingProfsDir)
+    getTeachingProfs(statsByProfDir, teachingProfsDir, term = "202401")
 }

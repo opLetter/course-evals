@@ -1,9 +1,9 @@
 package io.github.opletter.courseevals.usf
 
 suspend fun main(args: Array<String>) {
-    // TODO: restore
-//    if ("-teaching" in args)
-//        getTeachingProfs()
+    args.indexOf("-teaching").takeIf { it != -1 }?.let {
+        getTeachingProfs(readDir = args[it + 1], writeDir = args[it + 2], term = "202401")
+    }
 }
 
 // this function shouldn't be called,
@@ -22,5 +22,5 @@ private suspend fun `Overview of data gathering process`() {
 
     getDeptNames(coreDir)
     getCompleteCourseNames(statsDir, "$coreDir/course-names")
-    getTeachingProfs(statsDir, "$coreDir/teaching-F23")
+    getTeachingProfs(statsDir, "$coreDir/teaching-S24", "202401")
 }

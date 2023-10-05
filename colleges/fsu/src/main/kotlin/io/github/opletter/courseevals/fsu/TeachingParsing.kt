@@ -63,7 +63,7 @@ inline fun <T, V> List<TeachingData>.processTeachingDataByDept(
         }
 }
 
-suspend fun getTeachingProfs(readDir: String, writeDir: String, term: String = "2024-1") {
+suspend fun getTeachingProfs(readDir: String, writeDir: String, term: String) {
     listOf("Undergraduate", "Graduate", "Law", "Medicine").flatMap { type ->
         ktorClient.get("https://registrar.fsu.edu/class_search/$term/$type.pdf")
             .body<ByteArray>()

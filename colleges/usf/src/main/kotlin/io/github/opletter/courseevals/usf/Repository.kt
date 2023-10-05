@@ -85,9 +85,9 @@ suspend fun getCourseData(): List<CourseData> {
         .let { json.decodeFromString<List<CourseData>>(it) }
 }
 
-suspend fun getTeachingDataContent(): String {
+suspend fun getTeachingDataContent(term: String): String {
     val payload = FormDataContent(Parameters.build {
-        append("term_in", "202308")
+        append("term_in", term)
         append("open_only", "N")
         append("begin_hh", "0")
         append("begin_mi", "0")

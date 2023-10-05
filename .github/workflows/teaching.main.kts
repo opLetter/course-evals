@@ -14,8 +14,8 @@ import io.github.typesafegithub.workflows.yaml.writeToFile
 
 val EVALS_DATA_TOKEN by Contexts.secrets
 
-fun teachingDataWorkflow(name: String, college: String, gradleCommand: String, cron: Cron) = workflow(
-    name = name,
+fun teachingDataWorkflow(college: String, cron: Cron) = workflow(
+    name = "$college: Update Teaching Data",
     on = listOf(
         WorkflowDispatch(),
         Schedule(listOf(cron))
@@ -39,7 +39,16 @@ fun teachingDataWorkflow(name: String, college: String, gradleCommand: String, c
             name = "Set up Java",
             action = SetupJavaV3(javaVersion = "17", distribution = SetupJavaV3.Distribution.Temurin)
         )
-        run(name = "Run", command = "$gradleCommand --args=\"-teaching\"")
+
+        run {
+            val rootDir = "../../data/${college.lowercase()}/processed"
+            val args = listOf("-teaching", "$rootDir/stats-by-prof", "$rootDir/core/teaching-S24")
+                .joinToString(" ", prefix = "\"", postfix = "\"")
+            val gradleCommand = "./gradlew colleges:${college.lowercase()}:run --args=$args"
+
+            run(name = "Run", command = gradleCommand)
+        }
+
         run(
             name = "Add & Commit",
             command = """
@@ -60,15 +69,11 @@ fun teachingDataWorkflow(name: String, college: String, gradleCommand: String, c
 }
 
 teachingDataWorkflow(
-    name = "FSU: Update Teaching Data",
     college = "FSU",
-    gradleCommand = "./gradlew colleges:fsu:run",
     cron = Cron(minute = "0", hour = "16", dayWeek = "1")
 ).writeToFile(addConsistencyCheck = false)
 
 teachingDataWorkflow(
-    name = "USF: Update Teaching Data",
     college = "USF",
-    gradleCommand = "./gradlew colleges:usf:run",
     cron = Cron(minute = "0", hour = "22", dayWeek = "1-5")
 ).writeToFile(addConsistencyCheck = false)

@@ -39,7 +39,7 @@ fun teachingDataWorkflow(name: String, college: String, gradleCommand: String, c
             name = "Set up Java",
             action = SetupJavaV3(javaVersion = "17", distribution = SetupJavaV3.Distribution.Temurin)
         )
-        run(name = "Run", command = "$gradleCommand --args=\"teaching\"")
+        run(name = "Run", command = "$gradleCommand --args=\"-teaching\"")
         run(
             name = "Add & Commit",
             command = """

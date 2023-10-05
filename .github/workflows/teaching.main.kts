@@ -4,9 +4,15 @@
 import io.github.typesafegithub.workflows.actions.actions.CheckoutV4
 import io.github.typesafegithub.workflows.actions.actions.SetupJavaV3
 import io.github.typesafegithub.workflows.domain.RunnerType.UbuntuLatest
-import io.github.typesafegithub.workflows.domain.triggers.*
+import io.github.typesafegithub.workflows.domain.triggers.Cron
+import io.github.typesafegithub.workflows.domain.triggers.Schedule
+import io.github.typesafegithub.workflows.domain.triggers.WorkflowDispatch
+import io.github.typesafegithub.workflows.dsl.expressions.Contexts
+import io.github.typesafegithub.workflows.dsl.expressions.expr
 import io.github.typesafegithub.workflows.dsl.workflow
 import io.github.typesafegithub.workflows.yaml.writeToFile
+
+val EVALS_DATA_TOKEN by Contexts.secrets
 
 fun teachingDataWorkflow(name: String, college: String, gradleCommand: String, cron: Cron) = workflow(
     name = name,
@@ -18,7 +24,17 @@ fun teachingDataWorkflow(name: String, college: String, gradleCommand: String, c
     targetFileName = "teaching_data_${college.lowercase()}.yml"
 ) {
     job(id = "get_and_commit", runsOn = UbuntuLatest) {
-        uses(name = "Checkout", action = CheckoutV4())
+        uses(name = "Checkout code", action = CheckoutV4())
+
+        uses(
+            name = "Checkout data",
+            action = CheckoutV4(
+                repository = "opletter/course-evals-data",
+                path = "data",
+                token = expr { EVALS_DATA_TOKEN }
+            )
+        )
+
         uses(
             name = "Set up Java",
             action = SetupJavaV3(javaVersion = "17", distribution = SetupJavaV3.Distribution.Temurin)
@@ -27,6 +43,7 @@ fun teachingDataWorkflow(name: String, college: String, gradleCommand: String, c
         run(
             name = "Add & Commit",
             command = """
+              cd data
               git config user.name "github-actions[bot]"
               git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
               git checkout master

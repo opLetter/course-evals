@@ -12,20 +12,28 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - id: 'step-0'
-        name: 'Checkout'
+        name: 'Checkout code'
         uses: 'actions/checkout@v4'
       - id: 'step-1'
+        name: 'Checkout data'
+        uses: 'actions/checkout@v4'
+        with:
+          repository: 'opletter/course-evals-data'
+          token: '${{ secrets.EVALS_DATA_TOKEN }}'
+          path: 'data'
+      - id: 'step-2'
         name: 'Set up Java'
         uses: 'actions/setup-java@v3'
         with:
           java-version: '17'
           distribution: 'temurin'
-      - id: 'step-2'
+      - id: 'step-3'
         name: 'Run'
         run: './gradlew colleges:usf:run --args="teaching"'
-      - id: 'step-3'
+      - id: 'step-4'
         name: 'Add & Commit'
         run: |-
+          cd data
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout master

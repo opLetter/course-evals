@@ -12,6 +12,7 @@ import io.github.typesafegithub.workflows.dsl.expressions.expr
 import io.github.typesafegithub.workflows.dsl.workflow
 import io.github.typesafegithub.workflows.yaml.writeToFile
 
+@Suppress("PropertyName")
 val EVALS_DATA_TOKEN by Contexts.secrets
 
 fun teachingDataWorkflow(college: String, cron: Cron) = workflow(
@@ -75,5 +76,10 @@ teachingDataWorkflow(
 
 teachingDataWorkflow(
     college = "USF",
+    cron = Cron(minute = "0", hour = "22", dayWeek = "1-5")
+).writeToFile(addConsistencyCheck = false)
+
+teachingDataWorkflow(
+    college = "TXST",
     cron = Cron(minute = "0", hour = "22", dayWeek = "1-5")
 ).writeToFile(addConsistencyCheck = false)

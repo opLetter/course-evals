@@ -64,8 +64,9 @@ suspend fun getTeachingProfs(
                 .substringBefore("<")
                 .replace("\\s+".toRegex(), " ")
                 .trim()
-
-            if (prefix !in Prefixes || prof.trim() == "Unassigned Faculty") null else listOf(prefix, number, prof)
+            if (prefix !in Prefixes || prof.trim() == "Unassigned Faculty" || prof.isBlank())
+                null
+            else listOf(prefix, number, prof)
         }.groupBy({ it[0] }, { it[2] to it[1] })
         .mapValues { processSubjectData(readDir, it.key, it.value) }
         .onEach { (subject, data) ->
@@ -92,21 +93,20 @@ private fun processSubjectData(
         .let { Json.decodeFromString<Map<String, InstructorStats>>(it) }
         .keys
 
-    val teachingInstructors = data
-        .mapNotNull { (name, course) ->
-            val first = name.substringBefore(" ").trim()
-            val nonLast = name.substringBeforeLast(" ").trim()
-            val last = name.substringAfterLast(" ").trim()
+    val teachingInstructors = data.mapNotNull { (name, course) ->
+        val first = name.substringBefore(" ").trim()
+        val nonLast = name.substringBeforeLast(" ").trim()
+        val last = name.substringAfterLast(" ").trim()
 
-            val foundName = existingInstructors.singleOrNull { prof ->
-                prof.normalized() == (last + first).normalized()
-            } ?: existingInstructors.singleOrNull { prof ->
-                prof.normalized(ignoreMiddle = false) == (last + nonLast).normalized()
-            } ?: existingInstructors.singleOrNull { prof ->
-                prof.normalized() == (last + first.first()).normalized()
-            }
-            foundName?.let { it to course }
+        val foundName = existingInstructors.singleOrNull { prof ->
+            prof.normalized() == (last + first).normalized()
+        } ?: existingInstructors.singleOrNull { prof ->
+            prof.normalized(ignoreMiddle = false) == (last + nonLast).normalized()
+        } ?: existingInstructors.singleOrNull { prof ->
+            prof.normalized() == (last + first.first()).normalized()
         }
+        foundName?.let { it to course }
+    }
 
     val coursesToProfs = teachingInstructors
         .groupBy({ it.second }, { it.first })

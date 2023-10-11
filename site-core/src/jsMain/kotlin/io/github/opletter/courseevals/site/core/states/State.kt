@@ -7,7 +7,7 @@ sealed interface State {
         val mapToDisplay: Map<String, List<String>>
     }
 
-    object InitialLoading : State
+    data object InitialLoading : State
     class Dept(override val mapToDisplay: Map<String, List<String>>) : TableData
     class Course(override val mapToDisplay: Map<String, List<String>>) : TableData
     class Prof(val profSummaryVM: ProfSummaryVM) : Loaded

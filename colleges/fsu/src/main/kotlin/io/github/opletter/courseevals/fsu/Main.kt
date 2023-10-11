@@ -22,7 +22,7 @@ private suspend fun `Overview of data gathering process`() {
     val teachingProfsDir = "$coreDir/teaching-S24"
 
     // preparation - optional?
-    val repository = FSURepository().also { it.login() }
+    val repository = FSURepository.initLoggedIn()
     repository.getAllValidCourseKeys() // note client config comment
 
     // stats-by-prof

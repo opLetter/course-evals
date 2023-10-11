@@ -12,24 +12,9 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import kotlin.time.Duration.Companion.seconds
 
-class FSURepository(key: String? = null) {
-    private val cookie: String
-
-    init {
-        cookie = key ?: runBlocking {
-            HttpClient { followRedirects = false }
-                .get("https://fsu.evaluationkit.com/Report/Public")
-                .headers.toString()
-                .let {
-                    val cookieKey = "ASP.NET_SessionId="
-                    cookieKey + it.substringAfterBefore(cookieKey, " ")
-                }
-        }
-    }
-
+class FSURepository(private val cookie: String) {
     private val client = HttpClient(CIO) {
         engine {
             endpoint {
@@ -125,6 +110,21 @@ class FSURepository(key: String? = null) {
         val url = client.get("Reports/SRPdf.aspx?${ids.joinToString(",")}").body<String>()
             .substringAfterBefore("'../", "'")
         return url to client.get(url).body()
+    }
+
+    companion object {
+        suspend fun init(): FSURepository {
+            val cookie = HttpClient { followRedirects = false }
+                .get("https://fsu.evaluationkit.com/Report/Public")
+                .headers.toString()
+                .let {
+                    val cookieKey = "ASP.NET_SessionId="
+                    cookieKey + it.substringAfterBefore(cookieKey, " ")
+                }
+            return FSURepository(cookie)
+        }
+
+        suspend fun initLoggedIn(): FSURepository = init().also { it.login() }
     }
 }
 

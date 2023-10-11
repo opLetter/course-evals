@@ -40,7 +40,7 @@ fun validateReports(oldDir: String, newDir: String) {
 }
 
 suspend fun fixReportErrors(oldDir: String, newDir: String) {
-    val repository = FSURepository().also { it.login() }
+    val repository = FSURepository.initLoggedIn()
     CourseSearchKeys.forEach { prefix ->
         println("starting $prefix")
 

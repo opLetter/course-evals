@@ -214,7 +214,7 @@ fun ByteArray.getStatsFromPdf(): PdfReport {
 }
 
 suspend fun getAllData(writeDir: String, keys: List<String> = CourseSearchKeys) {
-    val repo = FSURepository().also { it.login() }
+    val repo = FSURepository.initLoggedIn()
 
     keys.forEachIndexed { index, courseKey ->
         val reports: List<Report>? = flow {

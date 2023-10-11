@@ -21,7 +21,7 @@ fun List<Int>.getRatingStats(): Pair<Double, Int> {
     val ave = mapIndexed { index, num ->
         (index + 1) * num
     }.sum().toDouble() / numResponses
-    return ave.roundToDecimal(2) to numResponses
+    return ave to numResponses
 }
 
 fun List<Int>.getRatingAve(): Double = getRatingStats().first

@@ -10,7 +10,7 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.serialization.json.Json
 
-private val client = HttpClient().config {
+private val client = HttpClient {
     install(HttpTimeout) {
         requestTimeoutMillis = 60_000 * 5
     }

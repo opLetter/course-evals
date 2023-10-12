@@ -3,8 +3,8 @@ package io.github.opletter.courseevals.rutgers.remote
 import io.github.opletter.courseevals.common.data.Semester
 import io.github.opletter.courseevals.common.data.pmap
 import io.github.opletter.courseevals.common.data.substringAfterBefore
-import io.github.opletter.courseevals.common.remote.RemoteApi
 import io.github.opletter.courseevals.rutgers.Entry
+import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -15,8 +15,8 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.*
 import kotlinx.serialization.json.Json
 
-object SIRSSource : RemoteApi {
-    private val sirsClient = client.config {
+object SIRSSource {
+    private val sirsClient = HttpClient {
         followRedirects = false
         install(Logging) {
             logger = Logger.SIMPLE

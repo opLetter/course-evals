@@ -4,20 +4,20 @@ import io.github.opletter.courseevals.common.data.Campus
 import io.github.opletter.courseevals.common.data.Semester
 import io.github.opletter.courseevals.common.data.SemesterType
 import io.github.opletter.courseevals.common.data.substringAfterBefore
-import io.github.opletter.courseevals.common.remote.RemoteApi
 import io.github.opletter.courseevals.rutgers.data.soc.Course
 import io.github.opletter.courseevals.rutgers.data.soc.SOCData
+import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.compression.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.serialization.kotlinx.json.*
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 private const val SOC_BASE_URL = "https://sis.rutgers.edu/soc"
 
-object SOCSource : RemoteApi {
+object SOCSource {
+    private val client = HttpClient()
     suspend fun getCourses(
         semester: Semester.Double,
         campus: Campus,

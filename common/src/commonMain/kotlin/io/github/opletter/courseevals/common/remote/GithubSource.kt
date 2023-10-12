@@ -3,6 +3,7 @@ package io.github.opletter.courseevals.common.remote
 import io.github.opletter.courseevals.common.data.Instructor
 import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.School
+import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -20,8 +21,8 @@ class GithubSource(
     private val paths: WebsitePaths,
     repoPath: String = "opletter/course-evals-data",
     token: String? = null,
-) : RemoteApi, WebsiteDataSource {
-    private val ghClient = client.config {
+) : WebsiteDataSource {
+    private val ghClient = HttpClient {
         // only use official api if needed for authentication, as it is rate limited
         install(ContentNegotiation) {
             if (token == null) json(Json, ContentType.Text.Plain) else json()

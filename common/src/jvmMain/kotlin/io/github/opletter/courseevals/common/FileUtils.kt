@@ -1,4 +1,4 @@
-package io.github.opletter.courseevals.common.remote
+package io.github.opletter.courseevals.common
 
 import io.github.opletter.courseevals.common.data.School
 import io.github.opletter.courseevals.common.data.SchoolDeptsMap

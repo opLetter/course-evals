@@ -1,7 +1,7 @@
 package io.github.opletter.courseevals.fsu
 
+import io.github.opletter.courseevals.common.*
 import io.github.opletter.courseevals.common.data.*
-import io.github.opletter.courseevals.common.remote.*
 import java.io.File
 
 val campusMap = mapOf(

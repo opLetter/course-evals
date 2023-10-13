@@ -3,10 +3,10 @@ package io.github.opletter.courseevals.txst
 import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.pmap
 import io.github.opletter.courseevals.common.data.substringAfterBefore
-import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
+import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
+import io.github.opletter.courseevals.common.makeFileAndDir
 import io.github.opletter.courseevals.common.remote.ktorClient
-import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import io.github.opletter.courseevals.common.remote.writeAsJson
+import io.github.opletter.courseevals.common.writeAsJson
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*

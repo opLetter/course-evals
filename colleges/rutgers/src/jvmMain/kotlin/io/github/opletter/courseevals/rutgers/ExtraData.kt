@@ -1,10 +1,10 @@
 package io.github.opletter.courseevals.rutgers
 
 import io.github.opletter.courseevals.common.data.*
-import io.github.opletter.courseevals.common.remote.decodeJson
-import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
-import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import io.github.opletter.courseevals.common.remote.writeAsJson
+import io.github.opletter.courseevals.common.decodeJson
+import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
+import io.github.opletter.courseevals.common.makeFileAndDir
+import io.github.opletter.courseevals.common.writeAsJson
 import io.github.opletter.courseevals.rutgers.remote.SOCSource
 import io.github.opletter.courseevals.rutgers.remote.getCoursesOverTime
 import java.io.File

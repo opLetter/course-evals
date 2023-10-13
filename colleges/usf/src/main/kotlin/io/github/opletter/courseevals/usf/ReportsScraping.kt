@@ -1,8 +1,8 @@
 package io.github.opletter.courseevals.usf
 
 import io.github.opletter.courseevals.common.data.pmap
-import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import io.github.opletter.courseevals.common.remote.writeAsJson
+import io.github.opletter.courseevals.common.makeFileAndDir
+import io.github.opletter.courseevals.common.writeAsJson
 
 suspend fun getData(writeDir: String, terms: List<String> = getTerms(), prefixes: List<String> = Prefixes) {
     prefixes.forEach { prefix ->

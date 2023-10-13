@@ -1,9 +1,9 @@
 package io.github.opletter.courseevals.txst
 
 import io.github.opletter.courseevals.common.data.pmap
-import io.github.opletter.courseevals.common.remote.decodeJson
-import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import io.github.opletter.courseevals.common.remote.writeAsJson
+import io.github.opletter.courseevals.common.decodeJson
+import io.github.opletter.courseevals.common.makeFileAndDir
+import io.github.opletter.courseevals.common.writeAsJson
 import io.github.opletter.courseevals.txst.remote.data.Report
 import io.github.opletter.courseevals.txst.remote.data.SaveableResponse
 import io.github.opletter.courseevals.txst.remote.data.TXSTInstructor

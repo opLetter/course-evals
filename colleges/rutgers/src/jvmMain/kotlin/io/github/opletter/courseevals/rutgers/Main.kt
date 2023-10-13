@@ -3,8 +3,8 @@ package io.github.opletter.courseevals.rutgers
 import io.github.opletter.courseevals.common.data.Semester
 import io.github.opletter.courseevals.common.data.SemesterType
 import io.github.opletter.courseevals.common.data.substringAfterBefore
-import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import io.github.opletter.courseevals.common.remote.writeAsJson
+import io.github.opletter.courseevals.common.makeFileAndDir
+import io.github.opletter.courseevals.common.writeAsJson
 import io.github.opletter.courseevals.rutgers.remote.SIRSSource
 import java.io.File
 

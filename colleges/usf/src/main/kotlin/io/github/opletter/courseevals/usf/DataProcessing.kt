@@ -1,10 +1,10 @@
 package io.github.opletter.courseevals.usf
 
 import io.github.opletter.courseevals.common.data.*
-import io.github.opletter.courseevals.common.remote.decodeJson
-import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
-import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import io.github.opletter.courseevals.common.remote.writeAsJson
+import io.github.opletter.courseevals.common.decodeJson
+import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
+import io.github.opletter.courseevals.common.makeFileAndDir
+import io.github.opletter.courseevals.common.writeAsJson
 import java.io.File
 
 fun List<Report>.getTotalRatings(): Ratings {

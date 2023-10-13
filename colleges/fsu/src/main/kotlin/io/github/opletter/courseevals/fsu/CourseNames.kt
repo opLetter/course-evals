@@ -3,7 +3,11 @@ package io.github.opletter.courseevals.fsu
 import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.School
 import io.github.opletter.courseevals.common.data.SchoolDeptsMap
-import io.github.opletter.courseevals.common.remote.*
+import io.github.opletter.courseevals.common.decodeJson
+import io.github.opletter.courseevals.common.makeFileAndDir
+import io.github.opletter.courseevals.common.readResource
+import io.github.opletter.courseevals.common.remote.ktorClient
+import io.github.opletter.courseevals.common.writeAsJson
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import java.io.File

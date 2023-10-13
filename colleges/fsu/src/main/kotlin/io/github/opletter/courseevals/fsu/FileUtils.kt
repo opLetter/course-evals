@@ -1,8 +1,8 @@
 package io.github.opletter.courseevals.fsu
 
 import io.github.opletter.courseevals.common.data.*
-import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import io.github.opletter.courseevals.common.remote.writeAsJson
+import io.github.opletter.courseevals.common.makeFileAndDir
+import io.github.opletter.courseevals.common.writeAsJson
 
 inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(
     writeDir: String,

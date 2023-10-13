@@ -1,9 +1,9 @@
 package io.github.opletter.courseevals.rutgers
 
 import io.github.opletter.courseevals.common.data.*
-import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
-import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import io.github.opletter.courseevals.common.remote.writeAsJson
+import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
+import io.github.opletter.courseevals.common.makeFileAndDir
+import io.github.opletter.courseevals.common.writeAsJson
 
 fun SchoolDeptsMap<Map<String, InstructorStats>>.getAllInstructors(): Map<String, List<Instructor>> {
     return mapValues { (_, deptMap) ->

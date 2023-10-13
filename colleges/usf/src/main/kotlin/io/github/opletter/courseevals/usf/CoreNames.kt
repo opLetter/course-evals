@@ -1,10 +1,10 @@
 package io.github.opletter.courseevals.usf
 
 import io.github.opletter.courseevals.common.data.InstructorStats
+import io.github.opletter.courseevals.common.remote.decodeJson
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
 import io.github.opletter.courseevals.common.remote.readResource
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import io.github.opletter.courseevals.common.remote.writeAsJson
 import java.io.File
 
 suspend fun getDeptNames(writeDir: String?): Map<String, String> {
@@ -25,8 +25,7 @@ suspend fun getDeptNames(writeDir: String?): Map<String, String> {
         "not all prefixes have names: ${Prefixes.filter { it !in prefixNames }}"
     }
     writeDir?.let {
-        makeFileAndDir("$it/dept-names.json")
-            .writeText(Json.encodeToString(prefixNames.toSortedMap().toMap()))
+        makeFileAndDir("$it/dept-names.json").writeAsJson(prefixNames.toSortedMap().toMap())
     }
     return prefixNames
 }
@@ -68,12 +67,11 @@ suspend fun getCompleteCourseNames(
         .filterKeys { it in Prefixes }
         .mapValues { (key, subMap) ->
             val courseWithData = File("$readDir/0/$key.json")
-                .let { Json.decodeFromString<Map<String, InstructorStats>>(it.readText()) }
+                .decodeJson<Map<String, InstructorStats>>()
                 .flatMap { it.value.courseStats.keys }
                 .toSet()
             subMap.filterKeys { it in courseWithData }
         }.onEach { (prefix, data) ->
-            makeFileAndDir("$writeDir/0/$prefix.json")
-                .writeText(Json.encodeToString(data.toSortedMap().toMap()))
+            makeFileAndDir("$writeDir/0/$prefix.json").writeAsJson(data.toSortedMap().toMap())
         }
 }

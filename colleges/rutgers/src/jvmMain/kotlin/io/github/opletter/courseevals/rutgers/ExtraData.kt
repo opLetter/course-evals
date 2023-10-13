@@ -1,20 +1,19 @@
 package io.github.opletter.courseevals.rutgers
 
 import io.github.opletter.courseevals.common.data.*
-import io.github.opletter.courseevals.common.remote.decodeFromString
+import io.github.opletter.courseevals.common.remote.decodeJson
 import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
+import io.github.opletter.courseevals.common.remote.writeAsJson
 import io.github.opletter.courseevals.rutgers.remote.SOCSource
 import io.github.opletter.courseevals.rutgers.remote.getCoursesOverTime
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import java.io.File
 
 suspend fun getDeptNames(writeDir: String?): Map<String, String> {
     return SOCSource.getSOCData().subjects.associate { it.code to it.description }
         .also {
             if (writeDir != null)
-                makeFileAndDir("$writeDir/dept-names.json").writeText(Json.encodeToString(it))
+                makeFileAndDir("$writeDir/dept-names.json").writeAsJson(it)
         }
 }
 
@@ -35,13 +34,13 @@ suspend fun generateCourseNameMappings(
                 .mapValues { (dept, pairs) ->
                     val new = pairs.associate { it.first.split(":")[2] to it.second }
                     val old = File("$oldDataPath/$school/$dept.json").takeIf { it.exists() }
-                        ?.decodeFromString<Map<String, String>>()
+                        ?.decodeJson<Map<String, String>>()
                         .orEmpty()
                     (old + new).toSortedMap().toMap()
                 }
         }.let {
             // only write course names that will be used
-            val schools = File("$schoolsDir/schools.json").decodeFromString<Map<String, School>>()
+            val schools = File("$schoolsDir/schools.json").decodeJson<Map<String, School>>()
             it.mapEachDept { school, dept, data ->
                 if (schools[school]?.depts?.contains(dept) == true) data else emptyMap()
             }.filterNotEmpty()

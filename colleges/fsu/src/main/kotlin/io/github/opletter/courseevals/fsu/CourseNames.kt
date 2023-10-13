@@ -3,18 +3,13 @@ package io.github.opletter.courseevals.fsu
 import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.School
 import io.github.opletter.courseevals.common.data.SchoolDeptsMap
-import io.github.opletter.courseevals.common.remote.decodeFromString
-import io.github.opletter.courseevals.common.remote.ktorClient
-import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import io.github.opletter.courseevals.common.remote.readResource
+import io.github.opletter.courseevals.common.remote.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import java.io.File
 
 private suspend fun getCourseNamesFromTeachingData(readDir: String): SchoolDeptsMap<Map<String, String>> {
-    val validDepts = File("$readDir/schools.json").decodeFromString<Map<String, School>>()
+    val validDepts = File("$readDir/schools.json").decodeJson<Map<String, School>>()
         .flatMap { it.value.depts }.toSet()
 
     return listOf("1", "6", "9").flatMap { term ->
@@ -62,14 +57,13 @@ suspend fun getCompleteCourseNames(readDir: String, writeDir: String?): SchoolDe
         combined.mapValues inner@{ (key, subMap) ->
             val courseWithData = File("$readDir/$school/$key.json")
                 .let { if (!it.exists()) return@inner emptyMap() else it }
-                .decodeFromString<Map<String, InstructorStats>>()
+                .decodeJson<Map<String, InstructorStats>>()
                 .flatMap { it.value.courseStats.keys }
                 .toSet()
             subMap.filterKeys { it in courseWithData }
         }.onEach { (prefix, data) ->
             if (data.isEmpty() || writeDir == null) return@onEach
-            makeFileAndDir("$writeDir/$school/$prefix.json")
-                .writeText(Json.encodeToString(data.toSortedMap().toMap()))
+            makeFileAndDir("$writeDir/$school/$prefix.json").writeAsJson(data.toSortedMap().toMap())
         }
     }
 }

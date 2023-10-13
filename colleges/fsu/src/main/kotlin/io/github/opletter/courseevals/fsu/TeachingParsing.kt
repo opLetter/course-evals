@@ -4,7 +4,7 @@ import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.SchoolDeptsMap
 import io.github.opletter.courseevals.common.data.prepend
 import io.github.opletter.courseevals.common.data.substringAfterBefore
-import io.github.opletter.courseevals.common.remote.decodeFromString
+import io.github.opletter.courseevals.common.remote.decodeJson
 import io.github.opletter.courseevals.common.remote.ktorClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -80,7 +80,7 @@ private fun filterTeachingInstructors(
     deptEntries: List<TeachingEntry>,
 ): Map<String, Set<String>> {
     val existingInstructors = runCatching {
-        File("$readDir/$campus/$dept.json").decodeFromString<Map<String, InstructorStats>>().keys
+        File("$readDir/$campus/$dept.json").decodeJson<Map<String, InstructorStats>>().keys
     }.getOrElse {
         println("no file $dept")
         return emptyMap()

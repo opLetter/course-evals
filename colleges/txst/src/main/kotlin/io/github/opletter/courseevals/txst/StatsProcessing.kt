@@ -1,24 +1,23 @@
 package io.github.opletter.courseevals.txst
 
 import io.github.opletter.courseevals.common.data.*
-import io.github.opletter.courseevals.common.remote.decodeFromString
+import io.github.opletter.courseevals.common.remote.decodeJson
 import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
+import io.github.opletter.courseevals.common.remote.writeAsJson
 import io.github.opletter.courseevals.txst.remote.data.Report
 import io.github.opletter.courseevals.txst.remote.data.SaveableResponse
 import io.github.opletter.courseevals.txst.remote.data.TXSTInstructor
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import java.io.File
 
 fun getStatsByProf(readDir: String, writeDir: String?): Map<String, Map<String, InstructorStats>> {
     val allProfs = File("$readDir/profs.json")
-        .decodeFromString<List<TXSTInstructor>>()
+        .decodeJson<List<TXSTInstructor>>()
         .associateBy { it.plid }
 
     // kinda ugly but it works
     val statsByProf = File("$readDir/reports").listFiles()!!
-        .flatMap { it.decodeFromString<List<Report<SaveableResponse>>>() }
+        .flatMap { it.decodeJson<List<Report<SaveableResponse>>>() }
         .groupBy { report ->
             report.course.number.takeWhile { it.isLetter() }
                 .also { check(it in Prefixes) { "$it not a prefix" } }
@@ -46,8 +45,7 @@ fun getStatsByProf(readDir: String, writeDir: String?): Map<String, Map<String, 
         }
 
     statsByProf.forEach { (prefix, profs) ->
-        makeFileAndDir("$writeDir/0/$prefix.json")
-            .writeText(Json.encodeToString(profs.toSortedMap().toMap()))
+        makeFileAndDir("$writeDir/0/$prefix.json").writeAsJson(profs.toSortedMap().toMap())
     }
     return statsByProf
 }
@@ -55,8 +53,7 @@ fun getStatsByProf(readDir: String, writeDir: String?): Map<String, Map<String, 
 fun getSchoolsData(writeDir: String?): School {
     return School("0", "All", Prefixes.toSet(), setOf(Campus.MAIN), LevelOfStudy.U).also {
         if (writeDir == null) return@also
-        makeFileAndDir("$writeDir/schools.json")
-            .writeText(Json.encodeToString(mapOf("0" to it)))
+        makeFileAndDir("$writeDir/schools.json").writeAsJson(mapOf("0" to it))
     }
 }
 
@@ -67,8 +64,7 @@ fun getAllInstructors(readDir: String, writeDir: String?): List<Instructor> {
             stats.map { Instructor(it.key, subject, it.value.lastSem) }
         }.also {
             if (writeDir == null) return@also
-            makeFileAndDir("$writeDir/instructors.json")
-                .writeText(Json.encodeToString(mapOf("0" to it)))
+            makeFileAndDir("$writeDir/instructors.json").writeAsJson(mapOf("0" to it))
         }
 }
 

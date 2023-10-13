@@ -1,12 +1,7 @@
 package io.github.opletter.courseevals.fsu
 
 import io.github.opletter.courseevals.common.data.*
-import io.github.opletter.courseevals.common.remote.decodeFromString
-import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
-import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import io.github.opletter.courseevals.common.remote.readResource
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import io.github.opletter.courseevals.common.remote.*
 import java.io.File
 
 val campusMap = mapOf(
@@ -33,8 +28,7 @@ fun getDeptNames(writeDir: String): Map<String, String> {
                 .take(2)
                 .let { it[0] to it[1] }
         } + ("IFS" to "Independent Florida State")
-    makeFileAndDir("$writeDir/dept-names.json")
-        .writeText(Json.encodeToString(coursePrefixHTML.toSortedMap().toMap()))
+    makeFileAndDir("$writeDir/dept-names.json").writeAsJson(coursePrefixHTML.toSortedMap().toMap())
     return coursePrefixHTML
 }
 
@@ -48,7 +42,7 @@ fun organizeReports(readDir: String, writeDir: String): SchoolDeptsMap<List<Repo
         .onEach { println(it) }
 
     return CourseSearchKeys
-        .flatMap { File("$readDir/$it.json").decodeFromString<List<Report>>() }
+        .flatMap { File("$readDir/$it.json").decodeJson<List<Report>>() }
         .groupBy { report ->
             val newArea = report.area
                 .replace("HSFCS-", "HSFCS - ")
@@ -136,7 +130,6 @@ fun createAllInstructors(
                 entries.map { (name, stats) -> Instructor(name, dept, stats.lastSem) }
             }.sortedBy { it.name }
         }
-    makeFileAndDir("$writeDir/instructors.json")
-        .writeText(Json.encodeToString(profList.toSortedMap().toMap()))
+    makeFileAndDir("$writeDir/instructors.json").writeAsJson(profList.toSortedMap().toMap())
     return profList
 }

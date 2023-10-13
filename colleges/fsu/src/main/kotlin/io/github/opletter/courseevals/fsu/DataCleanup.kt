@@ -1,27 +1,25 @@
 package io.github.opletter.courseevals.fsu
 
 import io.github.opletter.courseevals.common.data.pmap
+import io.github.opletter.courseevals.common.remote.decodeJson
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
+import io.github.opletter.courseevals.common.remote.writeAsJson
 import io.github.opletter.courseevals.fsu.remote.FSURepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.singleOrNull
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import java.io.File
 import kotlin.time.Duration.Companion.seconds
 
 fun validateReports(oldDir: String, newDir: String) {
     CourseSearchKeys.forEach { prefix ->
-        val reports = File("$newDir/$prefix.json").readText()
-            .let { Json.decodeFromString<List<Report>>(it) }
+        val reports = File("$newDir/$prefix.json").decodeJson<List<Report>>()
 
         val oldReports = File("$oldDir/$prefix.json")
             .takeIf { it.exists() }
-            ?.readText()
-            ?.let { Json.decodeFromString<List<Report>>(it) }
+            ?.decodeJson<List<Report>>()
             .orEmpty()
 
         println("oldReports: ${oldReports.size}, reports: ${reports.size}")
@@ -44,8 +42,7 @@ suspend fun fixReportErrors(oldDir: String, newDir: String) {
     CourseSearchKeys.forEach { prefix ->
         println("starting $prefix")
 
-        val reports = File("$oldDir/$prefix.json").readText()
-            .let { Json.decodeFromString<List<Report>>(it) }
+        val reports = File("$oldDir/$prefix.json").decodeJson<List<Report>>()
 
         val improvedReports = reports.pmap { report ->
             if (report.pdfInstructor != "Report-ERROR") return@pmap report
@@ -79,8 +76,7 @@ suspend fun fixReportErrors(oldDir: String, newDir: String) {
             } ?: report
         }
 
-        makeFileAndDir("$newDir/$prefix.json")
-            .writeText(Json.encodeToString(improvedReports))
+        makeFileAndDir("$newDir/$prefix.json").writeAsJson(improvedReports)
 
         println("finished $prefix")
     }

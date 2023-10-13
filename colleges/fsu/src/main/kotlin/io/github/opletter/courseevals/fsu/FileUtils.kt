@@ -2,8 +2,7 @@ package io.github.opletter.courseevals.fsu
 
 import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import io.github.opletter.courseevals.common.remote.writeAsJson
 
 inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(
     writeDir: String,
@@ -18,11 +17,10 @@ inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(
             level = LevelOfStudy.U,
         )
     }.toMap().let {
-        if (writeSchoolMap) makeFileAndDir("$writeDir/schools.json").writeText(Json.encodeToString(it))
+        if (writeSchoolMap) makeFileAndDir("$writeDir/schools.json").writeAsJson(it)
     }
     forEachDept { school, dept, reports ->
-        makeFileAndDir("$writeDir/$school/$dept.json")
-            .writeText(Json.encodeToString(reports))
+        makeFileAndDir("$writeDir/$school/$dept.json").writeAsJson(reports)
     }
     return this
 }

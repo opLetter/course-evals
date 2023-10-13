@@ -3,8 +3,7 @@ package io.github.opletter.courseevals.rutgers
 import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import io.github.opletter.courseevals.common.remote.writeAsJson
 
 fun SchoolDeptsMap<Map<String, InstructorStats>>.getAllInstructors(): Map<String, List<Instructor>> {
     return mapValues { (_, deptMap) ->
@@ -27,9 +26,7 @@ fun getInstructorStats(readDir: String, writeDir: String): SchoolDeptsMap<Map<St
         }.filterNotEmpty()
         .also {
             it.writeToFiles(writeDir)
-            val allInstructors = it.getAllInstructors()
-            makeFileAndDir("$writeDir/instructors.json")
-                .writeText(Json.encodeToString(allInstructors))
+            makeFileAndDir("$writeDir/instructors.json").writeAsJson(it.getAllInstructors())
         }
 }
 

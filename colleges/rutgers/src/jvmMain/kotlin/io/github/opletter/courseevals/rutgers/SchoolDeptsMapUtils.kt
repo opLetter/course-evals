@@ -1,11 +1,10 @@
 package io.github.opletter.courseevals.rutgers
 
 import io.github.opletter.courseevals.common.data.*
-import io.github.opletter.courseevals.common.remote.decodeFromString
+import io.github.opletter.courseevals.common.remote.decodeJson
 import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import io.github.opletter.courseevals.common.remote.writeAsJson
 import java.io.File
 
 fun copyInstructorStatsWithoutStats(readDir: String, writeDir: String) {
@@ -18,10 +17,8 @@ fun copyInstructorStatsWithoutStats(readDir: String, writeDir: String) {
             )
         }
     }.writeToFiles(writeDir)
-    val allInstructors = File("$readDir/instructors.json")
-        .decodeFromString<Map<String, List<Instructor>>>()
-    makeFileAndDir("$writeDir/instructors.json")
-        .writeText(Json.encodeToString(allInstructors))
+    val allInstructors = File("$readDir/instructors.json").decodeJson<Map<String, List<Instructor>>>()
+    makeFileAndDir("$writeDir/instructors.json").writeAsJson(allInstructors)
 }
 
 inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(
@@ -29,17 +26,16 @@ inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(
     writeSchoolMap: Boolean = true,
 ): SchoolDeptsMap<T> {
     if (writeSchoolMap) {
-        val dirMap = File("jsonData/entries/schools.json").decodeFromString<Map<String, School>>()
+        val dirMap = File("jsonData/entries/schools.json").decodeJson<Map<String, School>>()
             .mapValues { (code, school) ->
                 val filteredDepts = school.depts.filter { this[code]?.keys?.contains(it) == true }
                 school.copy(depts = filteredDepts.toSet())
             }.filterValues { it.depts.isNotEmpty() }
-        val file = makeFileAndDir("$writeDir/schools.json")
-        file.writeText(Json.encodeToString(dirMap))
+
+        makeFileAndDir("$writeDir/schools.json").writeAsJson(dirMap)
     }
     forEachDept { school, dept, reports ->
-        makeFileAndDir("$writeDir/$school/$dept.json")
-            .writeText(Json.encodeToString(reports))
+        makeFileAndDir("$writeDir/$school/$dept.json").writeAsJson(reports)
     }
     return this
 }

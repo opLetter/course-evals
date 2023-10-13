@@ -4,9 +4,8 @@ import io.github.opletter.courseevals.common.data.Semester
 import io.github.opletter.courseevals.common.data.SemesterType
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
+import io.github.opletter.courseevals.common.remote.writeAsJson
 import io.github.opletter.courseevals.rutgers.remote.SIRSSource
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import java.io.File
 
 
@@ -15,7 +14,7 @@ suspend fun main(args: Array<String>) {
 //    getGeneralSchoolMap().onEach { println(it) }
 //        .let {
 //            makeFileAndDir("jsonData/entries/schools.json")
-//                .writeText(Json.encodeToString(it.toSortedMap().toMap()))
+//                .writeAsJson(it.toSortedMap().toMap())
 //        }
 //    getCompleteSchoolDeptsMap<Map<String, InstructorStats>>("jsonData/statsByProf")
 //        .printPossibleNameAdjustments(false)
@@ -67,7 +66,6 @@ fun writeNameMappingsToJson() {
             v.toMap().mapKeys { (k, _) -> k.substringAfter(':') }
         }.forEach { (code, map) ->
             // or skip groupBy + mapValues & use "nameMappings/${code.replace(':','/').json"
-            makeFileAndDir("jsonData/nameMappings-2/$code.json")
-                .writeText(Json.encodeToString(map))
+            makeFileAndDir("jsonData/nameMappings-2/$code.json").writeAsJson(map)
         }
 }

@@ -6,11 +6,10 @@ import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.common.remote.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.remote.ktorClient
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
+import io.github.opletter.courseevals.common.remote.writeAsJson
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 // consider also using data from http://mycatalog.txstate.edu/courses/ or raw reports
 suspend fun getCourseNames(readDir: String, writeDir: String) {
@@ -27,8 +26,7 @@ suspend fun getCourseNames(readDir: String, writeDir: String) {
         }.filterValues { it.isNotEmpty() }
 
     courseNames.forEach { (prefix, names) ->
-        makeFileAndDir("$writeDir/0/$prefix.json")
-            .writeText(Json.encodeToString(names))
+        makeFileAndDir("$writeDir/0/$prefix.json").writeAsJson(names)
     }
 }
 
@@ -76,8 +74,7 @@ suspend fun getDeptNames(writeDir: String?, term: String): Map<String, String> {
         }.filterKeys { it in Prefixes }
     check(prefixNames.size == Prefixes.size)
     writeDir?.let {
-        makeFileAndDir("$it/dept-names.json")
-            .writeText(Json.encodeToString(prefixNames.toSortedMap().toMap()))
+        makeFileAndDir("$it/dept-names.json").writeAsJson(prefixNames.toSortedMap().toMap())
     }
     return prefixNames
 }

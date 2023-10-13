@@ -2,8 +2,7 @@ package io.github.opletter.courseevals.usf
 
 import io.github.opletter.courseevals.common.data.pmap
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import io.github.opletter.courseevals.common.remote.writeAsJson
 
 suspend fun getData(writeDir: String, terms: List<String> = getTerms(), prefixes: List<String> = Prefixes) {
     prefixes.forEach { prefix ->
@@ -13,7 +12,7 @@ suspend fun getData(writeDir: String, terms: List<String> = getTerms(), prefixes
                 try {
                     val reportId = getReportIdByPrefix(prefix, year)
                     val data = getReports(reportId)
-                    makeFileAndDir("$writeDir/$prefix/$year.json").writeText(Json.encodeToString(data))
+                    makeFileAndDir("$writeDir/$prefix/$year.json").writeAsJson(data)
                 } catch (e: Exception) {
                     e.printStackTrace()
                     makeFileAndDir("$writeDir/errors.txt").appendText("$prefix $year ${e.message}\n")

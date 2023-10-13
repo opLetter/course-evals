@@ -2,13 +2,13 @@ package io.github.opletter.courseevals.txst
 
 import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.substringAfterBefore
+import io.github.opletter.courseevals.common.remote.decodeJson
 import io.github.opletter.courseevals.common.remote.ktorClient
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
+import io.github.opletter.courseevals.common.remote.writeAsJson
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import java.io.File
 
 // a bit slow
@@ -71,8 +71,7 @@ suspend fun getTeachingProfs(
         .mapValues { processSubjectData(readDir, it.key, it.value) }
         .onEach { (subject, data) ->
             if (writeDir == null || data.isEmpty()) return@onEach
-            makeFileAndDir("$writeDir/0/$subject.json")
-                .writeText(Json.encodeToString(data.toSortedMap().toMap()))
+            makeFileAndDir("$writeDir/0/$subject.json").writeAsJson(data.toSortedMap().toMap())
         }.also { teachingMap ->
             val profCount = teachingMap.values.sumOf { subjectMap ->
                 subjectMap.keys.count { it[0].isLetter() }
@@ -89,8 +88,8 @@ private fun processSubjectData(
     subject: String,
     data: List<Pair<String, String>>,
 ): Map<String, Set<String>> {
-    val existingInstructors = File("$readDir/0/$subject.json").readText()
-        .let { Json.decodeFromString<Map<String, InstructorStats>>(it) }
+    val existingInstructors = File("$readDir/0/$subject.json")
+        .decodeJson<Map<String, InstructorStats>>()
         .keys
 
     val teachingInstructors = data.mapNotNull { (name, course) ->

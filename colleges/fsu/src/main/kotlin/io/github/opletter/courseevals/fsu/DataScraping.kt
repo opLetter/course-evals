@@ -2,7 +2,9 @@ package io.github.opletter.courseevals.fsu
 
 import io.github.opletter.courseevals.common.data.pmap
 import io.github.opletter.courseevals.common.data.substringAfterBefore
+import io.github.opletter.courseevals.common.remote.decodeJson
 import io.github.opletter.courseevals.common.remote.makeFileAndDir
+import io.github.opletter.courseevals.common.remote.writeAsJson
 import io.github.opletter.courseevals.fsu.remote.FSURepository
 import io.ktor.client.network.sockets.*
 import io.ktor.client.plugins.*
@@ -12,8 +14,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.apache.pdfbox.Loader
 import org.apache.pdfbox.text.PDFTextStripper
 import java.io.File
@@ -165,9 +165,8 @@ suspend fun FSURepository.getReportsForCourse(
             Report.from(pdfReport, metadata)
         }.also { reports ->
             val tempPath = "$tempDir/$courseKey.json"
-            val tempContents = File(tempPath).takeIf { it.exists() }?.readText() ?: "[]"
-            val earlierReports = Json.decodeFromString<List<Report>>(tempContents)
-            makeFileAndDir(tempPath).writeText(Json.encodeToString(earlierReports + reports))
+            val earlierReports = File(tempPath).takeIf { it.exists() }?.decodeJson<List<Report>>().orEmpty()
+            makeFileAndDir(tempPath).writeAsJson(earlierReports + reports)
         }
     }.sortedWith(compareBy({ it.htmlInstructor }, { it.term }))
 }
@@ -231,7 +230,7 @@ suspend fun getAllData(writeDir: String, keys: List<String> = CourseSearchKeys) 
 
         reports?.let {
             makeFileAndDir("$writeDir/$courseKey.json")
-                .writeText(Json.encodeToString(it.distinct())) // for some reason there may be a few duplicates
+                .writeAsJson(it.distinct()) // for some reason there may be a few duplicates
         } ?: makeFileAndDir("$writeDir/failed/$courseKey.json").writeText("{}")
 
         delayAndLog(0.5.minutes) { time -> "C: Done with key $courseKey, delaying $time" }

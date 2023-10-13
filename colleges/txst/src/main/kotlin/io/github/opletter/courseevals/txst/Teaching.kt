@@ -4,7 +4,7 @@ import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.makeFileAndDir
-import io.github.opletter.courseevals.common.remote.ktorClient
+import io.github.opletter.courseevals.common.remote.DefaultClient
 import io.github.opletter.courseevals.common.writeAsJson
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
@@ -38,7 +38,7 @@ suspend fun getTeachingDataContent(term: String): String {
         append("end_mi", "0")
         append("end_ap", "a")
     }
-    return ktorClient.submitForm("https://ssb-prod.ec.txstate.edu/PROD/bwckschd.p_get_crse_unsec", payload)
+    return DefaultClient.submitForm("https://ssb-prod.ec.txstate.edu/PROD/bwckschd.p_get_crse_unsec", payload)
         .bodyAsText()
 }
 

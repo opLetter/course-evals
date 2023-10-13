@@ -5,7 +5,7 @@ import io.github.opletter.courseevals.common.data.pmap
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.makeFileAndDir
-import io.github.opletter.courseevals.common.remote.ktorClient
+import io.github.opletter.courseevals.common.remote.DefaultClient
 import io.github.opletter.courseevals.common.writeAsJson
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
@@ -44,7 +44,7 @@ private suspend fun getCourseNamesFromState(year: String): Map<String, List<Pair
         append("outputtype", "Screen")
         append("BAction", "Display Courses")
     }
-    return ktorClient.submitForm("http://www.txhighereddata.org/interactive/UnivCourse/search.cfm", payload)
+    return DefaultClient.submitForm("http://www.txhighereddata.org/interactive/UnivCourse/search.cfm", payload)
         .bodyAsText()
         .lines()
         .filter {
@@ -57,7 +57,7 @@ private suspend fun getCourseNamesFromState(year: String): Map<String, List<Pair
 }
 
 suspend fun getDeptNames(writeDir: String?, term: String): Map<String, String> {
-    val prefixNames = ktorClient.submitForm(
+    val prefixNames = DefaultClient.submitForm(
         "https://ssb-prod.ec.txstate.edu/PROD/bwckgens.p_proc_term_date",
         Parameters.build {
             append("p_calling_proc", "bwckschd.p_disp_dyn_sched")

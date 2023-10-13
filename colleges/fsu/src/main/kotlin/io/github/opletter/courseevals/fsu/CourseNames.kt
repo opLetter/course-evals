@@ -6,7 +6,7 @@ import io.github.opletter.courseevals.common.data.SchoolDeptsMap
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.makeFileAndDir
 import io.github.opletter.courseevals.common.readResource
-import io.github.opletter.courseevals.common.remote.ktorClient
+import io.github.opletter.courseevals.common.remote.DefaultClient
 import io.github.opletter.courseevals.common.writeAsJson
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -18,7 +18,7 @@ private suspend fun getCourseNamesFromTeachingData(readDir: String): SchoolDepts
 
     return listOf("1", "6", "9").flatMap { term ->
         listOf("Undergraduate", "Graduate", "Law", "Medicine").flatMap { type ->
-            ktorClient.get("https://registrar.fsu.edu/class_search/2023-$term/$type.pdf")
+            DefaultClient.get("https://registrar.fsu.edu/class_search/2023-$term/$type.pdf")
                 .body<ByteArray>()
                 .getTeachingData()
         }

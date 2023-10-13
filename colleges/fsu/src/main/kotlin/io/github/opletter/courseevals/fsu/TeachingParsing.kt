@@ -5,7 +5,7 @@ import io.github.opletter.courseevals.common.data.SchoolDeptsMap
 import io.github.opletter.courseevals.common.data.prepend
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.common.decodeJson
-import io.github.opletter.courseevals.common.remote.ktorClient
+import io.github.opletter.courseevals.common.remote.DefaultClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import org.apache.pdfbox.Loader
@@ -65,7 +65,7 @@ inline fun <T, V> List<TeachingData>.processTeachingDataByDept(
 
 suspend fun getTeachingProfs(readDir: String, writeDir: String, term: String) {
     listOf("Undergraduate", "Graduate", "Law", "Medicine").flatMap { type ->
-        ktorClient.get("https://registrar.fsu.edu/class_search/$term/$type.pdf")
+        DefaultClient.get("https://registrar.fsu.edu/class_search/$term/$type.pdf")
             .body<ByteArray>()
             .getTeachingData()
     }.processTeachingDataByDept { campus, dept, entries ->

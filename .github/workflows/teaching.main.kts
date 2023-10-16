@@ -53,12 +53,17 @@ fun teachingDataWorkflow(college: String, cron: Cron) = workflow(
         run(
             name = "Add & Commit",
             command = """
-              cd data
-              git config user.name "github-actions[bot]"
-              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-              git commit -a -m "$college: Updated teaching data"
-              git pull --rebase origin master
-              git push
+                cd data
+                git config user.name "github-actions[bot]"
+                git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                if ! git diff-index --quiet HEAD; then
+                    git add .
+                    git commit -m "$college: Updated teaching data"
+                    git pull --rebase origin master
+                    git push
+                else
+                    echo "CHANGE=false" >> ${'$'}GITHUB_OUTPUT
+                fi
             """.trimIndent()
         )
     }

@@ -44,11 +44,15 @@ suspend fun generateCourseNameMappings(
         }.also { if (writeDir != null) it.writeToFiles(writeDir, writeSchoolMap = false) }
 }
 
-suspend fun getTeachingData(readDir: Path, writeDir: Path?): SchoolDeptsMap<Map<String, Collection<String>>> {
+suspend fun getTeachingData(
+    readDir: Path,
+    writeDir: Path?,
+    term: Semester.Double,
+): SchoolDeptsMap<Map<String, Collection<String>>> {
     val profsByDept = getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(readDir)
         .mapEachDept { _, _, map -> map.keys }
 
-    val coursesToProfs = SOCSource.getCoursesOverTime(Semester.Double.valueOf(SemesterType.Fall, 2023), 1)
+    val coursesToProfs = SOCSource.getCoursesOverTime(term, 1)
         .groupBy(
             keySelector = { it.courseString },
             valueTransform = { courseListing ->

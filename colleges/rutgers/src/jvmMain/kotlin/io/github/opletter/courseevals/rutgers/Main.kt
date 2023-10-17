@@ -12,14 +12,13 @@ import kotlin.io.path.readText
 
 
 suspend fun main(args: Array<String>) {
-    // TODO: figure out
-//    getGeneralSchoolMap().onEach { println(it) }
-//        .let {
-//            makeFileAndDir("jsonData/entries/schools.json")
-//                .writeAsJson(it.toSortedMap().toMap())
-//        }
-//    getCompleteSchoolDeptsMap<Map<String, InstructorStats>>("jsonData/statsByProf")
-//        .printPossibleNameAdjustments(false)
+    args.indexOf("-teaching").takeIf { it != -1 }?.let {
+        getTeachingData(
+            readDir = Path.of(args[it + 1]),
+            writeDir = Path.of(args[it + 2]),
+            term = Semester.Double.valueOf(SemesterType.Spring, 2024)
+        )
+    }
 }
 
 // this function shouldn't be called,
@@ -48,7 +47,7 @@ private suspend fun `Overview of data gathering process`() {
         writeDir = coreDir / "course-names",
         oldDataPath = Path.of("jsonData/old/courseNames") // TODO: inspect
     )
-    getTeachingData(statsByProfDir, coreDir / "teaching-F23")
+//    getTeachingData(statsByProfDir, coreDir / "teaching-F23")
 }
 
 fun writeNameMappingsToJson() {

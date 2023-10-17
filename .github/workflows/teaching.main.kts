@@ -83,3 +83,8 @@ teachingDataWorkflow(
     college = "TXST",
     cron = Cron(minute = "0", hour = "22", dayWeek = "1-5")
 ).writeToFile(addConsistencyCheck = false)
+
+teachingDataWorkflow(
+    college = "Rutgers",
+    cron = Cron(minute = "0", hour = "22", dayWeek = "1-5")
+).writeToFile(addConsistencyCheck = false)

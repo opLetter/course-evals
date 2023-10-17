@@ -36,7 +36,7 @@ object SIRSSource {
     }
 
     private suspend fun HttpResponse.mapSIRSPageToEntries(): List<Entry> =
-        body<String>().split("<strong>  ").drop(1).map(::Entry)
+        bodyAsText().split("<strong>  ").drop(1).map(::Entry)
 
     suspend fun getEntriesByDeptOrCourse(
         semester: Semester.Double,
@@ -67,7 +67,7 @@ object SIRSSource {
             parameter("survey[school]", school)
             parameter("survey[dept]", dept)
             parameter("mode", "name")
-        }.body<String>().substringAfterBefore("</strong></li><li>", "</a></li></ul>").split("</a></li><li>")
+        }.bodyAsText().substringAfterBefore("</strong></li><li>", "</a></li></ul>").split("</a></li><li>")
             .map { // this should be an object but no use for it rn
                 val id = it.substringAfterBefore("record%5D=", "'")
                 val (sem, course, prof) = it.substringAfter(">").split(" &mdash; ")

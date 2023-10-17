@@ -11,6 +11,7 @@ import io.ktor.client.call.*
 import io.ktor.client.plugins.compression.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
@@ -37,7 +38,7 @@ object SOCSource {
     }
 
     suspend fun getSOCData(): SOCData {
-        return client.get(SOC_BASE_URL).body<String>()
+        return client.get(SOC_BASE_URL).bodyAsText()
             .substringAfterBefore("<div id=\"initJsonData\" style=\"display:none;\">", "</div>")
             .let { Json.decodeFromString(it) }
     }

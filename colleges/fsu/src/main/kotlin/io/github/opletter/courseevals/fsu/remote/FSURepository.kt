@@ -9,6 +9,7 @@ import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
@@ -99,7 +100,7 @@ class FSURepository(private val cookie: String) {
     private suspend fun List<String>.getPdfUrl(): String {
         require(size == 4) { "ids must be a list of 4 strings" }
         return client.get("Reports/SRPdf.aspx?${joinToString(",")}")
-            .body<String>().substringAfterBefore("'../", "'")
+            .bodyAsText().substringAfterBefore("'../", "'")
     }
 
     suspend fun getPdfBytes(ids: List<String>): ByteArray {
@@ -107,7 +108,7 @@ class FSURepository(private val cookie: String) {
     }
 
     suspend fun getPdfUrlAndBytes(ids: List<String>): Pair<String, ByteArray> {
-        val url = client.get("Reports/SRPdf.aspx?${ids.joinToString(",")}").body<String>()
+        val url = client.get("Reports/SRPdf.aspx?${ids.joinToString(",")}").bodyAsText()
             .substringAfterBefore("'../", "'")
         return url to client.get(url).body()
     }

@@ -15,7 +15,7 @@ import io.github.typesafegithub.workflows.yaml.writeToFile
 @Suppress("PropertyName")
 val EVALS_DATA_TOKEN by Contexts.secrets
 
-fun teachingDataWorkflow(college: String, cron: Cron) = workflow(
+fun teachingDataWorkflow(college: String, cron: Cron, gradleCommand: String = getGradleCommand(college)) = workflow(
     name = "$college: Update Teaching Data",
     on = listOf(
         WorkflowDispatch(),
@@ -41,14 +41,7 @@ fun teachingDataWorkflow(college: String, cron: Cron) = workflow(
             action = SetupJavaV3(javaVersion = "17", distribution = SetupJavaV3.Distribution.Temurin)
         )
 
-        run {
-            val rootDir = "../../data/${college.lowercase()}/processed"
-            val args = listOf("-teaching", "$rootDir/stats-by-prof", "$rootDir/core/teaching-S24")
-                .joinToString(" ", prefix = "\"", postfix = "\"")
-            val gradleCommand = "./gradlew colleges:${college.lowercase()}:run --args=$args"
-
-            run(name = "Run", command = gradleCommand)
-        }
+        run(name = "Run", command = gradleCommand)
 
         run(
             name = "Add & Commit",
@@ -69,6 +62,17 @@ fun teachingDataWorkflow(college: String, cron: Cron) = workflow(
     }
 }
 
+fun getGradleCommand(
+    college: String,
+    readDir: String = "stats-by-prof",
+    writeDir: String = "core/teaching-S24",
+): String {
+    val rootDir = "../../data/${college.lowercase()}/processed"
+    val args = listOf("-teaching", "$rootDir/$readDir", "$rootDir/$writeDir")
+        .joinToString(" ", prefix = "\"", postfix = "\"")
+    return "./gradlew colleges:${college.lowercase()}:run --args=$args"
+}
+
 teachingDataWorkflow(
     college = "FSU",
     cron = Cron(minute = "0", hour = "16", dayWeek = "1")
@@ -86,5 +90,6 @@ teachingDataWorkflow(
 
 teachingDataWorkflow(
     college = "Rutgers",
-    cron = Cron(minute = "0", hour = "22", dayWeek = "1-5")
+    cron = Cron(minute = "0", hour = "22", dayWeek = "1-5"),
+    gradleCommand = getGradleCommand("Rutgers", readDir = "stats-by-prof-cleaned")
 ).writeToFile(addConsistencyCheck = false)

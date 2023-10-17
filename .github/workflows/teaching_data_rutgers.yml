@@ -29,7 +29,7 @@ jobs:
           distribution: 'temurin'
       - id: 'step-3'
         name: 'Run'
-        run: './gradlew colleges:rutgers:run --args="-teaching ../../data/rutgers/processed/stats-by-prof ../../data/rutgers/processed/core/teaching-S24"'
+        run: './gradlew colleges:rutgers:run --args="-teaching ../../data/rutgers/processed/stats-by-prof-cleaned ../../data/rutgers/processed/core/teaching-S24"'
       - id: 'step-4'
         name: 'Add & Commit'
         run: |-

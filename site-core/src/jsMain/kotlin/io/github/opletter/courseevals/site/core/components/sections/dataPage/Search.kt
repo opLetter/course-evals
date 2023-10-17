@@ -77,7 +77,7 @@ private fun SearchBar(dataListId: String, viewModel: DataPageVM.SearchBarVM) {
         RightInset {
             Button(
                 onClick = {},
-                modifier = Modifier.attrsModifier { attr("aria-label", "Search") },
+                modifier = Modifier.ariaLabel("Search"),
                 variant = UnstyledButtonVariant,
                 size = UnsetButtonSize,
                 type = ButtonType.Submit,

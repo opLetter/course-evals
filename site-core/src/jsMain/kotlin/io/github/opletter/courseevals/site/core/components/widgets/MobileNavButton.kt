@@ -3,7 +3,6 @@ package io.github.opletter.courseevals.site.core.components.widgets
 import androidx.compose.runtime.Composable
 import androidx.compose.web.events.SyntheticMouseEvent
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.attrsModifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.icons.fa.FaBars
@@ -26,7 +25,7 @@ fun MobileNavButton(onClick: (SyntheticMouseEvent) -> Unit) {
                 .borderRadius(50.percent)
                 .position(Position.Fixed)
                 .displayUntil(Breakpoint.MD)
-                .attrsModifier { attr("aria-label", "open nav") },
+                .ariaLabel("open nav")
         ) { FaBars() }
     }
 }

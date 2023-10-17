@@ -3,18 +3,17 @@ package io.github.opletter.courseevals.site.core.components.widgets
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.foundation.layout.Box
-import com.varabyte.kobweb.compose.foundation.layout.BoxScope
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.RowScope
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.attrsModifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.icons.fa.FaRotateRight
 import io.github.opletter.courseevals.site.core.components.style.UnsetButtonSize
 import io.github.opletter.courseevals.site.core.components.style.UnstyledButtonVariant
+import org.jetbrains.compose.web.attributes.ButtonType
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.fr
 import org.jetbrains.compose.web.css.ms
@@ -98,11 +97,10 @@ fun Slider(
                 Modifier
                     .gridColumnStart(3)
                     .transition(CSSTransition("opacity", 150.ms))
-                    .attrsModifier {
-                        attr("type", "reset")
-                        attr("aria-label", "reset")
-                    }.then(it),
-                UnstyledButtonVariant,
+                    .ariaLabel("reset")
+                    .then(it),
+                variant = UnstyledButtonVariant,
+                type = ButtonType.Reset,
                 size = UnsetButtonSize,
             ) {
                 resetContent!!()

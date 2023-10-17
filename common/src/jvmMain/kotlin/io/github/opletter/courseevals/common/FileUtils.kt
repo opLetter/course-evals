@@ -4,17 +4,20 @@ import io.github.opletter.courseevals.common.data.School
 import io.github.opletter.courseevals.common.data.SchoolDeptsMap
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.createParentDirectories
+import kotlin.io.path.exists
+import kotlin.io.path.readText
+import kotlin.io.path.writeText
 
-fun makeFileAndDir(filename: String): File = File(filename).apply { parentFile?.mkdirs() }
+inline fun <reified T> Path.decodeJson(): T = Json.decodeFromString(this.readText())
+inline fun <reified T> Path.decodeJsonIfExists(): T? = if (exists()) decodeJson() else null
+inline fun <reified T> Path.writeAsJson(value: T) = createParentDirectories().writeText(Json.encodeToString(value))
 
-inline fun <reified T> File.decodeJson(): T = Json.decodeFromString(this.readText())
-inline fun <reified T> File.writeAsJson(value: T) = this.writeText(Json.encodeToString(value))
-
-inline fun <reified T> getCompleteSchoolDeptsMap(dir: String): SchoolDeptsMap<T> {
-    val schoolsByCode = File("$dir/schools.json").decodeJson<Map<String, School>>()
+inline fun <reified T> getCompleteSchoolDeptsMap(dir: Path): SchoolDeptsMap<T> {
+    val schoolsByCode = dir.resolve("schools.json").decodeJson<Map<String, School>>()
     return schoolsByCode.mapValues { (code, school) ->
-        school.depts.associateWith { File("$dir/$code/$it.json").decodeJson() }
+        school.depts.associateWith { dir.resolve(code).resolve("$it.json").decodeJson<T>() }
     }
 }
 

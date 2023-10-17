@@ -2,7 +2,6 @@ package io.github.opletter.courseevals.txst
 
 import io.github.opletter.courseevals.common.data.pmap
 import io.github.opletter.courseevals.common.decodeJson
-import io.github.opletter.courseevals.common.makeFileAndDir
 import io.github.opletter.courseevals.common.writeAsJson
 import io.github.opletter.courseevals.txst.remote.data.Report
 import io.github.opletter.courseevals.txst.remote.data.SaveableResponse
@@ -12,10 +11,10 @@ import io.github.opletter.courseevals.txst.remote.getBaseProfData
 import io.github.opletter.courseevals.txst.remote.getClassesForInstructor
 import io.github.opletter.courseevals.txst.remote.getInstructorDetails
 import io.github.opletter.courseevals.txst.remote.getRatings
-import java.io.File
+import java.nio.file.Path
 
-suspend fun getInstructorReports(writeDir: String) {
-    val profs = File("$writeDir/profs.json").decodeJson<List<TXSTInstructor>>()
+suspend fun getInstructorReports(writeDir: Path) {
+    val profs = writeDir.resolve("profs.json").decodeJson<List<TXSTInstructor>>()
     profs.forEach { prof ->
         val details = getInstructorDetails(prof.plid)
         val reports = details.semesters.pmap { semester ->
@@ -29,12 +28,12 @@ suspend fun getInstructorReports(writeDir: String) {
                 report.responses.map { SaveableResponse(it.responseCount, it.instructor, it.scores.toList()) }
             )
         }
-        makeFileAndDir("$writeDir/reports/${prof.plid}.json").writeAsJson(reports)
+        writeDir.resolve("reports/${prof.plid}.json").writeAsJson(reports)
     }
 }
 
-suspend fun getAndSaveBaseProfData(writeDir: String): List<TXSTInstructor> {
+suspend fun getAndSaveBaseProfData(writeDir: Path): List<TXSTInstructor> {
     val allInstructors = getBaseProfData()
-    makeFileAndDir("$writeDir/profs.json").writeAsJson(allInstructors)
+    writeDir.resolve("profs.json").writeAsJson(allInstructors)
     return allInstructors
 }

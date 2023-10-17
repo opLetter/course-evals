@@ -1,8 +1,11 @@
 package io.github.opletter.courseevals.fsu
 
-import io.github.opletter.courseevals.common.*
 import io.github.opletter.courseevals.common.data.*
-import java.io.File
+import io.github.opletter.courseevals.common.decodeJson
+import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
+import io.github.opletter.courseevals.common.readResource
+import io.github.opletter.courseevals.common.writeAsJson
+import java.nio.file.Path
 
 val campusMap = mapOf(
     "Tallahassee Main Campus" to "Main",
@@ -16,7 +19,7 @@ val campusMap = mapOf(
 )
 
 // CoursePrefixes.txt comes from https://registrar.fsu.edu/bulletin/undergraduate/information/course_prefix/
-fun getDeptNames(writeDir: String): Map<String, String> {
+fun getDeptNames(writeDir: Path): Map<String, String> {
     val coursePrefixHTML = readResource("CoursePrefixes.txt")
         .split("<tr class=\"TableAllLeft\">")
         .drop(2)
@@ -28,11 +31,11 @@ fun getDeptNames(writeDir: String): Map<String, String> {
                 .take(2)
                 .let { it[0] to it[1] }
         } + ("IFS" to "Independent Florida State")
-    makeFileAndDir("$writeDir/dept-names.json").writeAsJson(coursePrefixHTML.toSortedMap().toMap())
+    writeDir.resolve("dept-names.json").writeAsJson(coursePrefixHTML.toSortedMap().toMap())
     return coursePrefixHTML
 }
 
-fun organizeReports(readDir: String, writeDir: String): SchoolDeptsMap<List<Report>> {
+fun organizeReports(readDir: Path, writeDir: Path): SchoolDeptsMap<List<Report>> {
     val list = readResource("Areas.txt").lines().map { AreaEntry.fromString(it) }
 
     val uniqueCodes = list.groupBy({ it.code }, { it.code }).filter { it.value.size == 1 }.keys
@@ -42,7 +45,7 @@ fun organizeReports(readDir: String, writeDir: String): SchoolDeptsMap<List<Repo
         .onEach { println(it) }
 
     return CourseSearchKeys
-        .flatMap { File("$readDir/$it.json").decodeJson<List<Report>>() }
+        .flatMap { readDir.resolve("$it.json").decodeJson<List<Report>>() }
         .groupBy { report ->
             val newArea = report.area
                 .replace("HSFCS-", "HSFCS - ")
@@ -60,8 +63,8 @@ fun organizeReports(readDir: String, writeDir: String): SchoolDeptsMap<List<Repo
 }
 
 fun getStatsByProf(
-    readDir: String,
-    writeDir: String,
+    readDir: Path,
+    writeDir: Path,
     includeQuestions: List<Int> = QuestionsLimited.indices - setOf(0, 3, 4, 11),
 ): SchoolDeptsMap<Map<String, InstructorStats>> {
     return getCompleteSchoolDeptsMap<List<Report>>(readDir).mapEachDept { _, _, reports ->
@@ -121,8 +124,8 @@ fun List<Report>.getTotalRatings(includeQuestions: List<Int>): Ratings {
 }
 
 fun createAllInstructors(
-    readDir: String,
-    writeDir: String,
+    readDir: Path,
+    writeDir: Path,
 ): Map<String, List<Instructor>> {
     val profList = getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(readDir)
         .mapValues { (_, deptMap) ->
@@ -130,6 +133,6 @@ fun createAllInstructors(
                 entries.map { (name, stats) -> Instructor(name, dept, stats.lastSem) }
             }.sortedBy { it.name }
         }
-    makeFileAndDir("$writeDir/instructors.json").writeAsJson(profList.toSortedMap().toMap())
+    writeDir.resolve("instructors.json").writeAsJson(profList.toSortedMap().toMap())
     return profList
 }

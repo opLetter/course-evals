@@ -1,9 +1,9 @@
 package io.github.opletter.courseevals.rutgers
 
 import io.github.opletter.courseevals.common.data.Semester
-import io.github.opletter.courseevals.common.makeFileAndDir
 import io.github.opletter.courseevals.common.writeAsJson
 import io.github.opletter.courseevals.rutgers.remote.SIRSSource
+import java.nio.file.Path
 
 // The code I last used to get all the data
 //val semesters = Semester.Double.valueOf(SemesterType.Fall, 2013)..Semester.Double.valueOf(SemesterType.Fall, 2022)
@@ -11,7 +11,7 @@ import io.github.opletter.courseevals.rutgers.remote.SIRSSource
 //getEntriesFromSIRS(schoolMap, "jsonData/entries", semesters)
 suspend fun getEntriesFromSIRS(
     sirsSchools: Map<String, Set<String>>,
-    writeDir: String,
+    writeDir: Path,
     semesters: List<Semester.Double>,
 ) {
     sirsSchools.forEach { (schoolCode, depts) ->
@@ -23,7 +23,7 @@ suspend fun getEntriesFromSIRS(
             if (entries.isEmpty()) return@depts
 
             val deptStr = dept.replace(":", "sc") // ensure valid filename
-            makeFileAndDir("$writeDir/$schoolCode/$deptStr.json").writeAsJson(entries)
+            writeDir.resolve(schoolCode).resolve("$deptStr.json").writeAsJson(entries)
         }
     }
 }

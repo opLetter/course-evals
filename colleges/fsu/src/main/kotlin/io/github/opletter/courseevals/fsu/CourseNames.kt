@@ -4,16 +4,16 @@ import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.School
 import io.github.opletter.courseevals.common.data.SchoolDeptsMap
 import io.github.opletter.courseevals.common.decodeJson
-import io.github.opletter.courseevals.common.makeFileAndDir
+import io.github.opletter.courseevals.common.decodeJsonIfExists
 import io.github.opletter.courseevals.common.readResource
 import io.github.opletter.courseevals.common.remote.DefaultClient
 import io.github.opletter.courseevals.common.writeAsJson
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import java.io.File
+import java.nio.file.Path
 
-private suspend fun getCourseNamesFromTeachingData(readDir: String): SchoolDeptsMap<Map<String, String>> {
-    val validDepts = File("$readDir/schools.json").decodeJson<Map<String, School>>()
+private suspend fun getCourseNamesFromTeachingData(readDir: Path): SchoolDeptsMap<Map<String, String>> {
+    val validDepts = readDir.resolve("schools.json").decodeJson<Map<String, School>>()
         .flatMap { it.value.depts }.toSet()
 
     return listOf("1", "6", "9").flatMap { term ->
@@ -50,7 +50,7 @@ private fun getCourseNamesFromCsv(): Map<String, Map<String, String>> {
         }
 }
 
-suspend fun getCompleteCourseNames(readDir: String, writeDir: String?): SchoolDeptsMap<Map<String, String>> {
+suspend fun getCompleteCourseNames(readDir: Path, writeDir: Path?): SchoolDeptsMap<Map<String, String>> {
     val fromCsv = getCourseNamesFromCsv()
     val fromTeachingData = getCourseNamesFromTeachingData(readDir)
 
@@ -59,15 +59,15 @@ suspend fun getCompleteCourseNames(readDir: String, writeDir: String?): SchoolDe
         val combined = fromCsv + deptMap.mapValues { (key, value) -> fromCsv[key]?.plus(value) ?: value }
 
         combined.mapValues inner@{ (key, subMap) ->
-            val courseWithData = File("$readDir/$school/$key.json")
-                .let { if (!it.exists()) return@inner emptyMap() else it }
-                .decodeJson<Map<String, InstructorStats>>()
-                .flatMap { it.value.courseStats.keys }
-                .toSet()
+            val courseWithData = readDir.resolve(school).resolve("$key.json")
+                .decodeJsonIfExists<Map<String, InstructorStats>>()
+                ?.flatMap { it.value.courseStats.keys }
+                ?.toSet()
+                ?: return@inner emptyMap()
             subMap.filterKeys { it in courseWithData }
         }.onEach { (prefix, data) ->
             if (data.isEmpty() || writeDir == null) return@onEach
-            makeFileAndDir("$writeDir/$school/$prefix.json").writeAsJson(data.toSortedMap().toMap())
+            writeDir.resolve(school).resolve("$prefix.json").writeAsJson(data.toSortedMap().toMap())
         }
     }
 }

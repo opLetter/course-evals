@@ -2,27 +2,24 @@ package io.github.opletter.courseevals.rutgers
 
 import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.decodeJson
+import io.github.opletter.courseevals.common.decodeJsonIfExists
 import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
-import io.github.opletter.courseevals.common.makeFileAndDir
 import io.github.opletter.courseevals.common.writeAsJson
 import io.github.opletter.courseevals.rutgers.remote.SOCSource
 import io.github.opletter.courseevals.rutgers.remote.getCoursesOverTime
-import java.io.File
+import java.nio.file.Path
 
-suspend fun getDeptNames(writeDir: String?): Map<String, String> {
+suspend fun getDeptNames(writeDir: Path?): Map<String, String> {
     return SOCSource.getSOCData().subjects.associate { it.code to it.description }
-        .also {
-            if (writeDir != null)
-                makeFileAndDir("$writeDir/dept-names.json").writeAsJson(it)
-        }
+        .also { writeDir?.resolve("dept-names.json")?.writeAsJson(it) }
 }
 
 suspend fun generateCourseNameMappings(
     latestSemester: Semester.Double,
     semestersBack: Int,
-    schoolsDir: String,
-    writeDir: String?,
-    oldDataPath: String?,
+    schoolsDir: Path,
+    writeDir: Path?,
+    oldDataPath: Path?,
 ): SchoolDeptsMap<Map<String, String>> {
     if (semestersBack < 1) throw IllegalArgumentException("semestersBack must be >= 1")
     return SOCSource.getCoursesOverTime(latestSemester, semestersBack)
@@ -33,23 +30,21 @@ suspend fun generateCourseNameMappings(
                 .groupBy { it.first.split(":")[1] } // then by dept
                 .mapValues { (dept, pairs) ->
                     val new = pairs.associate { it.first.split(":")[2] to it.second }
-                    val old = File("$oldDataPath/$school/$dept.json").takeIf { it.exists() }
-                        ?.decodeJson<Map<String, String>>()
+                    val old = oldDataPath?.resolve(school)?.resolve("$dept.json")
+                        ?.decodeJsonIfExists<Map<String, String>>()
                         .orEmpty()
                     (old + new).toSortedMap().toMap()
                 }
         }.let {
             // only write course names that will be used
-            val schools = File("$schoolsDir/schools.json").decodeJson<Map<String, School>>()
+            val schools = schoolsDir.resolve("schools.json").decodeJson<Map<String, School>>()
             it.mapEachDept { school, dept, data ->
                 if (schools[school]?.depts?.contains(dept) == true) data else emptyMap()
             }.filterNotEmpty()
-        }.also { data ->
-            writeDir?.let { data.writeToFiles("$it/course-names", writeSchoolMap = false) }
-        }
+        }.also { if (writeDir != null) it.writeToFiles(writeDir, writeSchoolMap = false) }
 }
 
-suspend fun getTeachingData(readDir: String, writeDir: String?): SchoolDeptsMap<Map<String, Collection<String>>> {
+suspend fun getTeachingData(readDir: Path, writeDir: Path?): SchoolDeptsMap<Map<String, Collection<String>>> {
     val profsByDept = getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(readDir)
         .mapEachDept { _, _, map -> map.keys }
 
@@ -91,7 +86,5 @@ suspend fun getTeachingData(readDir: String, writeDir: String?): SchoolDeptsMap<
     }
     println("${totalSize - coursesToProfs.size} profs with courses")
 
-    return finalMap.also { map ->
-        writeDir?.let { map.writeToFiles(it, writeSchoolMap = false) }
-    }
+    return finalMap.also { if (writeDir != null) it.writeToFiles(writeDir, writeSchoolMap = false) }
 }

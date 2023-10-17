@@ -3,11 +3,10 @@ package io.github.opletter.courseevals.rutgers
 import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
-import io.github.opletter.courseevals.common.makeFileAndDir
 import io.github.opletter.courseevals.common.writeAsJson
-import java.io.File
+import java.nio.file.Path
 
-fun copyInstructorStatsWithoutStats(readDir: String, writeDir: String) {
+fun copyInstructorStatsWithoutStats(readDir: Path, writeDir: Path) {
     getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(readDir).mapEachDept { _, _, stats ->
         stats.mapValues { (_, stats) ->
             InstructorStats(
@@ -17,25 +16,25 @@ fun copyInstructorStatsWithoutStats(readDir: String, writeDir: String) {
             )
         }
     }.writeToFiles(writeDir)
-    val allInstructors = File("$readDir/instructors.json").decodeJson<Map<String, List<Instructor>>>()
-    makeFileAndDir("$writeDir/instructors.json").writeAsJson(allInstructors)
+    val allInstructors = readDir.resolve("instructors.json").decodeJson<Map<String, List<Instructor>>>()
+    writeDir.resolve("instructors.json").writeAsJson(allInstructors)
 }
 
 inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(
-    writeDir: String,
+    writeDir: Path,
     writeSchoolMap: Boolean = true,
 ): SchoolDeptsMap<T> {
     if (writeSchoolMap) {
-        val dirMap = File("jsonData/entries/schools.json").decodeJson<Map<String, School>>()
+        val dirMap = Path.of("jsonData/entries/schools.json").decodeJson<Map<String, School>>()
             .mapValues { (code, school) ->
                 val filteredDepts = school.depts.filter { this[code]?.keys?.contains(it) == true }
                 school.copy(depts = filteredDepts.toSet())
             }.filterValues { it.depts.isNotEmpty() }
 
-        makeFileAndDir("$writeDir/schools.json").writeAsJson(dirMap)
+        writeDir.resolve("schools.json").writeAsJson(dirMap)
     }
     forEachDept { school, dept, reports ->
-        makeFileAndDir("$writeDir/$school/$dept.json").writeAsJson(reports)
+        writeDir.resolve(school).resolve("$dept.json").writeAsJson(reports)
     }
     return this
 }

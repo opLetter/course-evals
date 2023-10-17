@@ -3,20 +3,20 @@ package io.github.opletter.courseevals.txst
 import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
-import io.github.opletter.courseevals.common.makeFileAndDir
 import io.github.opletter.courseevals.common.writeAsJson
 import io.github.opletter.courseevals.txst.remote.data.Report
 import io.github.opletter.courseevals.txst.remote.data.SaveableResponse
 import io.github.opletter.courseevals.txst.remote.data.TXSTInstructor
-import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.listDirectoryEntries
 
-fun getStatsByProf(readDir: String, writeDir: String?): Map<String, Map<String, InstructorStats>> {
-    val allProfs = File("$readDir/profs.json")
+fun getStatsByProf(readDir: Path, writeDir: Path?): Map<String, Map<String, InstructorStats>> {
+    val allProfs = readDir.resolve("profs.json")
         .decodeJson<List<TXSTInstructor>>()
         .associateBy { it.plid }
 
     // kinda ugly but it works
-    val statsByProf = File("$readDir/reports").listFiles()!!
+    val statsByProf = readDir.resolve("reports").listDirectoryEntries()
         .flatMap { it.decodeJson<List<Report<SaveableResponse>>>() }
         .groupBy { report ->
             report.course.number.takeWhile { it.isLetter() }
@@ -45,27 +45,22 @@ fun getStatsByProf(readDir: String, writeDir: String?): Map<String, Map<String, 
         }
 
     statsByProf.forEach { (prefix, profs) ->
-        makeFileAndDir("$writeDir/0/$prefix.json").writeAsJson(profs.toSortedMap().toMap())
+        writeDir?.resolve("0/$prefix.json")?.writeAsJson(profs.toSortedMap().toMap())
     }
     return statsByProf
 }
 
-fun getSchoolsData(writeDir: String?): School {
-    return School("0", "All", Prefixes.toSet(), setOf(Campus.MAIN), LevelOfStudy.U).also {
-        if (writeDir == null) return@also
-        makeFileAndDir("$writeDir/schools.json").writeAsJson(mapOf("0" to it))
-    }
+fun getSchoolsData(writeDir: Path?): School {
+    return School("0", "All", Prefixes.toSet(), setOf(Campus.MAIN), LevelOfStudy.U)
+        .also { writeDir?.resolve("schools.json")?.writeAsJson(mapOf("0" to it)) }
 }
 
-fun getAllInstructors(readDir: String, writeDir: String?): List<Instructor> {
+fun getAllInstructors(readDir: Path, writeDir: Path?): List<Instructor> {
     return getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(readDir)
         .getValue("0")
         .flatMap { (subject, stats) ->
             stats.map { Instructor(it.key, subject, it.value.lastSem) }
-        }.also {
-            if (writeDir == null) return@also
-            makeFileAndDir("$writeDir/instructors.json").writeAsJson(mapOf("0" to it))
-        }
+        }.also { writeDir?.resolve("instructors.json")?.writeAsJson(mapOf("0" to it)) }
 }
 
 // For some reason, for fall the "year" part is  1 + the actual year

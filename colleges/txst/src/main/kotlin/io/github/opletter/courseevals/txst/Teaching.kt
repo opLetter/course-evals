@@ -3,13 +3,12 @@ package io.github.opletter.courseevals.txst
 import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.common.decodeJson
-import io.github.opletter.courseevals.common.makeFileAndDir
 import io.github.opletter.courseevals.common.remote.DefaultClient
 import io.github.opletter.courseevals.common.writeAsJson
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import java.io.File
+import java.nio.file.Path
 
 // a bit slow
 suspend fun getTeachingDataContent(term: String): String {
@@ -43,8 +42,8 @@ suspend fun getTeachingDataContent(term: String): String {
 }
 
 suspend fun getTeachingProfs(
-    readDir: String,
-    writeDir: String?,
+    readDir: Path,
+    writeDir: Path?,
     term: String,
 ): Map<String, Map<String, Set<String>>> {
     return getTeachingDataContent(term)
@@ -71,7 +70,7 @@ suspend fun getTeachingProfs(
         .mapValues { processSubjectData(readDir, it.key, it.value) }
         .onEach { (subject, data) ->
             if (writeDir == null || data.isEmpty()) return@onEach
-            makeFileAndDir("$writeDir/0/$subject.json").writeAsJson(data.toSortedMap().toMap())
+            writeDir.resolve("0/$subject.json").writeAsJson(data.toSortedMap().toMap())
         }.also { teachingMap ->
             val profCount = teachingMap.values.sumOf { subjectMap ->
                 subjectMap.keys.count { it[0].isLetter() }
@@ -84,11 +83,11 @@ suspend fun getTeachingProfs(
 }
 
 private fun processSubjectData(
-    readDir: String,
+    readDir: Path,
     subject: String,
     data: List<Pair<String, String>>,
 ): Map<String, Set<String>> {
-    val existingInstructors = File("$readDir/0/$subject.json")
+    val existingInstructors = readDir.resolve("0/$subject.json")
         .decodeJson<Map<String, InstructorStats>>()
         .keys
 

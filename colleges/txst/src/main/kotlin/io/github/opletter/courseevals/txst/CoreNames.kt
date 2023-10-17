@@ -4,15 +4,15 @@ import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.pmap
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
-import io.github.opletter.courseevals.common.makeFileAndDir
 import io.github.opletter.courseevals.common.remote.DefaultClient
 import io.github.opletter.courseevals.common.writeAsJson
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import java.nio.file.Path
 
 // consider also using data from http://mycatalog.txstate.edu/courses/ or raw reports
-suspend fun getCourseNames(readDir: String, writeDir: String) {
+suspend fun getCourseNames(readDir: Path, writeDir: Path) {
     val data = getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(readDir).getValue("0")
     val courseNames = (2021..2023).pmap { getCourseNamesFromState(it.toString()) }
         .reduce { acc, map ->
@@ -26,7 +26,7 @@ suspend fun getCourseNames(readDir: String, writeDir: String) {
         }.filterValues { it.isNotEmpty() }
 
     courseNames.forEach { (prefix, names) ->
-        makeFileAndDir("$writeDir/0/$prefix.json").writeAsJson(names)
+        writeDir.resolve("0/$prefix.json").writeAsJson(names)
     }
 }
 
@@ -56,7 +56,7 @@ private suspend fun getCourseNamesFromState(year: String): Map<String, List<Pair
         }.groupBy({ it[0] }, { it[1] to it[2] })
 }
 
-suspend fun getDeptNames(writeDir: String?, term: String): Map<String, String> {
+suspend fun getDeptNames(writeDir: Path?, term: String): Map<String, String> {
     val prefixNames = DefaultClient.submitForm(
         "https://ssb-prod.ec.txstate.edu/PROD/bwckgens.p_proc_term_date",
         Parameters.build {
@@ -73,8 +73,6 @@ suspend fun getDeptNames(writeDir: String?, term: String): Map<String, String> {
                     it.substringAfterBefore(">", "<").replace("&amp;", "&")
         }.filterKeys { it in Prefixes }
     check(prefixNames.size == Prefixes.size)
-    writeDir?.let {
-        makeFileAndDir("$it/dept-names.json").writeAsJson(prefixNames.toSortedMap().toMap())
-    }
+    writeDir?.resolve("dept-names.json")?.writeAsJson(prefixNames.toSortedMap().toMap())
     return prefixNames
 }

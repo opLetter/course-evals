@@ -10,7 +10,7 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import org.apache.pdfbox.Loader
 import org.apache.pdfbox.text.PDFTextStripper
-import java.io.File
+import java.nio.file.Path
 
 data class TeachingData(
     val campus: String,
@@ -63,7 +63,7 @@ inline fun <T, V> List<TeachingData>.processTeachingDataByDept(
         }
 }
 
-suspend fun getTeachingProfs(readDir: String, writeDir: String, term: String) {
+suspend fun getTeachingProfs(readDir: Path, writeDir: Path, term: String) {
     listOf("Undergraduate", "Graduate", "Law", "Medicine").flatMap { type ->
         DefaultClient.get("https://registrar.fsu.edu/class_search/$term/$type.pdf")
             .body<ByteArray>()
@@ -74,13 +74,13 @@ suspend fun getTeachingProfs(readDir: String, writeDir: String, term: String) {
 }
 
 private fun filterTeachingInstructors(
-    readDir: String,
+    readDir: Path,
     campus: String,
     dept: String,
     deptEntries: List<TeachingEntry>,
 ): Map<String, Set<String>> {
     val existingInstructors = runCatching {
-        File("$readDir/$campus/$dept.json").decodeJson<Map<String, InstructorStats>>().keys
+        readDir.resolve(campus).resolve("$dept.json").decodeJson<Map<String, InstructorStats>>().keys
     }.getOrElse {
         println("no file $dept")
         return emptyMap()

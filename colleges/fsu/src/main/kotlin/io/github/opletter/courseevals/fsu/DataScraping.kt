@@ -2,8 +2,7 @@ package io.github.opletter.courseevals.fsu
 
 import io.github.opletter.courseevals.common.data.pmap
 import io.github.opletter.courseevals.common.data.substringAfterBefore
-import io.github.opletter.courseevals.common.decodeJson
-import io.github.opletter.courseevals.common.makeFileAndDir
+import io.github.opletter.courseevals.common.decodeJsonIfExists
 import io.github.opletter.courseevals.common.writeAsJson
 import io.github.opletter.courseevals.fsu.remote.FSURepository
 import io.ktor.client.network.sockets.*
@@ -16,7 +15,10 @@ import kotlinx.coroutines.flow.singleOrNull
 import kotlinx.serialization.Serializable
 import org.apache.pdfbox.Loader
 import org.apache.pdfbox.text.PDFTextStripper
-import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.createParentDirectories
+import kotlin.io.path.div
+import kotlin.io.path.writeText
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -123,7 +125,7 @@ data class Report(
 
 suspend fun FSURepository.getReportsForCourse(
     courseKey: String,
-    tempDir: String,
+    tempDir: Path,
     getChunkSize: (listSize: Int) -> Int,
 ): List<Report> {
     val allReports = getAllReports(course = courseKey)
@@ -164,9 +166,9 @@ suspend fun FSURepository.getReportsForCourse(
             }
             Report.from(pdfReport, metadata)
         }.also { reports ->
-            val tempPath = "$tempDir/$courseKey.json"
-            val earlierReports = File(tempPath).takeIf { it.exists() }?.decodeJson<List<Report>>().orEmpty()
-            makeFileAndDir(tempPath).writeAsJson(earlierReports + reports)
+            val tempPath = tempDir / "$courseKey.json"
+            val earlierReports = tempPath.decodeJsonIfExists<List<Report>>().orEmpty()
+            tempPath.writeAsJson(earlierReports + reports)
         }
     }.sortedWith(compareBy({ it.htmlInstructor }, { it.term }))
 }
@@ -212,12 +214,12 @@ fun ByteArray.getStatsFromPdf(): PdfReport {
     }
 }
 
-suspend fun getAllData(writeDir: String, keys: List<String> = CourseSearchKeys) {
+suspend fun getAllData(writeDir: Path, keys: List<String> = CourseSearchKeys) {
     val repo = FSURepository.initLoggedIn()
 
     keys.forEachIndexed { index, courseKey ->
         val reports: List<Report>? = flow {
-            val reports = repo.getReportsForCourse(courseKey, "$writeDir/temp") { if (it > 200) 40 else 50 }
+            val reports = repo.getReportsForCourse(courseKey, writeDir / "temp") { if (it > 200) 40 else 50 }
             emit(reports.ifEmpty { null })
         }.retry(3) {
             it.printStackTrace()
@@ -228,10 +230,12 @@ suspend fun getAllData(writeDir: String, keys: List<String> = CourseSearchKeys) 
             delayAndLog(1.minutes) { time -> "B2: failed 3 times. delaying $time" }
         }.singleOrNull()
 
-        reports?.let {
-            makeFileAndDir("$writeDir/$courseKey.json")
-                .writeAsJson(it.distinct()) // for some reason there may be a few duplicates
-        } ?: makeFileAndDir("$writeDir/failed/$courseKey.json").writeText("{}")
+        if (reports != null) {
+            writeDir.resolve("$courseKey.json")
+                .writeAsJson(reports.distinct()) // for some reason there may be a few duplicates
+        } else {
+            writeDir.resolve("failed/$courseKey.json").createParentDirectories().writeText("{}")
+        }
 
         delayAndLog(0.5.minutes) { time -> "C: Done with key $courseKey, delaying $time" }
         if (index % 11 == 10) {

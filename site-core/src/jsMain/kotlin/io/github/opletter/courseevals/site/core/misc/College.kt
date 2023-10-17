@@ -103,7 +103,7 @@ sealed interface College {
             private val publicSource = GithubSource(
                 paths = WebsitePaths(
                     baseDir = "rutgers/processed",
-                    statsByProfDir = "rutgers/processed/statsByProf-cleaned",
+                    statsByProfDir = "rutgers/processed/stats-by-prof-cleaned",
                 )
             )
 

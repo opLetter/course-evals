@@ -12,6 +12,6 @@ import org.w3c.dom.get
 @Composable
 fun HomePage() {
     localStorage["course-evals:rutgers:ghToken"]?.let { token ->
-        HomePageContent(College.Rutgers.PrivateReal(token))
+        HomePageContent(College.Rutgers.Private(token))
     } ?: Text("At the request of Rutgers, this site has been taken down.")
 }

@@ -1,6 +1,7 @@
 package io.github.opletter.courseevals.site.core.misc
 
 import io.github.opletter.courseevals.common.data.Campus
+import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.Semester
 import io.github.opletter.courseevals.common.data.SemesterType
 import io.github.opletter.courseevals.common.remote.GithubSource
@@ -87,31 +88,29 @@ sealed interface College {
         override val options = setOf(ExtraOptions.CAMPUS, ExtraOptions.MIN_SEM)
 
         companion object {
-            private fun privateRealSource(token: String): WebsiteDataSource {
+            private fun privateSource(token: String): WebsiteDataSource {
                 val privateSource = GithubSource(
-                    paths = WebsitePaths("rutgers/processed"), // TODO
+                    paths = WebsitePaths("rutgers/processed"),
                     repoPath = "DennisTsar/Rutgers-Evals-Data",
                     token = token
                 )
-                // TODO: Only use private repo for what's necessary (when public is updated)
-                return privateSource
-//                return object : WebsiteDataSource by publicRealSource {
-//                    override suspend fun getStatsByProf(school: String, dept: String): Map<String, InstructorStats> =
-//                        privateSource.getStatsByProf(school, dept)
-//                }
+                return object : WebsiteDataSource by publicSource {
+                    override suspend fun getStatsByProf(school: String, dept: String): Map<String, InstructorStats> =
+                        privateSource.getStatsByProf(school, dept)
+                }
             }
 
-            private val publicRealSource = GithubSource(
+            private val publicSource = GithubSource(
                 paths = WebsitePaths(
                     baseDir = "rutgers/processed",
                     statsByProfDir = "rutgers/processed/statsByProf-cleaned",
                 )
             )
 
-            val PublicReal = Rutgers(publicRealSource)
+            val Public = Rutgers(publicSource)
 
             @Suppress("FunctionName") // purposely mimic a constructor
-            fun PrivateReal(token: String) = Rutgers(privateRealSource(token))
+            fun Private(token: String) = Rutgers(privateSource(token))
         }
     }
 

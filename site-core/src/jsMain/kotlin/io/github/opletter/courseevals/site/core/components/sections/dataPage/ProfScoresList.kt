@@ -51,13 +51,11 @@ val RatingsGridVariant by SimpleGridStyle.addVariant {
     }
     Breakpoint.XL {
         Modifier.gridTemplateColumns {
-            size(2.cssRem); minmax(auto, 12.cssRem); repeat(QuestionCountVar + 1) { size(4.25.cssRem) }
+            size(2.cssRem)
+            minmax(auto, 12.cssRem)
+            repeat(calc { num(QuestionCountVar.value()) + num(1) }) { size(4.25.cssRem) }
         }
     }
-}
-
-operator fun <T : Number> StyleVariable.NumberValue<T>.plus(other: T): T {
-    return "calc(var(--${this.name}) + $other)".unsafeCast<T>()
 }
 
 val QuestionCountVar by StyleVariable<Int>()

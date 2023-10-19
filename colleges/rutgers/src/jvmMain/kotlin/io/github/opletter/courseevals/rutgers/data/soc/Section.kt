@@ -26,7 +26,7 @@ data class Section(
     val printed: String,
     val sectionCampusLocations: List<DescriptionHolder>,
     val sectionCourseType: String,
-    val sectionEligibility: String,
+    val sectionEligibility: String?,
     val sectionNotes: String,
     val sessionDatePrintIndicator: String,
     val sessionDates: String?,

@@ -2,7 +2,7 @@
 jetbrains-compose = "1.5.1"
 kobweb = "0.14.2"
 kotlin = "1.9.10"
-ktor = "2.3.4"
+ktor = "2.3.5"
 coroutines = "1.7.3"
 serialization = "1.6.0"
 pdfbox = "3.0.0"

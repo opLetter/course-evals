@@ -24,7 +24,6 @@ import com.varabyte.kobweb.silk.components.text.SpanTextStyle
 import com.varabyte.kobweb.silk.theme.colors.palette.background
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
-import io.github.opletter.courseevals.site.core.misc.smallCapsFont
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Text
 import kotlin.math.roundToInt
@@ -98,7 +97,7 @@ fun BarGraph(
             label,
             Modifier
                 .fontSize(175.percent)
-                .smallCapsFont(),
+                .fontVariant(caps = FontVariantCaps.SmallCaps),
             BarGraphLabelVariant,
         )
 

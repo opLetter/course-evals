@@ -7,15 +7,11 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.overflow
 import com.varabyte.kobweb.compose.ui.modifiers.textOverflow
 import com.varabyte.kobweb.compose.ui.modifiers.whiteSpace
-import com.varabyte.kobweb.compose.ui.styleModifier
 
 fun Modifier.textEllipsis(): Modifier =
     overflow(Overflow.Hidden)
         .whiteSpace(WhiteSpace.NoWrap)
         .textOverflow(TextOverflow.Ellipsis)
-
-fun Modifier.smallCapsFont(): Modifier =
-    styleModifier { property("font-variant", "small-caps") }
 
 private external fun balanceText(selector: String, options: dynamic)
 

@@ -1,6 +1,7 @@
 package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.Composable
+import com.varabyte.kobweb.compose.css.FontVariantCaps
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.dom.clearFocus
 import com.varabyte.kobweb.compose.dom.ref
@@ -16,7 +17,6 @@ import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.color
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
-import io.github.opletter.courseevals.site.core.misc.smallCapsFont
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Option
 import org.jetbrains.compose.web.dom.Select
@@ -34,7 +34,7 @@ val SelectStyle by ComponentStyle.base {
         .backgroundColor(SitePalettes[colorMode].secondary)
         .fontFamily("inherit") // this is not the default for some reason
         .fontWeight(FontWeight.Bold)
-        .smallCapsFont()
+        .fontVariant(caps = FontVariantCaps.SmallCaps)
 }
 
 @Composable

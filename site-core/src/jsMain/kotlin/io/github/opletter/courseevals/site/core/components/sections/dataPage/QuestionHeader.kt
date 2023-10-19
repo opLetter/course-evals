@@ -3,6 +3,7 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.key
+import com.varabyte.kobweb.compose.css.FontVariantCaps
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.Width
 import com.varabyte.kobweb.compose.css.functions.min
@@ -20,7 +21,6 @@ import com.varabyte.kobweb.silk.components.text.SpanTextStyle
 import io.github.opletter.courseevals.site.core.components.widgets.CustomDropDown
 import io.github.opletter.courseevals.site.core.components.widgets.SelectStyle
 import io.github.opletter.courseevals.site.core.misc.jsBalanceTextById
-import io.github.opletter.courseevals.site.core.misc.smallCapsFont
 import io.github.opletter.courseevals.site.core.states.Questions
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.percent
@@ -35,7 +35,7 @@ val SpanTextHeaderVariant by SpanTextStyle.addVariant {
     base {
         Modifier
             .fontWeight(FontWeight.Bold)
-            .smallCapsFont()
+            .fontVariant(caps = FontVariantCaps.SmallCaps)
             .fontSize(1.5.cssRem)
             .lineHeight(1.5.cssRem)
     }

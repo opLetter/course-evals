@@ -1,14 +1,15 @@
 package io.github.opletter.courseevals.site.core.components.sections.dataPage.options
 
 import androidx.compose.runtime.Composable
+import com.varabyte.kobweb.compose.css.FontVariantCaps
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
+import com.varabyte.kobweb.compose.ui.modifiers.fontVariant
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import io.github.opletter.courseevals.site.core.components.widgets.LabeledSlider
-import io.github.opletter.courseevals.site.core.misc.smallCapsFont
 import io.github.opletter.courseevals.site.core.states.MinSemesterVM
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.dom.Text
@@ -19,7 +20,7 @@ fun MinSemOption(state: MinSemesterVM) {
         ExtraOptionStyle.toModifier(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        SpanText("Recency Filter", Modifier.fontSize(125.percent).smallCapsFont())
+        SpanText("Recency Filter", Modifier.fontSize(125.percent).fontVariant(caps = FontVariantCaps.SmallCaps))
         Text("Hide profs with no data since")
         LabeledSlider(
             state.value,

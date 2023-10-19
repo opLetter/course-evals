@@ -11,6 +11,6 @@ import org.jetbrains.compose.web.css.px
 @Composable
 fun LoadingSpinner() = Image(
     src = "/spinner.gif",
-    desc = "Loading",
-    modifier = Modifier.size(40.px).displayIfAtLeast(Breakpoint.MD),
+    alt = "Loading",
+    Modifier.size(40.px).displayIfAtLeast(Breakpoint.MD),
 )

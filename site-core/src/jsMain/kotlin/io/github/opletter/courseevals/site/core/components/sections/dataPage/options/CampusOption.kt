@@ -2,6 +2,7 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage.op
 
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.css.Cursor
+import com.varabyte.kobweb.compose.css.FontVariantCaps
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
@@ -13,7 +14,6 @@ import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.silk.components.forms.Checkbox
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
-import io.github.opletter.courseevals.site.core.misc.smallCapsFont
 import io.github.opletter.courseevals.site.core.states.CampusVM
 import io.github.opletter.courseevals.site.core.states.CheckmarksVM
 import io.github.opletter.courseevals.site.core.states.LevelOfStudyVM
@@ -28,7 +28,7 @@ fun CampusOption(campusState: CampusVM, levelOfStudyState: LevelOfStudyVM) {
         ExtraOptionStyle.toModifier(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        SpanText("School Filter", Modifier.fontSize(125.percent).smallCapsFont())
+        SpanText("School Filter", Modifier.fontSize(125.percent).fontVariant(caps = FontVariantCaps.SmallCaps))
         Row(
             Modifier
                 .fillMaxWidth()

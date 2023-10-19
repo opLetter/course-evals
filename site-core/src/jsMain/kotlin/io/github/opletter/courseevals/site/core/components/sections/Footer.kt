@@ -5,7 +5,6 @@ import com.varabyte.kobweb.compose.css.AlignSelf
 import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.dom.ref
 import com.varabyte.kobweb.compose.foundation.layout.Column
-import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
@@ -24,6 +23,7 @@ import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.misc.goatCounterClick
 import io.github.opletter.courseevals.site.core.misc.jsGoatBindEvents
 import org.jetbrains.compose.web.css.cssRem
+import org.jetbrains.compose.web.dom.Span
 
 val FooterStyle by ComponentStyle.base {
     Modifier
@@ -55,7 +55,7 @@ fun Footer(modifier: Modifier = Modifier, linkVariant: ComponentVariant? = null)
             variant = linkVariant,
         )
         SpanText("Not affiliated with any university")
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Span {
             FaGithub()
             SpanText(" This site is ")
             Link(
@@ -65,7 +65,7 @@ fun Footer(modifier: Modifier = Modifier, linkVariant: ComponentVariant? = null)
                 variant = linkVariant,
             )
         }
-        Row {
+        Span {
             SpanText("Made with ")
             Link(
                 path = "https://github.com/varabyte/kobweb",

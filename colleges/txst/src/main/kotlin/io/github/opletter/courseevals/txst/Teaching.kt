@@ -65,8 +65,8 @@ suspend fun getTeachingProfs(
                 .trim()
             if (prefix !in Prefixes || prof.trim() == "Unassigned Faculty" || prof.isBlank())
                 null
-            else listOf(prefix, number, prof)
-        }.groupBy({ it[0] }, { it[2] to it[1] })
+            else Triple(prefix, number, prof)
+        }.groupBy({ it.first }, { it.third to it.second })
         .mapValues { processSubjectData(readDir, it.key, it.value) }
         .onEach { (subject, data) ->
             if (writeDir == null || data.isEmpty()) return@onEach

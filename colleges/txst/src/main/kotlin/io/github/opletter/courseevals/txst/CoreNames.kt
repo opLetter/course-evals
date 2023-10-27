@@ -52,8 +52,8 @@ private suspend fun getCourseNamesFromState(year: String): Map<String, List<Pair
                     it.trimStart().startsWith("<td valign=\"top\"  class=\"ClassB\">")
         }.chunked(4) { info ->
             val parts = info.map { it.substringAfterBefore(">", "<").trim() }
-            listOf(parts[0].filter { it != ' ' }, parts[1], parts[3])
-        }.groupBy({ it[0] }, { it[1] to it[2] })
+            Triple(parts[0].filter { it != ' ' }, parts[1], parts[3])
+        }.groupBy({ it.first }, { it.second to it.third })
 }
 
 suspend fun getDeptNames(writeDir: Path?, term: String): Map<String, String> {

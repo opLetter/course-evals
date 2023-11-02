@@ -26,6 +26,7 @@ rootProject.name = "course-evals"
 include(":common")
 include(":site-core")
 include(":site")
+include(":colleges:fiu")
 include(":colleges:fsu")
 include(":colleges:rutgers")
 include(":colleges:txst")

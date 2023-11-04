@@ -2,11 +2,13 @@ package io.github.opletter.courseevals.fiu
 
 import io.github.opletter.courseevals.common.writeAsJson
 import io.github.opletter.tableau.TableauScraper
+import io.github.opletter.tableau.TableauWorksheet
 import io.ktor.client.plugins.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.retry
+import kotlinx.datetime.Clock
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
@@ -31,7 +33,7 @@ import kotlin.time.Duration.Companion.minutes
 suspend fun getAllData(writeDir: Path) {
     var scraper = createScraper().apply { loads(DASHBOARD_URL) }
 
-    var startTime = System.currentTimeMillis()
+    var startTime = Clock.System.now()
 
     var ws = scraper.getWorkbook().worksheets[0]
         .setFilter(INSTUCTOR_NAME, "", indexValues = listOf(0))
@@ -40,7 +42,7 @@ suspend fun getAllData(writeDir: Path) {
 
     (0..50000).chunked(50).forEach { indices ->
         // reload after 30 mins to avoid connection loss
-        if (System.currentTimeMillis() - startTime > 30 * 60 * 1000) {
+        if (Clock.System.now() - startTime > 30.minutes) {
             scraper = createScraper()
             // abuse flow for retry functionality
             flow<Unit> { scraper.loads(DASHBOARD_URL) }.retry(3) {
@@ -54,7 +56,7 @@ suspend fun getAllData(writeDir: Path) {
                 .setFilter(INSTUCTOR_NAME, "", indexValues = listOf(0))
                 .worksheets[0].clearFilter(ACAD_YR)
                 .worksheets[0].clearFilter(SEMESTER).worksheets[0]
-            startTime = System.currentTimeMillis()
+            startTime = Clock.System.now()
         }
         // manual restart: if latest file is fiu(x).json then this number is (x+50)
         // if (indices.first() < 7900) return@forEach
@@ -62,8 +64,9 @@ suspend fun getAllData(writeDir: Path) {
         val data = indices.map { idx ->
             println(idx)
             try {
-                val wb = ws.setFilter(INSTUCTOR_NAME, "", indexValues = listOf(idx))
-                wb.worksheets[0].data.rows().chunked(48).map { Entry.fromRows(it) }
+                ws.setFilter(INSTUCTOR_NAME, "", indexValues = listOf(idx))
+                    .worksheets[0]
+                    .getEntries()
             } catch (e: Exception) {
                 writeDir.resolve("failure.txt")
                     .createParentDirectories()
@@ -101,7 +104,7 @@ suspend fun getAllDataLevel2(writeDir: Path, failedIndicesFile: Path) {
                 }
 
                 ws = ws.setFilter(INSTUCTOR_NAME, "", indexValues = listOf(curNameIndex)).worksheets[0]
-                ws.data.rows().chunked(48).map { Entry.fromRows(it) }
+                ws.getEntries()
             }
             writeDir.resolve("$origIndex.json").writeAsJson(newData)
         } catch (e: Exception) {
@@ -143,14 +146,14 @@ suspend fun getAllDataLevel3(name: String, index: Int, writeDir: Path) {
                 .jsonObject["values"]!!.jsonArray.indices
 
             // only filter by courses if there's more than one
-            if (courseIndices.last == 0) {
-                instructorWorkbook.worksheets[0].data.rows().chunked(48).map { Entry.fromRows(it) }
+            if (courseIndices.count() == 1) {
+                instructorWorkbook.worksheets[0].getEntries()
             } else {
                 courseIndices.flatMap { courseIndex ->
                     println("starting $courseIndex")
                     ws.setFilter(COURSE_FILTER, "", indexValues = listOf(courseIndex), filterDelta = true)
                         .worksheets[0]
-                        .data.rows().chunked(48).map { Entry.fromRows(it) }
+                        .getEntries()
                 }.also { ws.clearFilter(COURSE_FILTER) }
             }
         }
@@ -181,3 +184,6 @@ private fun TableauScraper.getNameOrdering(): JsonArray {
         .first { it["column"]?.jsonPrimitive?.content == INSTUCTOR_NAME }["selectionAlt"]!!.jsonArray
         .first().jsonObject["domainTables"]!!.jsonArray
 }
+
+private fun TableauWorksheet.getEntries(): List<Entry> =
+    data.rows().chunked(48).map { Entry.fromRows(it) }

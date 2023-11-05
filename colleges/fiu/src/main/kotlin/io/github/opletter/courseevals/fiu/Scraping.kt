@@ -81,7 +81,7 @@ suspend fun getAllData(writeDir: Path) {
 suspend fun getAllDataLevel2(writeDir: Path, failedIndicesFile: Path) {
     val scraper = createScraper().apply { loads(DASHBOARD_URL) }
 
-    var ws = scraper.getWorkbook().worksheets[0]
+    val ws = scraper.getWorkbook().worksheets[0]
         .setFilter(INSTUCTOR_NAME, "", indexValues = listOf(0))
         .worksheets[0].clearFilter(ACAD_YR)
         .worksheets[0].clearFilter(SEMESTER).worksheets[0]
@@ -94,17 +94,20 @@ suspend fun getAllDataLevel2(writeDir: Path, failedIndicesFile: Path) {
     failedNames.forEach { (origIndex, name) ->
         try {
             val newData = YearRange.flatMap { yearIndex ->
-                ws = ws.setFilter(ACAD_YR, "", indexValues = listOf(yearIndex)).worksheets[0]
+                ws.apply {
+                    setFilter(INSTUCTOR_NAME, "", indexValues = listOf(0), filterDelta = true)
+                    setFilter(ACAD_YR, "", indexValues = listOf(yearIndex), filterDelta = true)
+                }
 
                 val curNameIndex = scraper.getNameOrdering()
                     .indexOfFirst { it.jsonObject["label"]!!.jsonPrimitive.content == name }
                 if (curNameIndex == -1) {
-                    println("couldn't find $name ($origIndex) for semester $yearIndex")
-                    return@flatMap emptyList<Entry>()
+                    println("couldn't find $name $yearIndex")
+                    return@flatMap emptyList()
                 }
 
-                ws = ws.setFilter(INSTUCTOR_NAME, "", indexValues = listOf(curNameIndex)).worksheets[0]
-                ws.getEntries()
+                ws.setFilter(INSTUCTOR_NAME, "", indexValues = listOf(curNameIndex), filterDelta = true)
+                    .worksheets[0].getEntries()
             }
             writeDir.resolve("$origIndex.json").writeAsJson(newData)
         } catch (e: Exception) {
@@ -134,7 +137,7 @@ suspend fun getAllDataLevel3(name: String, index: Int, writeDir: Path) {
                 .indexOfFirst { it.jsonObject["label"]!!.jsonPrimitive.content == name }
 
             if (curNameIndex == -1) {
-                println("couldn't find $curNameIndex")
+                println("couldn't find $name $semesterIndex $yearIndex")
                 return@year emptyList()
             }
 

@@ -107,13 +107,19 @@ suspend fun getAllDataLevel2(writeDir: Path, failedIndicesFile: Path) {
                 }
 
                 ws.setFilter(INSTUCTOR_NAME, "", indexValues = listOf(curNameIndex), filterDelta = true)
-                    .worksheets[0].getEntries()
+                    .worksheets[0]
+                    // need to repeat year filter to throw error if rendered server-side
+                    .setFilter(ACAD_YR, "", indexValues = listOf(yearIndex), filterDelta = true)
+                    .worksheets[0]
+                    .getEntries()
             }
             writeDir.resolve("$origIndex.json").writeAsJson(newData)
         } catch (e: Exception) {
             writeDir.resolve("failure.txt")
                 .createParentDirectories()
                 .writeText("$origIndex\n", Charsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND)
+            // reset to prevent continuous error
+            ws.setFilter(INSTUCTOR_NAME, "", indexValues = listOf(0)).worksheets[0].clearFilter(ACAD_YR)
         }
     }
 }
@@ -153,7 +159,6 @@ suspend fun getAllDataLevel3(name: String, index: Int, writeDir: Path) {
                 instructorWorkbook.worksheets[0].getEntries()
             } else {
                 courseIndices.flatMap { courseIndex ->
-                    println("starting $courseIndex")
                     ws.setFilter(COURSE_FILTER, "", indexValues = listOf(courseIndex), filterDelta = true)
                         .worksheets[0]
                         .getEntries()

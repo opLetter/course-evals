@@ -14,28 +14,21 @@ import java.nio.file.Path
 suspend fun getTeachingDataContent(term: String): String {
     val payload = Parameters.build {
         append("term_in", term)
-        listOf(
-            "sel_subj", "sel_day", "sel_schd", "sel_insm", "sel_camp", "sel_levl", "sel_sess", "sel_dept",
-            "sel_instr", "sel_ptrm", "sel_attr"
-        ).forEach { append(it, "dummy") }
-        append("sel_subj", "%")
-        append("sel_crse", "")
-        append("sel_title", "")
-        append("sel_schd", "%")
-        append("sel_insm", "%")
-        append("sel_from_cred", "")
-        append("sel_to_cred", "")
-        append("sel_camp", "%")
-        append("sel_levl", "%")
-        append("sel_ptrm", "%")
-        append("sel_instr", "%")
-        append("sel_attr", "%")
         append("begin_hh", "0")
         append("begin_mi", "0")
         append("begin_ap", "a")
         append("end_hh", "0")
         append("end_mi", "0")
         append("end_ap", "a")
+        listOf("subj", "day", "schd", "insm", "camp", "levl", "sess", "dept", "instr", "ptrm", "attr").forEach {
+            append("sel_$it", "dummy")
+        }
+        listOf("crse", "title", "from_cred", "to_cred").forEach {
+            append("sel_$it", "")
+        }
+        listOf("subj", "schd", "insm", "camp", "levl", "ptrm", "instr", "attr").forEach {
+            append("sel_$it", "%")
+        }
     }
     return DefaultClient.submitForm("https://ssb-prod.ec.txstate.edu/PROD/bwckschd.p_get_crse_unsec", payload)
         .bodyAsText()

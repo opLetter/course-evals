@@ -95,30 +95,15 @@ suspend fun getTeachingDataContent(term: String): String {
         append("end_hh", "0")
         append("end_mi", "0")
         append("end_ap", "a")
-        append("sel_subj", "dummy")
-        append("sel_day", "dummy")
-        append("sel_schd", "dummy")
-        append("sel_insm", "dummy")
-        append("sel_camp", "dummy")
-        append("sel_levl", "dummy")
-        append("sel_sess", "dummy")
-        append("sel_dept", "dummy")
-        append("sel_instr", "dummy")
-        append("sel_ptrm", "dummy")
-        append("sel_attr", "dummy")
-        append("sel_subj", "%")
-        append("sel_crse", "")
-        append("sel_title", "")
-        append("sel_schd", "%")
-        append("sel_insm", "%")
-        append("sel_from_cred", "")
-        append("sel_to_cred", "")
-        append("sel_dept", "%")
-        append("sel_camp", "%")
-        append("sel_levl", "%")
-        append("sel_ptrm", "%")
-        append("sel_instr", "%")
-        append("sel_attr", "%")
+        listOf("subj", "day", "schd", "insm", "camp", "levl", "sess", "dept", "instr", "ptrm", "attr").forEach {
+            append("sel_$it", "dummy")
+        }
+        listOf("crse", "title", "from_cred", "to_cred").forEach {
+            append("sel_$it", "")
+        }
+        listOf("subj", "schd", "insm", "dept", "camp", "levl", "ptrm", "instr", "attr").forEach {
+            append("sel_$it", "%")
+        }
     })
     return client.post("https://usfonline.admin.usf.edu/pls/prod/bwckschd.p_get_crse_unsec") {
         setBody(payload)

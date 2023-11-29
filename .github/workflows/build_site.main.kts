@@ -1,5 +1,5 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.2.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.6.0")
 @file:Import("custom_actions.main.kts")
 
 import io.github.typesafegithub.workflows.actions.actions.CacheV3

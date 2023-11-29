@@ -1,42 +1,68 @@
 package io.github.opletter.courseevals.fsu
 
-import io.github.opletter.courseevals.fsu.remote.FSURepository
-import io.github.opletter.courseevals.fsu.remote.getAllValidCourseKeys
+import io.github.opletter.courseevals.common.SchoolDataApi
+import io.github.opletter.courseevals.common.data.*
+import io.github.opletter.courseevals.common.path
+import io.github.opletter.courseevals.common.remote.WebsitePaths
+import io.github.opletter.courseevals.common.runFromArgs
 import java.nio.file.Path
 import kotlin.io.path.div
 
 suspend fun main(args: Array<String>) {
-    args.indexOf("-teaching").takeIf { it != -1 }?.let {
-        getTeachingProfs(readDir = Path.of(args[it + 1]), writeDir = Path.of(args[it + 2]), term = "2024-1")
-    }
+    FSUApi.runFromArgs(args)
 }
 
-// this function shouldn't be called,
-// but we declare it so that the functions it uses can be considered "used"
-@Suppress("unused", "FunctionName")
-private suspend fun `Overview of data gathering process`() {
-    val rootDir = Path.of("data-test")
-    val reportsDir = rootDir / "reports"
-    val organizedReportsDir = rootDir / "organized-reports"
-    val statsByProfDir = rootDir / "stats-by-prof"
-    val coreDir = rootDir / "core"
-    val courseNamesDir = coreDir / "course-names"
-    val teachingProfsDir = coreDir / "teaching-S24"
+object FSUApi : SchoolDataApi<Semester.Triple> {
+    val defaultPaths = WebsitePaths("data-test")
 
-    // preparation - optional?
-    val repository = FSURepository.initLoggedIn()
-    repository.getAllValidCourseKeys() // note client config comment
+    override val currentSem = Semester.Triple.valueOf(SemesterType.Spring, 2024)
 
-    // stats-by-prof
-    getAllData(reportsDir, CourseSearchKeys)
-    fixReportErrors(reportsDir, Path.of("_")) // optional
-    validateReports(reportsDir, Path.of("_")) // optional
-    organizeReports(reportsDir, organizedReportsDir)
-    getStatsByProf(organizedReportsDir, statsByProfDir)
-    createAllInstructors(statsByProfDir, statsByProfDir)
+    override suspend fun getSchoolRawData() {
+        val reportsDir = defaultPaths.baseDir.path / "reports"
+        val organizedReportsDir = defaultPaths.baseDir.path / "organized-reports"
+        // preparation - optional?
+//        val repository = FSURepository.initLoggedIn()
+//        repository.getAllValidCourseKeys() // note client config comment
 
-    // core
-    getCompleteCourseNames(statsByProfDir, courseNamesDir)
-    getDeptNames(coreDir)
-    getTeachingProfs(statsByProfDir, teachingProfsDir, term = "2024-1")
+        getAllData(reportsDir, CourseSearchKeys)
+//        val tempDir = defaultPaths.baseDir.path / "reports-temp"
+//        fixReportErrors(reportsDir, tempDir) // optional
+//        validateReports(reportsDir, tempDir) // optional
+        organizeReports(reportsDir, organizedReportsDir)
+    }
+
+    override fun getSchoolStatsByProf(rawDataDir: Path) = getStatsByProf(rawDataDir)
+
+    override fun getSchoolSchoolsData(statsByProf: SchoolDeptsMap<Map<String, InstructorStats>>): Map<String, School> {
+        return statsByProf.map { (key, value) ->
+            key to School(
+                code = key,
+                name = campusMap[key] ?: error("No name for $key"),
+                depts = value.keys.sorted().toSet(),
+                campuses = setOf(Campus.valueOf(key.uppercase())),
+                level = LevelOfStudy.U,
+            )
+        }.toMap()
+    }
+
+    override fun getSchoolAllInstructors(statsByProfDir: Path) = createAllInstructors(statsByProfDir)
+
+    override suspend fun getSchoolDeptNames() = getDeptNames()
+
+    override suspend fun getSchoolCourseNames(statsByProfDir: Path) = getCompleteCourseNames(
+        statsByProfDir,
+        terms = currentSem.prev(2)..currentSem,
+    )
+
+    override suspend fun getSchoolTeachingProfs(statsByProfDir: Path, term: Semester.Triple) =
+        getTeachingProfs(statsByProfDir, term)
+}
+
+fun Semester.Triple.toFSUString(): String {
+    val semStr = when (type) {
+        SemesterType.Spring -> "1"
+        SemesterType.Summer -> "6"
+        SemesterType.Fall -> "9"
+    }
+    return "$year-$semStr"
 }

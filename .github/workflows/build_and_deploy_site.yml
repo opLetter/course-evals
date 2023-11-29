@@ -1,4 +1,4 @@
-# This file was generated using Kotlin DSL (.github/build_site.main.kts).
+# This file was generated using Kotlin DSL (.github/workflows/build_site.main.kts).
 # If you want to modify the workflow, please change the Kotlin file and regenerate this YAML file.
 # Generated with https://github.com/typesafegithub/github-workflows-kt
 

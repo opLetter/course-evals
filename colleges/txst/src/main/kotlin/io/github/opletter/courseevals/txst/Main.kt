@@ -1,31 +1,67 @@
 package io.github.opletter.courseevals.txst
 
+import io.github.opletter.courseevals.common.SimpleSchoolDataApi
+import io.github.opletter.courseevals.common.data.Semester
+import io.github.opletter.courseevals.common.data.SemesterType
+import io.github.opletter.courseevals.common.path
+import io.github.opletter.courseevals.common.readResource
+import io.github.opletter.courseevals.common.remote.WebsitePaths
+import io.github.opletter.courseevals.common.runFromArgs
+import io.github.opletter.courseevals.txst.remote.data.TXSTInstructor
+import kotlinx.serialization.json.Json
 import java.nio.file.Path
 import kotlin.io.path.div
 
 suspend fun main(args: Array<String>) {
-    args.indexOf("-teaching").takeIf { it != -1 }?.let {
-        getTeachingProfs(readDir = Path.of(args[it + 1]), writeDir = Path.of(args[it + 2]), term = "202430")
-    }
+    TXSTApi.runFromArgs(args)
 }
 
-// this function shouldn't be called,
-// but we declare it so that the functions it uses can be considered "used"
-@Suppress("unused", "FunctionName")
-private suspend fun `Overview of data gathering process`() {
-    val rootDir = Path.of("data-test")
-    val statsDir = rootDir / "stats-by-prof"
-    val coreDir = rootDir / "core"
-    val term = "202430" // this term means spring 2024 - see parseSemester for a bit more info
+object TXSTApi : SimpleSchoolDataApi<Semester.Triple>() {
+    override val depts: Set<String> = Prefixes.toSet()
+    override val currentSem = Semester.Triple.valueOf(SemesterType.Spring, 2024)
 
-    getAndSaveBaseProfData(rootDir)
-    getInstructorReports(rootDir)
+    val defaultPaths = WebsitePaths("data-test")
 
-    getStatsByProf(rootDir, statsDir)
-    getSchoolsData(statsDir)
-    getAllInstructors(statsDir, statsDir)
+    private val profsFileName = "profs.json"
+    private fun getProfsFromResource() = Json.decodeFromString<List<TXSTInstructor>>(readResource(profsFileName))
 
-    getDeptNames(coreDir, term = term)
-    getCourseNames(statsDir, coreDir / "course-names")
-    getTeachingProfs(statsDir, coreDir / "teaching-F23", term = term)
+    override suspend fun getSchoolRawData() {
+        getAndSaveBaseProfData(Path.of("src/main/resources") / profsFileName)
+        getInstructorReports(defaultPaths.baseDir.path / "reports", getProfsFromResource())
+    }
+
+    override fun getSchoolStatsByProf(rawDataDir: Path) =
+        getStatsByProf(rawDataDir, getProfsFromResource()).toSchoolMap()
+
+    override fun getSchoolAllInstructors(statsByProfDir: Path) = getAllInstructors(statsByProfDir).toSchoolMap()
+
+    override suspend fun getSchoolDeptNames() = getDeptNames(currentSem)
+
+    override suspend fun getSchoolCourseNames(statsByProfDir: Path) =
+        getCourseNames(statsByProfDir, 2021..2023).toSchoolMap()
+
+    override suspend fun getSchoolTeachingProfs(statsByProfDir: Path, term: Semester.Triple) =
+        getTeachingProfs(statsByProfDir, term).toSchoolMap()
+}
+
+// For some reason, for fall the "year" part is  1 + the actual year
+fun parseSemester(semester: Int): Int {
+    val type = when (semester % 100) {
+        10 -> SemesterType.Fall
+        30 -> SemesterType.Spring
+        50 -> SemesterType.Summer
+        else -> error("Invalid semester: $semester")
+    }
+    val year = semester / 100 - if (type == SemesterType.Fall) 1 else 0
+    return Semester.Triple.valueOf(type, year).numValue
+}
+
+fun Semester.Triple.toTXSTString(): String {
+    val semStr = when (type) {
+        SemesterType.Fall -> 10
+        SemesterType.Spring -> 30
+        SemesterType.Summer -> 50
+    }.toString()
+    val yearStr = (year + if (type == SemesterType.Fall) 1 else 0).toString()
+    return "$yearStr$semStr"
 }

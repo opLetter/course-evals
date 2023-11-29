@@ -1,10 +1,10 @@
 package io.github.opletter.courseevals.txst
 
 import io.github.opletter.courseevals.common.data.InstructorStats
+import io.github.opletter.courseevals.common.data.Semester
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.remote.DefaultClient
-import io.github.opletter.courseevals.common.writeAsJson
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -34,12 +34,8 @@ suspend fun getTeachingDataContent(term: String): String {
         .bodyAsText()
 }
 
-suspend fun getTeachingProfs(
-    readDir: Path,
-    writeDir: Path?,
-    term: String,
-): Map<String, Map<String, Set<String>>> {
-    return getTeachingDataContent(term)
+suspend fun getTeachingProfs(statsByProfDir: Path, term: Semester.Triple): Map<String, Map<String, Set<String>>> {
+    return getTeachingDataContent(term.toTXSTString())
         .substringBefore("<table  CLASS=\"datadisplaytable\" summary=\"This is")
         .split("<th CLASS=\"ddtitle\" scope=\"colgroup\" >")
         .drop(1)
@@ -60,11 +56,8 @@ suspend fun getTeachingProfs(
                 null
             else Triple(prefix, number, prof)
         }.groupBy({ it.first }, { it.third to it.second })
-        .mapValues { processSubjectData(readDir, it.key, it.value) }
-        .onEach { (subject, data) ->
-            if (writeDir == null || data.isEmpty()) return@onEach
-            writeDir.resolve("0/$subject.json").writeAsJson(data.toSortedMap().toMap())
-        }.also { teachingMap ->
+        .mapValues { processSubjectData(statsByProfDir, it.key, it.value) }
+        .also { teachingMap ->
             val profCount = teachingMap.values.sumOf { subjectMap ->
                 subjectMap.keys.count { it[0].isLetter() }
             }
@@ -76,11 +69,11 @@ suspend fun getTeachingProfs(
 }
 
 private fun processSubjectData(
-    readDir: Path,
+    statsByProfDir: Path,
     subject: String,
     data: List<Pair<String, String>>,
 ): Map<String, Set<String>> {
-    val existingInstructors = readDir.resolve("0/$subject.json")
+    val existingInstructors = statsByProfDir.resolve("0/$subject.json")
         .decodeJson<Map<String, InstructorStats>>()
         .keys
 
@@ -107,7 +100,7 @@ private fun processSubjectData(
         profs.map { it to course }
     }.groupBy({ it.first }, { it.second }).mapValues { it.value.toSortedSet() }
 
-    return (coursesToProfs + profToCourses).toSortedMap()
+    return coursesToProfs + profToCourses
 }
 
 private fun String.normalized(ignoreMiddle: Boolean = true): String {

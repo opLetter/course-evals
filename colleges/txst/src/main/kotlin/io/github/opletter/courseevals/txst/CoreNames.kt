@@ -1,20 +1,20 @@
 package io.github.opletter.courseevals.txst
 
 import io.github.opletter.courseevals.common.data.InstructorStats
+import io.github.opletter.courseevals.common.data.Semester
 import io.github.opletter.courseevals.common.data.pmap
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.remote.DefaultClient
-import io.github.opletter.courseevals.common.writeAsJson
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import java.nio.file.Path
 
 // consider also using data from http://mycatalog.txstate.edu/courses/ or raw reports
-suspend fun getCourseNames(readDir: Path, writeDir: Path) {
-    val data = getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(readDir).getValue("0")
-    val courseNames = (2021..2023).pmap { getCourseNamesFromState(it.toString()) }
+suspend fun getCourseNames(statsByProfDir: Path, years: IntRange): Map<String, Map<String, String>> {
+    val data = getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(statsByProfDir).getValue("0")
+    return years.pmap { getCourseNamesFromState(it.toString()) }
         .reduce { acc, map ->
             acc.mapValues { (prefix, names) ->
                 (names.toMap() + map[prefix]?.toMap().orEmpty()).toList()
@@ -24,10 +24,6 @@ suspend fun getCourseNames(readDir: Path, writeDir: Path) {
             val courses = data[prefix]?.flatMap { it.value.courseStats.keys }?.toSet().orEmpty()
             nameMap.filter { it.first in courses }.toMap()
         }.filterValues { it.isNotEmpty() }
-
-    courseNames.forEach { (prefix, names) ->
-        writeDir.resolve("0/$prefix.json").writeAsJson(names)
-    }
 }
 
 private suspend fun getCourseNamesFromState(year: String): Map<String, List<Pair<String, String>>> {
@@ -56,12 +52,12 @@ private suspend fun getCourseNamesFromState(year: String): Map<String, List<Pair
         }.groupBy({ it.first }, { it.second to it.third })
 }
 
-suspend fun getDeptNames(writeDir: Path?, term: String): Map<String, String> {
+suspend fun getDeptNames(term: Semester.Triple): Map<String, String> {
     val prefixNames = DefaultClient.submitForm(
         "https://ssb-prod.ec.txstate.edu/PROD/bwckgens.p_proc_term_date",
         Parameters.build {
             append("p_calling_proc", "bwckschd.p_disp_dyn_sched")
-            append("p_term", term)
+            append("p_term", term.toTXSTString())
         }
     ).bodyAsText()
         .lines()
@@ -73,6 +69,5 @@ suspend fun getDeptNames(writeDir: Path?, term: String): Map<String, String> {
                     it.substringAfterBefore(">", "<").replace("&amp;", "&")
         }.filterKeys { it in Prefixes }
     check(prefixNames.size == Prefixes.size)
-    writeDir?.resolve("dept-names.json")?.writeAsJson(prefixNames.toSortedMap().toMap())
     return prefixNames
 }

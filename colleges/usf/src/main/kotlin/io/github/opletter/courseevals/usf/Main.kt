@@ -1,29 +1,38 @@
 package io.github.opletter.courseevals.usf
 
+import io.github.opletter.courseevals.common.SimpleSchoolDataApi
+import io.github.opletter.courseevals.common.data.Semester
+import io.github.opletter.courseevals.common.data.SemesterType
+import io.github.opletter.courseevals.common.path
+import io.github.opletter.courseevals.common.remote.WebsitePaths
+import io.github.opletter.courseevals.common.runFromArgs
 import java.nio.file.Path
 import kotlin.io.path.div
 
 suspend fun main(args: Array<String>) {
-    args.indexOf("-teaching").takeIf { it != -1 }?.let {
-        getTeachingProfs(readDir = Path.of(args[it + 1]), writeDir = Path.of(args[it + 2]), term = "202401")
-    }
+    USFApi.runFromArgs(args)
 }
 
-// this function shouldn't be called,
-// but we declare it so that the functions it uses can be considered "used"
-@Suppress("unused", "FunctionName")
-private suspend fun `Overview of data gathering process`() {
-    val rootDir = Path.of("data-test")
-    val reportsDir = rootDir / "reports"
-    val statsDir = rootDir / "stats-by-prof"
-    val coreDir = rootDir / "core"
+object USFApi : SimpleSchoolDataApi<Semester.Triple>() {
+    val defaultPaths = WebsitePaths("data-test")
 
-    getData(reportsDir)
-    getStatsByProf(getReportsFromFiles(reportsDir), statsDir)
-    getSchoolsData(statsDir)
-    getAllInstructors(statsDir, statsDir)
+    override val depts: Set<String> = Prefixes.toSet()
+    override val currentSem = Semester.Triple.valueOf(SemesterType.Spring, 2024)
 
-    getDeptNames(coreDir)
-    getCompleteCourseNames(statsDir, coreDir / "course-names")
-    getTeachingProfs(statsDir, coreDir / "teaching-S24", "202401")
+    override suspend fun getSchoolRawData() {
+        val reportsDir = defaultPaths.baseDir.path / "reports"
+        getData(reportsDir)
+    }
+
+    override fun getSchoolStatsByProf(rawDataDir: Path) = getStatsByProf(getReportsFromFiles(rawDataDir)).toSchoolMap()
+
+    override fun getSchoolAllInstructors(statsByProfDir: Path) = getAllInstructors(statsByProfDir).toSchoolMap()
+
+    override suspend fun getSchoolDeptNames() = getDeptNames()
+
+    override suspend fun getSchoolCourseNames(statsByProfDir: Path) =
+        getCompleteCourseNames(statsByProfDir).toSchoolMap()
+
+    override suspend fun getSchoolTeachingProfs(statsByProfDir: Path, term: Semester.Triple) =
+        getTeachingProfs(statsByProfDir, term).toSchoolMap()
 }

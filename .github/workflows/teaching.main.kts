@@ -1,19 +1,14 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.2.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.6.0")
+@file:Import("common_setup.main.kts")
 
-import io.github.typesafegithub.workflows.actions.actions.CheckoutV4
-import io.github.typesafegithub.workflows.actions.actions.SetupJavaV3
+import io.github.typesafegithub.workflows.actions.endbug.AddAndCommitV9
 import io.github.typesafegithub.workflows.domain.RunnerType.UbuntuLatest
 import io.github.typesafegithub.workflows.domain.triggers.Cron
 import io.github.typesafegithub.workflows.domain.triggers.Schedule
 import io.github.typesafegithub.workflows.domain.triggers.WorkflowDispatch
-import io.github.typesafegithub.workflows.dsl.expressions.Contexts
-import io.github.typesafegithub.workflows.dsl.expressions.expr
 import io.github.typesafegithub.workflows.dsl.workflow
 import io.github.typesafegithub.workflows.yaml.writeToFile
-
-@Suppress("PropertyName")
-val EVALS_DATA_TOKEN by Contexts.secrets
 
 fun teachingDataWorkflow(college: String, cron: Cron, gradleCommand: String = getGradleCommand(college)) = workflow(
     name = "$college: Update Teaching Data",
@@ -25,52 +20,32 @@ fun teachingDataWorkflow(college: String, cron: Cron, gradleCommand: String = ge
     targetFileName = "teaching_data_${college.lowercase()}.yml"
 ) {
     job(id = "get_and_commit", runsOn = UbuntuLatest) {
-        uses(name = "Checkout code", action = CheckoutV4())
-
-        uses(
-            name = "Checkout data",
-            action = CheckoutV4(
-                repository = "opletter/course-evals-data",
-                path = "data",
-                token = expr { EVALS_DATA_TOKEN }
-            )
-        )
-
-        uses(
-            name = "Set up Java",
-            action = SetupJavaV3(javaVersion = "17", distribution = SetupJavaV3.Distribution.Temurin)
-        )
+        setUpWithData()
 
         run(name = "Run", command = gradleCommand)
 
-        run(
+        uses(
             name = "Add & Commit",
-            command = """
-                cd data
-                git config user.name "github-actions[bot]"
-                git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-                git add -A
-                if ! git diff --cached --quiet; then
-                    git commit -m "$college: Updated teaching data"
-                    git pull --rebase origin master
-                    git push
-                else
-                    echo "No changes. Nothing to commit."
-                fi
-            """.trimIndent()
+            action = AddAndCommitV9(
+                add = "-A",
+                cwd = "data",
+                defaultAuthor = AddAndCommitV9.DefaultAuthor.GithubActor,
+                message = "$college: Update teaching data",
+                pull = "--rebase origin master",
+            )
         )
     }
 }
 
 fun getGradleCommand(
     college: String,
-    readDir: String = "stats-by-prof",
-    writeDir: String = "core/teaching-S24",
+    statsByProfDir: String = "stats-by-prof",
+    outputDir: String = "core/teaching-S24",
 ): String {
     val rootDir = "../../data/${college.lowercase()}/processed"
-    val args = listOf("-teaching", "$rootDir/$readDir", "$rootDir/$writeDir")
+    val args = listOf("--teaching", "$rootDir/$outputDir", "$rootDir/$statsByProfDir")
         .joinToString(" ", prefix = "\"", postfix = "\"")
-    return "./gradlew colleges:${college.lowercase()}:run --args=$args"
+    return "./gradlew colleges:${college.lowercase()}:run --args=$args --scan"
 }
 
 teachingDataWorkflow(
@@ -91,5 +66,5 @@ teachingDataWorkflow(
 teachingDataWorkflow(
     college = "Rutgers",
     cron = Cron(minute = "0", hour = "22", dayWeek = "1-5"),
-    gradleCommand = getGradleCommand("Rutgers", readDir = "stats-by-prof-cleaned")
+    gradleCommand = getGradleCommand("Rutgers", statsByProfDir = "stats-by-prof-cleaned")
 ).writeToFile(addConsistencyCheck = false)

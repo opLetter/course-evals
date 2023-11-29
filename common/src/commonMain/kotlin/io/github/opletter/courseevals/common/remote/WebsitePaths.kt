@@ -1,12 +1,32 @@
 package io.github.opletter.courseevals.common.remote
 
+import kotlin.jvm.JvmInline
+
 class WebsitePaths(
-    private val baseDir: String,
-    private val coreDir: String = "$baseDir/core",
-    val statsByProfDir: String = "$baseDir/stats-by-prof",
-    val courseNamesDir: String = "$coreDir/course-names",
-    val teachingDataDir: String = "$coreDir/teaching-S24",
-    val allInstructorsFile: String = "$statsByProfDir/instructors.json",
-    val deptNamesFile: String = "$coreDir/dept-names.json",
-    val schoolsByCodeFile: String = "$statsByProfDir/schools.json",
-)
+    baseDir: String,
+    coreDir: String = baseDir / "core",
+    statsByProfDir: String = baseDir / "stats-by-prof",
+    courseNamesDir: String = coreDir / "course-names",
+    teachingDataDir: String = coreDir / "teaching-S24",
+    allInstructorsFile: String = statsByProfDir / "instructors.json",
+    deptNamesFile: String = coreDir / "dept-names.json",
+    schoolsByCodeFile: String = statsByProfDir / "schools.json",
+) {
+    val baseDir = PathWrapper(baseDir)
+    val coreDir = PathWrapper(coreDir)
+    val statsByProfDir = PathWrapper(statsByProfDir)
+    val courseNamesDir = PathWrapper(courseNamesDir)
+    val teachingDataDir = PathWrapper(teachingDataDir)
+    val allInstructorsFile = PathWrapper(allInstructorsFile)
+    val deptNamesFile = PathWrapper(deptNamesFile)
+    val schoolsByCodeFile = PathWrapper(schoolsByCodeFile)
+}
+
+private operator fun String.div(other: String) = "$this/$other"
+
+// could set up expect/actual with Path on jvm, but not needed for now
+/** A wrapper class for representing file paths, useful for safer conversion to `java.nio.file.Path` in JVM sources. */
+@JvmInline
+value class PathWrapper internal constructor(val value: String) {
+    override fun toString() = value
+}

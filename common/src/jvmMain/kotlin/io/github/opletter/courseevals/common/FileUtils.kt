@@ -2,6 +2,7 @@ package io.github.opletter.courseevals.common
 
 import io.github.opletter.courseevals.common.data.School
 import io.github.opletter.courseevals.common.data.SchoolDeptsMap
+import io.github.opletter.courseevals.common.remote.PathWrapper
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.nio.file.Path
@@ -25,3 +26,5 @@ fun readResource(pathname: String): String {
     val stream = {}.javaClass.classLoader.getResource(pathname) ?: error("resource not found: $pathname")
     return stream.readText()
 }
+
+val PathWrapper.path get() = Path.of(value)

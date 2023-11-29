@@ -3,7 +3,6 @@ package io.github.opletter.courseevals.usf
 import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
-import io.github.opletter.courseevals.common.writeAsJson
 import java.nio.file.Path
 
 fun List<Report>.getTotalRatings(): Ratings {
@@ -25,7 +24,6 @@ fun getReportsFromFiles(dir: Path): Map<String, List<Report>> {
 
 fun getStatsByProf(
     data: Map<String, List<Report>>,
-    writeDir: Path?,
     minSem: Semester.Triple = Semester.Triple.valueOf(SemesterType.Fall, 2012),
 ): Map<String, Map<String, InstructorStats>> {
     return data.mapValues { (_, entries) ->
@@ -47,19 +45,13 @@ fun getStatsByProf(
             println("no profs for $prefix")
             return@onEach
         }
-        writeDir?.resolve("0/$prefix.json")?.writeAsJson(profs) // "0" is the school
     }
 }
 
-fun getAllInstructors(readDir: Path, writeDir: Path?): List<Instructor> {
-    return getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(readDir)
+fun getAllInstructors(statsByProfDir: Path): List<Instructor> {
+    return getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(statsByProfDir)
         .getValue("0")
         .flatMap { (subject, stats) ->
             stats.map { Instructor(it.key, subject, it.value.lastSem) }
-        }.also { writeDir?.resolve("instructors.json")?.writeAsJson(mapOf("0" to it)) }
-}
-
-fun getSchoolsData(writeDir: Path?): School {
-    return School("0", "All", Prefixes.toSet(), setOf(Campus.MAIN), LevelOfStudy.U)
-        .also { writeDir?.resolve("schools.json")?.writeAsJson(mapOf("0" to it)) }
+        }
 }

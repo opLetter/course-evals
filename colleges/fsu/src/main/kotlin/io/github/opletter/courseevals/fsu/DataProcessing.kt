@@ -4,7 +4,7 @@ import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.readResource
-import io.github.opletter.courseevals.common.writeAsJson
+import io.github.opletter.courseevals.common.writeToFiles
 import java.nio.file.Path
 
 val campusMap = mapOf(
@@ -19,8 +19,8 @@ val campusMap = mapOf(
 )
 
 // CoursePrefixes.txt comes from https://registrar.fsu.edu/bulletin/undergraduate/information/course_prefix/
-fun getDeptNames(writeDir: Path): Map<String, String> {
-    val coursePrefixHTML = readResource("CoursePrefixes.txt")
+fun getDeptNames(): Map<String, String> {
+    return readResource("CoursePrefixes.txt")
         .split("<tr class=\"TableAllLeft\">")
         .drop(2)
         .associate { row ->
@@ -31,11 +31,9 @@ fun getDeptNames(writeDir: Path): Map<String, String> {
                 .take(2)
                 .let { it[0] to it[1] }
         } + ("IFS" to "Independent Florida State")
-    writeDir.resolve("dept-names.json").writeAsJson(coursePrefixHTML.toSortedMap().toMap())
-    return coursePrefixHTML
 }
 
-fun organizeReports(readDir: Path, writeDir: Path): SchoolDeptsMap<List<Report>> {
+fun organizeReports(reportsDir: Path, outputDir: Path): SchoolDeptsMap<List<Report>> {
     val list = readResource("Areas.txt").lines().map { AreaEntry.fromString(it) }
 
     val uniqueCodes = list.groupBy({ it.code }, { it.code }).filter { it.value.size == 1 }.keys
@@ -45,7 +43,7 @@ fun organizeReports(readDir: Path, writeDir: Path): SchoolDeptsMap<List<Report>>
         .onEach { println(it) }
 
     return CourseSearchKeys
-        .flatMap { readDir.resolve("$it.json").decodeJson<List<Report>>() }
+        .flatMap { reportsDir.resolve("$it.json").decodeJson<List<Report>>() }
         .groupBy { report ->
             val newArea = report.area
                 .replace("HSFCS-", "HSFCS - ")
@@ -59,15 +57,14 @@ fun organizeReports(readDir: Path, writeDir: Path): SchoolDeptsMap<List<Report>>
             keys
                 .distinctBy { it.ids }
                 .groupBy { it.courseCode.take(3) }
-        }.writeToFiles(writeDir)
+        }.writeToFiles(outputDir)
 }
 
 fun getStatsByProf(
-    readDir: Path,
-    writeDir: Path,
+    reportsDir: Path,
     includeQuestions: List<Int> = QuestionsLimited.indices - setOf(0, 3, 4, 11),
 ): SchoolDeptsMap<Map<String, InstructorStats>> {
-    return getCompleteSchoolDeptsMap<List<Report>>(readDir).mapEachDept { _, _, reports ->
+    return getCompleteSchoolDeptsMap<List<Report>>(reportsDir).mapEachDept { _, _, reports ->
         val allNames = reports.map { it.htmlInstructor.uppercase() }.toSet() - ""
 
         val nameMappings = allNames.sorted().flatMap { name ->
@@ -111,7 +108,7 @@ fun getStatsByProf(
                         .mapValues { (_, reports) -> reports.getTotalRatings(includeQuestions) }
                 )
             }.filterValues { it != null }.mapValues { it.value!! }
-    }.writeToFiles(writeDir)
+    }
 }
 
 // returns list of (# of 1s, # of 2s, ... # of 5s) for each question
@@ -123,16 +120,10 @@ fun List<Report>.getTotalRatings(includeQuestions: List<Int>): Ratings {
     }.combine().map { it.reversed() } // reversed so that rankings go from 0-5
 }
 
-fun createAllInstructors(
-    readDir: Path,
-    writeDir: Path,
-): Map<String, List<Instructor>> {
-    val profList = getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(readDir)
-        .mapValues { (_, deptMap) ->
-            deptMap.flatMap { (dept, entries) ->
-                entries.map { (name, stats) -> Instructor(name, dept, stats.lastSem) }
-            }.sortedBy { it.name }
-        }
-    writeDir.resolve("instructors.json").writeAsJson(profList.toSortedMap().toMap())
-    return profList
+fun createAllInstructors(statsByProfDir: Path): Map<String, List<Instructor>> {
+    return getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(statsByProfDir).mapValues { (_, deptMap) ->
+        deptMap.flatMap { (dept, entries) ->
+            entries.map { (name, stats) -> Instructor(name, dept, stats.lastSem) }
+        }.sortedBy { it.name }
+    }
 }

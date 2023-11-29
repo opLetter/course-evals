@@ -1,9 +1,6 @@
 package io.github.opletter.courseevals.fsu
 
-import io.github.opletter.courseevals.common.data.InstructorStats
-import io.github.opletter.courseevals.common.data.SchoolDeptsMap
-import io.github.opletter.courseevals.common.data.prepend
-import io.github.opletter.courseevals.common.data.substringAfterBefore
+import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.remote.DefaultClient
 import io.ktor.client.call.*
@@ -63,26 +60,26 @@ inline fun <T, V> List<TeachingData>.processTeachingDataByDept(
         }
 }
 
-suspend fun getTeachingProfs(readDir: Path, writeDir: Path, term: String) {
-    listOf("Undergraduate", "Graduate", "Law", "Medicine").flatMap { type ->
-        DefaultClient.get("https://registrar.fsu.edu/class_search/$term/$type.pdf")
+suspend fun getTeachingProfs(statsByProfDir: Path, term: Semester.Triple): SchoolDeptsMap<Map<String, Set<String>>> {
+    return listOf("Undergraduate", "Graduate", "Law", "Medicine").pmap { type ->
+        DefaultClient.get("https://registrar.fsu.edu/class_search/${term.toFSUString()}/$type.pdf")
             .body<ByteArray>()
             .getTeachingData()
-    }.processTeachingDataByDept { campus, dept, entries ->
-        filterTeachingInstructors(readDir, campus, dept, entries)
-    }.writeToFiles(writeDir, false)
+    }.flatten().processTeachingDataByDept { campus, dept, entries ->
+        filterTeachingInstructors(statsByProfDir, campus, dept, entries)
+    }
 }
 
 private fun filterTeachingInstructors(
-    readDir: Path,
+    statsByProfDir: Path,
     campus: String,
     dept: String,
     deptEntries: List<TeachingEntry>,
 ): Map<String, Set<String>> {
     val existingInstructors = runCatching {
-        readDir.resolve(campus).resolve("$dept.json").decodeJson<Map<String, InstructorStats>>().keys
+        statsByProfDir.resolve(campus).resolve("$dept.json").decodeJson<Map<String, InstructorStats>>().keys
     }.getOrElse {
-        println("no file $dept")
+        println("no file $campus $dept")
         return emptyMap()
     }
 
@@ -111,7 +108,7 @@ private fun filterTeachingInstructors(
         profs.map { it to course }
     }.groupBy({ it.first }, { it.second }).mapValues { it.value.toSortedSet() }
 
-    return (coursesToProfs + profToCourses).toSortedMap()
+    return coursesToProfs + profToCourses
 }
 
 private fun List<String>.extractPageData(): Pair<String, List<TeachingEntry>> {

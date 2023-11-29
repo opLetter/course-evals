@@ -3,10 +3,9 @@ package io.github.opletter.courseevals.usf
 import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.readResource
-import io.github.opletter.courseevals.common.writeAsJson
 import java.nio.file.Path
 
-suspend fun getDeptNames(writeDir: Path?): Map<String, String> {
+suspend fun getDeptNames(): Map<String, String> {
     // some depts are no longer in use, but we still want the names
     // acquired from https://usfonline.admin.usf.edu/pls/prod/bwckschd.p_disp_dyn_sched
     val presetNames = mapOf(
@@ -23,9 +22,7 @@ suspend fun getDeptNames(writeDir: Path?): Map<String, String> {
     check(Prefixes.all { it in prefixNames }) {
         "not all prefixes have names: ${Prefixes.filter { it !in prefixNames }}"
     }
-    return prefixNames.also {
-        writeDir?.resolve("dept-names.json")?.writeAsJson(it.toSortedMap().toMap())
-    }
+    return prefixNames
 }
 
 private suspend fun getCourseNamesFromUSF(): Map<String, Map<String, String>> {
@@ -53,10 +50,7 @@ private fun getCourseNamesFromCsv(): Map<String, Map<String, String>> {
         }
 }
 
-suspend fun getCompleteCourseNames(
-    readDir: Path,
-    writeDir: Path?,
-): Map<String, Map<String, String>> {
+suspend fun getCompleteCourseNames(statsByProfDir: Path): Map<String, Map<String, String>> {
     val fromUSF = getCourseNamesFromUSF()
     val fromCsv = getCourseNamesFromCsv()
     val combined = fromCsv + fromUSF.mapValues { (key, value) -> fromCsv[key]?.plus(value) ?: value }
@@ -64,12 +58,10 @@ suspend fun getCompleteCourseNames(
     return combined
         .filterKeys { it in Prefixes }
         .mapValues { (key, subMap) ->
-            val courseWithData = readDir.resolve("0/$key.json")
+            val courseWithData = statsByProfDir.resolve("0/$key.json")
                 .decodeJson<Map<String, InstructorStats>>()
                 .flatMap { it.value.courseStats.keys }
                 .toSet()
             subMap.filterKeys { it in courseWithData }
-        }.onEach { (prefix, data) ->
-            writeDir?.resolve("0/$prefix.json")?.writeAsJson(data.toSortedMap().toMap())
         }
 }

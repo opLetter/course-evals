@@ -1,27 +1,27 @@
 package io.github.opletter.courseevals.fsu
 
-import io.github.opletter.courseevals.common.data.InstructorStats
-import io.github.opletter.courseevals.common.data.School
-import io.github.opletter.courseevals.common.data.SchoolDeptsMap
+import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.decodeJsonIfExists
 import io.github.opletter.courseevals.common.readResource
 import io.github.opletter.courseevals.common.remote.DefaultClient
-import io.github.opletter.courseevals.common.writeAsJson
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import java.nio.file.Path
 
-private suspend fun getCourseNamesFromTeachingData(readDir: Path): SchoolDeptsMap<Map<String, String>> {
-    val validDepts = readDir.resolve("schools.json").decodeJson<Map<String, School>>()
+private suspend fun getCourseNamesFromTeachingData(
+    statsByProfDir: Path,
+    terms: List<Semester.Triple>,
+): SchoolDeptsMap<Map<String, String>> {
+    val validDepts = statsByProfDir.resolve("schools.json").decodeJson<Map<String, School>>()
         .flatMap { it.value.depts }.toSet()
 
-    return listOf("1", "6", "9").flatMap { term ->
-        listOf("Undergraduate", "Graduate", "Law", "Medicine").flatMap { type ->
-            DefaultClient.get("https://registrar.fsu.edu/class_search/2023-$term/$type.pdf")
+    return terms.flatMap { term ->
+        listOf("Undergraduate", "Graduate", "Law", "Medicine").pmap { type ->
+            DefaultClient.get("https://registrar.fsu.edu/class_search/${term.toFSUString()}/$type.pdf")
                 .body<ByteArray>()
                 .getTeachingData()
-        }
+        }.flatten()
     }.processTeachingDataByDept { _, dept, entries ->
         if (dept !in validDepts) {
             println("Invalid dept: $dept")
@@ -50,24 +50,24 @@ private fun getCourseNamesFromCsv(): Map<String, Map<String, String>> {
         }
 }
 
-suspend fun getCompleteCourseNames(readDir: Path, writeDir: Path?): SchoolDeptsMap<Map<String, String>> {
+suspend fun getCompleteCourseNames(
+    statsByProfDir: Path,
+    terms: List<Semester.Triple>,
+): SchoolDeptsMap<Map<String, String>> {
     val fromCsv = getCourseNamesFromCsv()
-    val fromTeachingData = getCourseNamesFromTeachingData(readDir)
+    val fromTeachingData = getCourseNamesFromTeachingData(statsByProfDir, terms)
 
     return fromTeachingData.mapValues { (school, deptMap) ->
         // Assuming that all schools/campuses have same course names per code
         val combined = fromCsv + deptMap.mapValues { (key, value) -> fromCsv[key]?.plus(value) ?: value }
 
         combined.mapValues inner@{ (key, subMap) ->
-            val courseWithData = readDir.resolve(school).resolve("$key.json")
+            val courseWithData = statsByProfDir.resolve(school).resolve("$key.json")
                 .decodeJsonIfExists<Map<String, InstructorStats>>()
                 ?.flatMap { it.value.courseStats.keys }
                 ?.toSet()
                 ?: return@inner emptyMap()
             subMap.filterKeys { it in courseWithData }
-        }.onEach { (prefix, data) ->
-            if (data.isEmpty() || writeDir == null) return@onEach
-            writeDir.resolve(school).resolve("$prefix.json").writeAsJson(data.toSortedMap().toMap())
         }
     }
 }

@@ -214,12 +214,12 @@ fun ByteArray.getStatsFromPdf(): PdfReport {
     }
 }
 
-suspend fun getAllData(writeDir: Path, keys: List<String> = CourseSearchKeys) {
+suspend fun getAllData(outputDir: Path, keys: List<String> = CourseSearchKeys) {
     val repo = FSURepository.initLoggedIn()
 
     keys.forEachIndexed { index, courseKey ->
         val reports: List<Report>? = flow {
-            val reports = repo.getReportsForCourse(courseKey, writeDir / "temp") { if (it > 200) 40 else 50 }
+            val reports = repo.getReportsForCourse(courseKey, outputDir / "temp") { if (it > 200) 40 else 50 }
             emit(reports.ifEmpty { null })
         }.retry(3) {
             it.printStackTrace()
@@ -231,10 +231,10 @@ suspend fun getAllData(writeDir: Path, keys: List<String> = CourseSearchKeys) {
         }.singleOrNull()
 
         if (reports != null) {
-            writeDir.resolve("$courseKey.json")
+            outputDir.resolve("$courseKey.json")
                 .writeAsJson(reports.distinct()) // for some reason there may be a few duplicates
         } else {
-            writeDir.resolve("failed/$courseKey.json").createParentDirectories().writeText("{}")
+            outputDir.resolve("failed/$courseKey.json").createParentDirectories().writeText("{}")
         }
 
         delayAndLog(0.5.minutes) { time -> "C: Done with key $courseKey, delaying $time" }

@@ -1,0 +1,51 @@
+# This file was generated using Kotlin DSL (.github/workflows/generate_all.main.kts).
+# If you want to modify the workflow, please change the Kotlin file and regenerate this YAML file.
+# Generated with https://github.com/typesafegithub/github-workflows-kt
+
+name: 'Generate All Data'
+on:
+  workflow_dispatch:
+    inputs:
+      college:
+        description: 'The college to generate data for'
+        type: 'choice'
+        required: true
+        options:
+          - 'FSU'
+          - 'USF'
+          - 'TXST'
+jobs:
+  gen_and_pr:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - id: 'step-0'
+        name: 'Checkout code'
+        uses: 'actions/checkout@v4'
+      - id: 'step-1'
+        name: 'Checkout data'
+        uses: 'actions/checkout@v4'
+        with:
+          repository: 'opletter/course-evals-data'
+          token: '${{ secrets.EVALS_DATA_TOKEN }}'
+          path: 'data'
+      - id: 'step-2'
+        name: 'Set up Java'
+        uses: 'actions/setup-java@v3'
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - id: 'step-3'
+        name: 'Setup Gradle'
+        uses: 'gradle/gradle-build-action@v2'
+      - id: 'step-4'
+        name: 'Run'
+        run: './gradlew colleges:${{ inputs.college }}:run --args="--write-all ../../data/${{ inputs.college }}/raw/reports ../../data/${{ inputs.college }}/processed" --scan'
+      - id: 'step-5'
+        name: 'Create Pull Request'
+        uses: 'peter-evans/create-pull-request@v5'
+        with:
+          path: 'data'
+          commit-message: '${{ inputs.college }}: Generate all data'
+          branch: '${{ inputs.college }}/generate-all-data'
+          delete-branch: 'true'
+          title: '${{ inputs.college }}: Generate all data'

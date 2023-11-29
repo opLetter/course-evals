@@ -1,6 +1,7 @@
 package io.github.opletter.courseevals.common
 
 import io.github.opletter.courseevals.common.data.*
+import io.github.opletter.courseevals.common.remote.WebsitePaths
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.deleteRecursively
@@ -66,6 +67,19 @@ suspend fun <T : Semester<T>> SchoolDataApi<T>.runFromArgs(args: Array<String>) 
     args.indexOf("--teaching").takeIf { it != -1 }?.let {
         writeSchoolTeachingProfs(outputDir = Path.of(args[it + 1]), statsByProfDir = Path.of(args[it + 2]))
     }
+    args.indexOf("--write-all").takeIf { it != -1 }?.let {
+        val paths = WebsitePaths(args[it + 1])
+        val rawDataDir = Path.of(args[it + 2])
+        writeAllProcessedData(paths, rawDataDir)
+    }
+}
+
+suspend fun SchoolDataApi<*>.writeAllProcessedData(paths: WebsitePaths, rawDataDir: Path) {
+    writeSchoolStatsByProf(paths.statsByProfDir.path, paths.schoolsByCodeFile.path, rawDataDir)
+    writeSchoolAllInstructors(paths.allInstructorsFile.path, paths.statsByProfDir.path)
+    writeSchoolDeptNames(paths.deptNamesFile.path)
+    writeSchoolCourseNames(paths.courseNamesDir.path, paths.statsByProfDir.path)
+    writeSchoolTeachingProfs(paths.teachingDataDir.path, paths.statsByProfDir.path)
 }
 
 @OptIn(ExperimentalPathApi::class)

@@ -61,10 +61,11 @@ suspend fun getDeptNames(term: Semester.Triple): Map<String, String> {
         .dropWhile { it != "<select name=\"sel_subj\" size=\"10\" MULTIPLE ID=\"subj_id\">" }
         .drop(1)
         .takeWhile { it.startsWith("<OPTION") }
-        .associate {
-            it.substringAfterBefore("VALUE=\"", "\"").filter { it != ' ' } to
-                    it.substringAfterBefore(">", "<").replace("&amp;", "&")
+        .associate { line ->
+            line.substringAfterBefore("VALUE=\"", "\"").filter { it != ' ' } to
+                    line.substringAfterBefore(">", "<").replace("&amp;", "&")
         }.filterKeys { it in Prefixes }
-    check(prefixNames.size == Prefixes.size)
+        .plus("LING" to "Linguistics") // no longer in use, but we still in our data
+    check(prefixNames.size == Prefixes.size) { "Missing prefixes: ${Prefixes - prefixNames.keys}" }
     return prefixNames
 }

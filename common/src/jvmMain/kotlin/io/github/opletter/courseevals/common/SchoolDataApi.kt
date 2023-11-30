@@ -32,9 +32,9 @@ interface SchoolDataApi<T : Semester<T>> {
         schoolsOutputFile: Path,
         rawDataDir: Path,
     ): SchoolDeptsMap<Map<String, InstructorStats>> {
-        val statsByProf = getSchoolStatsByProf(rawDataDir)
+        val statsByProf = getSchoolStatsByProf(rawDataDir).writeToFiles(outputDir)
         schoolsOutputFile.writeAsJson(getSchoolSchoolsData(statsByProf).toSortedMap().toMap())
-        return statsByProf.writeToFiles(outputDir)
+        return statsByProf
     }
 
     fun writeSchoolAllInstructors(outputFile: Path, statsByProfDir: Path) =

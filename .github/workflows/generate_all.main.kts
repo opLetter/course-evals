@@ -67,6 +67,7 @@ workflow(
         uses(
             name = "Create Pull Request",
             action = CreatePullRequestV5(
+                token = io.github.typesafegithub.workflows.dsl.expressions.expr { EVALS_DATA_TOKEN },
                 path = "data",
                 commitMessage = "$college: Generate all data",
                 branch = "$college/generate-all-data",

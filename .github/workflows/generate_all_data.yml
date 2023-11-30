@@ -44,6 +44,7 @@ jobs:
         name: 'Create Pull Request'
         uses: 'peter-evans/create-pull-request@v5'
         with:
+          token: '${{ secrets.EVALS_DATA_TOKEN }}'
           path: 'data'
           commit-message: '${{ inputs.college }}: Generate all data'
           branch: '${{ inputs.college }}/generate-all-data'

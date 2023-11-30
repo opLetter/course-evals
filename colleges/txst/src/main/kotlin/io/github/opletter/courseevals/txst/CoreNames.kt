@@ -23,7 +23,7 @@ suspend fun getCourseNames(statsByProfDir: Path, years: IntRange): Map<String, M
         .mapValues { (prefix, nameMap) ->
             val courses = data[prefix]?.flatMap { it.value.courseStats.keys }?.toSet().orEmpty()
             nameMap.filter { it.first in courses }.toMap()
-        }.filterValues { it.isNotEmpty() }
+        }
 }
 
 private suspend fun getCourseNamesFromState(year: String): Map<String, List<Pair<String, String>>> {

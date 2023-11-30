@@ -47,13 +47,13 @@ interface SchoolDataApi<T : Semester<T>> {
         outputDir: Path,
         statsByProfDir: Path,
         existingCourseNamesDir: Path? = outputDir,
-    ) = getSchoolCourseNames(statsByProfDir, existingCourseNamesDir).writeToFiles(outputDir)
+    ) = getSchoolCourseNames(statsByProfDir, existingCourseNamesDir).filterNotEmpty().writeToFiles(outputDir)
 
     suspend fun writeSchoolTeachingProfs(
         outputDir: Path,
         statsByProfDir: Path,
         term: T = currentSem,
-    ) = getSchoolTeachingProfs(statsByProfDir, term).writeToFiles(outputDir)
+    ) = getSchoolTeachingProfs(statsByProfDir, term).filterNotEmpty().writeToFiles(outputDir)
 }
 
 

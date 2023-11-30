@@ -56,7 +56,6 @@ inline fun <T, V> List<TeachingData>.processTeachingDataByDept(
                 .flatMap { it.entries }
                 .groupBy { it.courseNumber.take(3) }
                 .mapValues { (dept, entries) -> transform(campus, dept, entries) }
-                .filterValues { it.isNotEmpty() }
         }
 }
 

@@ -31,7 +31,7 @@ fun teachingDataWorkflow(college: String, cron: Cron, gradleCommand: String = ge
                 cwd = "data",
                 defaultAuthor = AddAndCommitV9.DefaultAuthor.GithubActor,
                 message = "$college: Update teaching data",
-                pull = "--rebase origin master",
+                pull = "--rebase --autostash",
             )
         )
     }

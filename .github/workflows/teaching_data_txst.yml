@@ -41,4 +41,4 @@ jobs:
           cwd: 'data'
           default_author: 'github_actor'
           message: 'TXST: Update teaching data'
-          pull: '--rebase origin master'
+          pull: '--rebase --autostash'

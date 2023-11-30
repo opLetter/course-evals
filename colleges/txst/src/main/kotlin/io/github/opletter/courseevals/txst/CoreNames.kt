@@ -31,12 +31,9 @@ private suspend fun getCourseNamesFromState(year: String): Map<String, List<Pair
         append("DefaultYear", year)
         append("CourseYear", year)
         append("FICE", "003615")
-        append("Rubric", "")
-        append("CourseNum", "")
-        append("CIP", "")
-        append("CourseFunding", "")
-        append("CourseLevel", "")
-        append("courseactive", "")
+        listOf("Rubric", "CourseNum", "CIP", "CourseFunding", "CourseLevel", "courseactive").forEach {
+            append(it, "")
+        }
         append("outputtype", "Screen")
         append("BAction", "Display Courses")
     }

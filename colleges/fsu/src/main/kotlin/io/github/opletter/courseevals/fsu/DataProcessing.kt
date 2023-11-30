@@ -37,7 +37,6 @@ fun organizeReports(reportsDir: Path, outputDir: Path): SchoolDeptsMap<List<Repo
 
     val nodes = buildTree(list)
     val childParentMap = buildChildParentMap(nodes, uniqueCodes)
-        .onEach { println(it) }
 
     return CourseSearchKeys
         .flatMap { reportsDir.resolve("${it.take(3)}/${it.drop(3)}.json").decodeJson<List<Report>>() }

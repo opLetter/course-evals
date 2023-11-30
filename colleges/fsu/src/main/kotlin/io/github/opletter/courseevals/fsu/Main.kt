@@ -6,6 +6,8 @@ import io.github.opletter.courseevals.common.path
 import io.github.opletter.courseevals.common.remote.WebsitePaths
 import io.github.opletter.courseevals.common.runFromArgs
 import java.nio.file.Path
+import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.deleteRecursively
 import kotlin.io.path.div
 
 suspend fun main(args: Array<String>) {
@@ -31,7 +33,14 @@ object FSUApi : SchoolDataApi<Semester.Triple> {
         organizeReports(reportsDir, organizedReportsDir)
     }
 
-    override fun getSchoolStatsByProf(rawDataDir: Path) = getStatsByProf(rawDataDir)
+    @OptIn(ExperimentalPathApi::class)
+    override fun getSchoolStatsByProf(rawDataDir: Path): SchoolDeptsMap<Map<String, InstructorStats>> {
+        val tempDir = rawDataDir / "organized-reports-temp"
+        organizeReports(rawDataDir, tempDir)
+        val statsByProf = getStatsByProf(tempDir)
+        tempDir.deleteRecursively()
+        return statsByProf
+    }
 
     override fun getSchoolSchoolsData(statsByProf: SchoolDeptsMap<Map<String, InstructorStats>>): Map<String, School> {
         return statsByProf.map { (key, value) ->

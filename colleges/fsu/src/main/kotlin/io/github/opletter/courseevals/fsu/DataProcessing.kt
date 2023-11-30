@@ -1,10 +1,7 @@
 package io.github.opletter.courseevals.fsu
 
+import io.github.opletter.courseevals.common.*
 import io.github.opletter.courseevals.common.data.*
-import io.github.opletter.courseevals.common.decodeJson
-import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
-import io.github.opletter.courseevals.common.readResource
-import io.github.opletter.courseevals.common.writeToFiles
 import java.nio.file.Path
 
 val campusMap = mapOf(
@@ -43,7 +40,7 @@ fun organizeReports(reportsDir: Path, outputDir: Path): SchoolDeptsMap<List<Repo
         .onEach { println(it) }
 
     return CourseSearchKeys
-        .flatMap { reportsDir.resolve("$it.json").decodeJson<List<Report>>() }
+        .flatMap { reportsDir.resolve("${it.take(3)}/${it.drop(3)}.json").decodeJson<List<Report>>() }
         .groupBy { report ->
             val newArea = report.area
                 .replace("HSFCS-", "HSFCS - ")
@@ -58,6 +55,18 @@ fun organizeReports(reportsDir: Path, outputDir: Path): SchoolDeptsMap<List<Repo
                 .distinctBy { it.ids }
                 .groupBy { it.courseCode.take(3) }
         }.writeToFiles(outputDir)
+        .also {
+            val schoolsData = it.map { (key, value) ->
+                key to School(
+                    code = key,
+                    name = campusMap[key] ?: error("No name for $key"),
+                    depts = value.keys.sorted().toSet(),
+                    campuses = setOf(Campus.valueOf(key.uppercase())),
+                    level = LevelOfStudy.U,
+                )
+            }.toMap()
+            outputDir.resolve("schools.json").writeAsJson(schoolsData)
+        }
 }
 
 fun getStatsByProf(

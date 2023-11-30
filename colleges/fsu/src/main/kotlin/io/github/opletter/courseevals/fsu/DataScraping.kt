@@ -166,7 +166,7 @@ suspend fun FSURepository.getReportsForCourse(
             }
             Report.from(pdfReport, metadata)
         }.also { reports ->
-            val tempPath = tempDir / "$courseKey.json"
+            val tempPath = tempDir / "${courseKey.take(3)}/${courseKey.drop(3)}.json"
             val earlierReports = tempPath.decodeJsonIfExists<List<Report>>().orEmpty()
             tempPath.writeAsJson(earlierReports + reports)
         }
@@ -231,10 +231,11 @@ suspend fun getAllData(outputDir: Path, keys: List<String> = CourseSearchKeys) {
         }.singleOrNull()
 
         if (reports != null) {
-            outputDir.resolve("$courseKey.json")
+            outputDir.resolve("${courseKey.take(3)}/${courseKey.drop(3)}.json")
                 .writeAsJson(reports.distinct()) // for some reason there may be a few duplicates
         } else {
-            outputDir.resolve("failed/$courseKey.json").createParentDirectories().writeText("{}")
+            outputDir.resolve("failed/${courseKey.take(3)}/${courseKey.drop(3)}.json")
+                .createParentDirectories().writeText("{}")
         }
 
         delayAndLog(0.5.minutes) { time -> "C: Done with key $courseKey, delaying $time" }

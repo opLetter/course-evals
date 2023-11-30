@@ -39,7 +39,7 @@ suspend fun fixReportErrors(oldDir: Path, newDir: Path) {
     CourseSearchKeys.forEach { prefix ->
         println("starting $prefix")
 
-        val reports = oldDir.resolve("$prefix.json").decodeJson<List<Report>>()
+        val reports = oldDir.resolve("${prefix.take(3)}/${prefix.drop(3)}.json").decodeJson<List<Report>>()
 
         val improvedReports = reports.pmap { report ->
             if (report.pdfInstructor != "Report-ERROR") return@pmap report
@@ -73,7 +73,7 @@ suspend fun fixReportErrors(oldDir: Path, newDir: Path) {
             } ?: report
         }
 
-        newDir.resolve("$prefix.json").writeAsJson(improvedReports)
+        newDir.resolve("${prefix.take(3)}/${prefix.drop(3)}.json").writeAsJson(improvedReports)
 
         println("finished $prefix")
     }

@@ -72,7 +72,7 @@ suspend fun <T : Semester<T>> SchoolDataApi<T>.runFromArgs(args: Array<String>) 
         writeSchoolTeachingProfs(outputDir = Path.of(args[it + 1]), statsByProfDir = Path.of(args[it + 2]))
     }
     args.indexOf("--write-all").takeIf { it != -1 }?.let {
-        val paths = WebsitePaths(args[it + 1])
+        val paths = WebsitePaths(args[it + 1].lowercase())
         val rawDataDir = Path.of(args[it + 2].lowercase())
         writeAllProcessedData(paths, rawDataDir)
     }

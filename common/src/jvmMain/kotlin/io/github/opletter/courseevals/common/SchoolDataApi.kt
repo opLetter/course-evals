@@ -96,8 +96,11 @@ inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(outputDir: Path): SchoolDe
 }
 
 @JvmName("writeToFilesMap")
+@OptIn(ExperimentalPathApi::class)
 inline fun <reified T> SchoolDeptsMap<Map<String, T>>.writeToFiles(outputDir: Path): SchoolDeptsMap<Map<String, T>> {
-    (mapEachDept { _, _, data -> data.toSortedMap().toMap() } as SchoolDeptsMap<*>)
-        .writeToFiles(outputDir)
+    outputDir.deleteRecursively()
+    forEachDept { school, dept, reports ->
+        outputDir.resolve(school).resolve("$dept.json").writeAsJson(reports.toSortedMap().toMap())
+    }
     return this
 }

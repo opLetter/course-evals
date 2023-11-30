@@ -58,7 +58,7 @@ workflow(
         val college = expr { college }
         run {
             val rootDir = "../../data/$college"
-            val args = listOf("--write-all", "$rootDir/raw/reports", "$rootDir/processed")
+            val args = listOf("--write-all", "$rootDir/processed", "$rootDir/raw/reports")
                 .joinToString(" ", prefix = "\"", postfix = "\"")
             val gradleCommand = "./gradlew colleges:$college:run --args=$args --scan"
             run(name = "Run", command = gradleCommand)

@@ -30,8 +30,8 @@ object USFApi : SimpleSchoolDataApi<Semester.Triple>() {
 
     override suspend fun getSchoolDeptNames() = getDeptNames()
 
-    override suspend fun getSchoolCourseNames(statsByProfDir: Path) =
-        getCompleteCourseNames(statsByProfDir).toSchoolMap()
+    override suspend fun getSchoolCourseNames(statsByProfDir: Path, existingCourseNamesDir: Path?) =
+        getCompleteCourseNames(statsByProfDir, existingCourseNamesDir).toSchoolMap()
 
     override suspend fun getSchoolTeachingProfs(statsByProfDir: Path, term: Semester.Triple) =
         getTeachingProfs(statsByProfDir, term).toSchoolMap()

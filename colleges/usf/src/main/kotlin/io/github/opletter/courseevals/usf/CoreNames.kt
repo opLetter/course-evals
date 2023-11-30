@@ -1,7 +1,8 @@
 package io.github.opletter.courseevals.usf
 
 import io.github.opletter.courseevals.common.data.InstructorStats
-import io.github.opletter.courseevals.common.decodeJson
+import io.github.opletter.courseevals.common.decodeJsonIfExists
+import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.readResource
 import java.nio.file.Path
 
@@ -50,18 +51,28 @@ private fun getCourseNamesFromCsv(): Map<String, Map<String, String>> {
         }
 }
 
-suspend fun getCompleteCourseNames(statsByProfDir: Path): Map<String, Map<String, String>> {
+suspend fun getCompleteCourseNames(
+    statsByProfDir: Path,
+    existingCourseNamesDir: Path? = null,
+): Map<String, Map<String, String>> {
     val fromUSF = getCourseNamesFromUSF()
     val fromCsv = getCourseNamesFromCsv()
-    val combined = fromCsv + fromUSF.mapValues { (key, value) -> fromCsv[key]?.plus(value) ?: value }
+    val statsByProf = getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(statsByProfDir).getValue("0")
 
-    return combined
+    // implementation reused for FSU
+    return (fromCsv + fromUSF)
         .filterKeys { it in Prefixes }
-        .mapValues { (key, subMap) ->
-            val courseWithData = statsByProfDir.resolve("0/$key.json")
-                .decodeJson<Map<String, InstructorStats>>()
-                .flatMap { it.value.courseStats.keys }
-                .toSet()
-            subMap.filterKeys { it in courseWithData }
+        .mapValues { (key, value) ->
+            val goodNames = value.filterValues { !it.allLettersUpperCase() }
+            val existingGoodNames = existingCourseNamesDir?.resolve("0/$key.json")
+                ?.decodeJsonIfExists<Map<String, String>>()
+                ?.filterValues { !it.allLettersUpperCase() }
+                .orEmpty()
+            val combined = fromCsv[key].orEmpty() + value + existingGoodNames + goodNames
+            val courseWithData = statsByProf.getValue(key).flatMap { it.value.courseStats.keys }.toSet()
+
+            combined.filterKeys { it in courseWithData }
         }
 }
+
+private fun String.allLettersUpperCase() = all { !it.isLetter() || it.isUpperCase() }

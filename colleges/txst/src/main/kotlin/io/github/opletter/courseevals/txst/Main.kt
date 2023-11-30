@@ -37,7 +37,8 @@ object TXSTApi : SimpleSchoolDataApi<Semester.Triple>() {
 
     override suspend fun getSchoolDeptNames() = getDeptNames(currentSem)
 
-    override suspend fun getSchoolCourseNames(statsByProfDir: Path) =
+    // TODO: use existing course names
+    override suspend fun getSchoolCourseNames(statsByProfDir: Path, existingCourseNamesDir: Path?) =
         getCourseNames(statsByProfDir, 2021..2023).toSchoolMap()
 
     override suspend fun getSchoolTeachingProfs(statsByProfDir: Path, term: Semester.Triple) =

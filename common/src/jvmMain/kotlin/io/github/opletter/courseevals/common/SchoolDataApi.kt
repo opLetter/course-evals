@@ -17,7 +17,10 @@ interface SchoolDataApi<T : Semester<T>> {
     fun getSchoolSchoolsData(statsByProf: SchoolDeptsMap<Map<String, InstructorStats>>): Map<String, School>
     fun getSchoolAllInstructors(statsByProfDir: Path): Map<String, List<Instructor>>
     suspend fun getSchoolDeptNames(): Map<String, String>
-    suspend fun getSchoolCourseNames(statsByProfDir: Path): SchoolDeptsMap<Map<String, String>>
+    suspend fun getSchoolCourseNames(
+        statsByProfDir: Path,
+        existingCourseNamesDir: Path?,
+    ): SchoolDeptsMap<Map<String, String>>
 
     suspend fun getSchoolTeachingProfs(
         statsByProfDir: Path,
@@ -43,7 +46,8 @@ interface SchoolDataApi<T : Semester<T>> {
     suspend fun writeSchoolCourseNames(
         outputDir: Path,
         statsByProfDir: Path,
-    ) = getSchoolCourseNames(statsByProfDir).writeToFiles(outputDir)
+        existingCourseNamesDir: Path? = outputDir,
+    ) = getSchoolCourseNames(statsByProfDir, existingCourseNamesDir).writeToFiles(outputDir)
 
     suspend fun writeSchoolTeachingProfs(
         outputDir: Path,

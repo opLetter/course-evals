@@ -49,10 +49,16 @@ object FSUApi : SchoolDataApi<Semester.Triple> {
 
     override suspend fun getSchoolDeptNames() = getDeptNames()
 
-    override suspend fun getSchoolCourseNames(statsByProfDir: Path) = getCompleteCourseNames(
-        statsByProfDir,
-        terms = currentSem.prev(2)..currentSem,
-    )
+    override suspend fun getSchoolCourseNames(
+        statsByProfDir: Path,
+        existingCourseNamesDir: Path?,
+    ): SchoolDeptsMap<Map<String, String>> {
+        return getCompleteCourseNames(
+            statsByProfDir,
+            terms = currentSem.prev(2)..currentSem,
+            existingCourseNamesDir = existingCourseNamesDir,
+        )
+    }
 
     override suspend fun getSchoolTeachingProfs(statsByProfDir: Path, term: Semester.Triple) =
         getTeachingProfs(statsByProfDir, term)

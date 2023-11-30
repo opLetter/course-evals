@@ -3,6 +3,7 @@ package io.github.opletter.courseevals.fsu
 import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.decodeJsonIfExists
+import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.readResource
 import io.github.opletter.courseevals.common.remote.DefaultClient
 import io.ktor.client.call.*
@@ -53,21 +54,30 @@ private fun getCourseNamesFromCsv(): Map<String, Map<String, String>> {
 suspend fun getCompleteCourseNames(
     statsByProfDir: Path,
     terms: List<Semester.Triple>,
+    existingCourseNamesDir: Path? = null,
 ): SchoolDeptsMap<Map<String, String>> {
+    // Assuming that all schools/campuses have same course names per code, use csv for all schools
     val fromCsv = getCourseNamesFromCsv()
     val fromTeachingData = getCourseNamesFromTeachingData(statsByProfDir, terms)
+    val statsByProf = getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(statsByProfDir)
 
     return fromTeachingData.mapValues { (school, deptMap) ->
-        // Assuming that all schools/campuses have same course names per code
-        val combined = fromCsv + deptMap.mapValues { (key, value) -> fromCsv[key]?.plus(value) ?: value }
+        val specificStatsByProf = statsByProf.getValue(school)
+        // implementation reused for USF
+        (fromCsv + deptMap)
+            .filterKeys { it in specificStatsByProf.keys }
+            .mapValues { (key, value) ->
+                val goodNames = value.filterValues { !it.allLettersUpperCase() }
+                val existingGoodNames = existingCourseNamesDir?.resolve(school)?.resolve("$key.json")
+                    ?.decodeJsonIfExists<Map<String, String>>()
+                    ?.filterValues { !it.allLettersUpperCase() }
+                    .orEmpty()
+                val combined = fromCsv[key].orEmpty() + value + existingGoodNames + goodNames
+                val courseWithData = specificStatsByProf.getValue(key).flatMap { it.value.courseStats.keys }.toSet()
 
-        combined.mapValues inner@{ (key, subMap) ->
-            val courseWithData = statsByProfDir.resolve(school).resolve("$key.json")
-                .decodeJsonIfExists<Map<String, InstructorStats>>()
-                ?.flatMap { it.value.courseStats.keys }
-                ?.toSet()
-                ?: return@inner emptyMap()
-            subMap.filterKeys { it in courseWithData }
-        }
+                combined.filterKeys { it in courseWithData }
+            }
     }
 }
+
+private fun String.allLettersUpperCase() = all { !it.isLetter() || it.isUpperCase() }

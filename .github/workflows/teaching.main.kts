@@ -29,7 +29,7 @@ fun teachingDataWorkflow(college: String, cron: Cron, gradleCommand: String = ge
             action = AddAndCommitV9(
                 add = "-A",
                 cwd = "data",
-                defaultAuthor = AddAndCommitV9.DefaultAuthor.GithubActor,
+                defaultAuthor = AddAndCommitV9.DefaultAuthor.GithubActions,
                 message = "$college: Update teaching data",
                 pull = "--rebase --autostash",
             )

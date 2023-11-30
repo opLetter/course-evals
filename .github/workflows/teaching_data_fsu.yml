@@ -39,6 +39,6 @@ jobs:
         with:
           add: '-A'
           cwd: 'data'
-          default_author: 'github_actor'
+          default_author: 'github_actions'
           message: 'FSU: Update teaching data'
           pull: '--rebase --autostash'

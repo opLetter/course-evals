@@ -85,7 +85,13 @@ suspend fun SchoolDataApi<*>.writeAllGeneratedData(paths: WebsitePaths, rawDataD
     writeSchoolStatsByProf(paths.statsByProfDir.path, paths.schoolsByCodeFile.path, rawDataDir)
     writeSchoolAllInstructors(paths.allInstructorsFile.path, paths.statsByProfDir.path)
     writeSchoolDeptNames(paths.deptNamesFile.path)
-    writeSchoolCourseNames(paths.courseNamesDir.path, paths.statsByProfDir.path)
+    // TODO: remove - THIS IS TEMPORARY FOR THE MIGRATION
+    val existingCourseNamesDir = paths.baseDir.path.parent.resolve("processed/core/course-names")
+    writeSchoolCourseNames(
+        paths.courseNamesDir.path,
+        paths.statsByProfDir.path,
+        existingCourseNamesDir = existingCourseNamesDir
+    )
     writeSchoolTeachingProfs(paths.teachingDataDir.path, paths.statsByProfDir.path)
 }
 

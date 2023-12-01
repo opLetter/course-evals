@@ -47,6 +47,12 @@ jobs:
           token: '${{ secrets.EVALS_DATA_TOKEN }}'
           path: 'data'
           commit-message: '${{ inputs.college }}: Generate all data'
-          branch: '${{ inputs.college }}/generate-all-data'
+          branch: 'generate-all-data/${{ inputs.college }}'
           delete-branch: 'true'
           title: '${{ inputs.college }}: Generate all data'
+          body: |-
+            Auto-generated changes from [course-evals][1].
+            PR created by [create-pull-request][2].
+            
+            [1]: https://github.com/opLetter/course-evals/actions/workflows/generate_all_data.yml
+            [2]: https://github.com/peter-evans/create-pull-request

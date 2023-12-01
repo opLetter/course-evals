@@ -70,9 +70,16 @@ workflow(
                 token = io.github.typesafegithub.workflows.dsl.expressions.expr { EVALS_DATA_TOKEN },
                 path = "data",
                 commitMessage = "$college: Generate all data",
-                branch = "$college/generate-all-data",
+                branch = "generate-all-data/$college",
                 title = "$college: Generate all data",
                 deleteBranch = true,
+                body = """
+                    Auto-generated changes from [course-evals][1].
+                    PR created by [create-pull-request][2].
+                    
+                    [1]: https://github.com/opLetter/course-evals/actions/workflows/generate_all_data.yml
+                    [2]: https://github.com/peter-evans/create-pull-request
+                """.trimIndent()
             )
         )
     }

@@ -90,7 +90,7 @@ sealed interface College {
         companion object {
             private fun privateSource(token: String): WebsiteDataSource {
                 val privateSource = GithubSource(
-                    paths = WebsitePaths("rutgers/processed"),
+                    paths = WebsitePaths("rutgers/processed"), // TODO: use "generated"
                     repoPath = "DennisTsar/Rutgers-Evals-Data",
                     token = token
                 )
@@ -102,8 +102,8 @@ sealed interface College {
 
             private val publicSource = GithubSource(
                 paths = WebsitePaths(
-                    baseDir = "rutgers/processed",
-                    statsByProfDir = "rutgers/processed/stats-by-prof-cleaned",
+                    baseDir = "rutgers/generated",
+                    statsByProfDir = "rutgers/generated/stats-by-prof-cleaned",
                 )
             )
 
@@ -168,7 +168,7 @@ sealed interface College {
         override val schoolStrategy = SchoolStrategy.SHOW_ALL
         override val options = setOf(ExtraOptions.MIN_SEM)
 
-        override val dataSource = GithubSource(paths = WebsitePaths(baseDir = "fsu/processed"))
+        override val dataSource = GithubSource(paths = WebsitePaths(baseDir = "fsu/generated"))
     }
 
     object USF : College {
@@ -213,7 +213,7 @@ sealed interface College {
         override val schoolStrategy = SchoolStrategy.SINGLE
         override val options = setOf(ExtraOptions.MIN_SEM)
 
-        override val dataSource = GithubSource(paths = WebsitePaths(baseDir = "usf/processed"))
+        override val dataSource = GithubSource(paths = WebsitePaths(baseDir = "usf/generated"))
     }
 
     object TXST : College {
@@ -252,7 +252,7 @@ sealed interface College {
         override val schoolStrategy = SchoolStrategy.SINGLE
         override val options = setOf(ExtraOptions.MIN_SEM)
 
-        override val dataSource = GithubSource(paths = WebsitePaths(baseDir = "txst/processed"))
+        override val dataSource = GithubSource(paths = WebsitePaths(baseDir = "txst/generated"))
     }
 }
 

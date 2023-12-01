@@ -67,6 +67,7 @@ abstract class SimpleSchoolDataApi<T : Semester<T>> : SchoolDataApi<T> {
     protected fun <T> T.toSchoolMap() = mapOf("0" to this)
 }
 
+@OptIn(ExperimentalPathApi::class)
 suspend fun <T : Semester<T>> SchoolDataApi<T>.runFromArgs(args: Array<String>) {
     args.indexOf("--teaching").takeIf { it != -1 }?.let {
         writeSchoolTeachingProfs(outputDir = Path.of(args[it + 1]), statsByProfDir = Path.of(args[it + 2]))
@@ -74,11 +75,13 @@ suspend fun <T : Semester<T>> SchoolDataApi<T>.runFromArgs(args: Array<String>) 
     args.indexOf("--write-all").takeIf { it != -1 }?.let {
         val paths = WebsitePaths(args[it + 1].lowercase())
         val rawDataDir = Path.of(args[it + 2].lowercase())
-        writeAllProcessedData(paths, rawDataDir)
+        writeAllGeneratedData(paths, rawDataDir)
+        // TODO: remove - THIS IS TEMPORARY FOR THE MIGRATION
+        paths.baseDir.path.parent.resolve("processed").deleteRecursively()
     }
 }
 
-suspend fun SchoolDataApi<*>.writeAllProcessedData(paths: WebsitePaths, rawDataDir: Path) {
+suspend fun SchoolDataApi<*>.writeAllGeneratedData(paths: WebsitePaths, rawDataDir: Path) {
     writeSchoolStatsByProf(paths.statsByProfDir.path, paths.schoolsByCodeFile.path, rawDataDir)
     writeSchoolAllInstructors(paths.allInstructorsFile.path, paths.statsByProfDir.path)
     writeSchoolDeptNames(paths.deptNamesFile.path)

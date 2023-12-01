@@ -42,7 +42,7 @@ fun getGradleCommand(
     statsByProfDir: String = "stats-by-prof",
     outputDir: String = "core/teaching-S24",
 ): String {
-    val rootDir = "../../data/${college.lowercase()}/processed"
+    val rootDir = "../../data/${college.lowercase()}/generated"
     val args = listOf("--teaching", "$rootDir/$outputDir", "$rootDir/$statsByProfDir")
         .joinToString(" ", prefix = "\"", postfix = "\"")
     return "./gradlew colleges:${college.lowercase()}:run --args=$args --scan"

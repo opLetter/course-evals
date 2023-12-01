@@ -27,9 +27,9 @@ suspend fun main(args: Array<String>) {
 private suspend fun `Overview of data gathering process`() {
     val baseDir = Path.of("data-test")
     val rawDir = baseDir / "raw"
-    val processedDir = baseDir / "processed"
-    val statsByProfDir = processedDir / "stats-by-prof"
-    val coreDir = processedDir / "core"
+    val genDir = baseDir / "generated"
+    val statsByProfDir = genDir / "stats-by-prof"
+    val coreDir = genDir / "core"
 
     val semesters = Semester.Double.valueOf(SemesterType.Fall, 2013)..
             Semester.Double.valueOf(SemesterType.Spring, 2023)

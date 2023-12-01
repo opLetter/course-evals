@@ -32,7 +32,7 @@ jobs:
         uses: 'gradle/gradle-build-action@v2'
       - id: 'step-4'
         name: 'Run'
-        run: './gradlew colleges:usf:run --args="--teaching ../../data/usf/processed/core/teaching-S24 ../../data/usf/processed/stats-by-prof" --scan'
+        run: './gradlew colleges:usf:run --args="--teaching ../../data/usf/generated/core/teaching-S24 ../../data/usf/generated/stats-by-prof" --scan'
       - id: 'step-5'
         name: 'Add & Commit'
         uses: 'EndBug/add-and-commit@v9'

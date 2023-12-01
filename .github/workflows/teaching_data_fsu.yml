@@ -32,7 +32,7 @@ jobs:
         uses: 'gradle/gradle-build-action@v2'
       - id: 'step-4'
         name: 'Run'
-        run: './gradlew colleges:fsu:run --args="--teaching ../../data/fsu/processed/core/teaching-S24 ../../data/fsu/processed/stats-by-prof" --scan'
+        run: './gradlew colleges:fsu:run --args="--teaching ../../data/fsu/generated/core/teaching-S24 ../../data/fsu/generated/stats-by-prof" --scan'
       - id: 'step-5'
         name: 'Add & Commit'
         uses: 'EndBug/add-and-commit@v9'

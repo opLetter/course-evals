@@ -25,7 +25,7 @@ suspend fun getInstructorReports(outputDir: Path, profs: List<TXSTInstructor>) {
                 report.course,
                 report.responses.map { SaveableResponse(it.responseCount, it.instructor, it.scores.toList()) }
             )
-        }
+        }.takeIf { it.isNotEmpty() } ?: return@forEach
         outputDir.resolve("${prof.plid}.json").writeAsJson(reports)
     }
 }

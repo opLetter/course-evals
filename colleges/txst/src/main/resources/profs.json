@@ -25,6 +25,11 @@
     "plid": "x39ac9a9fa9b9"
   },
   {
+    "title": "Assistant Professor",
+    "displayname": "Eman Abo-Zaed Arar",
+    "plid": "x1b75281cc60c"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Dr. Amitai Abramovitch",
     "plid": "xfeed8bcf4268"
@@ -35,7 +40,7 @@
     "plid": "x7e51980b8625"
   },
   {
-    "title": "Lecturer",
+    "title": "Senior Lecturer",
     "displayname": "Dr. Roger Abshire",
     "plid": "x1836118582f0"
   },
@@ -48,6 +53,11 @@
     "title": "Clinical Lecturer",
     "displayname": "Dr. Carla Ackerson",
     "plid": "x34c995047b85"
+  },
+  {
+    "title": "Program Faculty",
+    "displayname": "Travis Acosta",
+    "plid": "x94567f3b717d"
   },
   {
     "title": "Lecturer",
@@ -65,12 +75,17 @@
     "plid": "xa843914c01b9"
   },
   {
-    "title": "",
+    "title": "Assistant Professor",
+    "displayname": "Dr. Nadim Adi",
+    "plid": "x0591c2370235"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Michael Agugom",
     "plid": "xdc0a51593fe4"
   },
   {
-    "title": "Program Faculty",
+    "title": "Professor",
     "displayname": "Dr. Augustine Agwuele",
     "plid": "xfabd881ef89d"
   },
@@ -175,6 +190,11 @@
     "plid": "x3755571dfe3c"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Jimmy Allen",
+    "plid": "xdfb5d760481d"
+  },
+  {
     "title": "Professor",
     "displayname": "Debbie Alley",
     "plid": "xfe03b9760b06"
@@ -186,13 +206,18 @@
   },
   {
     "title": "Dir, Peer Mentoring",
-    "displayname": "Rafael Almanzar",
+    "displayname": "Dr. Rafael Almanzar",
     "plid": "x6b72adb94189"
   },
   {
     "title": "Assistant Professor",
     "displayname": "MSgt. Alex Almeida",
     "plid": "x2bd85e52b79c"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Abdurrahman Almikati",
+    "plid": "x3f48b6863079"
   },
   {
     "title": "Lecturer",
@@ -213,6 +238,11 @@
     "title": "Visiting Assistant Professor",
     "displayname": "Dr. Ilayda Altuntas Nott",
     "plid": "x2cee747a9a4c"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Travis Alvarez",
+    "plid": "x8770a138150d"
   },
   {
     "title": "",
@@ -276,8 +306,18 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Leigh'Ann Andrews",
+    "plid": "x154b88432264"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Jordan Andrews",
     "plid": "x22acca64bfe4"
+  },
+  {
+    "title": "",
+    "displayname": "Callie Angel",
+    "plid": "x1f3eed8677b1"
   },
   {
     "title": "Lecturer",
@@ -290,7 +330,7 @@
     "plid": "x247c8136f12c"
   },
   {
-    "title": "Lecturer",
+    "title": "Senior Lecturer",
     "displayname": "Juan Angulo",
     "plid": "xbea3577766be"
   },
@@ -305,9 +345,19 @@
     "plid": "xc45df652044b"
   },
   {
+    "title": "",
+    "displayname": "Alfredo Arellano Jr.",
+    "plid": "x1d2012018739"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Debra Armentrout",
     "plid": "xa8a8fdb0323e"
+  },
+  {
+    "title": "",
+    "displayname": "Ali Armstrong",
+    "plid": "x8b9ed55c4ce8"
   },
   {
     "title": "Professor",
@@ -343,6 +393,11 @@
     "title": "Professor",
     "displayname": "Dr. Gwynne Ellen Ash",
     "plid": "x0158b46958df"
+  },
+  {
+    "title": "",
+    "displayname": "Jenna Ashby",
+    "plid": "x16a502ce6fe0"
   },
   {
     "title": "Chair - Associate Professor",
@@ -381,6 +436,11 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Stef Atkinson",
+    "plid": "x698ca3b8162c"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Dr. Gentry Atkinson",
     "plid": "xe70700dd7675"
   },
@@ -395,7 +455,7 @@
     "plid": "x9274253e1d41"
   },
   {
-    "title": "School Director - Professor",
+    "title": "Dean, Applied Arts",
     "displayname": "Dr. Angela Ausbrooks",
     "plid": "x4ced60b24610"
   },
@@ -410,6 +470,11 @@
     "plid": "x41c05656290b"
   },
   {
+    "title": "",
+    "displayname": "Shelby Avants",
+    "plid": "x32fbf1e28cbb"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Stephen Awoniyi",
     "plid": "xc2397930772d"
@@ -418,6 +483,11 @@
     "title": "Lecturer",
     "displayname": "Dr. Lindsay Ayres",
     "plid": "xe8efcd35ff9d"
+  },
+  {
+    "title": "",
+    "displayname": "Samantha Aziz",
+    "plid": "xd6354a8ebdd2"
   },
   {
     "title": "Lecturer",
@@ -441,6 +511,11 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Dr. AJ Baginski",
+    "plid": "xa088b50284b1"
+  },
+  {
+    "title": "Senior Lecturer",
     "displayname": "Dr. Vince Bagnulo",
     "plid": "x09cea605fa60"
   },
@@ -455,7 +530,7 @@
     "plid": "xa32829d53bed"
   },
   {
-    "title": "Senior Lecturer",
+    "title": "Lecturer",
     "displayname": "Robert Bajackson",
     "plid": "x9e8ec9241779"
   },
@@ -506,8 +581,18 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Dr. Tina Ballard",
+    "plid": "x7039b26986f1"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Sunday Ballew",
     "plid": "xbc1ee9dc0358"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Yuri Balmaceda Wheelock",
+    "plid": "x423ebf315df2"
   },
   {
     "title": "Lecturer",
@@ -515,7 +600,7 @@
     "plid": "xa22042be499f"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Vaughn Baltzly",
     "plid": "x502eb89c668f"
   },
@@ -523,6 +608,11 @@
     "title": "Assistant Professor",
     "displayname": "Dr. Rhonda Balzarini",
     "plid": "x015439da9dc8"
+  },
+  {
+    "title": "Associate Professor",
+    "displayname": "Dr. Deb Balzhiser",
+    "plid": "x59fde5a5cd93"
   },
   {
     "title": "Professor",
@@ -570,6 +660,11 @@
     "plid": "xdb3c597ed99e"
   },
   {
+    "title": "",
+    "displayname": "Timoteo Barrientez",
+    "plid": "x56607b50e159"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Daniel Barringer",
     "plid": "xc63551a57ecf"
@@ -600,7 +695,7 @@
     "plid": "x23aac257944d"
   },
   {
-    "title": "Professor",
+    "title": "Chair - Professor",
     "displayname": "Dr. Yasmine Beale-Rosano-Rivaya",
     "plid": "x8dffc9435b71"
   },
@@ -610,24 +705,34 @@
     "plid": "x0c0a1b53cccf"
   },
   {
+    "title": "Professor",
+    "displayname": "Dr. Enrique Becerra",
+    "plid": "x57d012c8daa0"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Lauren Bechelli",
     "plid": "xa5962bef9357"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Lecturer",
     "displayname": "Sergio Bedford",
     "plid": "x9e51ed25ad2a"
   },
   {
-    "title": "School Director - Professor",
+    "title": "Professor",
     "displayname": "Dr. Andrew Behnke",
     "plid": "x856827ecc23d"
   },
   {
-    "title": "Grant Specialist",
+    "title": "Lecturer",
     "displayname": "Angie Behnke",
     "plid": "xe5c257552e13"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "David Behrens",
+    "plid": "x5a7029213321"
   },
   {
     "title": "Lecturer",
@@ -735,6 +840,11 @@
     "plid": "x34348ec42dc3"
   },
   {
+    "title": "",
+    "displayname": "Keshav Bhandari",
+    "plid": "x68d89b680771"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Dr. Sonalee Bhattacharyya",
     "plid": "xbac300f1fa77"
@@ -750,7 +860,7 @@
     "plid": "xdc21a7efa07c"
   },
   {
-    "title": "Associate Professor",
+    "title": "Professor",
     "displayname": "Dr. Jessica Bishop",
     "plid": "x1362b26ee8ff"
   },
@@ -785,7 +895,7 @@
     "plid": "xa57e0ff7c369"
   },
   {
-    "title": "Assoc Dean, University College St Svcs",
+    "title": "Asst VP & Dir, Academic Engagement",
     "displayname": "Dr. Victoria Black",
     "plid": "x6eb56d780002"
   },
@@ -810,12 +920,12 @@
     "plid": "xa1e5a0b4e21c"
   },
   {
-    "title": "Asst VP, Rsch & Fed Relations",
+    "title": "Assoc VP, Res & Fed Relations",
     "displayname": "Dr. Michael Blanda",
     "plid": "x5b57034a153a"
   },
   {
-    "title": "Asst Professor of Practice",
+    "title": "Associate Professor of Practice",
     "displayname": "Dale Blasingame",
     "plid": "xc0345965a1b0"
   },
@@ -905,9 +1015,19 @@
     "plid": "x293ca5b9c80d"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Roger Booker Jr.",
+    "plid": "x0a8d768c538e"
+  },
+  {
     "title": "Cutter/Draper",
     "displayname": "Carl Booker",
     "plid": "xad7de626388f"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Shaleka Boone",
+    "plid": "x9d65462afebc"
   },
   {
     "title": "Associate Professor",
@@ -990,6 +1110,11 @@
     "plid": "x0d5af9836440"
   },
   {
+    "title": "Assistant Professor",
+    "displayname": "Dr. Tasia Brafford",
+    "plid": "x9dd34fc23f38"
+  },
+  {
     "title": "",
     "displayname": "Katherine Brand",
     "plid": "xb49264a09327"
@@ -998,6 +1123,11 @@
     "title": "Lecturer",
     "displayname": "Marie Bravo Moix",
     "plid": "x14184fcf30a6"
+  },
+  {
+    "title": "",
+    "displayname": "Diamond Braxton",
+    "plid": "x0fbde0c90c0f"
   },
   {
     "title": "Lecturer",
@@ -1023,6 +1153,11 @@
     "title": "Lecturer",
     "displayname": "Victor Bretting",
     "plid": "x6e0e313023e5"
+  },
+  {
+    "title": "Clinical Lecturer",
+    "displayname": "Crystal Brewer",
+    "plid": "x3b844633ffda"
   },
   {
     "title": "Assistant Professor",
@@ -1051,13 +1186,23 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Mark Brinkman",
+    "plid": "x846408792104"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Dr. Kelli Brizendine",
     "plid": "x02f15b4c2fad"
   },
   {
-    "title": "Asst Dir, Network Operations",
+    "title": "Asst Dir, Infrastructure Services",
     "displayname": "Sandra Brooks",
     "plid": "x1c30dacb6e43"
+  },
+  {
+    "title": "Associate Professor",
+    "displayname": "Dr. Maneka Brooks",
+    "plid": "x23fe3cc81044"
   },
   {
     "title": "Lecturer",
@@ -1110,6 +1255,11 @@
     "plid": "xa323fa723e52"
   },
   {
+    "title": "Assistant Professor",
+    "displayname": "Aaron Brown",
+    "plid": "xf7fdbe28bef9"
+  },
+  {
     "title": "Asst Professor of Practice",
     "displayname": "Sgt. James Brown II",
     "plid": "xfe67132d6994"
@@ -1130,6 +1280,11 @@
     "plid": "xc5a7e6cd30d7"
   },
   {
+    "title": "Asst Professor of Practice",
+    "displayname": "Capt. Jessalyn Bryant",
+    "plid": "xb1b629ee6377"
+  },
+  {
     "title": "Senior Lecturer",
     "displayname": "Dr. Brooke Bryson",
     "plid": "x12da6230c497"
@@ -1143,6 +1298,11 @@
     "title": "",
     "displayname": "Zafer Buber",
     "plid": "x800418304ea3"
+  },
+  {
+    "title": "Asst Professor of Practice",
+    "displayname": "Austin Buck",
+    "plid": "x6b65bd99dc99"
   },
   {
     "title": "Lecturer",
@@ -1196,7 +1356,7 @@
   },
   {
     "title": "Lecturer",
-    "displayname": "Alex Burnett-Hayes",
+    "displayname": "Dr. Alex Burnett-Hayes",
     "plid": "xb22932d5dffa"
   },
   {
@@ -1220,6 +1380,11 @@
     "plid": "x13703c8fdcc0"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Dr. Sheri Burson",
+    "plid": "xc8fbd6ee375c"
+  },
+  {
     "title": "Professor",
     "displayname": "Dr. Martin Burtscher",
     "plid": "x57a034ad0ec9"
@@ -1230,6 +1395,11 @@
     "plid": "x5df16b207f18"
   },
   {
+    "title": "",
+    "displayname": "Cameron Busby",
+    "plid": "x94d11570efc7"
+  },
+  {
     "title": "Associate Professor of Practice",
     "displayname": "Jenny Buschhorn",
     "plid": "x8f3f4ddb578f"
@@ -1238,6 +1408,11 @@
     "title": "Lecturer",
     "displayname": "Lindsay Bush",
     "plid": "x99ecec50bae4"
+  },
+  {
+    "title": "Assistant Professor",
+    "displayname": "Dr. Lauren Butler",
+    "plid": "x3ab2d642f85b"
   },
   {
     "title": "Lecturer",
@@ -1260,9 +1435,19 @@
     "plid": "xe09e1300295e"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Andrea Caillouet",
+    "plid": "x8f9cb56f0748"
+  },
+  {
     "title": "Assoc Dir, Campus Recreation",
     "displayname": "Kristy Caldwell",
     "plid": "x81a930596699"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Jacqueline Calloway",
+    "plid": "x1d42c3d1a1d3"
   },
   {
     "title": "Lecturer",
@@ -1300,7 +1485,7 @@
     "plid": "xbd051eee5030"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Program Faculty",
     "displayname": "Dr. Corey Capers",
     "plid": "x5b447567c80e"
   },
@@ -1316,11 +1501,21 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Larry Carlson",
+    "plid": "xf3b6f6e43422"
+  },
+  {
+    "title": "",
+    "displayname": "Jenny Carratello",
+    "plid": "x48ab639196d6"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Dr. Jennifer Carreon",
     "plid": "x68dd36d2874c"
   },
   {
-    "title": "Postdoctoral Scholar",
+    "title": "Lecturer",
     "displayname": "Dr. Lillianna Carrera",
     "plid": "xe060ad15a81b"
   },
@@ -1350,7 +1545,7 @@
     "plid": "x30c6e4083a02"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Daniel Carter",
     "plid": "x65f3b35991a8"
   },
@@ -1360,7 +1555,7 @@
     "plid": "x9a05e0fb28a2"
   },
   {
-    "title": "Lecturer",
+    "title": "Senior Lecturer",
     "displayname": "Teri Carter",
     "plid": "xc02858b45560"
   },
@@ -1388,6 +1583,11 @@
     "title": "Administrative Asst III",
     "displayname": "Misty Cason",
     "plid": "x9be2a8b2983c"
+  },
+  {
+    "title": "Regents' Professor",
+    "displayname": "Cyrus Cassells III",
+    "plid": "x254081499173"
   },
   {
     "title": "Professor of Practice",
@@ -1420,6 +1620,11 @@
     "plid": "x942b9a3f6d55"
   },
   {
+    "title": "Academic Advisor I",
+    "displayname": "Ricardo Ceballos",
+    "plid": "xc934d91b395e"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Emily Cedillo",
     "plid": "x6642bd6dddce"
@@ -1445,7 +1650,7 @@
     "plid": "xc96385fec7de"
   },
   {
-    "title": "Lecturer",
+    "title": "Senior Lecturer",
     "displayname": "Alexis Chambers",
     "plid": "xd225841627a8"
   },
@@ -1453,6 +1658,11 @@
     "title": "Assistant Professor",
     "displayname": "Dr. Yun-Wen Chan",
     "plid": "x1d311f2b6223"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Hongseok Chang",
+    "plid": "x707960357de3"
   },
   {
     "title": "Program Faculty",
@@ -1495,6 +1705,11 @@
     "plid": "xee9ef6281ac1"
   },
   {
+    "title": "",
+    "displayname": "Isra Cheema",
+    "plid": "x94d51769e404"
+  },
+  {
     "title": "Assistant Professor",
     "displayname": "Dr. Andrew Chen",
     "plid": "x121b65740130"
@@ -1518,6 +1733,11 @@
     "title": "Lecturer",
     "displayname": "Albert Cheng",
     "plid": "xada8a5b61ad7"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Julia Chereson",
+    "plid": "x54112ff888c9"
   },
   {
     "title": "Associate Professor",
@@ -1555,6 +1775,11 @@
     "plid": "x9ab63f2c90ed"
   },
   {
+    "title": "Assistant Professor",
+    "displayname": "Dr. Eunsang Cho",
+    "plid": "xd47e58fdbe8e"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Dr. Hyojung Cho",
     "plid": "xdaeacc8dc9f9"
@@ -1575,7 +1800,12 @@
     "plid": "x8c432bfd107b"
   },
   {
-    "title": "Extension Educator",
+    "title": "Lecturer",
+    "displayname": "Ali Chopra",
+    "plid": "x858af318e214"
+  },
+  {
+    "title": "Professor",
     "displayname": "Dr. T Edwin Chow",
     "plid": "xbecb809412c2"
   },
@@ -1628,6 +1858,11 @@
     "title": "Lecturer",
     "displayname": "Dr. Tom Clark",
     "plid": "x803b1e5ee249"
+  },
+  {
+    "title": "Residence Hall Director",
+    "displayname": "Edward Clark",
+    "plid": "x93ddca318cab"
   },
   {
     "title": "Lecturer",
@@ -1760,6 +1995,11 @@
     "plid": "xbdcf8221a359"
   },
   {
+    "title": "",
+    "displayname": "Kelly Connaughton",
+    "plid": "x77f97b49579d"
+  },
+  {
     "title": "Senior Lecturer",
     "displayname": "Dr. Michael Conner",
     "plid": "x467b0bef891d"
@@ -1825,7 +2065,12 @@
     "plid": "x9f9632596081"
   },
   {
-    "title": "Professor",
+    "title": "Senior Lecturer",
+    "displayname": "Taylor Cortesi",
+    "plid": "x3e490d59eebc"
+  },
+  {
+    "title": "Professor Emeritus",
     "displayname": "J Michael Costello",
     "plid": "x9bf3c85b62f0"
   },
@@ -1843,6 +2088,11 @@
     "title": "Associate Professor",
     "displayname": "Dr. Barbara Covington",
     "plid": "xd7355415199b"
+  },
+  {
+    "title": "",
+    "displayname": "Tucker Cowan",
+    "plid": "x21ff77272944"
   },
   {
     "title": "",
@@ -1870,7 +2120,7 @@
     "plid": "x907d190d61c4"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Allie Crawford",
     "plid": "xba9ca3355a17"
   },
@@ -1910,7 +2160,7 @@
     "plid": "xfe597f922326"
   },
   {
-    "title": "Extension Educator",
+    "title": "Professor",
     "displayname": "Dr. Agustin Cuadrado",
     "plid": "xbb47287e8744"
   },
@@ -1925,9 +2175,19 @@
     "plid": "x2d10b06735d8"
   },
   {
+    "title": "Asst Dir, Undrgrad Admissions",
+    "displayname": "Jon Cunningham",
+    "plid": "x3b0a28797347"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Fallon Cunningham",
     "plid": "x4877c74b8b16"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Debra Cunningham",
+    "plid": "xef0561e71c74"
   },
   {
     "title": "",
@@ -1953,6 +2213,11 @@
     "title": "Lecturer",
     "displayname": "Nicole Curtis",
     "plid": "x44d362f9ef0f"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Elizabeth Czajka",
+    "plid": "x08374d310092"
   },
   {
     "title": "Associate Professor",
@@ -1985,7 +2250,7 @@
     "plid": "xeba211e3a06d"
   },
   {
-    "title": "Mgr, Organizational Development and Comm",
+    "title": "Mgr, Talent Development and Comm",
     "displayname": "Dani Dalrymple",
     "plid": "xef8d37df4f86"
   },
@@ -2000,7 +2265,7 @@
     "plid": "x99951968d663"
   },
   {
-    "title": "Extension Educator",
+    "title": "Professor",
     "displayname": "Dr. Kristy Daniel",
     "plid": "x35333d29a60f"
   },
@@ -2035,7 +2300,7 @@
     "plid": "x08308046156d"
   },
   {
-    "title": "Lecturer",
+    "title": "Asst Professor of Practice",
     "displayname": "Dr. James Davidson",
     "plid": "x59075a8dbcf0"
   },
@@ -2075,12 +2340,22 @@
     "plid": "x3f89c76113d5"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Joshua Davis",
+    "plid": "x53b1771e7034"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Dr. Phillip Davis",
     "plid": "x6f71b3c08bcf"
   },
   {
-    "title": "Associate Professor",
+    "title": "Lecturer",
+    "displayname": "Ronald Davis II",
+    "plid": "xb0c70ea5f162"
+  },
+  {
+    "title": "Professor",
     "displayname": "Dr. Paul Dawkins",
     "plid": "xb6f585bfac22"
   },
@@ -2120,6 +2395,16 @@
     "plid": "x2b1ca5da0a38"
   },
   {
+    "title": "",
+    "displayname": "Minakshi Debnath",
+    "plid": "x5b94268afc72"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Cory DeBoest",
+    "plid": "x4ee965a18a18"
+  },
+  {
     "title": "GIS Services Specialist",
     "displayname": "Dr. Nathaniel Dede-Bamfo",
     "plid": "x594e3bf2877f"
@@ -2135,7 +2420,7 @@
     "plid": "x5b8d3722fd07"
   },
   {
-    "title": "Associate Professor",
+    "title": "Professor",
     "displayname": "Dr. Paul DeHart",
     "plid": "x2f7996276b7a"
   },
@@ -2145,7 +2430,7 @@
     "plid": "xbaa5a5485876"
   },
   {
-    "title": "Lecturer",
+    "title": "Asst Professor of Practice",
     "displayname": "Tom Delbello",
     "plid": "x3fe9b09abc7b"
   },
@@ -2160,8 +2445,8 @@
     "plid": "x54285835d8db"
   },
   {
-    "title": "",
-    "displayname": "Ash Demian",
+    "title": "Lecturer",
+    "displayname": "Dr. Ash Demian",
     "plid": "xd80ebc43dbbd"
   },
   {
@@ -2225,7 +2510,7 @@
     "plid": "x85b91910094a"
   },
   {
-    "title": "Program Faculty",
+    "title": "Senior Lecturer",
     "displayname": "Dr. Sunethra Dharmasiri",
     "plid": "x5b0f0df6bb4f"
   },
@@ -2233,6 +2518,11 @@
     "title": "Associate Professor",
     "displayname": "Dr. Nihal Dharmasiri",
     "plid": "x90c2e76fd950"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Victoria Diaz",
+    "plid": "xa5a0e2f7f0cc"
   },
   {
     "title": "Visiting Professor",
@@ -2255,7 +2545,7 @@
     "plid": "x4bc5bc0cae93"
   },
   {
-    "title": "Program Faculty",
+    "title": "Lecturer",
     "displayname": "Dr. David DiDomenico",
     "plid": "xc96cc3160193"
   },
@@ -2265,7 +2555,12 @@
     "plid": "x2e65da830c19"
   },
   {
-    "title": "Extension Educator",
+    "title": "",
+    "displayname": "Stephanie Dille",
+    "plid": "xa69309428565"
+  },
+  {
+    "title": "Senior Lecturer",
     "displayname": "Dr. Moira DiMauro-Jackson",
     "plid": "xc1893a264faf"
   },
@@ -2325,7 +2620,7 @@
     "plid": "x5e608ee79f06"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Rachel Donalson",
     "plid": "xbf0f34a0fcb3"
   },
@@ -2335,7 +2630,7 @@
     "plid": "x7b43f12594d6"
   },
   {
-    "title": "Lecturer",
+    "title": "Associate Professor of Practice",
     "displayname": "Dr. Yongtao Dong",
     "plid": "x74825178af40"
   },
@@ -2370,7 +2665,12 @@
     "plid": "xd455913ed718"
   },
   {
-    "title": "Clinical Assistant Professor",
+    "title": "Lecturer",
+    "displayname": "Dr. Jacob Doss",
+    "plid": "xe126ae42fffb"
+  },
+  {
+    "title": "Clinical Associate Professor",
     "displayname": "Dr. Darcy Downey",
     "plid": "x379d07d8dd17"
   },
@@ -2385,9 +2685,14 @@
     "plid": "xf2f303717a40"
   },
   {
-    "title": "Associate Professor",
+    "title": "Professor",
     "displayname": "Dr. Thomas Doyle II",
     "plid": "x09b127d3d9d8"
+  },
+  {
+    "title": "",
+    "displayname": "Madison Doyle",
+    "plid": "x56bee3ba8982"
   },
   {
     "title": "Lecturer",
@@ -2445,6 +2750,11 @@
     "plid": "xde4391ed274a"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Kristen Duke",
+    "plid": "x1ff5ed3fc906"
+  },
+  {
     "title": "Asst Professor of Practice",
     "displayname": "Dr. Sandra Duke",
     "plid": "x6994c0134ee0"
@@ -2470,6 +2780,11 @@
     "plid": "x9cfc0301f733"
   },
   {
+    "title": "Asst Professor of Practice",
+    "displayname": "Rosana Duran-Garibi",
+    "plid": "x34fe227397ca"
+  },
+  {
     "title": "",
     "displayname": "Aaron Duron",
     "plid": "x9f0e79f11f75"
@@ -2485,6 +2800,11 @@
     "plid": "x550b0ccb20ec"
   },
   {
+    "title": "",
+    "displayname": "Blake Dvarishkis",
+    "plid": "xe3f6b311703d"
+  },
+  {
     "title": "Assistant Professor",
     "displayname": "Dr. Denae Dyck",
     "plid": "x5c82106cee5c"
@@ -2498,6 +2818,11 @@
     "title": "Lecturer",
     "displayname": "Courtney Dyer",
     "plid": "xea20543af3bf"
+  },
+  {
+    "title": "",
+    "displayname": "Cameron Dyer-Hawes",
+    "plid": "x9e1b22304056"
   },
   {
     "title": "Lecturer",
@@ -2530,6 +2855,11 @@
     "plid": "x5570eb7fc5b5"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Anthony Edsall",
+    "plid": "x654227c8eb1f"
+  },
+  {
     "title": "",
     "displayname": "Elaina Edwards",
     "plid": "xe4b0ea931f19"
@@ -2550,7 +2880,7 @@
     "plid": "x4ee2b58783e4"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Elizabeth Eger",
     "plid": "x348066153236"
   },
@@ -2635,7 +2965,7 @@
     "plid": "xd242a769bb5f"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Kelly Engram",
     "plid": "x17e4e6d8999f"
   },
@@ -2645,9 +2975,14 @@
     "plid": "x1707194c763a"
   },
   {
-    "title": "Lecturer",
+    "title": "Senior Lecturer",
     "displayname": "Amy Esmiol",
     "plid": "xc9cd76da1e4f"
+  },
+  {
+    "title": "Student Development Specialist II",
+    "displayname": "Dalhya Espinoza",
+    "plid": "x3578857c0720"
   },
   {
     "title": "Assistant Professor",
@@ -2688,6 +3023,11 @@
     "title": "Lecturer",
     "displayname": "Dr. Jacqueline Evans",
     "plid": "x6456a4f14f59"
+  },
+  {
+    "title": "Associate Professor",
+    "displayname": "Dr. Michelle Evans",
+    "plid": "x69a8b55af8e0"
   },
   {
     "title": "Lecturer",
@@ -2780,7 +3120,7 @@
     "plid": "x153c3c835267"
   },
   {
-    "title": "Lecturer",
+    "title": "Senior Lecturer",
     "displayname": "Blake Farrar",
     "plid": "x9c88d27f71d3"
   },
@@ -2831,8 +3171,23 @@
   },
   {
     "title": "",
+    "displayname": "Antoine Ferguson",
+    "plid": "x6f59bce6fa22"
+  },
+  {
+    "title": "Postdoctoral Scholar",
+    "displayname": "Dr. Daniel Ferguson",
+    "plid": "x9d846902c9a8"
+  },
+  {
+    "title": "",
     "displayname": "Allison Fernandez",
     "plid": "xab2e863ceb44"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Veronica Fernandez",
+    "plid": "xde13832b7f00"
   },
   {
     "title": "Professor",
@@ -2850,17 +3205,17 @@
     "plid": "x7d30b2359eae"
   },
   {
-    "title": "Extension Educator",
+    "title": "Professor",
     "displayname": "Dr. Willard Fields III",
     "plid": "x3e6bc3a054ef"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Jess Fiene",
     "plid": "xc8d88f9dd1ec"
   },
   {
-    "title": "Coord, Learning Lab",
+    "title": "Asst Dir, SLAC",
     "displayname": "Jade Figueroa",
     "plid": "x8f7311fae4a8"
   },
@@ -2930,7 +3285,7 @@
     "plid": "x44d4ae328195"
   },
   {
-    "title": "Career Advisor",
+    "title": "Student Development Specialist II",
     "displayname": "Madyson Flint",
     "plid": "xc2b219fc08ee"
   },
@@ -2975,6 +3330,11 @@
     "plid": "x31cf8e8cf1f3"
   },
   {
+    "title": "",
+    "displayname": "Morgan Forsyth",
+    "plid": "x90561a94a685"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Dr. Shelly Forsythe",
     "plid": "x3772174cbe5a"
@@ -3010,9 +3370,14 @@
     "plid": "x8e3087cdf5f5"
   },
   {
-    "title": "Lecturer",
+    "title": "",
     "displayname": "Brad Frailicks",
     "plid": "x83dc28ae6bfa"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Christa Frailicks",
+    "plid": "xf33264ec3409"
   },
   {
     "title": "University Registrar",
@@ -3105,7 +3470,12 @@
     "plid": "x9d22b962bbb1"
   },
   {
-    "title": "Academic Advisor II",
+    "title": "",
+    "displayname": "Emily Fullenwider",
+    "plid": "x42eb371ffb8a"
+  },
+  {
+    "title": "Asst Dir, PACE Advising Services",
     "displayname": "Noel Anthony Fuller",
     "plid": "x0e5cf6f6f97b"
   },
@@ -3123,6 +3493,11 @@
     "title": "Lecturer",
     "displayname": "Dr. David Furjanic",
     "plid": "x3517e29d9e06"
+  },
+  {
+    "title": "Academic Advisor I",
+    "displayname": "Dr. Shayne Futujma",
+    "plid": "xbaa2e8c1751e"
   },
   {
     "title": "Professor",
@@ -3170,7 +3545,7 @@
     "plid": "x6de779e26c17"
   },
   {
-    "title": "Lecturer",
+    "title": "",
     "displayname": "Misti Galvan",
     "plid": "x3e1db4d1c648"
   },
@@ -3225,9 +3600,14 @@
     "plid": "xf4fe4362c57d"
   },
   {
-    "title": "Program Faculty",
+    "title": "Extension Educator",
     "displayname": "James Gardner",
     "plid": "x9818e9a34469"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Hillarie Garnier",
+    "plid": "x6e5db1166c29"
   },
   {
     "title": "",
@@ -3238,6 +3618,11 @@
     "title": "Senior Lecturer",
     "displayname": "Dr. Jose Manuel Garza Jr.",
     "plid": "x3cc304302be7"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Aunika Garza",
+    "plid": "x624a15f8f8d3"
   },
   {
     "title": "",
@@ -3253,6 +3638,11 @@
     "title": "",
     "displayname": "Shelby Garza",
     "plid": "xc8b09bfa0c50"
+  },
+  {
+    "title": "",
+    "displayname": "Serge Gasore",
+    "plid": "x01f48242dce0"
   },
   {
     "title": "Lecturer",
@@ -3305,6 +3695,11 @@
     "plid": "x8b46e4449bc6"
   },
   {
+    "title": "",
+    "displayname": "Katie Gerstner",
+    "plid": "xb7e96ddb221a"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Jeff Gessas",
     "plid": "x973ef91a2dc6"
@@ -3343,6 +3738,11 @@
     "title": "Professor",
     "displayname": "Dr. Alberto Giordano",
     "plid": "x90acda37b2c7"
+  },
+  {
+    "title": "",
+    "displayname": "Abra Gist",
+    "plid": "x31ad59416cd9"
   },
   {
     "title": "Professor",
@@ -3435,6 +3835,11 @@
     "plid": "xa74d2a9889ef"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Dr. Sevan Gonezen",
+    "plid": "x0355ee5ff3e4"
+  },
+  {
     "title": "Regents' Teacher",
     "displayname": "Dr. Cynthia Gonzales",
     "plid": "x16246a5665c6"
@@ -3463,6 +3868,16 @@
     "title": "Lecturer",
     "displayname": "Brandon Gonzalez",
     "plid": "x06e28e3ed6d6"
+  },
+  {
+    "title": "",
+    "displayname": "Diana Gonzalez",
+    "plid": "x3805bc40ff57"
+  },
+  {
+    "title": "",
+    "displayname": "Bianca Gonzalez",
+    "plid": "xa468c1762abd"
   },
   {
     "title": "Lecturer of Practice",
@@ -3505,6 +3920,11 @@
     "plid": "x7dab4fb84bc5"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Cody Gould",
+    "plid": "x92d0544d4330"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Dr. Antonio Gragera",
     "plid": "x14cbbcaed4b6"
@@ -3540,6 +3960,11 @@
     "plid": "xd4f6aa89b365"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Acia Gray",
+    "plid": "xe0035781f4fe"
+  },
+  {
     "title": "Assistant Professor",
     "displayname": "Dr. Leslie Green",
     "plid": "x28deb110ab64"
@@ -3550,9 +3975,19 @@
     "plid": "xc3419d21c99a"
   },
   {
+    "title": "",
+    "displayname": "Lauren Green",
+    "plid": "xc89bb79255f7"
+  },
+  {
     "title": "Senior Lecturer",
     "displayname": "Dr. Lloyd Greene",
     "plid": "x38382836c630"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Thomas Greene IV",
+    "plid": "xb4e56a2833be"
   },
   {
     "title": "Lecturer",
@@ -3581,6 +4016,16 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Stephen Gross",
+    "plid": "xe3493f61ddb9"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Elisha Grossenbacher",
+    "plid": "x418cff1dcef6"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Stephanie Grossman",
     "plid": "x57846877bdb1"
   },
@@ -3588,6 +4033,11 @@
     "title": "Associate Professor",
     "displayname": "Dr. Qijun Gu",
     "plid": "xae8a3af93fb8"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Irma Guadarrama",
+    "plid": "x67e2ea4b439e"
   },
   {
     "title": "",
@@ -3601,7 +4051,7 @@
   },
   {
     "title": "Senior Lecturer",
-    "displayname": "Autumn Guel",
+    "displayname": "Dr. Autumn Guel",
     "plid": "x2a277ffc3b78"
   },
   {
@@ -3615,7 +4065,7 @@
     "plid": "xf5f150348870"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Jayson Guest",
     "plid": "xaf6472f8243f"
   },
@@ -3628,6 +4078,11 @@
     "title": "Professor",
     "displayname": "Dr. Mina Guirguis",
     "plid": "xdd05f7d1511b"
+  },
+  {
+    "title": "Postdoctoral Scholar",
+    "displayname": "Dr. Pratik Gujar",
+    "plid": "x828e719dbb9c"
   },
   {
     "title": "Lecturer",
@@ -3650,6 +4105,11 @@
     "plid": "x3fef748f4806"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Mateo Gutierrez",
+    "plid": "x8fb65ec42b18"
+  },
+  {
     "title": "Asst Professor of Practice",
     "displayname": "Dr. Felipe Gutierrez",
     "plid": "xc790e45c538a"
@@ -3670,7 +4130,17 @@
     "plid": "x7ad04af107a6"
   },
   {
-    "title": "Program Faculty",
+    "title": "Lecturer",
+    "displayname": "Sydney Guzman",
+    "plid": "x071c59881b2f"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Lynette Guzman",
+    "plid": "x63772af3e17b"
+  },
+  {
+    "title": "Senior Lecturer",
     "displayname": "Dr. Ron Haas",
     "plid": "x45ea7c493667"
   },
@@ -3685,12 +4155,12 @@
     "plid": "xe4634dca1c9d"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Lisa Haegele",
     "plid": "xa22e0aa8c287"
   },
   {
-    "title": "Program Faculty",
+    "title": "Professor",
     "displayname": "Dr. Ronald Hagelman III",
     "plid": "x1fafaf39f64e"
   },
@@ -3726,6 +4196,11 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Heather Halstead",
+    "plid": "x6ad464243db4"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Brittany Ham",
     "plid": "xf1c05164d379"
   },
@@ -3748,6 +4223,11 @@
     "title": "Professor",
     "displayname": "Dr. Michelle Hamilton",
     "plid": "xa0a13e4e0302"
+  },
+  {
+    "title": "",
+    "displayname": "Katelyn Hammack",
+    "plid": "x296bab409c3a"
   },
   {
     "title": "Lecturer",
@@ -3775,6 +4255,11 @@
     "plid": "x9c7513b6d0f1"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Bowie Hand",
+    "plid": "xac50d48a8598"
+  },
+  {
     "title": "",
     "displayname": "Aaron Hand",
     "plid": "xd0f7ae67dfac"
@@ -3793,6 +4278,11 @@
     "title": "Chair - Professor",
     "displayname": "Dr. Craig Hanks",
     "plid": "xcb0d3fc2d755"
+  },
+  {
+    "title": "",
+    "displayname": "Emma Hansen",
+    "plid": "xcb123bbb7a81"
   },
   {
     "title": "Lecturer",
@@ -3900,7 +4390,7 @@
     "plid": "xd7e39dba4b6a"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Stacy Hawking",
     "plid": "x5eda837c8bf6"
   },
@@ -3950,6 +4440,11 @@
     "plid": "x745828352e5c"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Dr. Shadi Lakmini Heenatigala",
+    "plid": "x02f8cbb4ae0e"
+  },
+  {
     "title": "Clinical Assistant Professor",
     "displayname": "Dr. Carla Heffner",
     "plid": "x90ef150795cd"
@@ -3963,6 +4458,11 @@
     "title": "Associate Professor of Practice",
     "displayname": "Hank Hehmsoth",
     "plid": "xe28feba49611"
+  },
+  {
+    "title": "Asst Professor of Practice",
+    "displayname": "Sam Heimbach",
+    "plid": "xca09ea8d7281"
   },
   {
     "title": "Lecturer",
@@ -3986,6 +4486,11 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "John Hendon",
+    "plid": "xad79e0c6e41c"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Dr. Claire Hendren",
     "plid": "x142b48405a52"
   },
@@ -4005,14 +4510,24 @@
     "plid": "xd3ac3dcfd4e2"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Kale Hensley",
     "plid": "x90bc26ff0837"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Carmen Hernandez",
     "plid": "x2ef4efeea412"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Christina Hernandez",
+    "plid": "x34b461b29f9d"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Melissa Hernandez",
+    "plid": "x365e993d5493"
   },
   {
     "title": "",
@@ -4030,9 +4545,19 @@
     "plid": "xad55751eb32f"
   },
   {
-    "title": "Lecturer",
+    "title": "",
+    "displayname": "Karla Hernandez-Swift",
+    "plid": "x8c016b6354c6"
+  },
+  {
+    "title": "Assistant Professor",
     "displayname": "Yesenia Herrington",
     "plid": "xaa3cb06bc72d"
+  },
+  {
+    "title": "Professor",
+    "displayname": "Dr. Nicholas Herrmann",
+    "plid": "xbda72f8fe52c"
   },
   {
     "title": "Lecturer",
@@ -4100,6 +4625,11 @@
     "plid": "x23cf85c57c69"
   },
   {
+    "title": "Assistant Professor",
+    "displayname": "Dr. Christian Hines",
+    "plid": "x00dce387426c"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Lee Hinkle",
     "plid": "xc70a1b06e8cf"
@@ -4120,7 +4650,7 @@
     "plid": "xe543b08e3fed"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Amber Hinsley",
     "plid": "x981e35d40b12"
   },
@@ -4135,7 +4665,7 @@
     "plid": "x03add7b76ce8"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Alain Hirwa",
     "plid": "xed0ebabd1833"
   },
@@ -4153,6 +4683,11 @@
     "title": "Associate Professor",
     "displayname": "Dr. Janet Hodges",
     "plid": "x59996e2a7381"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Annie Hodgkins",
+    "plid": "x65960d85ba32"
   },
   {
     "title": "Lecturer",
@@ -4245,6 +4780,11 @@
     "plid": "x8eebf8777afc"
   },
   {
+    "title": "Postdoctoral Scholar",
+    "displayname": "Dr. Twyla Hough",
+    "plid": "x46694f6633cc"
+  },
+  {
     "title": "Professor",
     "displayname": "Dr. Marian Houser",
     "plid": "x89b4e6d2a171"
@@ -4275,9 +4815,29 @@
     "plid": "xde58cf8cd132"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Rowan Howe",
+    "plid": "xbb10e82358bc"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Sysun Howell",
+    "plid": "x9f53e15747cc"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Sommer Howser",
+    "plid": "x9cd47b98fb09"
+  },
+  {
     "title": "Assistant Professor",
     "displayname": "Dr. Ya-Ching Huang",
     "plid": "x1d09d25a9b9c"
+  },
+  {
+    "title": "",
+    "displayname": "Julia Hubbard",
+    "plid": "xbaedb4d7eed5"
   },
   {
     "title": "",
@@ -4335,7 +4895,7 @@
     "plid": "x57808c2f6f05"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Stacy Hunter",
     "plid": "x2d6de3297b3a"
   },
@@ -4386,11 +4946,21 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Emily Iazzetti",
+    "plid": "x36c7d99041b4"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Herminio Ibanez",
     "plid": "x9095e84ee7d5"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Lecturer",
+    "displayname": "Dr. Henry Ickes",
+    "plid": "xc912a40d6fe6"
+  },
+  {
+    "title": "Program Faculty",
     "displayname": "Dr. Keisuke Ikehata",
     "plid": "x41a51fd05fa4"
   },
@@ -4415,7 +4985,7 @@
     "plid": "x04acddb16050"
   },
   {
-    "title": "Associate Professor",
+    "title": "Professor",
     "displayname": "Dr. Luis Intersimone",
     "plid": "xdf1ac6b1d6fe"
   },
@@ -4443,6 +5013,11 @@
     "title": "Assistant Professor",
     "displayname": "Dr. Tanzima Islam",
     "plid": "x2a5d1255fbe8"
+  },
+  {
+    "title": "",
+    "displayname": "Md Shafiul Islam",
+    "plid": "x89c0b0675702"
   },
   {
     "title": "Lecturer",
@@ -4510,6 +5085,11 @@
     "plid": "xf856b8ee0f49"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Imani James",
+    "plid": "x18560e4d01e2"
+  },
+  {
     "title": "",
     "displayname": "Nick James",
     "plid": "x3a3ceae6aa29"
@@ -4570,7 +5150,7 @@
     "plid": "xcb893029ecde"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Bryce Jeter",
     "plid": "x83f57e1a34f0"
   },
@@ -4605,6 +5185,16 @@
     "plid": "xd39bb0b54cec"
   },
   {
+    "title": "",
+    "displayname": "Arturo Jimenez",
+    "plid": "x7ac27e7e662e"
+  },
+  {
+    "title": "",
+    "displayname": "Cinthia Melissa Jimenez Matamoros",
+    "plid": "xfdc88afb95d1"
+  },
+  {
     "title": "Professor",
     "displayname": "Dr. Tongdan Jin",
     "plid": "xb33be54fc7bf"
@@ -4625,12 +5215,12 @@
     "plid": "x02f9efaa553e"
   },
   {
-    "title": "Program Faculty",
+    "title": "Lecturer",
     "displayname": "Dr. David Johnson",
     "plid": "x08551d818420"
   },
   {
-    "title": "Program Faculty",
+    "title": "Associate Professor",
     "displayname": "Bethany Johnson",
     "plid": "x19eb1ac8a47c"
   },
@@ -4650,7 +5240,7 @@
     "plid": "x726ca763d835"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Marcus Johnson",
     "plid": "x8a082acb47b0"
   },
@@ -4701,6 +5291,11 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Matthew Jordan",
+    "plid": "x1268ec6260c4"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Dr. Prashant Joshi",
     "plid": "xf86315dd4c69"
   },
@@ -4710,12 +5305,17 @@
     "plid": "xf1bef02d83c1"
   },
   {
+    "title": "Associate Professor",
+    "displayname": "Dr. Cosette Joyner Martinez",
+    "plid": "x9ab2d33b58c0"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Briana Nicole Juarez",
     "plid": "x7f87f62e586c"
   },
   {
-    "title": "Program Faculty",
+    "title": "Associate Professor",
     "displayname": "Dr. Matthew Juge",
     "plid": "x556a43aae9f1"
   },
@@ -4750,6 +5350,11 @@
     "plid": "x6adee2def53c"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Kathryn Kane",
+    "plid": "xb94a828c5afa"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Dr. Hong-Gu Kang",
     "plid": "xda29782ad0c8"
@@ -4765,6 +5370,16 @@
     "plid": "x1d8632f0b807"
   },
   {
+    "title": "Residence Hall Director",
+    "displayname": "Brianna Karasek",
+    "plid": "xacce889fa05b"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Jason Karlik",
+    "plid": "x0c29ad6abade"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Jeffrey Karr",
     "plid": "x62b405b4ffe0"
@@ -4773,6 +5388,11 @@
     "title": "Lecturer",
     "displayname": "Dr. Cyndy Karras",
     "plid": "x6048d5f54f88"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Jennifer Karydas",
+    "plid": "xec31f43feee0"
   },
   {
     "title": "Associate Professor",
@@ -4790,9 +5410,19 @@
     "plid": "x5f6ea641f7e3"
   },
   {
+    "title": "Asst Professor of Practice",
+    "displayname": "Ariel Kay",
+    "plid": "x04c00f47094e"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Danae Kay",
     "plid": "x5b5cfd0c7765"
+  },
+  {
+    "title": "",
+    "displayname": "Joshua Kayo",
+    "plid": "x72880006f1b0"
   },
   {
     "title": "Senior Lecturer",
@@ -4828,6 +5458,16 @@
     "title": "Lecturer",
     "displayname": "Zachary Kelley",
     "plid": "x0897c6561995"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Trevi Kelley",
+    "plid": "x0e3424050f40"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Kory Kelly",
+    "plid": "xc6634a1fc2c5"
   },
   {
     "title": "",
@@ -4868,6 +5508,11 @@
     "title": "Lecturer",
     "displayname": "Dr. Salwa Khan",
     "plid": "x2490e7bc006e"
+  },
+  {
+    "title": "",
+    "displayname": "Dr. MD Akhtaruzzaman Khan",
+    "plid": "xeeb0023c5fec"
   },
   {
     "title": "Lecturer",
@@ -4935,6 +5580,11 @@
     "plid": "xd3f531d7091f"
   },
   {
+    "title": "Assistant Professor",
+    "displayname": "Dr. Joosung Kim",
+    "plid": "xe79c80cb90e0"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Austin Kimble",
     "plid": "x0bf3e260d9f6"
@@ -4955,9 +5605,14 @@
     "plid": "x731539e0c4eb"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Kayla King",
     "plid": "x7c6eac174aa8"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Jennifer King",
+    "plid": "x7e114bfe7442"
   },
   {
     "title": "Lecturer",
@@ -4995,8 +5650,8 @@
     "plid": "xfddc42b01484"
   },
   {
-    "title": "",
-    "displayname": "Mehmet Kirmizi",
+    "title": "Lecturer",
+    "displayname": "Dr. Mehmet Kirmizi",
     "plid": "x0cf75047a3bd"
   },
   {
@@ -5010,6 +5665,11 @@
     "plid": "x7384a9e123a9"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Dr. John Kitch II",
+    "plid": "xa71fb05c507f"
+  },
+  {
     "title": "",
     "displayname": "Elijah Kleinberg",
     "plid": "x67c755241aa0"
@@ -5018,6 +5678,16 @@
     "title": "Lecturer",
     "displayname": "Dr. Randall Klepetko",
     "plid": "x5d34f0059706"
+  },
+  {
+    "title": "Bus Mgr, Student Ctr",
+    "displayname": "Michelle Kneupper",
+    "plid": "x05249d47d78d"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Meagan Knipp",
+    "plid": "x466544daffa6"
   },
   {
     "title": "Senior Lecturer",
@@ -5058,6 +5728,11 @@
     "title": "Associate Professor",
     "displayname": "Dr. Rob Konopaske",
     "plid": "xe18be46d1765"
+  },
+  {
+    "title": "Associate Professor",
+    "displayname": "Dr. Dincer Konur",
+    "plid": "xe6329640a10a"
   },
   {
     "title": "Professor",
@@ -5115,6 +5790,11 @@
     "plid": "xbe26ca4d742a"
   },
   {
+    "title": "",
+    "displayname": "Robert Krohn",
+    "plid": "x6e1a853b455d"
+  },
+  {
     "title": "Senior Lecturer",
     "displayname": "Jennifer Krou",
     "plid": "x38542523a09d"
@@ -5133,6 +5813,11 @@
     "title": "Lecturer",
     "displayname": "Dr. Neil Kucera",
     "plid": "x3517b5a721cc"
+  },
+  {
+    "title": "",
+    "displayname": "Ansgar Kuehn",
+    "plid": "xae18918eb3e2"
   },
   {
     "title": "",
@@ -5225,6 +5910,11 @@
     "plid": "xffa86c6e22ee"
   },
   {
+    "title": "Coord, Hsg & Residential Life",
+    "displayname": "Christopher Lang",
+    "plid": "x3d6d75be2f09"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Benjamin Langenkamp",
     "plid": "xfd062ad469d2"
@@ -5238,6 +5928,11 @@
     "title": "Senior Lecturer",
     "displayname": "Dr. Deirdre Lannon",
     "plid": "xc5bb18049867"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Danny Lara",
+    "plid": "xccbfdd83b11a"
   },
   {
     "title": "",
@@ -5320,6 +6015,11 @@
     "plid": "x5a05e70208d2"
   },
   {
+    "title": "Clinical Lecturer",
+    "displayname": "Rachel Leavitt",
+    "plid": "xf47c31060b7a"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Deja Leazer",
     "plid": "xb1d36dba7585"
@@ -5340,6 +6040,11 @@
     "plid": "x40337565f8a7"
   },
   {
+    "title": "",
+    "displayname": "Susi Ledesma",
+    "plid": "xcd009a5f31d2"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Alice Lee",
     "plid": "x24b9a852a441"
@@ -5355,7 +6060,7 @@
     "plid": "x30c92d71171c"
   },
   {
-    "title": "Associate Professor",
+    "title": "Professor",
     "displayname": "Dr. Young Ju Lee",
     "plid": "x31f5dd924ec1"
   },
@@ -5395,7 +6100,7 @@
     "plid": "xdc7974a02d8f"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Hwa Lee",
     "plid": "xfb9853f40efd"
   },
@@ -5420,7 +6125,7 @@
     "plid": "x2c342c58e1bd"
   },
   {
-    "title": "Senior Lecturer",
+    "title": "Lecturer",
     "displayname": "Maureen Lemke",
     "plid": "xdff607799fec"
   },
@@ -5445,7 +6150,7 @@
     "plid": "xc6cb73685994"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Kristen Lew",
     "plid": "x9756f7abee39"
   },
@@ -5485,8 +6190,8 @@
     "plid": "xa977a5459695"
   },
   {
-    "title": "",
-    "displayname": "Xiaomin Li",
+    "title": "Lecturer",
+    "displayname": "Dr. Xiaomin Li",
     "plid": "xd9c4821cf5c4"
   },
   {
@@ -5605,6 +6310,11 @@
     "plid": "xd0e5debf3639"
   },
   {
+    "title": "Student Development Specialist II",
+    "displayname": "Jonathan Lollar",
+    "plid": "x81bacefe71fc"
+  },
+  {
     "title": "Associate Professor of Practice",
     "displayname": "Dr. Michelle Londa",
     "plid": "x77d1a07d9d48"
@@ -5625,14 +6335,19 @@
     "plid": "x517d5a188a3c"
   },
   {
-    "title": "Lecturer",
-    "displayname": "Zengara Loper",
-    "plid": "x7f7fb28cc53d"
+    "title": "Academic Advisor I",
+    "displayname": "Catherine Longoria",
+    "plid": "x8c16fdea269a"
   },
   {
     "title": "Grant Coordinator",
     "displayname": "Dr. Christina Lopez",
     "plid": "x086019deebac"
+  },
+  {
+    "title": "Professor",
+    "displayname": "Dr. Minda Lopez",
+    "plid": "x2d99da32caba"
   },
   {
     "title": "Coord, Department Recruiting",
@@ -5658,6 +6373,16 @@
     "title": "Lecturer",
     "displayname": "Dr. Michelle Lopez",
     "plid": "xcafcec70d584"
+  },
+  {
+    "title": "",
+    "displayname": "Giovanna Lorenzi Pinto",
+    "plid": "xe6c52c463936"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Ezekiel Loseke",
+    "plid": "x02afb9eef702"
   },
   {
     "title": "",
@@ -5703,6 +6428,11 @@
     "title": "Professor",
     "displayname": "Dr. Vincent Luizzi",
     "plid": "x25e3d595f1d0"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Ramces Luna",
+    "plid": "x8acc8f4bd80c"
   },
   {
     "title": "Lecturer",
@@ -5791,6 +6521,11 @@
   },
   {
     "title": "",
+    "displayname": "Kariman Mahmoud",
+    "plid": "x23056b647621"
+  },
+  {
+    "title": "",
     "displayname": "Elahe Mahmoudi",
     "plid": "x5b94d2c12063"
   },
@@ -5845,7 +6580,7 @@
     "plid": "xe9d2430299d3"
   },
   {
-    "title": "Extension Educator",
+    "title": "Senior Lecturer",
     "displayname": "Dr. Bryan Mann",
     "plid": "x32a191f03137"
   },
@@ -5860,9 +6595,24 @@
     "plid": "xf7f56fcf5a37"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Jessica Mao",
+    "plid": "x9e37171460c9"
+  },
+  {
+    "title": "Assistant Professor",
+    "displayname": "Dr. Kyle Mao",
+    "plid": "xf197e6b98525"
+  },
+  {
     "title": "Assistant Professor",
     "displayname": "Dr. Elissa Marek",
     "plid": "xc1bed8473d38"
+  },
+  {
+    "title": "",
+    "displayname": "Erika Marentes",
+    "plid": "xff5ad19bc9e9"
   },
   {
     "title": "Lecturer",
@@ -5905,7 +6655,7 @@
     "plid": "x0dce5b8244a3"
   },
   {
-    "title": "Research Assistant Professor",
+    "title": "Research Associate Professor",
     "displayname": "Dr. M Hunter Martaindale",
     "plid": "x690ca4c18d3f"
   },
@@ -5920,7 +6670,7 @@
     "plid": "x1e36aefadb90"
   },
   {
-    "title": "Extension Educator",
+    "title": "Professor",
     "displayname": "Dr. Carole Martin",
     "plid": "x20334499cf55"
   },
@@ -6051,8 +6801,18 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "McKenna May",
+    "plid": "x2e2c391ec78e"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Whitney May",
     "plid": "x9dd196a9aa3f"
+  },
+  {
+    "title": "",
+    "displayname": "Aaron May",
+    "plid": "xf64e24d6a215"
   },
   {
     "title": "Senior Lecturer",
@@ -6080,7 +6840,7 @@
     "plid": "xcc79a24ca658"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Johnny McAllister",
     "plid": "x4da0150c1685"
   },
@@ -6105,7 +6865,7 @@
     "plid": "x7e70af8f15ea"
   },
   {
-    "title": "Assoc Dir",
+    "title": "Dir, Student Success Center",
     "displayname": "Terrance McClain",
     "plid": "x4c8a38d0ffc0"
   },
@@ -6150,6 +6910,11 @@
     "plid": "xe875d4f4d6b8"
   },
   {
+    "title": "Visiting Assistant Professor",
+    "displayname": "Joshua McCormick",
+    "plid": "xdb683b532a8e"
+  },
+  {
     "title": "Professor",
     "displayname": "Dr. Kevin McCurdy",
     "plid": "xd936fddee606"
@@ -6166,8 +6931,23 @@
   },
   {
     "title": "",
+    "displayname": "Kathleen McDowell",
+    "plid": "x7f7ffc318f90"
+  },
+  {
+    "title": "",
     "displayname": "Molly McDowell",
     "plid": "x9f891c3d6702"
+  },
+  {
+    "title": "Assistant Professor",
+    "displayname": "Dr. Ny'Nika McFadden",
+    "plid": "x3dd9c123386d"
+  },
+  {
+    "title": "Assistant Professor",
+    "displayname": "Dr. Ariel McField",
+    "plid": "x57d363ff37e8"
   },
   {
     "title": "Lecturer",
@@ -6175,7 +6955,7 @@
     "plid": "x81e1a61829e1"
   },
   {
-    "title": "Extension Educator",
+    "title": "Professor",
     "displayname": "Dr. Reece Jon McGee",
     "plid": "x8423cda00252"
   },
@@ -6183,6 +6963,11 @@
     "title": "Lecturer",
     "displayname": "Barrie McGee",
     "plid": "x855497ba7055"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Jacqueline McGilvray",
+    "plid": "x4813406bf848"
   },
   {
     "title": "Lecturer",
@@ -6355,9 +7140,14 @@
     "plid": "xc11fa82b96eb"
   },
   {
-    "title": "Extension Educator",
+    "title": "Asst Professor of Practice",
     "displayname": "Dr. Jason Mellard",
     "plid": "x75902a005227"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Abigail Mellow",
+    "plid": "x948dc6db51c0"
   },
   {
     "title": "Senior Lecturer",
@@ -6375,7 +7165,7 @@
     "plid": "xd6ecab148276"
   },
   {
-    "title": "Lecturer",
+    "title": "Assistant Professor",
     "displayname": "Dr. Marcelo Menezes De Carvalho",
     "plid": "x0038baaead60"
   },
@@ -6403,6 +7193,11 @@
     "title": "Senior Lecturer",
     "displayname": "Julia Meritt",
     "plid": "x16b97cb3077b"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Jared Messick",
+    "plid": "x484c2db6ae37"
   },
   {
     "title": "Associate Professor",
@@ -6435,7 +7230,12 @@
     "plid": "x1dc24747ea36"
   },
   {
-    "title": "Lecturer",
+    "title": "",
+    "displayname": "April Miles",
+    "plid": "xa23e62b13a85"
+  },
+  {
+    "title": "Senior Lecturer",
     "displayname": "Dr. Christopher Milk",
     "plid": "x07a70a03b3eb"
   },
@@ -6485,6 +7285,11 @@
     "plid": "x0772f86624b7"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Dr. Tina Mims",
+    "plid": "x7734efe8b9a2"
+  },
+  {
     "title": "Professor",
     "displayname": "Dr. Jana Minifie",
     "plid": "xd19bc50af672"
@@ -6493,6 +7298,11 @@
     "title": "Lecturer",
     "displayname": "Tobie Minor",
     "plid": "x1b70b8491b9f"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Chavius Minor",
+    "plid": "xacec1156ae63"
   },
   {
     "title": "",
@@ -6550,9 +7360,14 @@
     "plid": "x512f7291a177"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Ranjini Mohan",
     "plid": "xa8023ca243fe"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Manouchehr Mohandesi",
+    "plid": "xf469440ca913"
   },
   {
     "title": "Lecturer",
@@ -6568,6 +7383,11 @@
     "title": "Lecturer",
     "displayname": "Dr. Celeste Monforton",
     "plid": "x8d10a2f18874"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Karyn Monroe",
+    "plid": "x15594e5cb80a"
   },
   {
     "title": "Professor",
@@ -6665,12 +7485,12 @@
     "plid": "xc6c5f722e6e1"
   },
   {
-    "title": "Lecturer",
+    "title": "Senior Lecturer",
     "displayname": "Jordan Morille",
     "plid": "xf65820f39ee0"
   },
   {
-    "title": "Extension Educator",
+    "title": "Regents' Teacher",
     "displayname": "Dr. Mayumi Moriuchi",
     "plid": "xaaccb885321d"
   },
@@ -6710,7 +7530,7 @@
     "plid": "x9ab8f54b0fcd"
   },
   {
-    "title": "Program Faculty",
+    "title": "Senior Lecturer",
     "displayname": "Dr. Russell Moses",
     "plid": "x1887acdb82a8"
   },
@@ -6728,6 +7548,11 @@
     "title": "Lecturer",
     "displayname": "Dr. Lacey Mount",
     "plid": "x991d79740506"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "April Mouton",
+    "plid": "x7717c6372937"
   },
   {
     "title": "Associate Professor",
@@ -6801,13 +7626,28 @@
   },
   {
     "title": "",
+    "displayname": "Olivia Murr",
+    "plid": "xc65aa7e9e803"
+  },
+  {
+    "title": "",
     "displayname": "Sidney Murray",
     "plid": "x20aac92dc095"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Julia Murray",
+    "plid": "xbdb44487c9ce"
   },
   {
     "title": "Associate Professor",
     "displayname": "Dr. Rasim Musal",
     "plid": "x4cb11d204af4"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Zana Muscove",
+    "plid": "xf537d526c5b2"
   },
   {
     "title": "Assistant Professor",
@@ -6820,12 +7660,17 @@
     "plid": "x220e72dec103"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Ramyanth Nakshathram",
+    "plid": "x3b34fccb4e62"
+  },
+  {
     "title": "Professor",
     "displayname": "Michelle Nance",
     "plid": "xde7a2ef9f308"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Erica Nason",
     "plid": "x21438c3f8481"
   },
@@ -6840,9 +7685,19 @@
     "plid": "xef3fdfe48155"
   },
   {
+    "title": "",
+    "displayname": "Jay Nava",
+    "plid": "x0391747cb3f2"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Dr. David Navarro",
     "plid": "xb8faf977c8c7"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Tanner Neidhardt",
+    "plid": "x6c8b56142450"
   },
   {
     "title": "",
@@ -6861,11 +7716,16 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Deacon Newhouse",
+    "plid": "x48b6f95f753e"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Dr. Megan Newhouse-Bailey",
     "plid": "x3f782c3149d8"
   },
   {
-    "title": "Senior Lecturer",
+    "title": "Lecturer",
     "displayname": "Kay Newling",
     "plid": "xea3d5c33114f"
   },
@@ -6895,7 +7755,7 @@
     "plid": "xfa60331e88c5"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Prisca Ngondo",
     "plid": "x185ae447b9dc"
   },
@@ -7005,6 +7865,11 @@
     "plid": "x1de91b980b7e"
   },
   {
+    "title": "",
+    "displayname": "Joy Nsiah Asante",
+    "plid": "xc3c94b104640"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Dr. Lidia Nuno",
     "plid": "xef6e35b27ad6"
@@ -7018,6 +7883,16 @@
     "title": "Lecturer",
     "displayname": "Dr. Shayne O'Brien",
     "plid": "x8c744eb8a94f"
+  },
+  {
+    "title": "Academic Advisor II",
+    "displayname": "Jason O'Brien",
+    "plid": "xd8436acf8b4f"
+  },
+  {
+    "title": "",
+    "displayname": "Patrick O'Connell",
+    "plid": "x8cfa426c7796"
   },
   {
     "title": "Lecturer",
@@ -7045,6 +7920,11 @@
     "plid": "x6475c4dcf248"
   },
   {
+    "title": "Coord, Academic Center",
+    "displayname": "Amy Oakes",
+    "plid": "xe5eb99507b44"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Dr. Samuel Obara",
     "plid": "xc08d6c20ee65"
@@ -7053,6 +7933,16 @@
     "title": "Professor",
     "displayname": "Dr. Crystal Oberle",
     "plid": "xfe2ba85c2e32"
+  },
+  {
+    "title": "",
+    "displayname": "Chisom Obike",
+    "plid": "xc85e62eadf3c"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Marta Ocampo",
+    "plid": "x183e3e8312fd"
   },
   {
     "title": "Lecturer",
@@ -7085,6 +7975,11 @@
     "plid": "xbdbf4b8e2cdb"
   },
   {
+    "title": "Postdoctoral Scholar",
+    "displayname": "Dr. Tomisin Ogunwa",
+    "plid": "x06e1b323cf18"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Dr. Suho Oh",
     "plid": "xb3525aa4b389"
@@ -7108,6 +8003,11 @@
     "title": "Clinical Associate Professor",
     "displayname": "Dr. Suzanna Okere",
     "plid": "x96ba12c1e748"
+  },
+  {
+    "title": "Assistant Professor",
+    "displayname": "Dr. Adeyemi Olanrewaju",
+    "plid": "xe483e5ce6b76"
   },
   {
     "title": "Lecturer",
@@ -7165,6 +8065,21 @@
     "plid": "x2e0ba6592862"
   },
   {
+    "title": "Assistant Professor",
+    "displayname": "MSgt. Carlos Ortiz Jr.",
+    "plid": "x1f9ded28c252"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Luis Ortiz",
+    "plid": "x3b11c352b16b"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Bethany Ortiz",
+    "plid": "xfa32ab59dc17"
+  },
+  {
     "title": "Professor",
     "displayname": "Dr. Randall Osborne",
     "plid": "x4d2229a4ddab"
@@ -7178,6 +8093,11 @@
     "title": "",
     "displayname": "Thomas Ostmeyer",
     "plid": "x4f9b82f4215f"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Michael Ota",
+    "plid": "x7b70bdc0cedc"
   },
   {
     "title": "Associate Professor",
@@ -7200,7 +8120,7 @@
     "plid": "x4e1799065a5c"
   },
   {
-    "title": "Program Faculty",
+    "title": "Senior Lecturer",
     "displayname": "Dr. Burkay Ozturk",
     "plid": "x61dfe71f3a7d"
   },
@@ -7320,6 +8240,16 @@
     "plid": "x10b116883590"
   },
   {
+    "title": "Clinical Assistant Professor",
+    "displayname": "Dr. Stephanie Patel",
+    "plid": "xb2a9cab58306"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "David Patrick",
+    "plid": "xf1653cb5b005"
+  },
+  {
     "title": "Senior Lecturer",
     "displayname": "Dr. Don Patterson",
     "plid": "x01bd3e7d8373"
@@ -7338,6 +8268,11 @@
     "title": "Associate Professor",
     "displayname": "Thomas Patterson",
     "plid": "xfec576e05483"
+  },
+  {
+    "title": "Assistant Professor",
+    "displayname": "Jonathan Pattiwael",
+    "plid": "x6fe221b73b31"
   },
   {
     "title": "",
@@ -7365,13 +8300,18 @@
     "plid": "x58a1635c0285"
   },
   {
+    "title": "Residence Hall Director",
+    "displayname": "Dominique Peel",
+    "plid": "xd7749d77b9e5"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Dr. Cindy Pena",
     "plid": "x18e01d782e09"
   },
   {
     "title": "Professor of Practice",
-    "displayname": "Delwin Penlerick",
+    "displayname": "Ryan Penlerick",
     "plid": "xccd4b2012d87"
   },
   {
@@ -7380,7 +8320,7 @@
     "plid": "x8ef25fec6164"
   },
   {
-    "title": "",
+    "title": "Senior Lecturer",
     "displayname": "Bianca Perez",
     "plid": "x2101003b1b63"
   },
@@ -7400,7 +8340,7 @@
     "plid": "x69698e88e40f"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Alexandra Perkins",
     "plid": "xefe524e557f3"
   },
@@ -7451,6 +8391,11 @@
   },
   {
     "title": "Assistant Professor",
+    "displayname": "Dr. Alexandra Montero Peters",
+    "plid": "xe6cc6a3e23ab"
+  },
+  {
+    "title": "Assistant Professor",
     "displayname": "Dr. Ryan Peterson",
     "plid": "x43d35ae5f8a3"
   },
@@ -7473,6 +8418,11 @@
     "title": "Clinical Professor",
     "displayname": "Dr. Peter Petroff",
     "plid": "x79f7dc097dca"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Loan Phan",
+    "plid": "x34cf60d35731"
   },
   {
     "title": "Lecturer",
@@ -7516,11 +8466,16 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Quinten Pigg",
+    "plid": "xe60e7022776b"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Francine Pilkington",
     "plid": "x36829076c6e2"
   },
   {
-    "title": "Professor",
+    "title": "Regents' Teacher",
     "displayname": "Dr. Charise Pimentel",
     "plid": "x4ca4ed0ad7ec"
   },
@@ -7528,6 +8483,16 @@
     "title": "Professor",
     "displayname": "Dr. Octavio Pimentel",
     "plid": "xaa7c81387e4c"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Kay Pina",
+    "plid": "xd3697e818fdb"
+  },
+  {
+    "title": "Chair - Professor",
+    "displayname": "Dr. Edwin Piner",
+    "plid": "x17779cac3f00"
   },
   {
     "title": "Professor",
@@ -7580,7 +8545,7 @@
     "plid": "x66c46050cb10"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Taylor Polk",
     "plid": "x81a182d788f9"
   },
@@ -7600,7 +8565,7 @@
     "plid": "xcd2f8b0949ac"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Ionut Popescu",
     "plid": "xd62cebb87621"
   },
@@ -7626,6 +8591,11 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Zachary Poston",
+    "plid": "x15cee9cb19ae"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Bill Poston",
     "plid": "x8c6401490f85"
   },
@@ -7643,6 +8613,11 @@
     "title": "Lecturer",
     "displayname": "Paige Powell",
     "plid": "x9c2ec86e7a52"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Shaden Powell",
+    "plid": "xab62a8889dbc"
   },
   {
     "title": "Lecturer",
@@ -7665,7 +8640,17 @@
     "plid": "xf4fbc3ab66b1"
   },
   {
-    "title": "Senior Lecturer",
+    "title": "",
+    "displayname": "Mariah Price",
+    "plid": "x0211558810dc"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Allison Price",
+    "plid": "x2b69bb891bda"
+  },
+  {
+    "title": "Asst Professor of Practice",
     "displayname": "Debra Price",
     "plid": "x3a52536fc91a"
   },
@@ -7720,6 +8705,11 @@
     "plid": "x529bb4c64300"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Marlon Pugh",
+    "plid": "xa4d183022e2c"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Dr. Maria Nieves Pujalte",
     "plid": "x0b36fd5eb139"
@@ -7745,6 +8735,11 @@
     "plid": "xbeb09ed1de6d"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Dr. Felix Quayson",
+    "plid": "x67a8d63cafbf"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Dr. Mylene Queiroz de Farias",
     "plid": "x35e2aba0d2a9"
@@ -7755,9 +8750,19 @@
     "plid": "x4105477c6947"
   },
   {
+    "title": "",
+    "displayname": "Elizabeth Quinby",
+    "plid": "xbe02ac5ef047"
+  },
+  {
     "title": "Asst Professor of Practice",
     "displayname": "Dr. Floyd Quinn",
     "plid": "x4d8e872352ad"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Liam Quinn",
+    "plid": "xedda88593f71"
   },
   {
     "title": "Lecturer",
@@ -7768,6 +8773,11 @@
     "title": "Program Faculty",
     "displayname": "Aimee Radics",
     "plid": "x695e87c6f6b1"
+  },
+  {
+    "title": "",
+    "displayname": "Mindy Radike",
+    "plid": "x700a294ef480"
   },
   {
     "title": "Lecturer",
@@ -7813,6 +8823,11 @@
     "title": "Associate Professor",
     "displayname": "Dr. Zo Ramamonjiarivelo",
     "plid": "x5d4373a9983e"
+  },
+  {
+    "title": "Associate Professor",
+    "displayname": "Dr. Pradeep Ramanathan",
+    "plid": "x80c58f9d0fdf"
   },
   {
     "title": "Program Faculty",
@@ -7863,6 +8878,11 @@
     "title": "Assistant Professor",
     "displayname": "Dr. Heena Rathore",
     "plid": "xe1fa92ac90d1"
+  },
+  {
+    "title": "Assistant Professor",
+    "displayname": "Dr. Tracy Raulston",
+    "plid": "x843e1ea919ad"
   },
   {
     "title": "Lecturer",
@@ -7930,9 +8950,19 @@
     "plid": "x8025e99a597d"
   },
   {
+    "title": "",
+    "displayname": "Yvette Regalado",
+    "plid": "xfbacebc13565"
+  },
+  {
     "title": "Professor",
     "displayname": "Randall Reid",
     "plid": "x00a66c5fd465"
+  },
+  {
+    "title": "Assistant Professor",
+    "displayname": "Dr. Shane Reid",
+    "plid": "x867d7431a422"
   },
   {
     "title": "Professor",
@@ -7966,6 +8996,11 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Dr. Brian Reyes",
+    "plid": "x3fbbea75775b"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Sylvia Reyes",
     "plid": "x4fdf2d2b5618"
   },
@@ -7990,12 +9025,17 @@
     "plid": "xe059a450c753"
   },
   {
+    "title": "Grant Specialist",
+    "displayname": "Dr. Peg Richmond",
+    "plid": "x6e85d2084844"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Tyler Rico",
     "plid": "x455a25c4e7b7"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Rich Riddle",
     "plid": "xcc9439c29e85"
   },
@@ -8008,6 +9048,11 @@
     "title": "Lecturer",
     "displayname": "Magdalena Riley",
     "plid": "x782425923b70"
+  },
+  {
+    "title": "Assistant Professor",
+    "displayname": "Thomas Rinn",
+    "plid": "x021bf9018828"
   },
   {
     "title": "Associate Professor",
@@ -8040,6 +9085,11 @@
     "plid": "x04169a24718e"
   },
   {
+    "title": "",
+    "displayname": "Elizabeth Roan",
+    "plid": "xd1449a06100b"
+  },
+  {
     "title": "Senior Lecturer",
     "displayname": "Dr. Dawn Robarts",
     "plid": "x0d8f6602be87"
@@ -8051,6 +9101,11 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Dr. Sarah Robblee",
+    "plid": "x422ab904827b"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Sandra Roberts",
     "plid": "x197f9cf6a1a0"
   },
@@ -8058,6 +9113,11 @@
     "title": "Senior Lecturer",
     "displayname": "Dr. Andrew Roberts",
     "plid": "x4d1bffbf7519"
+  },
+  {
+    "title": "",
+    "displayname": "Derrick Roberts Jr.",
+    "plid": "x648984b1484f"
   },
   {
     "title": "Assistant Professor",
@@ -8080,12 +9140,17 @@
     "plid": "x698e379db1cb"
   },
   {
-    "title": "Lecturer",
+    "title": "Professor",
     "displayname": "Richard Robichaux",
     "plid": "xfde29d7e195a"
   },
   {
     "title": "Lecturer",
+    "displayname": "David Robinson",
+    "plid": "x03bdaefef102"
+  },
+  {
+    "title": "Senior Lecturer",
     "displayname": "Jessica Robinson",
     "plid": "x27e0e2c0bb4c"
   },
@@ -8110,7 +9175,7 @@
     "plid": "x6d898af7d910"
   },
   {
-    "title": "Associate Professor",
+    "title": "Professor",
     "displayname": "Liz Rodda",
     "plid": "xd0660d272a59"
   },
@@ -8133,6 +9198,11 @@
     "title": "Dir, IT Business Operations",
     "displayname": "Jose Rodriguez",
     "plid": "x47b88af3fc6b"
+  },
+  {
+    "title": "",
+    "displayname": "Jasen Rodriguez",
+    "plid": "x6f607515609c"
   },
   {
     "title": "Lecturer",
@@ -8210,7 +9280,7 @@
     "plid": "xcf98e8e3e2ac"
   },
   {
-    "title": "Dir, Auxiliary Services",
+    "title": "Exec Dir, Auxiliary Services",
     "displayname": "John Root Jr.",
     "plid": "x74600892f00f"
   },
@@ -8281,6 +9351,16 @@
   },
   {
     "title": "Lecturer",
+    "displayname": "Alyssa Rowe",
+    "plid": "x79a5d3834535"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Jen Rowland",
+    "plid": "x01b714b795db"
+  },
+  {
+    "title": "Lecturer",
     "displayname": "Dr. Lauren Rowlands",
     "plid": "x28d1a51e2b5d"
   },
@@ -8293,6 +9373,11 @@
     "title": "Lecturer",
     "displayname": "Dr. Shounak Roychowdhury",
     "plid": "xb16a2d2c4744"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Rachel Ruiz",
+    "plid": "x2126e373d518"
   },
   {
     "title": "",
@@ -8310,9 +9395,14 @@
     "plid": "xc22c56f1e82f"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Lucas Rusnak",
     "plid": "x963a944fc101"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Eleanor Russell",
+    "plid": "xba0ca3036c9d"
   },
   {
     "title": "Lecturer",
@@ -8350,9 +9440,19 @@
     "plid": "x8fe1df02a838"
   },
   {
+    "title": "Asst Professor of Practice",
+    "displayname": "Dr. Nikkie Saldivar Hodgson",
+    "plid": "x2e6c56b47072"
+  },
+  {
     "title": "Distinguished Professor Emeritus",
     "displayname": "Dr. Philip Salem",
     "plid": "xfb7c25df9db2"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Alba Salinero Moraleda",
+    "plid": "x91c86f629df7"
   },
   {
     "title": "Publications Writer",
@@ -8363,6 +9463,11 @@
     "title": "Professor",
     "displayname": "Dr. Omar Sanchez-Sibony",
     "plid": "x8f34daaf0231"
+  },
+  {
+    "title": "Director",
+    "displayname": "Stacey Sanders",
+    "plid": "xf8b5bc34b825"
   },
   {
     "title": "Grant Specialist",
@@ -8378,6 +9483,11 @@
     "title": "Associate Professor",
     "displayname": "Dr. Eric Sarmiento",
     "plid": "x7e5a3e475c30"
+  },
+  {
+    "title": "Assistant Professor",
+    "displayname": "Dr. Nathan Satchell",
+    "plid": "x3e966ff7c4cc"
   },
   {
     "title": "Professor",
@@ -8400,7 +9510,7 @@
     "plid": "x412cc2505303"
   },
   {
-    "title": "Asst Professor of Practice",
+    "title": "Associate Professor of Practice",
     "displayname": "Jennifer Scharlach",
     "plid": "x8c6f4799ec4b"
   },
@@ -8420,6 +9530,11 @@
     "plid": "x8cca2629fa61"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Kaitlyn Schenk",
+    "plid": "x1ea44a2bf5e7"
+  },
+  {
     "title": "Extension Educator",
     "displayname": "Dr. Patricia Schiaffini-Vedani",
     "plid": "xf5376e0eba4f"
@@ -8433,6 +9548,11 @@
     "title": "Lecturer",
     "displayname": "Geary Schindel",
     "plid": "xb9732c64ebcc"
+  },
+  {
+    "title": "",
+    "displayname": "Grace Schlafer",
+    "plid": "x89ef01a74c26"
   },
   {
     "title": "",
@@ -8615,7 +9735,17 @@
     "plid": "x7d2738849717"
   },
   {
-    "title": "Asst Professor of Practice",
+    "title": "Associate Professor",
+    "displayname": "Molly Sherman",
+    "plid": "xaa97f97c335d"
+  },
+  {
+    "title": "Coord, Team Operations",
+    "displayname": "James Sherman",
+    "plid": "xb2b88a9bd0c4"
+  },
+  {
+    "title": "Associate Professor of Practice",
     "displayname": "Dr. Todd Sherron",
     "plid": "x960733da33b9"
   },
@@ -8695,12 +9825,17 @@
     "plid": "xafbc77700fd2"
   },
   {
+    "title": "Program Specialist",
+    "displayname": "Michael Sims",
+    "plid": "xf0514f64c835"
+  },
+  {
     "title": "Senior Lecturer",
     "displayname": "Laura Sims",
     "plid": "xfb3f3aaf4a83"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Shailen Singh",
     "plid": "x92f49f3fd1ba"
   },
@@ -8795,7 +9930,12 @@
     "plid": "x5b8c67050362"
   },
   {
-    "title": "Professor",
+    "title": "Lecturer",
+    "displayname": "Dr. Wesley Smith",
+    "plid": "x5ea247eab8ad"
+  },
+  {
+    "title": "Professor Emeritus",
     "displayname": "LeAnne Smith",
     "plid": "x5f1921626aa6"
   },
@@ -8828,6 +9968,11 @@
     "title": "Professor",
     "displayname": "Dr. Patrick Smith",
     "plid": "xc896faad3934"
+  },
+  {
+    "title": "",
+    "displayname": "Paxton Smith",
+    "plid": "xcae7b1798373"
   },
   {
     "title": "",
@@ -8880,7 +10025,7 @@
     "plid": "xbf1a3c878afa"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Taylor Soliz",
     "plid": "xf33d3cd9a0e4"
   },
@@ -8893,6 +10038,11 @@
     "title": "Associate Professor",
     "displayname": "Dr. In-Hyouk Song",
     "plid": "x1b0599039f74"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Tyshee Sonnier",
+    "plid": "x95c8db57e4a3"
   },
   {
     "title": "Professor",
@@ -9030,6 +10180,11 @@
     "plid": "x63d784afd222"
   },
   {
+    "title": "Assistant Professor",
+    "displayname": "Nicole Stewart",
+    "plid": "x9d5b73e3de4c"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Dr. Paula Stigler Granados",
     "plid": "x5af3f7db1d7c"
@@ -9105,7 +10260,7 @@
     "plid": "x895a37759a58"
   },
   {
-    "title": "Assistant Professor",
+    "title": "Associate Professor",
     "displayname": "Dr. Emily Suh",
     "plid": "x3706901fc075"
   },
@@ -9116,8 +10271,18 @@
   },
   {
     "title": "School Director - Professor",
+    "displayname": "Dr. Todd Sullivan",
+    "plid": "x1c0ba4cbca46"
+  },
+  {
+    "title": "School Director - Professor",
     "displayname": "Dr. Christopher Sullivan",
     "plid": "x3f0b479ee6b6"
+  },
+  {
+    "title": "",
+    "displayname": "Benjamin Sullivan",
+    "plid": "x8a7679ecca4e"
   },
   {
     "title": "Lecturer",
@@ -9140,7 +10305,7 @@
     "plid": "x796cceab38e4"
   },
   {
-    "title": "Associate Professor",
+    "title": "Professor",
     "displayname": "Dr. Shuying Sun",
     "plid": "x05758afcc0ec"
   },
@@ -9166,6 +10331,11 @@
   },
   {
     "title": "",
+    "displayname": "Heather Swienton",
+    "plid": "xc2c2c827004d"
+  },
+  {
+    "title": "",
     "displayname": "Gail Bernadine Sylvester-Conrad",
     "plid": "x66a54b6c3cb6"
   },
@@ -9180,7 +10350,12 @@
     "plid": "xfc6e75d19aa1"
   },
   {
-    "title": "Extension Educator",
+    "title": "Compliance Specialist",
+    "displayname": "Erica Szpynda",
+    "plid": "x641f3503e346"
+  },
+  {
+    "title": "Professor",
     "displayname": "Dr. Hassan Tajalli",
     "plid": "xb0dd7981e4e6"
   },
@@ -9220,7 +10395,12 @@
     "plid": "xaf596d56b4d1"
   },
   {
-    "title": "Associate Professor",
+    "title": "Lecturer",
+    "displayname": "Kenneth Tapp",
+    "plid": "x4a9bde091e13"
+  },
+  {
+    "title": "Professor",
     "displayname": "Dr. Gina Tarver",
     "plid": "xba668cee6103"
   },
@@ -9228,6 +10408,11 @@
     "title": "Professor",
     "displayname": "Dr. Jitendra Tate",
     "plid": "x77a967b10d4c"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Mya Taylor",
+    "plid": "x8f443bd99dd0"
   },
   {
     "title": "",
@@ -9295,6 +10480,11 @@
     "plid": "x555aa1635c27"
   },
   {
+    "title": "School Director-Assoc Professor",
+    "displayname": "Dr. Beth Thomas",
+    "plid": "x98bf6120c036"
+  },
+  {
     "title": "Lecturer",
     "displayname": "Seth Thompson",
     "plid": "x80e56b18d0ad"
@@ -9308,6 +10498,11 @@
     "title": "Lecturer",
     "displayname": "James Thomson",
     "plid": "x3c6ce30356bd"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "David Thomson",
+    "plid": "x907a44cd06bd"
   },
   {
     "title": "Clinical Assistant Professor",
@@ -9420,13 +10615,18 @@
     "plid": "x67426ac47998"
   },
   {
+    "title": "",
+    "displayname": "Liam Trapane",
+    "plid": "x0891ca634bdd"
+  },
+  {
     "title": "Professor",
     "displayname": "Dr. Raphael Travis Jr.",
     "plid": "x23f1707d4fdf"
   },
   {
     "title": "Associate Professor",
-    "displayname": "Dr. Raymond Treinen",
+    "displayname": "Dr. Ray Treinen",
     "plid": "x14f2881259d2"
   },
   {
@@ -9445,6 +10645,11 @@
     "plid": "x367cf3f94897"
   },
   {
+    "title": "Visiting Associate Professor",
+    "displayname": "Dr. Gerardo Trevino-Garza",
+    "plid": "x0c1e78cfb237"
+  },
+  {
     "title": "Assistant Professor Emeritus",
     "displayname": "Dr. Jose Trinidad",
     "plid": "xe5fe954e335a"
@@ -9455,7 +10660,7 @@
     "plid": "x0dbfd3c1689b"
   },
   {
-    "title": "Student Development Specialist I",
+    "title": "Grant Coordinator",
     "displayname": "Brittany Trosky",
     "plid": "x80cc23bcf9cb"
   },
@@ -9465,9 +10670,19 @@
     "plid": "xa29a6d490d35"
   },
   {
+    "title": "Career Counselor",
+    "displayname": "Aubrey Trujillo",
+    "plid": "x0853e8158321"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Dr. Logan Trujillo",
     "plid": "xe6484cffeed9"
+  },
+  {
+    "title": "",
+    "displayname": "Mandy Truman",
+    "plid": "x54f6c3b2c689"
   },
   {
     "title": "Senior Lecturer",
@@ -9545,7 +10760,17 @@
     "plid": "x6d335c00c59d"
   },
   {
-    "title": "Lecturer",
+    "title": "",
+    "displayname": "Raymond Vagell",
+    "plid": "xc4d68cf4a18c"
+  },
+  {
+    "title": "Clinical Assistant Professor",
+    "displayname": "Lenora Valdez",
+    "plid": "x05a23308d8ce"
+  },
+  {
+    "title": "Senior Lecturer",
     "displayname": "Nancy Valdez-Gainer",
     "plid": "x535b7dce3e07"
   },
@@ -9563,6 +10788,11 @@
     "title": "Senior Lecturer",
     "displayname": "Dr. Dolores Van Der Kolk",
     "plid": "x6afddf0670a4"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Zengara Van Loan",
+    "plid": "x7f7fb28cc53d"
   },
   {
     "title": "",
@@ -9588,6 +10818,11 @@
     "title": "Assistant Professor",
     "displayname": "Dr. Angela VandenBroek",
     "plid": "xf965e124e063"
+  },
+  {
+    "title": "",
+    "displayname": "Brendan Vander Weil",
+    "plid": "xb8a870e2ef1c"
   },
   {
     "title": "Lecturer",
@@ -9618,6 +10853,11 @@
     "title": "Lecturer",
     "displayname": "Dr. Micaela Vargas",
     "plid": "x72dc434eee9f"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Edwin Vargas-Garzon",
+    "plid": "xc7549012f948"
   },
   {
     "title": "Lecturer",
@@ -9655,9 +10895,14 @@
     "plid": "x1214b1a50e5b"
   },
   {
-    "title": "Program Faculty",
+    "title": "Clinical Lecturer",
     "displayname": "Dr. Lea Velez",
     "plid": "xd8d3fd42f845"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Spandana Vemulapally",
+    "plid": "xb255ff145897"
   },
   {
     "title": "Associate Professor",
@@ -9670,9 +10915,19 @@
     "plid": "x96369d4091ee"
   },
   {
+    "title": "",
+    "displayname": "Isabella Vigil",
+    "plid": "xe05b6fca64c6"
+  },
+  {
     "title": "Asst Professor of Practice",
     "displayname": "Paul Villagran",
     "plid": "x5380c5fc2e74"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Orville Villanueva Feliciano",
+    "plid": "xe764aa92b085"
   },
   {
     "title": "Senior Lecturer",
@@ -9700,12 +10955,7 @@
     "plid": "xe55821d0b6b4"
   },
   {
-    "title": "Lecturer",
-    "displayname": "Dr. Brittany Vinciguerra",
-    "plid": "xbace8e939a67"
-  },
-  {
-    "title": "Program Faculty",
+    "title": "Professor of Practice",
     "displayname": "Dr. Miha Vindis",
     "plid": "x65b2e85ac4f9"
   },
@@ -9733,6 +10983,16 @@
     "title": "Dir, Utilities Operations",
     "displayname": "James Vollrath",
     "plid": "x2dd5c7ffa084"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Jordan Vonderhaar",
+    "plid": "x42abdeb002e6"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Todd Votteler",
+    "plid": "x06091fc866fa"
   },
   {
     "title": "",
@@ -9925,6 +11185,11 @@
     "plid": "x09dbcabfeabd"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Taylor Weaver",
+    "plid": "x72ac7a05e1a9"
+  },
+  {
     "title": "Senior Lecturer",
     "displayname": "Britney Webb",
     "plid": "x0a3b7155265d"
@@ -9933,6 +11198,11 @@
     "title": "Lecturer",
     "displayname": "Dr. Whitney Webre",
     "plid": "xfd915651733d"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Terrance Wedin",
+    "plid": "xf6531a8c99e7"
   },
   {
     "title": "Associate Professor Emeritus",
@@ -9975,6 +11245,11 @@
     "plid": "x26c234af3e34"
   },
   {
+    "title": "Clinical Assistant Professor",
+    "displayname": "Brandy Wells",
+    "plid": "x3978dfcbd157"
+  },
+  {
     "title": "Professor",
     "displayname": "Dr. Stewart Welsh",
     "plid": "xd53a4d7df3a3"
@@ -9988,6 +11263,11 @@
     "title": "Assistant Professor",
     "displayname": "Dr. Julie Weng",
     "plid": "x9ac5bf693bd7"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Cate Wengelnik",
+    "plid": "x946c2cc656c1"
   },
   {
     "title": "",
@@ -10005,6 +11285,11 @@
     "plid": "xd41168bd0499"
   },
   {
+    "title": "Lecturer",
+    "displayname": "Kayla Wesley",
+    "plid": "xabca137481ee"
+  },
+  {
     "title": "Coord, Extd Lrng Srvcs",
     "displayname": "Nicole Wesley",
     "plid": "xf67b2657196d"
@@ -10020,7 +11305,7 @@
     "plid": "x98cb8951c218"
   },
   {
-    "title": "Associate Professor",
+    "title": "Professor",
     "displayname": "Dr. Carmen Westerberg",
     "plid": "x89171899b99b"
   },
@@ -10030,9 +11315,14 @@
     "plid": "x0dc0460f9b60"
   },
   {
-    "title": "Lecturer",
+    "title": "Senior Lecturer",
     "displayname": "Dr. Casey Wheatland",
     "plid": "xf1abc8980f18"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Brittany Wheeler",
+    "plid": "xbace8e939a67"
   },
   {
     "title": "Asst Director, IDEA Center",
@@ -10055,6 +11345,11 @@
     "plid": "x9e9da2896231"
   },
   {
+    "title": "Coord, Team Operations",
+    "displayname": "Abigail Whitling",
+    "plid": "x6c16e0d6b758"
+  },
+  {
     "title": "Associate Professor",
     "displayname": "Dr. Steven Whitten",
     "plid": "x5498f8371393"
@@ -10073,6 +11368,16 @@
     "title": "Lecturer",
     "displayname": "Dr. Isaac Wiegman",
     "plid": "x7f3662f9f755"
+  },
+  {
+    "title": "Associate Professor",
+    "displayname": "Dr. David Wierschem",
+    "plid": "x0c99131c10c1"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Dr. Christopher Wight",
+    "plid": "xdf951860f2cc"
   },
   {
     "title": "Grant Director, Non-Faculty",
@@ -10180,7 +11485,7 @@
     "plid": "x27d483b07da5"
   },
   {
-    "title": "Associate Professor",
+    "title": "Professor",
     "displayname": "Dr. Rick Wilson",
     "plid": "x33e9063ea1c4"
   },
@@ -10190,12 +11495,12 @@
     "plid": "x39a8a182bb7d"
   },
   {
-    "title": "",
+    "title": "Lecturer",
     "displayname": "Naomi Wilson",
     "plid": "x5082b0c0c6d4"
   },
   {
-    "title": "Extension Educator",
+    "title": "Professor",
     "displayname": "Steve Wilson",
     "plid": "x675645deb3be"
   },
@@ -10266,7 +11571,7 @@
   },
   {
     "title": "Lecturer",
-    "displayname": "Chelsey Wooten",
+    "displayname": "Dr. Chelsey Wooten",
     "plid": "x720ea8a5fb5a"
   },
   {
@@ -10298,6 +11603,16 @@
     "title": "Program Staff",
     "displayname": "Dr. Traci Wright-Bloodworth",
     "plid": "x37f7ccaa2c87"
+  },
+  {
+    "title": "",
+    "displayname": "Elizabeth Wrightsman",
+    "plid": "xd49378ec557b"
+  },
+  {
+    "title": "",
+    "displayname": "Andrew Wylie",
+    "plid": "xf5d051aaec5b"
   },
   {
     "title": "Residence Hall Director",
@@ -10385,7 +11700,7 @@
     "plid": "xc40164171ef8"
   },
   {
-    "title": "Associate Professor",
+    "title": "Professor",
     "displayname": "Dr. Byoung Hee You",
     "plid": "xee1542596161"
   },
@@ -10395,7 +11710,7 @@
     "plid": "x40c37edbc07d"
   },
   {
-    "title": "Program Faculty",
+    "title": "Associate Professor",
     "displayname": "Dr. Randall Young",
     "plid": "x1b34aec06d57"
   },
@@ -10440,9 +11755,14 @@
     "plid": "xd78eb813a8d1"
   },
   {
-    "title": "Program Faculty",
+    "title": "Professor",
     "displayname": "Dr. Gail Zank",
     "plid": "xe2378906d343"
+  },
+  {
+    "title": "Asst Coach",
+    "displayname": "Henry Zapata",
+    "plid": "x9d784805922b"
   },
   {
     "title": "Lecturer",
@@ -10453,6 +11773,11 @@
     "title": "Assistant Professor",
     "displayname": "Dr. Ruben Zecena Cartagena",
     "plid": "xce1c6fde2539"
+  },
+  {
+    "title": "Lecturer",
+    "displayname": "Rana Zeidan",
+    "plid": "xaa9db6d2bec9"
   },
   {
     "title": "Assistant Professor",
@@ -10473,6 +11798,11 @@
     "title": "Associate Professor",
     "displayname": "Dr. Peiqin Zhang",
     "plid": "xbc4735c01791"
+  },
+  {
+    "title": "Assistant Professor",
+    "displayname": "Dr. John Zhang",
+    "plid": "xbf280c849a8d"
   },
   {
     "title": "Associate Professor",
@@ -10515,7 +11845,7 @@
     "plid": "x4447f85c2b09"
   },
   {
-    "title": "Program Faculty",
+    "title": "Regents' Teacher",
     "displayname": "Jon Zmikly",
     "plid": "xfe9142972a28"
   },

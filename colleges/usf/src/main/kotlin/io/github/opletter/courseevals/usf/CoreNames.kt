@@ -25,10 +25,8 @@ suspend fun getDeptNames(): Map<String, String> {
         "SMT" to "Science or Mathematics Teaching",
     )
     val curNames = getCourseData().associate { it.prefix to it.courseType.substringAfter(" - ") }
-    val prefixNames = (presetNames + curNames).filter { it.key in Prefixes }
-    check(Prefixes.all { it in prefixNames }) {
-        "not all prefixes have names: ${Prefixes.filter { it !in prefixNames }}"
-    }
+    val prefixNames = (presetNames + curNames).filterKeys { it in Prefixes }
+    check(Prefixes.all { it in prefixNames }) { "Missing prefix names: ${Prefixes - prefixNames.keys}" }
     return prefixNames
 }
 

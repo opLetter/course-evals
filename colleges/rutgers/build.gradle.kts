@@ -12,7 +12,7 @@ kotlin {
     jvm {
         withJava()
     }
-    js(IR) {
+    js {
         browser()
     }
 

@@ -76,8 +76,6 @@ suspend fun <T : Semester<T>> SchoolDataApi<T>.runFromArgs(args: Array<String>) 
         val paths = WebsitePaths(args[it + 1].lowercase())
         val rawDataDir = Path.of(args[it + 2].lowercase())
         writeAllGeneratedData(paths, rawDataDir)
-        // TODO: remove - THIS IS TEMPORARY FOR THE MIGRATION
-        paths.baseDir.path.parent.resolve("processed").deleteRecursively()
     }
 }
 
@@ -85,13 +83,7 @@ suspend fun SchoolDataApi<*>.writeAllGeneratedData(paths: WebsitePaths, rawDataD
     writeSchoolStatsByProf(paths.statsByProfDir.path, paths.schoolsByCodeFile.path, rawDataDir)
     writeSchoolAllInstructors(paths.allInstructorsFile.path, paths.statsByProfDir.path)
     writeSchoolDeptNames(paths.deptNamesFile.path)
-    // TODO: remove - THIS IS TEMPORARY FOR THE MIGRATION
-    val existingCourseNamesDir = paths.baseDir.path.parent.resolve("processed/core/course-names")
-    writeSchoolCourseNames(
-        paths.courseNamesDir.path,
-        paths.statsByProfDir.path,
-        existingCourseNamesDir = existingCourseNamesDir
-    )
+    writeSchoolCourseNames(paths.courseNamesDir.path, paths.statsByProfDir.path)
     writeSchoolTeachingProfs(paths.teachingDataDir.path, paths.statsByProfDir.path)
 }
 

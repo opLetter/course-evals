@@ -1,7 +1,7 @@
 [versions]
 coroutines = "1.7.3"
 jetbrains-compose = "1.5.11"
-kobweb = "0.15.2"
+kobweb = "0.15.3"
 kotlin = "1.9.21"
 ktor = "2.3.6"
 pdfbox = "3.0.0"

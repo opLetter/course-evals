@@ -23,7 +23,7 @@ import io.github.opletter.courseevals.site.core.misc.College
 import kotlinx.browser.document
 import org.jetbrains.compose.web.css.cssRem
 
-val MyLinkVariant by LinkStyle.addVariant(
+val SubpageLinkVariant by LinkStyle.addVariant(
     extraModifiers = { LinkStyle.toModifier(UndecoratedLinkVariant) }
 ) {
     link {
@@ -70,7 +70,7 @@ fun HomePage() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     listOf(College.TXST, College.FSU, College.USF).sortedBy { it.fullName }.forEach { college ->
-                        Link(path = college.urlPath, variant = MyLinkVariant) {
+                        Link(path = college.urlPath, variant = SubpageLinkVariant) {
                             SpanText(college.fullName)
                         }
                     }

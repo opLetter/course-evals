@@ -1,5 +1,5 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.7.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.9.0")
 @file:Import("common_setup.main.kts")
 
 import io.github.typesafegithub.workflows.actions.peterevans.CreatePullRequestV5
@@ -56,7 +56,7 @@ workflow(
         setUpWithData()
 
         val college = expr { college }
-        run {
+        kotlin.run {
             val rootDir = "../../data/$college"
             val args = listOf("--write-all", "$rootDir/generated", "$rootDir/raw/reports")
                 .joinToString(" ", prefix = "\"", postfix = "\"")

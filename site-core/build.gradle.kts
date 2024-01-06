@@ -14,13 +14,11 @@ kotlin {
     configAsKobwebLibrary()
 
     sourceSets {
-        val jsMain by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.html.core)
-                implementation(libs.bundles.kobweb)
-                implementation(projects.common)
-            }
+        jsMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.html.core)
+            implementation(libs.bundles.kobweb)
+            implementation(projects.common)
         }
     }
 }

@@ -17,19 +17,15 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.coroutines)
-                implementation(libs.serialization)
-                implementation(libs.bundles.ktor.main)
-                implementation(projects.common)
-            }
+        commonMain.dependencies {
+            implementation(libs.coroutines)
+            implementation(libs.serialization)
+            implementation(libs.bundles.ktor.main)
+            implementation(projects.common)
         }
 
-        val jvmMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.cio)
-            }
+        jvmMain.dependencies {
+            implementation(libs.ktor.client.cio)
         }
     }
 }

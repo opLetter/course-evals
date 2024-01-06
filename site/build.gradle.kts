@@ -57,14 +57,12 @@ kotlin {
     configAsKobwebApplication(rootProject.name)
 
     sourceSets {
-        val jsMain by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.html.core)
-                implementation(libs.bundles.kobweb)
-                implementation(projects.common)
-                implementation(projects.siteCore)
-            }
+        jsMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.html.core)
+            implementation(libs.bundles.kobweb)
+            implementation(projects.common)
+            implementation(projects.siteCore)
         }
     }
 }

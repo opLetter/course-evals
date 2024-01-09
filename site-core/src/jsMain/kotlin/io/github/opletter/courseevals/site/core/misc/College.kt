@@ -161,7 +161,7 @@ sealed interface College {
         override val dropDownLabels = listOf("Campus", "Course Prefix", "Course (Optional)", "Instructor (Optional)")
         override val semesterConfig = SemesterConfig(
             bounds = Semester.Triple.valueOf(SemesterType.Fall, 2013) to
-                    Semester.Triple.valueOf(SemesterType.Spring, 2023),
+                    Semester.Triple.valueOf(SemesterType.Fall, 2023),
             default = Semester.Triple.valueOf(SemesterType.Fall, 2020),
         ) { Semester.Triple.valueOf(it) }
         override val campuses = mapOf(Campus.MAIN to true, Campus.PNM to false, Campus.INTL to false)

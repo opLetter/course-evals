@@ -11,8 +11,8 @@ fun List<Report>.getTotalRatings(): Ratings {
 
 fun getTerms(): List<String> {
     return listOf("01", "05", "08").flatMap { sem ->
-        (2006..2022).map { year -> "$year$sem" }
-    } + setOf("200508", "202301")
+        (2006..2023).map { year -> "$year$sem" }
+    } + setOf("200508")
 }
 
 fun getReportsFromFiles(dir: Path): Map<String, List<Report>> {

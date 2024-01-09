@@ -55,7 +55,7 @@ fun organizeReports(reportsDir: Path, outputDir: Path): SchoolDeptsMap<List<Repo
                 .groupBy { it.courseCode.take(3) }
         }.writeToFiles(outputDir)
         .also {
-            val schoolsData = it.map { (key, value) ->
+            val schoolsData = it.entries.associate { (key, value) ->
                 key to School(
                     code = key,
                     name = campusMap[key] ?: error("No name for $key"),
@@ -63,7 +63,7 @@ fun organizeReports(reportsDir: Path, outputDir: Path): SchoolDeptsMap<List<Repo
                     campuses = setOf(Campus.valueOf(key.uppercase())),
                     level = LevelOfStudy.U,
                 )
-            }.toMap()
+            }
             outputDir.resolve("schools.json").writeAsJson(schoolsData)
         }
 }

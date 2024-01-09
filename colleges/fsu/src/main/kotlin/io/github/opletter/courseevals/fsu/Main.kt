@@ -43,7 +43,7 @@ object FSUApi : SchoolDataApi<Semester.Triple> {
     }
 
     override fun getSchoolSchoolsData(statsByProf: SchoolDeptsMap<Map<String, InstructorStats>>): Map<String, School> {
-        return statsByProf.map { (key, value) ->
+        return statsByProf.entries.associate { (key, value) ->
             key to School(
                 code = key,
                 name = campusMap[key] ?: error("No name for $key"),
@@ -51,7 +51,7 @@ object FSUApi : SchoolDataApi<Semester.Triple> {
                 campuses = setOf(Campus.valueOf(key.uppercase())),
                 level = LevelOfStudy.U,
             )
-        }.toMap()
+        }
     }
 
     override fun getSchoolAllInstructors(statsByProfDir: Path) = createAllInstructors(statsByProfDir)

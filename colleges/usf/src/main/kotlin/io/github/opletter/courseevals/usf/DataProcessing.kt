@@ -30,7 +30,8 @@ fun getStatsByProf(
         entries
             .filter { !it.deptInfo.startsWith("Lakeland") && Semester.Triple.valueOf(it.term) >= minSem }
             .groupBy { it.prof.uppercase().replace(" ", "") }
-            .map { (_, profEntries) ->
+            .entries
+            .associate { (_, profEntries) ->
                 val newKey = profEntries.maxBy { Semester.Triple.valueOf(it.term).numValue }.prof
                 newKey to InstructorStats(
                     lastSem = profEntries.maxOf { Semester.Triple.valueOf(it.term).numValue },
@@ -39,7 +40,7 @@ fun getStatsByProf(
                         it.courseID.substringAfterBefore(" - ", " ")
                     }.mapValues { (_, reports) -> reports.getTotalRatings() }
                 )
-            }.toMap()
+            }
     }.onEach { (prefix, profs) ->
         if (profs.isEmpty()) {
             println("no profs for $prefix")

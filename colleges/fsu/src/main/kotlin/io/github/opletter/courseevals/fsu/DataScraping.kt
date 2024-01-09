@@ -115,7 +115,7 @@ data class Report(
                 courseCode = metadata.code,
                 courseName = metadata.course,
                 area = metadata.area,
-                numRespondents = (pdfReport.questions.map { it.numRespondents } - (-1)).distinct().singleOrNull() ?: -1,
+                numRespondents = (pdfReport.questions.map { it.numRespondents } - (-1)).toSet().singleOrNull() ?: -1,
                 ratings = pdfReport.questions.associate { QuestionMapping.getValue(it.question) to it.results },
                 ids = metadata.ids,
             )
@@ -232,7 +232,7 @@ suspend fun getAllData(outputDir: Path, keys: List<String> = CourseSearchKeys) {
 
         if (reports != null) {
             outputDir.resolve("${courseKey.take(3)}/${courseKey.drop(3)}.json")
-                .writeAsJson(reports.distinct()) // for some reason there may be a few duplicates
+                .writeAsJson(reports.toSet()) // for some reason there may be a few duplicates
         } else {
             outputDir.resolve("failed/${courseKey.take(3)}/${courseKey.drop(3)}.json")
                 .createParentDirectories().writeText("{}")

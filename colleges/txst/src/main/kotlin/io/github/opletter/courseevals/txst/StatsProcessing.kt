@@ -22,22 +22,20 @@ fun getStatsByProf(reportsDir: Path, profs: List<TXSTInstructor>): Map<String, M
                 .also { check(it in Prefixes) { "$it not a prefix" } }
         }.mapValues { (_, reports) ->
             reports
-                .distinct() // courses w/ multiple instructors can lead to duplicate reports
+                .toSet() // courses w/ multiple instructors can lead to duplicate reports
                 .flatMap { report ->
-                    report.responses.map {
-                        report.course to (it.instructor.plid to it.scores)
-                    }
-                }.groupBy { it.second.first }
+                    report.responses.map { Triple(report.course, it.instructor.plid, it.scores) }
+                }.groupBy { it.second }
                 .entries
                 .associate { (profId, profStats) ->
-                    allProfs[profId]!!.displayName.normalizeName() to InstructorStats(
+                    allProfs.getValue(profId).displayName.normalizeName() to InstructorStats(
                         lastSem = parseSemester(profStats.maxOf { it.first.semester }),
-                        overallStats = profStats.map { it.second.second }.combine(),
+                        overallStats = profStats.map { it.third }.combine(),
                         courseStats = profStats.groupBy(
                             keySelector = { (course, _) ->
                                 course.number.dropWhile { it.isLetter() }
                             },
-                            valueTransform = { it.second.second }
+                            valueTransform = { it.third }
                         ).mapValues { it.value.combine() }.toSortedMap().toMap()
                     )
                 }

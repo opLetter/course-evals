@@ -29,7 +29,7 @@ class CampusVM(
     }
 
     override val checks
-        get() = campuses.keys.associateWith { checksState[it]!! } // recreate map so that key order is maintained
+        get() = campuses.mapValues { checksState.getValue(it.key) } // recreate map so that key order is maintained
 
     override fun handleClick(data: Campus) {
         checksState[data] = !(checksState[data] ?: error("No value for $data"))

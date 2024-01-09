@@ -145,11 +145,9 @@ private fun List<String>.extractPageData(): Pair<String, List<TeachingEntry>> {
                 ?: locationsSpecial.firstOrNull { line.endsWith(it) }?.let { line.replace(it, "Main") }
                 ?: line
         }
-        fixedLine.let {
-            if (it.endsWith("Main") && it != "Main")
-                listOf(it.substringBefore(" Main"), "Main")
-            else listOf(it)
-        }
+        if (fixedLine.endsWith("Main") && fixedLine != "Main") {
+            listOf(fixedLine.substringBefore(" Main"), "Main")
+        } else listOf(fixedLine)
     }.getTeachingEntries()
 
     return rollover to entries
@@ -199,9 +197,12 @@ private fun List<String>.getTeachingEntries(): List<TeachingEntry> {
     return splitBy { index, x ->
         val validStart = getOrNull(index + 1)?.firstOrNull()?.isDigit() == true
         validStart && (x.endsWith("Main") || x == "AM AM" || x == "PM PM" || x == "AM PM")
-    }.mapNotNull { lineParts -> // filter out dates
-        lineParts.filterNot { it.matches("^\\d{1,2}/\\d{1,2}/\\d{4} ".toRegex()) }.takeIf { it.isNotEmpty() }
-    }.map { line ->
+    }.mapNotNull { lineParts ->
+        val line = lineParts
+            .filterNot { it.matches("^\\d{1,2}/\\d{1,2}/\\d{4} ".toRegex()) } // filter out dates
+            .takeIf { it.isNotEmpty() }
+            ?: return@mapNotNull null
+
         when (line.size) {
             1 -> {
                 val parts = line.single().split(" ")

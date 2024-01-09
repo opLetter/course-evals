@@ -75,10 +75,8 @@ workflow(
                 deleteBranch = true,
                 body = """
                     Auto-generated changes from [course-evals][1].
-                    PR created by [create-pull-request][2].
                     
                     [1]: https://github.com/opLetter/course-evals/actions/workflows/generate_all_data.yml
-                    [2]: https://github.com/peter-evans/create-pull-request
                 """.trimIndent()
             )
         )

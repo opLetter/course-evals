@@ -4,7 +4,7 @@ package io.github.opletter.courseevals.usf
 // We skip the following prefixes that seem to exist but have no data:
 // ARE, BMS, CHD, DPT, ENY, EPD, IDC, MDC, MDE, MDI, MDR, MDT, MDX, MEL, NEB, PAS, PHT, RAT, RSD
 // and the following that have data but not within our time range:
-// CJJ, CJT, ELR, ETI
+// CJJ, CJT, ELR, ETI, NGR, NSP, NUR
 val Prefixes = listOf(
     "ACG",
     "ADE",
@@ -214,10 +214,7 @@ val Prefixes = listOf(
     "MVS",
     "MVV",
     "MVW",
-    "NGR",
     "NSC",
-    "NSP",
-    "NUR",
     "OCB",
     "OCC",
     "OCE",

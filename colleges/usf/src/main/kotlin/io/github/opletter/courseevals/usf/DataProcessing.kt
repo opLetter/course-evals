@@ -24,7 +24,7 @@ fun getReportsFromFiles(dir: Path): Map<String, List<Report>> {
 
 fun getStatsByProf(
     data: Map<String, List<Report>>,
-    minSem: Semester.Triple = Semester.Triple.valueOf(SemesterType.Fall, 2012),
+    minSem: Semester.Triple = Semester.Triple.valueOf(SemesterType.Fall, 2013),
 ): Map<String, Map<String, InstructorStats>> {
     return data.mapValues { (_, entries) ->
         entries

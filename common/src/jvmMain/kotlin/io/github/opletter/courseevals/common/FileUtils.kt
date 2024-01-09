@@ -27,4 +27,4 @@ fun readResource(pathname: String): String {
     return stream.readText()
 }
 
-val PathWrapper.path get() = Path.of(value)
+val PathWrapper.path: Path get() = Path.of(value)

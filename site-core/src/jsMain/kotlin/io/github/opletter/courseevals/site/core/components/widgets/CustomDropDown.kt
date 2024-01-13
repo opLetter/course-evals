@@ -1,9 +1,9 @@
 package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.Composable
+import com.varabyte.kobweb.browser.dom.clearFocus
 import com.varabyte.kobweb.compose.css.FontVariantCaps
 import com.varabyte.kobweb.compose.css.FontWeight
-import com.varabyte.kobweb.compose.dom.clearFocus
 import com.varabyte.kobweb.compose.dom.ref
 import com.varabyte.kobweb.compose.dom.registerRefScope
 import com.varabyte.kobweb.compose.ui.Modifier

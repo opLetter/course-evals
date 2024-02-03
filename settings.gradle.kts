@@ -6,6 +6,21 @@ pluginManagement {
     }
 }
 
+dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
+    repositories {
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://us-central1-maven.pkg.dev/varabyte-repos/public")
+        mavenLocal {
+            content {
+                // https://github.com/opLetter/tableau-scraper-kt
+                includeModule("io.github.opletter.tableau", "tableau-scraper-kt")
+            }
+        }
+    }
+}
+
 plugins {
     id("com.gradle.enterprise") version ("3.15.1")
 }

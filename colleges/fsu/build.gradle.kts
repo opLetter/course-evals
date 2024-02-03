@@ -4,10 +4,6 @@ plugins {
     application
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation(libs.coroutines)
     implementation(libs.serialization)

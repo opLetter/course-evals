@@ -4,10 +4,6 @@ plugins {
     application
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation(libs.serialization)
     implementation(libs.bundles.ktor.main)

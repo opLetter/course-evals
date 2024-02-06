@@ -42,7 +42,7 @@ jobs:
         run: 'echo "value=$(./gradlew -q :site:kobwebBrowserCacheId)" >> $GITHUB_OUTPUT'
       - id: 'step-4'
         name: 'Cache Browser Dependencies'
-        uses: 'actions/cache@v3'
+        uses: 'actions/cache@v4'
         with:
           path: '~/.cache/ms-playwright'
           key: '${{ runner.os }}-playwright-${{ steps.step-3.outputs.value }}'

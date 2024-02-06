@@ -2,7 +2,7 @@
 @file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.11.0")
 @file:Import("custom_actions.main.kts")
 
-import io.github.typesafegithub.workflows.actions.actions.CacheV3
+import io.github.typesafegithub.workflows.actions.actions.CacheV4
 import io.github.typesafegithub.workflows.actions.actions.CheckoutV4
 import io.github.typesafegithub.workflows.actions.actions.SetupJavaV4
 import io.github.typesafegithub.workflows.actions.gradle.GradleBuildActionV3
@@ -52,7 +52,7 @@ workflow(
 
         uses(
             name = "Cache Browser Dependencies",
-            action = CacheV3(
+            action = CacheV4(
                 path = listOf("~/.cache/ms-playwright"),
                 key = "${expr { runner.os }}-playwright-${expr { "steps.${browserCacheStep.id}.outputs.value" }}"
             )

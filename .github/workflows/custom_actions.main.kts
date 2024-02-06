@@ -1,5 +1,5 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.9.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.11.0")
 
 import io.github.typesafegithub.workflows.domain.actions.Action
 import io.github.typesafegithub.workflows.domain.actions.RegularAction
@@ -24,14 +24,14 @@ class ReleaseDownloaderV1(
     override fun buildOutputObject(stepId: String) = Outputs(stepId)
 }
 
-class UploadPagesArtifactV2(private val path: String) :
-    RegularAction<Action.Outputs>("actions", "upload-pages-artifact", "v2") {
+class UploadPagesArtifactV3(private val path: String) :
+    RegularAction<Action.Outputs>("actions", "upload-pages-artifact", "v3") {
     override fun toYamlArguments() = linkedMapOf("path" to path)
 
     override fun buildOutputObject(stepId: String) = Outputs(stepId)
 }
 
-class DeployPagesV2 : RegularAction<Action.Outputs>("actions", "deploy-pages", "v2") {
+class DeployPagesV4 : RegularAction<Action.Outputs>("actions", "deploy-pages", "v4") {
     override fun toYamlArguments() = linkedMapOf<String, String>()
 
     override fun buildOutputObject(stepId: String) = Outputs(stepId)

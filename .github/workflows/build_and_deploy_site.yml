@@ -36,7 +36,7 @@ jobs:
           distribution: 'temurin'
       - id: 'step-2'
         name: 'Setup Gradle'
-        uses: 'gradle/gradle-build-action@v2'
+        uses: 'gradle/gradle-build-action@v3'
       - id: 'step-3'
         name: 'Query Browser Cache ID'
         run: 'echo "value=$(./gradlew -q :site:kobwebBrowserCacheId)" >> $GITHUB_OUTPUT'
@@ -63,7 +63,7 @@ jobs:
           ../kobweb-0.9.13/bin/kobweb export --notty --layout static --gradle-export "--scan"
       - id: 'step-7'
         name: 'Upload artifact'
-        uses: 'actions/upload-pages-artifact@v2'
+        uses: 'actions/upload-pages-artifact@v3'
         with:
           path: './site/.kobweb/site'
   deploy:
@@ -75,4 +75,4 @@ jobs:
       url: '${{ steps.deployment.outputs.page_url }}'
     steps:
       - id: 'deployment'
-        uses: 'actions/deploy-pages@v2'
+        uses: 'actions/deploy-pages@v4'

@@ -1,8 +1,8 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.9.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.11.0")
 @file:Import("common_setup.main.kts")
 
-import io.github.typesafegithub.workflows.actions.peterevans.CreatePullRequestV5
+import io.github.typesafegithub.workflows.actions.peterevans.CreatePullRequestV6
 import io.github.typesafegithub.workflows.domain.RunnerType.UbuntuLatest
 import io.github.typesafegithub.workflows.domain.triggers.WorkflowDispatch
 import io.github.typesafegithub.workflows.dsl.expressions.Contexts
@@ -23,7 +23,6 @@ class ExprResultDelegate<T>(private val _path: String) {
         }
     }
 }
-
 fun expr(expression: Contexts.() -> ExprResult<*>): String = with(Contexts) { expr(expression().stringValue) }
 
 @Suppress("UnusedReceiverParameter")
@@ -66,7 +65,7 @@ workflow(
 
         uses(
             name = "Create Pull Request",
-            action = CreatePullRequestV5(
+            action = CreatePullRequestV6(
                 token = io.github.typesafegithub.workflows.dsl.expressions.expr { EVALS_DATA_TOKEN },
                 path = "data",
                 commitMessage = "$college: Generate all data",

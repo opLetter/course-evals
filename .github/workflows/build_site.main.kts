@@ -1,11 +1,11 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.9.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.11.0")
 @file:Import("custom_actions.main.kts")
 
 import io.github.typesafegithub.workflows.actions.actions.CacheV3
 import io.github.typesafegithub.workflows.actions.actions.CheckoutV4
 import io.github.typesafegithub.workflows.actions.actions.SetupJavaV4
-import io.github.typesafegithub.workflows.actions.gradle.GradleBuildActionV2
+import io.github.typesafegithub.workflows.actions.gradle.GradleBuildActionV3
 import io.github.typesafegithub.workflows.domain.Concurrency
 import io.github.typesafegithub.workflows.domain.Mode
 import io.github.typesafegithub.workflows.domain.Permission
@@ -43,7 +43,7 @@ workflow(
             action = SetupJavaV4(javaVersion = "17", distribution = SetupJavaV4.Distribution.Temurin)
         )
 
-        uses(name = "Setup Gradle", action = GradleBuildActionV2())
+        uses(name = "Setup Gradle", action = GradleBuildActionV3())
 
         val browserCacheStep = run(
             name = "Query Browser Cache ID",
@@ -80,7 +80,7 @@ workflow(
 
         uses(
             name = "Upload artifact",
-            action = UploadPagesArtifactV2(path = "./site/.kobweb/site")
+            action = UploadPagesArtifactV3(path = "./site/.kobweb/site")
         )
     }
     val deploymentId = "deployment"
@@ -96,7 +96,7 @@ workflow(
         )
     ) {
         uses(
-            action = DeployPagesV2(),
+            action = DeployPagesV4(),
             _customArguments = mapOf("id" to deploymentId)
         )
     }

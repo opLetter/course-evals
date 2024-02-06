@@ -3,7 +3,6 @@
 
 import io.github.typesafegithub.workflows.actions.actions.CheckoutV4
 import io.github.typesafegithub.workflows.actions.actions.SetupJavaV4
-import io.github.typesafegithub.workflows.actions.gradle.GradleBuildActionV2
 import io.github.typesafegithub.workflows.actions.gradle.GradleBuildActionV3
 import io.github.typesafegithub.workflows.dsl.JobBuilder
 import io.github.typesafegithub.workflows.dsl.expressions.Contexts
@@ -29,5 +28,11 @@ fun JobBuilder<*>.setUpWithData() {
         action = SetupJavaV4(javaVersion = "17", distribution = SetupJavaV4.Distribution.Temurin)
     )
 
-    uses(name = "Setup Gradle", action = GradleBuildActionV3())
+    uses(
+        name = "Setup Gradle",
+        action = GradleBuildActionV3(
+            buildScanTermsOfServiceUrl = "https://gradle.com/terms-of-service",
+            buildScanTermsOfServiceAgree = true,
+        )
+    )
 }

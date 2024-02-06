@@ -43,7 +43,13 @@ workflow(
             action = SetupJavaV4(javaVersion = "17", distribution = SetupJavaV4.Distribution.Temurin)
         )
 
-        uses(name = "Setup Gradle", action = GradleBuildActionV3())
+        uses(
+            name = "Setup Gradle",
+            action = GradleBuildActionV3(
+                buildScanTermsOfServiceUrl = "https://gradle.com/terms-of-service",
+                buildScanTermsOfServiceAgree = true,
+            )
+        )
 
         val browserCacheStep = run(
             name = "Query Browser Cache ID",

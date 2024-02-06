@@ -38,9 +38,9 @@ jobs:
         name: 'Setup Gradle'
         uses: 'gradle/gradle-build-action@v3'
         with:
-          build-scan-publish: 'true'
-          build-scan-terms-of-service-url: 'https://gradle.com/terms-of-service'
-          build-scan-terms-of-service-agree: 'true'
+          build-scan-publish: true
+          build-scan-terms-of-service-url: "https://gradle.com/terms-of-service"
+          build-scan-terms-of-service-agree: "yes"
       - id: 'step-3'
         name: 'Query Browser Cache ID'
         run: 'echo "value=$(./gradlew -q :site:kobwebBrowserCacheId)" >> $GITHUB_OUTPUT'

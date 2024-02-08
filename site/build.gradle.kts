@@ -1,3 +1,4 @@
+import com.varabyte.kobweb.gradle.application.extensions.AppBlock
 import com.varabyte.kobweb.gradle.application.util.configAsKobwebApplication
 import kotlinx.html.link
 import kotlinx.html.script
@@ -14,6 +15,7 @@ version = "1.0-SNAPSHOT"
 
 kobweb {
     app {
+        legacyRouteRedirectStrategy = AppBlock.LegacyRouteRedirectStrategy.DISALLOW
         index {
             description = "View course evaluation results in an easy-to-read format"
             head.add {

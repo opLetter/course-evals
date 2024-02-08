@@ -23,6 +23,7 @@ class ExprResultDelegate<T>(private val _path: String) {
         }
     }
 }
+
 fun expr(expression: Contexts.() -> ExprResult<*>): String = with(Contexts) { expr(expression().stringValue) }
 
 @Suppress("UnusedReceiverParameter")

@@ -30,10 +30,6 @@ fun JobBuilder<*>.setUpWithData() {
 
     uses(
         name = "Setup Gradle",
-        action = GradleBuildActionV3(
-            buildScanPublish = true,
-            buildScanTermsOfServiceUrl = "https://gradle.com/terms-of-service",
-            buildScanTermsOfServiceAgree = true,
-        )
+        action = GradleBuildActionV3()
     )
 }

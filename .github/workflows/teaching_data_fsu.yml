@@ -30,10 +30,6 @@ jobs:
       - id: 'step-3'
         name: 'Setup Gradle'
         uses: 'gradle/gradle-build-action@v3'
-        with:
-          build-scan-publish: 'true'
-          build-scan-terms-of-service-url: 'https://gradle.com/terms-of-service'
-          build-scan-terms-of-service-agree: 'true'
       - id: 'step-4'
         name: 'Run'
         run: './gradlew colleges:fsu:run --args="--teaching ../../data/fsu/generated/core/teaching-S24 ../../data/fsu/generated/stats-by-prof" --scan'

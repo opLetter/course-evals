@@ -15,7 +15,7 @@ import io.github.typesafegithub.workflows.dsl.expressions.expr
 import io.github.typesafegithub.workflows.dsl.workflow
 import io.github.typesafegithub.workflows.yaml.writeToFile
 
-val KOBWEB_CLI_VERSION = "0.9.13"
+val KOBWEB_CLI_VERSION = "0.9.15"
 
 workflow(
     name = "Deploy Kobweb site to Pages",

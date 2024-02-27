@@ -52,7 +52,7 @@ fun CourseButtonsBar(
                 PillButton(selected = index == selectedCourse, onClick = { onClick(index) }) {
                     Row(Modifier.columnGap(0.5.cssRem), verticalAlignment = Alignment.CenterVertically) {
                         SpanText(course)
-                        if (teaching) FaChalkboardUser(Modifier.title("Teaching this course in Spring 2024"))
+                        if (teaching) FaChalkboardUser(Modifier.title("Teaching this course in Fall 2024"))
                     }
                 }
             }

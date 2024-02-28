@@ -1,13 +1,13 @@
 package io.github.opletter.courseevals.fsu
 
-import io.github.opletter.courseevals.common.data.*
+import io.github.opletter.courseevals.common.data.InstructorStats
+import io.github.opletter.courseevals.common.data.School
+import io.github.opletter.courseevals.common.data.SchoolDeptsMap
+import io.github.opletter.courseevals.common.data.Semester
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.decodeJsonIfExists
 import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
 import io.github.opletter.courseevals.common.readResource
-import io.github.opletter.courseevals.common.remote.DefaultClient
-import io.ktor.client.call.*
-import io.ktor.client.request.*
 import java.nio.file.Path
 
 private suspend fun getCourseNamesFromTeachingData(
@@ -17,13 +17,7 @@ private suspend fun getCourseNamesFromTeachingData(
     val validDepts = statsByProfDir.resolve("schools.json").decodeJson<Map<String, School>>()
         .flatMap { it.value.depts }.toSet()
 
-    return terms.flatMap { term ->
-        listOf("Undergraduate", "Graduate", "Law", "Medicine").pmap { type ->
-            DefaultClient.get("https://registrar.fsu.edu/class_search/${term.toFSUString()}/$type.pdf")
-                .body<ByteArray>()
-                .getTeachingData()
-        }.flatten()
-    }.processTeachingDataByDept { _, dept, entries ->
+    return terms.flatMap { getTeachingData(it) }.processTeachingDataByDept { _, dept, entries ->
         if (dept !in validDepts) {
             println("Invalid dept: $dept")
             return@processTeachingDataByDept emptyMap()

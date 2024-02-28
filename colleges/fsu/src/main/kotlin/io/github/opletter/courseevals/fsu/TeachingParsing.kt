@@ -5,6 +5,7 @@ import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.remote.DefaultClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 import org.apache.pdfbox.Loader
 import org.apache.pdfbox.text.PDFTextStripper
 import java.nio.file.Path
@@ -23,7 +24,7 @@ data class TeachingEntry(
 )
 
 // https://registrar.fsu.edu/class_search/
-fun ByteArray.getTeachingData(): List<TeachingData> {
+fun ByteArray.parseTeachingData(): List<TeachingData> {
     return Loader.loadPDF(this).use { doc ->
         PDFTextStripper().getText(doc).split("Page \\d+".toRegex()).drop(1)
     }.fold(emptyList()) { acc, text ->
@@ -59,12 +60,19 @@ inline fun <T, V> List<TeachingData>.processTeachingDataByDept(
         }
 }
 
-suspend fun getTeachingProfs(statsByProfDir: Path, term: Semester.Triple): SchoolDeptsMap<Map<String, Set<String>>> {
+suspend fun getTeachingData(term: Semester.Triple): List<TeachingData> {
     return listOf("Undergraduate", "Graduate", "Law", "Medicine").pmap { type ->
         DefaultClient.get("https://registrar.fsu.edu/class_search/${term.toFSUString()}/$type.pdf")
-            .body<ByteArray>()
-            .getTeachingData()
-    }.flatten().processTeachingDataByDept { campus, dept, entries ->
+            .takeIf { it.contentType() == ContentType.Application.Pdf }
+            .also { if (it == null) println("No pdf for $term $type") }
+            ?.body<ByteArray>()
+            ?.parseTeachingData()
+            .orEmpty()
+    }.flatten()
+}
+
+suspend fun getTeachingProfs(statsByProfDir: Path, term: Semester.Triple): SchoolDeptsMap<Map<String, Set<String>>> {
+    return getTeachingData(term).processTeachingDataByDept { campus, dept, entries ->
         filterTeachingInstructors(statsByProfDir, campus, dept, entries)
     }
 }

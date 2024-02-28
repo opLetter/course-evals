@@ -126,8 +126,8 @@ private fun List<String>.extractPageData(): Pair<String, List<TeachingEntry>> {
     }
 
     val splitIndex = mainLines.indexOfFirst { part ->
-        part.first().isDigit() && part.takeWhile { it != ' ' }.none { it.isLetter() }
-    }
+        (part.firstOrNull()?.isDigit() == true) && part.takeWhile { it != ' ' }.none { it.isLetter() }
+    }.takeIf { it != -1 } ?: mainLines.lastIndex
     val rollover = mainLines
         .take(splitIndex)
         .flatSplitBySpace()

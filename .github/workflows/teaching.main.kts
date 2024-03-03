@@ -40,7 +40,7 @@ fun teachingDataWorkflow(college: String, cron: Cron, gradleCommand: String = ge
 fun getGradleCommand(
     college: String,
     statsByProfDir: String = "stats-by-prof",
-    outputDir: String = "core/teaching-S24",
+    outputDir: String = "core/teaching-F24",
 ): String {
     val rootDir = "../../data/${college.lowercase()}/generated"
     val args = listOf("--teaching", "$rootDir/$outputDir", "$rootDir/$statsByProfDir")
@@ -66,5 +66,9 @@ teachingDataWorkflow(
 teachingDataWorkflow(
     college = "Rutgers",
     cron = Cron(minute = "0", hour = "22", dayWeek = "1-5"),
-    gradleCommand = getGradleCommand("Rutgers", statsByProfDir = "stats-by-prof-cleaned")
+    gradleCommand = getGradleCommand(
+        "Rutgers",
+        statsByProfDir = "stats-by-prof-cleaned",
+        outputDir = "core/teaching-S24"
+    )
 ).writeToFile(addConsistencyCheck = false)

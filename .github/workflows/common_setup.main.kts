@@ -1,9 +1,9 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.11.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.12.0")
 
 import io.github.typesafegithub.workflows.actions.actions.CheckoutV4
 import io.github.typesafegithub.workflows.actions.actions.SetupJavaV4
-import io.github.typesafegithub.workflows.actions.gradle.GradleBuildActionV3
+import io.github.typesafegithub.workflows.actions.gradle.ActionsSetupGradleV3
 import io.github.typesafegithub.workflows.dsl.JobBuilder
 import io.github.typesafegithub.workflows.dsl.expressions.Contexts
 import io.github.typesafegithub.workflows.dsl.expressions.expr
@@ -30,6 +30,6 @@ fun JobBuilder<*>.setUpWithData() {
 
     uses(
         name = "Setup Gradle",
-        action = GradleBuildActionV3()
+        action = ActionsSetupGradleV3()
     )
 }

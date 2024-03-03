@@ -1,5 +1,5 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.11.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.12.0")
 @file:Import("common_setup.main.kts")
 
 import io.github.typesafegithub.workflows.actions.peterevans.CreatePullRequestV6

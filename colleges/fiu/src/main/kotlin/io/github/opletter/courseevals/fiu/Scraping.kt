@@ -36,7 +36,7 @@ suspend fun getAllData(writeDir: Path) {
     var startTime = Clock.System.now()
 
     var ws = scraper.getWorkbook().worksheets[0]
-        .setFilter(INSTUCTOR_NAME, "", indexValues = listOf(0))
+        .setFilter(INSTRUCTOR_NAME, "", indexValues = listOf(0))
         .worksheets[0].clearFilter(ACAD_YR)
         .worksheets[0].clearFilter(SEMESTER).worksheets[0]
 
@@ -53,7 +53,7 @@ suspend fun getAllData(writeDir: Path) {
             }.collect()
 
             ws = scraper.getWorkbook().worksheets[0]
-                .setFilter(INSTUCTOR_NAME, "", indexValues = listOf(0))
+                .setFilter(INSTRUCTOR_NAME, "", indexValues = listOf(0))
                 .worksheets[0].clearFilter(ACAD_YR)
                 .worksheets[0].clearFilter(SEMESTER).worksheets[0]
             startTime = Clock.System.now()
@@ -64,7 +64,7 @@ suspend fun getAllData(writeDir: Path) {
         val data = indices.map { idx ->
             println(idx)
             try {
-                ws.setFilter(INSTUCTOR_NAME, "", indexValues = listOf(idx))
+                ws.setFilter(INSTRUCTOR_NAME, "", indexValues = listOf(idx))
                     .worksheets[0]
                     .getEntries()
             } catch (e: Exception) {
@@ -82,7 +82,7 @@ suspend fun getAllDataLevel2(writeDir: Path, failedIndicesFile: Path) {
     val scraper = createScraper().apply { loads(DASHBOARD_URL) }
 
     val ws = scraper.getWorkbook().worksheets[0]
-        .setFilter(INSTUCTOR_NAME, "", indexValues = listOf(0))
+        .setFilter(INSTRUCTOR_NAME, "", indexValues = listOf(0))
         .worksheets[0].clearFilter(ACAD_YR)
         .worksheets[0].clearFilter(SEMESTER).worksheets[0]
 
@@ -95,7 +95,7 @@ suspend fun getAllDataLevel2(writeDir: Path, failedIndicesFile: Path) {
         try {
             val newData = YearRange.flatMap { yearIndex ->
                 ws.apply {
-                    setFilter(INSTUCTOR_NAME, "", indexValues = listOf(0), filterDelta = true)
+                    setFilter(INSTRUCTOR_NAME, "", indexValues = listOf(0), filterDelta = true)
                     setFilter(ACAD_YR, "", indexValues = listOf(yearIndex), filterDelta = true)
                 }
 
@@ -106,7 +106,7 @@ suspend fun getAllDataLevel2(writeDir: Path, failedIndicesFile: Path) {
                     return@flatMap emptyList()
                 }
 
-                ws.setFilter(INSTUCTOR_NAME, "", indexValues = listOf(curNameIndex), filterDelta = true)
+                ws.setFilter(INSTRUCTOR_NAME, "", indexValues = listOf(curNameIndex), filterDelta = true)
                     .worksheets[0]
                     // need to repeat year filter to throw error if rendered server-side
                     .setFilter(ACAD_YR, "", indexValues = listOf(yearIndex), filterDelta = true)
@@ -119,7 +119,7 @@ suspend fun getAllDataLevel2(writeDir: Path, failedIndicesFile: Path) {
                 .createParentDirectories()
                 .writeText("$origIndex\n", Charsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND)
             // reset to prevent continuous error
-            ws.setFilter(INSTUCTOR_NAME, "", indexValues = listOf(0)).worksheets[0].clearFilter(ACAD_YR)
+            ws.setFilter(INSTRUCTOR_NAME, "", indexValues = listOf(0)).worksheets[0].clearFilter(ACAD_YR)
         }
     }
 }
@@ -128,15 +128,15 @@ suspend fun getAllDataLevel3(name: String, index: Int, writeDir: Path) {
     val scraper = createScraper().apply { loads(DASHBOARD_URL) }
     val newData = (0..2).flatMap { semesterIndex ->
         val ws = scraper.getWorkbook().worksheets[0].apply {
-            setFilter(INSTUCTOR_NAME, "", indexValues = listOf(0), filterDelta = true)
+            setFilter(INSTRUCTOR_NAME, "", indexValues = listOf(0), filterDelta = true)
             setFilter(SEMESTER, "", indexValues = listOf(semesterIndex), filterDelta = true)
         }
 
         YearRange.flatMap year@{ yearIndex ->
             ws.apply {
-                setFilter(INSTUCTOR_NAME, "", indexValues = listOf(0), filterDelta = true)
+                setFilter(INSTRUCTOR_NAME, "", indexValues = listOf(0), filterDelta = true)
                 setFilter(ACAD_YR, "", indexValues = listOf(yearIndex), filterDelta = true)
-                setFilter(INSTUCTOR_NAME, "", indexValues = listOf(0), filterDelta = true)
+                setFilter(INSTRUCTOR_NAME, "", indexValues = listOf(0), filterDelta = true)
             }
 
             val curNameIndex = scraper.getNameOrdering()
@@ -148,7 +148,7 @@ suspend fun getAllDataLevel3(name: String, index: Int, writeDir: Path) {
             }
 
             val instructorWorkbook = ws
-                .setFilter(INSTUCTOR_NAME, "", indexValues = listOf(curNameIndex), filterDelta = true)
+                .setFilter(INSTRUCTOR_NAME, "", indexValues = listOf(curNameIndex), filterDelta = true)
 
             val courseIndices = scraper.filters["SPOTs Results"]!!
                 .first { it["column"]!!.jsonPrimitive.content == COURSE_FILTER }
@@ -171,7 +171,7 @@ suspend fun getAllDataLevel3(name: String, index: Int, writeDir: Path) {
 
 private val YearRange = 0..11
 
-private const val INSTUCTOR_NAME = "Instructor Name"
+private const val INSTRUCTOR_NAME = "Instructor Name"
 private const val ACAD_YR = "Acad Yr"
 private const val SEMESTER = "Semester"
 private const val COURSE_FILTER = "Course (filter)"
@@ -189,7 +189,7 @@ private fun createScraper(): TableauScraper {
 
 private fun TableauScraper.getNameOrdering(): JsonArray {
     return filters["SPOTs Results"]!!
-        .first { it["column"]?.jsonPrimitive?.content == INSTUCTOR_NAME }["selectionAlt"]!!.jsonArray
+        .first { it["column"]?.jsonPrimitive?.content == INSTRUCTOR_NAME }["selectionAlt"]!!.jsonArray
         .first().jsonObject["domainTables"]!!.jsonArray
 }
 

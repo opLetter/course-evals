@@ -23,7 +23,7 @@ data class TeachingEntry(
     val error: String = "",
 )
 
-// https://registrar.fsu.edu/class_search/
+// https://registrar.fsu.edu/scheduling/class-search
 fun ByteArray.parseTeachingData(): List<TeachingData> {
     return Loader.loadPDF(this).use { doc ->
         PDFTextStripper().getText(doc).split("Page \\d+".toRegex()).drop(1)
@@ -62,7 +62,7 @@ inline fun <T, V> List<TeachingData>.processTeachingDataByDept(
 
 suspend fun getTeachingData(term: Semester.Triple): List<TeachingData> {
     return listOf("Undergraduate", "Graduate", "Law", "Medicine").pmap { type ->
-        DefaultClient.get("https://registrar.fsu.edu/class_search/${term.toFSUString()}/$type.pdf")
+        DefaultClient.get("https://registrar.fsu.edu/sites/g/files/upcbnu3886/files/documents/archive-class-search//${term.toFSUString()}$type.pdf")
             .takeIf { it.contentType() == ContentType.Application.Pdf }
             .also { if (it == null) println("No pdf for $term $type") }
             ?.body<ByteArray>()

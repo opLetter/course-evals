@@ -67,7 +67,6 @@ abstract class SimpleSchoolDataApi<T : Semester<T>> : SchoolDataApi<T> {
     protected fun <T> T.toSchoolMap() = mapOf("0" to this)
 }
 
-@OptIn(ExperimentalPathApi::class)
 suspend fun <T : Semester<T>> SchoolDataApi<T>.runFromArgs(args: Array<String>) {
     args.indexOf("--teaching").takeIf { it != -1 }?.let {
         writeSchoolTeachingProfs(outputDir = Path.of(args[it + 1]), statsByProfDir = Path.of(args[it + 2]))

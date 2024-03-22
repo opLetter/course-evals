@@ -12,7 +12,7 @@ import kotlin.io.path.readText
 
 
 suspend fun main(args: Array<String>) {
-    args.indexOf("-teaching").takeIf { it != -1 }?.let {
+    args.indexOf("--teaching").takeIf { it != -1 }?.let {
         getTeachingData(
             readDir = Path.of(args[it + 2]),
             writeDir = Path.of(args[it + 1]),

@@ -14,8 +14,8 @@ import kotlin.io.path.readText
 suspend fun main(args: Array<String>) {
     args.indexOf("-teaching").takeIf { it != -1 }?.let {
         getTeachingData(
-            readDir = Path.of(args[it + 1]),
-            writeDir = Path.of(args[it + 2]),
+            readDir = Path.of(args[it + 2]),
+            writeDir = Path.of(args[it + 1]),
             term = Semester.Double.valueOf(SemesterType.Fall, 2024)
         )
     }

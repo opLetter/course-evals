@@ -69,6 +69,6 @@ teachingDataWorkflow(
     gradleCommand = getGradleCommand(
         "Rutgers",
         statsByProfDir = "stats-by-prof-cleaned",
-        outputDir = "core/teaching-S24"
+        outputDir = "core/teaching-F24"
     )
 ).writeToFile(addConsistencyCheck = false)

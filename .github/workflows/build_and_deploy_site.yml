@@ -58,9 +58,7 @@ jobs:
           extract: 'true'
       - id: 'step-6'
         name: 'Run export'
-        run: |-
-          cd site
-          ../kobweb-0.9.15/bin/kobweb export --notty --layout static --gradle-export "--scan"
+        run: '../kobweb-0.9.15/bin/kobweb export -p site --notty --layout static --gradle-export "--scan"'
       - id: 'step-7'
         name: 'Upload artifact'
         uses: 'actions/upload-pages-artifact@v3'

@@ -76,7 +76,7 @@ workflow(
         run(
             name = "Run export",
             command = """
-              ../kobweb-$KOBWEB_CLI_VERSION/bin/kobweb export -p site --notty --layout static --gradle-export "--scan"
+              kobweb-$KOBWEB_CLI_VERSION/bin/kobweb export -p site --notty --layout static --gradle-export "--scan"
             """.trimIndent()
         )
 

@@ -22,14 +22,14 @@ dependencyResolutionManagement {
 }
 
 plugins {
-    id("com.gradle.enterprise") version "3.16.2"
+    id("com.gradle.develocity") version "3.17"
 }
 
-gradleEnterprise {
+develocity {
     if (System.getenv("CI") != null) {
         buildScan {
-            termsOfServiceUrl = "https://gradle.com/terms-of-service"
-            termsOfServiceAgree = "yes"
+            termsOfUseUrl = "https://gradle.com/terms-of-service"
+            termsOfUseAgree = "yes"
         }
     }
 }

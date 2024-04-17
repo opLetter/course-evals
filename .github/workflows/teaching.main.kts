@@ -1,7 +1,13 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.12.0")
+@file:Repository("https://repo1.maven.org/maven2/")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.14.0")
+
+@file:Repository("https://github-workflows-kt-bindings.colman.com.br/binding/")
+@file:DependsOn("EndBug:add-and-commit:v9")
+
 @file:Import("common_setup.main.kts")
 
+import io.github.typesafegithub.workflows.actions.endbug.AddAndCommit
 import io.github.typesafegithub.workflows.actions.endbug.AddAndCommitV9
 import io.github.typesafegithub.workflows.domain.RunnerType.UbuntuLatest
 import io.github.typesafegithub.workflows.domain.triggers.Cron
@@ -26,10 +32,11 @@ fun teachingDataWorkflow(college: String, cron: Cron, gradleCommand: String = ge
 
         uses(
             name = "Add & Commit",
-            action = AddAndCommitV9(
+            action = AddAndCommit(
                 add = "-A",
                 cwd = "data",
-                defaultAuthor = AddAndCommitV9.DefaultAuthor.GithubActions,
+                // TODO: hopefully this becomes an enum at some point
+                defaultAuthor = AddAndCommitV9.DefaultAuthor.GithubActions.stringValue,
                 message = "$college: Update teaching data",
                 pull = "--rebase --autostash",
             )

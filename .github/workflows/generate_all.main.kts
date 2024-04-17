@@ -1,8 +1,13 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.12.0")
+@file:Repository("https://repo1.maven.org/maven2/")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.14.0")
+
+@file:Repository("https://github-workflows-kt-bindings.colman.com.br/binding/")
+@file:DependsOn("peter-evans:create-pull-request:v6")
+
 @file:Import("common_setup.main.kts")
 
-import io.github.typesafegithub.workflows.actions.peterevans.CreatePullRequestV6
+import io.github.typesafegithub.workflows.actions.peterevans.CreatePullRequest
 import io.github.typesafegithub.workflows.domain.RunnerType.UbuntuLatest
 import io.github.typesafegithub.workflows.domain.triggers.WorkflowDispatch
 import io.github.typesafegithub.workflows.dsl.expressions.Contexts
@@ -66,7 +71,7 @@ workflow(
 
         uses(
             name = "Create Pull Request",
-            action = CreatePullRequestV6(
+            action = CreatePullRequest(
                 token = io.github.typesafegithub.workflows.dsl.expressions.expr { EVALS_DATA_TOKEN },
                 path = "data",
                 commitMessage = "$college: Generate all data",

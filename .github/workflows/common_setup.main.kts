@@ -1,9 +1,15 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.12.0")
+@file:Repository("https://repo1.maven.org/maven2/")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.14.0")
 
-import io.github.typesafegithub.workflows.actions.actions.CheckoutV4
-import io.github.typesafegithub.workflows.actions.actions.SetupJavaV4
-import io.github.typesafegithub.workflows.actions.gradle.ActionsSetupGradleV3
+@file:Repository("https://github-workflows-kt-bindings.colman.com.br/binding/")
+@file:DependsOn("actions:checkout:v4")
+@file:DependsOn("actions:setup-java:v4")
+@file:DependsOn("gradle:actions__setup-gradle:v3")
+
+import io.github.typesafegithub.workflows.actions.actions.Checkout
+import io.github.typesafegithub.workflows.actions.actions.SetupJava
+import io.github.typesafegithub.workflows.actions.gradle.ActionsSetupGradle
 import io.github.typesafegithub.workflows.dsl.JobBuilder
 import io.github.typesafegithub.workflows.dsl.expressions.Contexts
 import io.github.typesafegithub.workflows.dsl.expressions.expr
@@ -12,24 +18,26 @@ import io.github.typesafegithub.workflows.dsl.expressions.expr
 val EVALS_DATA_TOKEN by Contexts.secrets
 
 fun JobBuilder<*>.setUpWithData() {
-    uses(name = "Checkout code", action = CheckoutV4())
+    uses(name = "Checkout code", action = Checkout())
 
     uses(
         name = "Checkout data",
-        action = CheckoutV4(
+        action = Checkout(
             repository = "opletter/course-evals-data",
             path = "data",
             token = expr { EVALS_DATA_TOKEN }
         )
     )
 
+    ActionsSetupGradle(validateWrappers = true)
+
     uses(
         name = "Set up Java",
-        action = SetupJavaV4(javaVersion = "17", distribution = SetupJavaV4.Distribution.Temurin)
+        action = SetupJava(javaVersion = "17", distribution = SetupJava.Distribution.Temurin)
     )
 
     uses(
         name = "Setup Gradle",
-        action = ActionsSetupGradleV3()
+        action = ActionsSetupGradle(validateWrappers = true)
     )
 }

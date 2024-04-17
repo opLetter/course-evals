@@ -30,12 +30,14 @@ jobs:
       - id: 'step-3'
         name: 'Setup Gradle'
         uses: 'gradle/actions/setup-gradle@v3'
+        with:
+          validate-wrappers: 'true'
       - id: 'step-4'
         name: 'Run'
         run: './gradlew colleges:rutgers:run --args="--teaching ../../data/rutgers/generated/core/teaching-F24 ../../data/rutgers/generated/stats-by-prof-cleaned" --scan'
       - id: 'step-5'
         name: 'Add & Commit'
-        uses: 'EndBug/add-and-commit@v9'
+        uses: 'endbug/add-and-commit@v9'
         with:
           add: '-A'
           cwd: 'data'

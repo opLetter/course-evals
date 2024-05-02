@@ -3,7 +3,7 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
 import com.varabyte.kobweb.compose.ui.modifiers.top
-import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.style.component.toModifier
 import io.github.opletter.courseevals.site.core.components.widgets.ClosableOverlay
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import org.jetbrains.compose.web.css.px

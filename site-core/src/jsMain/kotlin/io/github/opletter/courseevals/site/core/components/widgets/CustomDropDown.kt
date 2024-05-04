@@ -9,7 +9,7 @@ import com.varabyte.kobweb.compose.dom.registerRefScope
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
-import com.varabyte.kobweb.silk.style.component.*
+import com.varabyte.kobweb.silk.style.*
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.color
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
@@ -24,7 +24,7 @@ import org.w3c.dom.get
 
 interface SelectKind : ComponentKind
 
-val SelectStyle = ComponentStyle.base<SelectKind> {
+val SelectStyle = CssStyle.base<SelectKind> {
     Modifier
         .padding(4.px)
         .borderRadius(6.px)
@@ -42,7 +42,7 @@ fun <T> CustomDropDown(
     onSelect: (String) -> Unit,
     hint: T? = null,
     selectModifier: Modifier = Modifier,
-    selectVariant: ComponentVariant<SelectKind>? = null,
+    selectVariant: CssStyleVariant<SelectKind>? = null,
     optionModifier: Modifier = Modifier,
     getText: (T) -> String = { it.toString() },
     getValue: (T) -> String = getText,

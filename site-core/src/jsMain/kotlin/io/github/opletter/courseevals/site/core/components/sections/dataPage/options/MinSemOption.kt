@@ -7,8 +7,8 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontVariant
-import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.style.toModifier
 import io.github.opletter.courseevals.site.core.components.widgets.LabeledSlider
 import io.github.opletter.courseevals.site.core.states.MinSemesterVM
 import org.jetbrains.compose.web.css.percent

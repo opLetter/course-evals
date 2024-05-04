@@ -18,9 +18,7 @@ import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.navigation.LinkKind
 import com.varabyte.kobweb.silk.components.navigation.LinkStyle
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.style.CssStyle
-import com.varabyte.kobweb.silk.style.base
-import com.varabyte.kobweb.silk.style.component.ComponentVariant
+import com.varabyte.kobweb.silk.style.*
 import com.varabyte.kobweb.silk.style.selector.link
 import com.varabyte.kobweb.silk.style.selector.visited
 import com.varabyte.kobweb.silk.theme.colors.palette.link
@@ -48,7 +46,7 @@ val OppositeLinkVariant = LinkStyle.addVariant {
 }
 
 @Composable
-fun Footer(modifier: Modifier = Modifier, linkVariant: ComponentVariant<LinkKind>? = null) {
+fun Footer(modifier: Modifier = Modifier, linkVariant: CssStyleVariant<LinkKind>? = null) {
     Column(
         FooterStyle.toModifier().then(modifier),
         horizontalAlignment = Alignment.CenterHorizontally,

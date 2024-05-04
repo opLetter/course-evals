@@ -18,7 +18,7 @@ import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.style.breakpoint.displayIfAtLeast
 import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
-import com.varabyte.kobweb.silk.style.component.toModifier
+import com.varabyte.kobweb.silk.style.toModifier
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.*
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.ExtraOptions
 import io.github.opletter.courseevals.site.core.components.widgets.LoadingSpinner
@@ -92,7 +92,7 @@ fun DataPageContent(college: College) {
             .flexWrap(FlexWrap.Nowrap)
     ) {
         Column(
-            MainNavStyle.toModifier(SideNavVariant)
+            SideNavVariant.toModifier()
                 .rowGap(0.5.cssRem)
                 .displayIfAtLeast(Breakpoint.MD),
             horizontalAlignment = Alignment.CenterHorizontally

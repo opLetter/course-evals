@@ -15,10 +15,11 @@ import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.navigation.LinkStyle
 import com.varabyte.kobweb.silk.components.navigation.UndecoratedLinkVariant
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.style.component.toModifier
+import com.varabyte.kobweb.silk.style.addVariant
 import com.varabyte.kobweb.silk.style.selector.hover
 import com.varabyte.kobweb.silk.style.selector.link
 import com.varabyte.kobweb.silk.style.selector.visited
+import com.varabyte.kobweb.silk.style.toModifier
 import io.github.opletter.courseevals.site.core.components.layouts.HomePageLayout
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.DarkBackgroundBoxStyle
 import io.github.opletter.courseevals.site.core.components.widgets.LogoWithSubhead

@@ -24,10 +24,9 @@ import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.overlay.PopupPlacement
 import com.varabyte.kobweb.silk.components.overlay.Tooltip
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.style.CssStyle
+import com.varabyte.kobweb.silk.style.*
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
-import com.varabyte.kobweb.silk.style.component.*
 import com.varabyte.kobweb.silk.style.selector.hover
 import com.varabyte.kobweb.silk.style.selector.link
 import com.varabyte.kobweb.silk.style.selector.visited
@@ -74,7 +73,7 @@ val MainGridAreaStyle = CssStyle {
 
 interface InfoBubbleKind : ComponentKind
 
-val InfoBubbleStyle = ComponentStyle.base<InfoBubbleKind> {
+val InfoBubbleStyle = CssStyle.base<InfoBubbleKind> {
     Modifier
         .padding(topBottom = 0.25.cssRem, leftRight = 0.5.cssRem)
         .borderRadius(12.px)
@@ -86,18 +85,17 @@ val TopInfoBubbleVariant = InfoBubbleStyle.addVariant {
     Breakpoint.XL { Modifier.margin(top = 0.5.cssRem) }
 }
 
-interface GridRowKind : ComponentKind
 
-val GridRowStyle = ComponentStyle<GridRowKind> {}
+val GridRowStyle = CssStyle {}
 
-val EvenRowVariant = GridRowStyle.addVariantBase {
+val EvenRowVariant = GridRowStyle.extendedByBase {
     Modifier.backgroundColor(SitePalettes[colorMode].secondary)
 }
 
 // intentionally using blank variant to allow for easy experimentation & changes
-val OddRowVariant = GridRowStyle.addVariant { }
+val OddRowVariant = GridRowStyle.extendedBy { }
 
-val AveRowVariant = GridRowStyle.addVariantBase {
+val AveRowVariant = GridRowStyle.extendedByBase {
     val background = if (colorMode.isLight) Color.rgb(44, 62, 110) else Color.rgb(218, 105, 95)
 
     Modifier
@@ -274,7 +272,7 @@ private fun StatsGrid(
     mobileView: Boolean,
     selectedQ: Int,
     selectedQDropDown: Int,
-    gridVariant: ComponentVariant<SimpleGridKind>,
+    gridVariant: CssStyleVariant<SimpleGridKind>,
     onNameClick: (String) -> Unit,
     getProfUrl: (String) -> String,
 ) {
@@ -305,8 +303,8 @@ private fun StatsGrid(
                 val rowModifier = when {
                     prof == "Average" -> AveRowVariant
                     i % 2 == 0 -> EvenRowVariant
-                    else -> OddRowVariant
-                }.let { GridRowStyle.toModifier(it) }
+                    else -> GridRowStyle
+                }.toModifier()
 
                 SpanText((i + 1).toString(), rowModifier.fontWeight(FontWeight.Bold))
                 ProfName(
@@ -338,7 +336,7 @@ private fun ProfName(
     getProfUrl: (String) -> String,
 ) {
     if (prof == "Average") {
-        SpanText(prof, GridRowStyle.toModifier(AveRowVariant).textAlign(TextAlign.Start))
+        SpanText(prof, AveRowVariant.toModifier().textAlign(TextAlign.Start))
         return
     }
 

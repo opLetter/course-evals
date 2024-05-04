@@ -1,6 +1,6 @@
 #!/usr/bin/env kotlin
 @file:Repository("https://repo1.maven.org/maven2/")
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.14.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.15.0")
 
 @file:Repository("https://github-workflows-kt-bindings.colman.com.br/binding/")
 @file:DependsOn("actions:checkout:v4")
@@ -9,12 +9,13 @@
 @file:DependsOn("gradle:actions__setup-gradle:v3")
 @file:DependsOn("actions:upload-pages-artifact:v3")
 @file:DependsOn("actions:deploy-pages:v4")
-@file:DependsOn("robinraju:release-downloader:v1")
+@file:DependsOn("robinraju:release-downloader:v1.10")
 
 import io.github.typesafegithub.workflows.actions.actions.*
 import io.github.typesafegithub.workflows.actions.gradle.ActionsSetupGradle
 import io.github.typesafegithub.workflows.actions.robinraju.ReleaseDownloader
 import io.github.typesafegithub.workflows.domain.Concurrency
+import io.github.typesafegithub.workflows.domain.Environment
 import io.github.typesafegithub.workflows.domain.Mode
 import io.github.typesafegithub.workflows.domain.Permission
 import io.github.typesafegithub.workflows.domain.RunnerType.UbuntuLatest
@@ -79,8 +80,7 @@ workflow(
                 // these are in theory booleans
                 tarBall = "false",
                 zipBall = "false",
-                _customInputs = mapOf("extract" to "true"),
-                _customVersion = "v1.10",
+                extract = "true",
             )
         )
 
@@ -101,12 +101,10 @@ workflow(
         id = "deploy",
         runsOn = UbuntuLatest,
         needs = listOf(exportJob),
-        _customArguments = mapOf(
-            "environment" to mapOf(
-                "name" to "github-pages",
-                "url" to expr { "steps.$deploymentId.outputs.page_url" }
-            )
-        )
+        environment = Environment(
+            name = "github-pages",
+            url = expr { "steps.$deploymentId.outputs.page_url" }
+        ),
     ) {
         uses(
             action = DeployPages(),

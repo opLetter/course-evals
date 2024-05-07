@@ -8,10 +8,10 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.forms.ButtonSize
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
-import com.varabyte.kobweb.silk.components.style.vars.size.FontSizeVars
 import com.varabyte.kobweb.silk.style.addVariant
 import com.varabyte.kobweb.silk.style.selector.active
 import com.varabyte.kobweb.silk.style.selector.hover
+import com.varabyte.kobweb.silk.style.vars.size.FontSizeVars
 import org.jetbrains.compose.web.css.CSSLengthValue
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.px

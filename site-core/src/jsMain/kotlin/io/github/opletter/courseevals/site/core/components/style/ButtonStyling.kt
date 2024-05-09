@@ -11,22 +11,18 @@ import com.varabyte.kobweb.silk.components.forms.ButtonStyle
 import com.varabyte.kobweb.silk.components.style.active
 import com.varabyte.kobweb.silk.components.style.addVariant
 import com.varabyte.kobweb.silk.components.style.hover
-import io.github.opletter.courseevals.site.core.components.style.SmediumButtonSize.baseButtonSize
 import org.jetbrains.compose.web.css.CSSLengthValue
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.px
 
 // TODO: replace default medium size instead when that's supported
-object SmediumButtonSize : ButtonSize by baseButtonSize {
-    val baseButtonSize get() = ButtonSize.MD
-    override val height: CSSLengthValue = 2.25.cssRem
-}
+val SmediumButtonSize = ButtonSize(1.5.cssRem, 1.5.cssRem, 0.5.cssRem)
 
-object UnsetButtonSize : ButtonSize {
-    override val height: CSSLengthValue = "unset".unsafeCast<CSSLengthValue>()
-    override val horizontalPadding: CSSLengthValue = 0.px
-    override val fontSize: CSSLengthValue = "unset".unsafeCast<CSSLengthValue>()
-}
+val UnsetButtonSize = ButtonSize(
+    "unset".unsafeCast<CSSLengthValue>(),
+    "unset".unsafeCast<CSSLengthValue>(),
+    "unset".unsafeCast<CSSLengthValue>()
+)
 
 val UnstyledButtonVariant by ButtonStyle.addVariant {
     base {

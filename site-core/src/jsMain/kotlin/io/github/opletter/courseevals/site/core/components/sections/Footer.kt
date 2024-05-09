@@ -15,9 +15,11 @@ import com.varabyte.kobweb.compose.ui.modifiers.rowGap
 import com.varabyte.kobweb.compose.ui.modifiers.textAlign
 import com.varabyte.kobweb.silk.components.icons.fa.FaGithub
 import com.varabyte.kobweb.silk.components.navigation.Link
+import com.varabyte.kobweb.silk.components.navigation.LinkKind
 import com.varabyte.kobweb.silk.components.navigation.LinkStyle
 import com.varabyte.kobweb.silk.components.style.*
 import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.style.CssStyleVariant
 import com.varabyte.kobweb.silk.theme.colors.palette.link
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.misc.goatCounterClick
@@ -43,7 +45,7 @@ val OppositeLinkVariant by LinkStyle.addVariant {
 }
 
 @Composable
-fun Footer(modifier: Modifier = Modifier, linkVariant: ComponentVariant? = null) {
+fun Footer(modifier: Modifier = Modifier, linkVariant: CssStyleVariant<LinkKind>? = null) {
     Column(
         FooterStyle.toModifier().then(modifier),
         horizontalAlignment = Alignment.CenterHorizontally,

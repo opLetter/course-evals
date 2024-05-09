@@ -18,6 +18,7 @@ import com.varabyte.kobweb.silk.components.forms.Checkbox
 import com.varabyte.kobweb.silk.components.forms.CheckboxVars
 import com.varabyte.kobweb.silk.components.icons.fa.FaChalkboardUser
 import com.varabyte.kobweb.silk.components.icons.fa.FaUpRightFromSquare
+import com.varabyte.kobweb.silk.components.layout.SimpleGridKind
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.layout.breakpoint.displayUntil
 import com.varabyte.kobweb.silk.components.navigation.Link
@@ -26,6 +27,7 @@ import com.varabyte.kobweb.silk.components.overlay.Tooltip
 import com.varabyte.kobweb.silk.components.style.*
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.style.CssStyleVariant
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.background
@@ -265,7 +267,7 @@ private fun StatsGrid(
     mobileView: Boolean,
     selectedQ: Int,
     selectedQDropDown: Int,
-    gridVariant: ComponentVariant,
+    gridVariant: CssStyleVariant<SimpleGridKind>,
     onNameClick: (String) -> Unit,
     getProfUrl: (String) -> String,
 ) {

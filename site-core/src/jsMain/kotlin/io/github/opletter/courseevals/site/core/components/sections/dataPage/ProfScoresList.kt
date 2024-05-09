@@ -23,7 +23,13 @@ import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.overlay.PopupPlacement
 import com.varabyte.kobweb.silk.components.overlay.Tooltip
-import com.varabyte.kobweb.silk.components.style.*
+import com.varabyte.kobweb.silk.components.style.ComponentStyle
+import com.varabyte.kobweb.silk.components.style.ComponentVariant
+import com.varabyte.kobweb.silk.components.style.addVariant
+import com.varabyte.kobweb.silk.components.style.addVariantBase
+import com.varabyte.kobweb.silk.components.style.base
+import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.style.selector.*
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.style.CssStyleVariant
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint

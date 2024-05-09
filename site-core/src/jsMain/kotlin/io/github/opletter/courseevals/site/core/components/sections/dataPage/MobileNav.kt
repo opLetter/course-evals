@@ -15,7 +15,7 @@ fun MobileNav(viewModel: DataPageVM, open: Boolean, onClose: () -> Unit) {
     ClosableOverlay(open = open, onClose = onClose, onStart = { mobileNavPosition = 0 }) {
         MainNav(
             viewModel,
-            MainNavStyle.toModifier(MobileNavVariant)
+            MobileNavVariant.toModifier()
                 .top(mobileNavPosition.px)
                 .onClick { it.stopImmediatePropagation() } // so that overlay stays open after click
         )

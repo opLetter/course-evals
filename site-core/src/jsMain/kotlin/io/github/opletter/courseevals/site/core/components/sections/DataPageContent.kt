@@ -93,7 +93,7 @@ fun DataPageContent(college: College) {
             .flexWrap(FlexWrap.Nowrap)
     ) {
         Column(
-            MainNavStyle.toModifier(SideNavVariant)
+            SideNavVariant.toModifier()
                 .rowGap(0.5.cssRem)
                 .displayIfAtLeast(Breakpoint.MD),
             horizontalAlignment = Alignment.CenterHorizontally

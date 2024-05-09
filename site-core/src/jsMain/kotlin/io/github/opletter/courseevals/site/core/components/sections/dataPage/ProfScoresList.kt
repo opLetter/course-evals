@@ -23,19 +23,13 @@ import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
 import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.overlay.PopupPlacement
 import com.varabyte.kobweb.silk.components.overlay.Tooltip
-import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.ComponentVariant
-import com.varabyte.kobweb.silk.style.addVariant
-import com.varabyte.kobweb.silk.style.addVariantBase
-import com.varabyte.kobweb.silk.components.style.base
-import com.varabyte.kobweb.silk.style.base
-import com.varabyte.kobweb.silk.style.toModifier
-import com.varabyte.kobweb.silk.style.selector.*
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.style.CssStyle
-import com.varabyte.kobweb.silk.style.CssStyleVariant
+import com.varabyte.kobweb.silk.style.*
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
+import com.varabyte.kobweb.silk.style.selector.hover
+import com.varabyte.kobweb.silk.style.selector.link
+import com.varabyte.kobweb.silk.style.selector.visited
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.background
@@ -78,15 +72,19 @@ val InfoBubbleStyle = CssStyle.base {
         .boxShadow(offsetX = 5.px, offsetY = 5.px, blurRadius = 30.px, color = Color.rgba(0, 0, 0, 0.08f))
 }
 
-val TopInfoBubbleVariant = InfoBubbleStyle.addVariant { Breakpoint.XL { Modifier.margin(top = 0.5.cssRem) } }
+val TopInfoBubbleVariant = InfoBubbleStyle.extendedBy {
+    Breakpoint.XL {
+        Modifier.margin(top = 0.5.cssRem)
+    }
+}
 
 val GridRowStyle = CssStyle { }
 
-val EvenRowVariant = GridRowStyle.addVariantBase { Modifier.backgroundColor(SitePalettes[colorMode].secondary) }
+val EvenRowVariant = GridRowStyle.extendedByBase { Modifier.backgroundColor(SitePalettes[colorMode].secondary) }
 
-val OddRowVariant = GridRowStyle.addVariant { }
+val OddRowVariant = GridRowStyle.extendedBy { }
 
-val AveRowVariant = GridRowStyle.addVariantBase {
+val AveRowVariant = GridRowStyle.extendedByBase {
     val background = if (colorMode.isLight) Color.rgb(44, 62, 110) else Color.rgb(218, 105, 95)
 
     Modifier
@@ -143,7 +141,7 @@ fun ProfScoresList(
         Checkbox(
             showOnlyTeaching,
             { showOnlyTeaching = it },
-            InfoBubbleStyle.toModifier(TopInfoBubbleVariant)
+            TopInfoBubbleVariant.toModifier()
                 .setVariable(CheckboxVars.TransitionDuration, 0.ms) // for responsive feel
                 .fontSize(115.percent)
                 .fontWeight(FontWeight.Medium),
@@ -294,7 +292,7 @@ private fun StatsGrid(
                     prof == "Average" -> AveRowVariant
                     i % 2 == 0 -> EvenRowVariant
                     else -> OddRowVariant
-                }.let { GridRowStyle.toModifier(it) }
+                }.toModifier()
 
                 SpanText((i + 1).toString(), rowModifier.fontWeight(FontWeight.Bold))
                 ProfName(
@@ -326,7 +324,7 @@ private fun ProfName(
     getProfUrl: (String) -> String,
 ) {
     if (prof == "Average") {
-        SpanText(prof, GridRowStyle.toModifier(AveRowVariant).textAlign(TextAlign.Start))
+        SpanText(prof, AveRowVariant.toModifier().textAlign(TextAlign.Start))
         return
     }
 

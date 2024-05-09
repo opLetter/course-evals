@@ -14,11 +14,11 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.icons.fa.FaCaretDown
 import com.varabyte.kobweb.silk.components.icons.fa.FaCaretUp
-import com.varabyte.kobweb.silk.components.layout.breakpoint.displayIfAtLeast
-import com.varabyte.kobweb.silk.components.layout.breakpoint.displayUntil
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
+import com.varabyte.kobweb.silk.style.breakpoint.displayIfAtLeast
+import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.*
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.ExtraOptions
 import io.github.opletter.courseevals.site.core.components.widgets.LoadingSpinner

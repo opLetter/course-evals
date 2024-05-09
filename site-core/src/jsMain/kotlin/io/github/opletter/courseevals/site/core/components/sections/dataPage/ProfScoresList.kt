@@ -25,12 +25,14 @@ import com.varabyte.kobweb.silk.components.overlay.PopupPlacement
 import com.varabyte.kobweb.silk.components.overlay.Tooltip
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.ComponentVariant
-import com.varabyte.kobweb.silk.components.style.addVariant
-import com.varabyte.kobweb.silk.components.style.addVariantBase
+import com.varabyte.kobweb.silk.style.addVariant
+import com.varabyte.kobweb.silk.style.addVariantBase
 import com.varabyte.kobweb.silk.components.style.base
-import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.style.base
+import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.style.selector.*
 import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.style.CssStyleVariant
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
@@ -47,14 +49,7 @@ import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Text
 import com.varabyte.kobweb.compose.css.AlignSelf as KobAlignSelf
 
-// consider switching to fr units like on mobile
-// minmax() causes headers to fill full space + align with main grid (w/ and w/o scrollbar)
-// while 12rem still fits. Then, when "auto" gets applied, scrollbar causes offset with headers,
-// but headers remain stationary when scrollbar appears/disappears.
-// This solution seems optimal compared to using pure "auto" or pure raw length ("12rem")
-// Note: "12rem" chosen strategically such that it is reached between 1280px and 1366px
-// We want the maximum possible value while affecting as little screens as possible
-val RatingsGridVariant by SimpleGridStyle.addVariant {
+val RatingsGridVariant = SimpleGridStyle.addVariant {
     base {
         Modifier.gridTemplateColumns { size(1.fr); size(4.75.fr); size(2.fr); size(2.fr) }
     }
@@ -69,13 +64,13 @@ val RatingsGridVariant by SimpleGridStyle.addVariant {
 
 val QuestionCountVar by StyleVariable<Int>()
 
-val MainGridAreaStyle by ComponentStyle {
+val MainGridAreaStyle = CssStyle {
     Breakpoint.XL {
         Modifier.padding(topBottom = 1.cssRem, leftRight = 2.25.cssRem) // leftRight covers diagonal text
     }
 }
 
-val InfoBubbleStyle by ComponentStyle.base {
+val InfoBubbleStyle = CssStyle.base {
     Modifier
         .padding(topBottom = 0.25.cssRem, leftRight = 0.5.cssRem)
         .borderRadius(12.px)
@@ -83,20 +78,15 @@ val InfoBubbleStyle by ComponentStyle.base {
         .boxShadow(offsetX = 5.px, offsetY = 5.px, blurRadius = 30.px, color = Color.rgba(0, 0, 0, 0.08f))
 }
 
-val TopInfoBubbleVariant by InfoBubbleStyle.addVariant {
-    Breakpoint.XL { Modifier.margin(top = 0.5.cssRem) }
-}
+val TopInfoBubbleVariant = InfoBubbleStyle.addVariant { Breakpoint.XL { Modifier.margin(top = 0.5.cssRem) } }
 
-val GridRowStyle by ComponentStyle {}
+val GridRowStyle = CssStyle { }
 
-val EvenRowVariant by GridRowStyle.addVariantBase {
-    Modifier.backgroundColor(SitePalettes[colorMode].secondary)
-}
+val EvenRowVariant = GridRowStyle.addVariantBase { Modifier.backgroundColor(SitePalettes[colorMode].secondary) }
 
-// intentionally using blank variant to allow for easy experimentation & changes
-val OddRowVariant by GridRowStyle.addVariant { }
+val OddRowVariant = GridRowStyle.addVariant { }
 
-val AveRowVariant by GridRowStyle.addVariantBase {
+val AveRowVariant = GridRowStyle.addVariantBase {
     val background = if (colorMode.isLight) Color.rgb(44, 62, 110) else Color.rgb(218, 105, 95)
 
     Modifier
@@ -108,8 +98,7 @@ val AveRowVariant by GridRowStyle.addVariantBase {
         .fontWeight(FontWeight.Bold)
 }
 
-// "role:button" prevents mobile text highlight on click
-val ProfNameStyle by ComponentStyle(Modifier.role("button")) {
+val ProfNameStyle = CssStyle(Modifier.role("button")) {
     val color = SitePalettes[colorMode].gridAccent
     base {
         Modifier

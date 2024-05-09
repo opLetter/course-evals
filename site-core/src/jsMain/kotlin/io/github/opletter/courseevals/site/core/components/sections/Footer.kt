@@ -19,12 +19,14 @@ import com.varabyte.kobweb.silk.components.navigation.LinkKind
 import com.varabyte.kobweb.silk.components.navigation.LinkStyle
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.ComponentVariant
-import com.varabyte.kobweb.silk.components.style.addVariant
-import com.varabyte.kobweb.silk.components.style.addVariantBase
+import com.varabyte.kobweb.silk.style.addVariant
+import com.varabyte.kobweb.silk.style.addVariantBase
 import com.varabyte.kobweb.silk.components.style.base
-import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.style.base
+import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.style.selector.*
 import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.style.CssStyleVariant
 import com.varabyte.kobweb.silk.theme.colors.palette.link
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
@@ -33,14 +35,14 @@ import io.github.opletter.courseevals.site.core.misc.jsGoatBindEvents
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.dom.Span
 
-val FooterStyle by ComponentStyle.base {
+val FooterStyle = CssStyle.base {
     Modifier
         .alignSelf(AlignSelf.Center)
         .textAlign(TextAlign.Center)
         .rowGap(0.1.cssRem)
 }
 
-val OppositeLinkVariant by LinkStyle.addVariant {
+val OppositeLinkVariant = LinkStyle.addVariant {
     val linkColors = colorMode.opposite.toPalette().link
     link {
         Modifier.color(Colors.Cyan)

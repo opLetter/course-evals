@@ -15,7 +15,8 @@ import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.icons.fa.FaCaretDown
 import com.varabyte.kobweb.silk.components.icons.fa.FaCaretUp
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.style.toModifier
+import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.style.breakpoint.displayIfAtLeast
 import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
@@ -35,7 +36,7 @@ import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.events.EventListener
 
-val PageTitleStyle by ComponentStyle {
+val PageTitleStyle = CssStyle {
     base {
         Modifier
             .columnGap(1.5.cssRem)

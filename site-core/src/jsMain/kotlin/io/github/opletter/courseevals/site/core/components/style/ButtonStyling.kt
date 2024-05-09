@@ -8,9 +8,9 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.forms.ButtonSize
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
-import com.varabyte.kobweb.silk.components.style.active
-import com.varabyte.kobweb.silk.components.style.addVariant
-import com.varabyte.kobweb.silk.components.style.hover
+import com.varabyte.kobweb.silk.style.selector.active
+import com.varabyte.kobweb.silk.style.addVariant
+import com.varabyte.kobweb.silk.style.selector.hover
 import org.jetbrains.compose.web.css.CSSLengthValue
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.px
@@ -24,7 +24,7 @@ val UnsetButtonSize = ButtonSize(
     "unset".unsafeCast<CSSLengthValue>()
 )
 
-val UnstyledButtonVariant by ButtonStyle.addVariant {
+val UnstyledButtonVariant = ButtonStyle.addVariant {
     base {
         Modifier
             .color(CSSColor.Unset)

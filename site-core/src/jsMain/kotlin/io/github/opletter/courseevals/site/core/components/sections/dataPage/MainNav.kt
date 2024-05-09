@@ -14,10 +14,12 @@ import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.addVariantBase
+import com.varabyte.kobweb.silk.style.addVariantBase
 import com.varabyte.kobweb.silk.components.style.base
-import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.style.base
+import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.background
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
@@ -51,15 +53,14 @@ private fun darkBackground(yPercent: Int) = Modifier.background(
     )
 )
 
-val MainNavStyle by ComponentStyle.base {
+val MainNavStyle = CssStyle.base {
     val backgroundModifier = if (colorMode.isLight) lightBackground(60) else darkBackground(60)
 
     backgroundModifier
         .color(ColorMode.LIGHT.toPalette().background)
 }
 
-val SideNavVariant by MainNavStyle.addVariantBase {
-    // Make background higher so gradient appears under dropdowns
+val SideNavVariant = MainNavStyle.addVariantBase {
     val backgroundModifier = if (colorMode.isLight) lightBackground(30) else darkBackground(30)
 
     backgroundModifier
@@ -71,7 +72,7 @@ val SideNavVariant by MainNavStyle.addVariantBase {
         .height(100.vh)
 }
 
-val MobileNavVariant by MainNavStyle.addVariantBase {
+val MobileNavVariant = MainNavStyle.addVariantBase {
     Modifier
         .padding(0.75.cssRem)
         .position(Position.Fixed)

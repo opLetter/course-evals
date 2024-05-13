@@ -13,11 +13,11 @@ import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
 import com.varabyte.kobweb.silk.components.forms.ButtonVars
-import com.varabyte.kobweb.silk.style.selector.active
+import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.style.addVariant
+import com.varabyte.kobweb.silk.style.selector.active
 import com.varabyte.kobweb.silk.style.selector.hover
 import com.varabyte.kobweb.silk.style.toModifier
-import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.colors.palette.background
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.components.layouts.HomePageLayout

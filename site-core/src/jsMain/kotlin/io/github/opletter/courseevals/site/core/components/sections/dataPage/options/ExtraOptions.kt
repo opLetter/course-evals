@@ -8,11 +8,9 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.base
+import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.style.base
 import com.varabyte.kobweb.silk.style.toModifier
-import com.varabyte.kobweb.silk.style.CssStyle
 import io.github.opletter.courseevals.site.core.components.widgets.ClosableTransitionObject
 import io.github.opletter.courseevals.site.core.misc.ExtraOptions
 import io.github.opletter.courseevals.site.core.states.DataPageVM

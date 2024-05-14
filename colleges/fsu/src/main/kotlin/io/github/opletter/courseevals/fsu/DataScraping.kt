@@ -16,9 +16,7 @@ import kotlinx.serialization.Serializable
 import org.apache.pdfbox.Loader
 import org.apache.pdfbox.text.PDFTextStripper
 import java.nio.file.Path
-import kotlin.io.path.createParentDirectories
 import kotlin.io.path.div
-import kotlin.io.path.writeText
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -207,7 +205,7 @@ fun ByteArray.getStatsFromPdf(): PdfReport {
             PdfReport(
                 term = generalData[0],
                 course = generalData.drop(1).dropLast(1).joinToString("").substringAfter("Course: "),
-                instructor = generalData.last(),
+                instructor = generalData.last().replace("%amp;", "&"),
                 questions = stats,
             )
         }
@@ -220,7 +218,7 @@ suspend fun getAllData(outputDir: Path, keys: List<String> = CourseSearchKeys) {
     keys.forEachIndexed { index, courseKey ->
         val reports: List<Report>? = flow {
             val reports = repo.getReportsForCourse(courseKey, outputDir / "temp") { if (it > 200) 40 else 50 }
-            emit(reports.ifEmpty { null })
+            emit(reports)
         }.retry(3) {
             it.printStackTrace()
             delayAndLog(1.minutes) { time -> "B: retrying, delaying $time" }
@@ -235,7 +233,7 @@ suspend fun getAllData(outputDir: Path, keys: List<String> = CourseSearchKeys) {
                 .writeAsJson(reports.toSet()) // for some reason there may be a few duplicates
         } else {
             outputDir.resolve("failed/${courseKey.take(3)}/${courseKey.drop(3)}.json")
-                .createParentDirectories().writeText("{}")
+                .writeAsJson(emptyList<Unit>())
         }
 
         delayAndLog(0.5.minutes) { time -> "C: Done with key $courseKey, delaying $time" }

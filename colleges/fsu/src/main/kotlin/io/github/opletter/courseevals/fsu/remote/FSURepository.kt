@@ -7,17 +7,22 @@ import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.cookies.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.retry
+import kotlinx.coroutines.flow.single
 import kotlin.time.Duration.Companion.seconds
 
 class FSURepository(private val cookie: String) {
     private val client = HttpClient(CIO) {
         engine {
+//            proxy = ProxyBuilder.http("https://35.185.196.38:3128")
             endpoint {
                 connectAttempts = 5
             }
@@ -71,12 +76,12 @@ class FSURepository(private val cookie: String) {
         }.body()
     }
 
-    // up to 2023 Fall
+    // up to 2024 Spring
     private val terms = listOf(
-        // no long in lest - need to confirm if data is still available
-        // "2554", "2577", "2799", "2800", "2801", "2802"
+        // no longer in list - need to confirm if data is still available
+        // "2554", "2577", "2800", "2802"
         "2856", "2803", "2801", "2799", "2805", "2829", "3045", "3052", "3520", "3793", "4148", "4410", "4780", "5131",
-        "5694", "5884", "6647", "7135", "7418", "7433", "7453", "7466", "7477", "7492", "7503", "7530"
+        "5694", "5884", "6647", "7135", "7418", "7433", "7453", "7466", "7477", "7492", "7503", "7530", "7534"
     )
 
     suspend fun getAllReports(
@@ -99,19 +104,18 @@ class FSURepository(private val cookie: String) {
         }.flatten()
     }
 
-    private suspend fun List<String>.getPdfUrl(): String {
-        require(size == 4) { "ids must be a list of 4 strings" }
-        return client.get("Reports/SRPdf.aspx?${joinToString(",")}")
+    private suspend fun getPdfUrl(ids: List<String>): String {
+        require(ids.size == 4) { "ids must be a list of 4 strings" }
+        return client.get("Reports/SRPdf.aspx?${ids.joinToString(",")}")
             .bodyAsText().substringAfterBefore("'../", "'")
     }
 
     suspend fun getPdfBytes(ids: List<String>): ByteArray {
-        return client.get(ids.getPdfUrl()).body()
+        return client.get(getPdfUrl(ids)).body()
     }
 
     suspend fun getPdfUrlAndBytes(ids: List<String>): Pair<String, ByteArray> {
-        val url = client.get("Reports/SRPdf.aspx?${ids.joinToString(",")}").bodyAsText()
-            .substringAfterBefore("'../", "'")
+        val url = getPdfUrl(ids)
         return url to client.get(url).body()
     }
 
@@ -119,10 +123,10 @@ class FSURepository(private val cookie: String) {
         suspend fun init(): FSURepository {
             val cookie = HttpClient { followRedirects = false }
                 .get("https://fsu.evaluationkit.com/Report/Public")
-                .headers.toString()
+                .setCookie()
                 .let {
-                    val cookieKey = "ASP.NET_SessionId="
-                    cookieKey + it.substringAfterBefore(cookieKey, " ")
+                    val cookieKey = "ASP.NET_SessionId"
+                    cookieKey + "=" + (it[cookieKey]?.value ?: error("Cookie not found"))
                 }
             return FSURepository(cookie)
         }
@@ -131,7 +135,6 @@ class FSURepository(private val cookie: String) {
     }
 }
 
-// need connectionTimeout = 5000, connectAttempts = 5
 suspend fun FSURepository.getAllValidCourseKeys(): List<String> {
     val alphabet = ('a'..'z')
     val searchKeys = alphabet.flatMap { first ->
@@ -145,7 +148,13 @@ suspend fun FSURepository.getAllValidCourseKeys(): List<String> {
     val validKeys = searchKeys.chunked(10000).flatMap { subList ->
         subList.chunked(150)
             .flatMap { strings ->
-                strings.pmap { it to getReports(course = it).results.isNotEmpty() }
+                flow {
+                    emit(strings.pmap { it to getReports(course = it).results.isNotEmpty() })
+                }.retry(5) {
+                    println("Retrying...")
+                    delay(10.seconds)
+                    true
+                }.single()
             }.mapNotNull { (key, present) ->
                 key.takeIf { present }
             }.also {

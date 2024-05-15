@@ -8,17 +8,20 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
-import com.varabyte.kobweb.silk.components.style.*
+import com.varabyte.kobweb.silk.style.addVariant
+import com.varabyte.kobweb.silk.style.selectors.active
+import com.varabyte.kobweb.silk.style.selectors.focusVisible
+import com.varabyte.kobweb.silk.style.selectors.hover
+import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.palette.background
 import com.varabyte.kobweb.silk.theme.colors.palette.button
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
-import io.github.opletter.courseevals.site.core.components.style.SmediumButtonSize
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.s
 
-val PillButtonVariant by ButtonStyle.addVariant {
+val PillButtonVariant = ButtonStyle.addVariant {
     val baseColor = SitePalettes[colorMode].neutral
     base {
         Modifier
@@ -49,8 +52,8 @@ val PillButtonVariant by ButtonStyle.addVariant {
     }
 }
 
-val PillButtonSelectedVariant by ButtonStyle.addVariant(
-    extraModifiers = { ButtonStyle.toModifier(PillButtonVariant).tabIndex(-1) }
+val PillButtonSelectedVariant = ButtonStyle.addVariant(
+    extraModifier = { ButtonStyle.toModifier(PillButtonVariant).tabIndex(-1) }
 ) {
     val colorModifier = Modifier
         .backgroundColor(SitePalettes[colorMode].accent)
@@ -71,7 +74,6 @@ fun PillButton(
         onClick = onClick,
         modifier = modifier,
         variant = if (selected) PillButtonSelectedVariant else PillButtonVariant,
-        size = SmediumButtonSize,
         content = content
     )
 }

@@ -6,7 +6,7 @@ import com.varabyte.kobweb.compose.foundation.layout.BoxScope
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.style.toModifier
 import io.github.opletter.courseevals.site.core.components.sections.Footer
 import io.github.opletter.courseevals.site.core.components.sections.OppositeLinkVariant
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNavStyle

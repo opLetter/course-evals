@@ -5,6 +5,9 @@ import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.graphics.lightened
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
+import com.varabyte.kobweb.compose.ui.modifiers.setVariable
+import com.varabyte.kobweb.silk.components.forms.ButtonSize
+import com.varabyte.kobweb.silk.components.forms.ButtonVars
 import com.varabyte.kobweb.silk.init.InitSilk
 import com.varabyte.kobweb.silk.init.InitSilkContext
 import com.varabyte.kobweb.silk.init.registerStyleBase
@@ -13,9 +16,19 @@ import com.varabyte.kobweb.silk.theme.colors.palette.background
 import com.varabyte.kobweb.silk.theme.colors.palette.button
 import com.varabyte.kobweb.silk.theme.colors.palette.color
 import com.varabyte.kobweb.silk.theme.colors.palette.link
+import com.varabyte.kobweb.silk.theme.modifyStyleBase
 import kotlinx.browser.localStorage
+import org.jetbrains.compose.web.css.cssRem
 
 private const val COLOR_MODE_KEY = "course-evals:colorMode"
+
+@InitSilk
+fun customizeSilk(ctx: InitSilkContext) {
+    ctx.theme.modifyStyleBase(ButtonSize.MD) {
+        Modifier
+            .setVariable(ButtonVars.Height, 2.25.cssRem)
+    }
+}
 
 @InitSilk
 fun updateTheme(ctx: InitSilkContext) {

@@ -14,13 +14,13 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
-import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.addVariantBase
-import com.varabyte.kobweb.silk.components.style.base
-import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
-import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.components.text.SpanTextStyle
+import com.varabyte.kobweb.silk.style.CssStyle
+import com.varabyte.kobweb.silk.style.addVariantBase
+import com.varabyte.kobweb.silk.style.base
+import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
+import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.palette.background
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
@@ -28,7 +28,7 @@ import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Text
 import kotlin.math.roundToInt
 
-val BarGraphStyle by ComponentStyle {
+val BarGraphStyle = CssStyle {
     val backgroundGradient = if (colorMode.isLight) {
         radialGradient(
             RadialGradient.Shape.Circle,
@@ -68,7 +68,7 @@ val BarGraphStyle by ComponentStyle {
     }
 }
 
-val BarGraphBarStyle by ComponentStyle.base {
+val BarGraphBarStyle = CssStyle.base {
     val barColor = colorMode.toPalette().background
     Modifier
         .width(75.percent)
@@ -76,7 +76,7 @@ val BarGraphBarStyle by ComponentStyle.base {
         .borderBottom(1.px, LineStyle.Solid, barColor) // needed for when num is 0
 }
 
-val BarGraphLabelVariant by SpanTextStyle.addVariantBase {
+val BarGraphLabelVariant = SpanTextStyle.addVariantBase {
     Modifier
         .color(SitePalettes[colorMode].accent)
         .fontWeight(FontWeight.Bold)

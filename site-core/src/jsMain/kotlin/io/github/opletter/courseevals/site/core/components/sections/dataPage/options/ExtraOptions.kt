@@ -8,9 +8,9 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.base
-import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.style.CssStyle
+import com.varabyte.kobweb.silk.style.base
+import com.varabyte.kobweb.silk.style.extendedByBase
 import io.github.opletter.courseevals.site.core.components.widgets.ClosableTransitionObject
 import io.github.opletter.courseevals.site.core.misc.ExtraOptions
 import io.github.opletter.courseevals.site.core.states.DataPageVM
@@ -19,7 +19,7 @@ import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.s
 
-val DarkBackgroundBoxStyle by ComponentStyle.base {
+val DarkBackgroundBoxStyle = CssStyle.base {
     Modifier
         .backgroundColor(Colors.Black.copyf(alpha = 0.5f))
         .borderRadius(12.px)
@@ -27,7 +27,7 @@ val DarkBackgroundBoxStyle by ComponentStyle.base {
 }
 
 // should be used by all extra options
-val ExtraOptionStyle by ComponentStyle.base(extraModifiers = { DarkBackgroundBoxStyle.toModifier() }) {
+val ExtraOptionStyle = DarkBackgroundBoxStyle.extendedByBase {
     Modifier
         .fillMaxWidth()
         .padding(0.5.cssRem)

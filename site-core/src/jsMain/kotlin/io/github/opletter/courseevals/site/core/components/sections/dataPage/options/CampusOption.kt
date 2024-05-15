@@ -12,8 +12,8 @@ import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.silk.components.forms.Checkbox
-import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.style.toModifier
 import io.github.opletter.courseevals.site.core.states.CampusVM
 import io.github.opletter.courseevals.site.core.states.CheckmarksVM
 import io.github.opletter.courseevals.site.core.states.LevelOfStudyVM

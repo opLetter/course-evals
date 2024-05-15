@@ -18,14 +18,18 @@ import com.varabyte.kobweb.silk.components.forms.Checkbox
 import com.varabyte.kobweb.silk.components.forms.CheckboxVars
 import com.varabyte.kobweb.silk.components.icons.fa.FaChalkboardUser
 import com.varabyte.kobweb.silk.components.icons.fa.FaUpRightFromSquare
+import com.varabyte.kobweb.silk.components.layout.SimpleGridKind
 import com.varabyte.kobweb.silk.components.layout.SimpleGridStyle
-import com.varabyte.kobweb.silk.components.layout.breakpoint.displayUntil
 import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.overlay.PopupPlacement
 import com.varabyte.kobweb.silk.components.overlay.Tooltip
-import com.varabyte.kobweb.silk.components.style.*
-import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.style.*
+import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
+import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
+import com.varabyte.kobweb.silk.style.selectors.hover
+import com.varabyte.kobweb.silk.style.selectors.link
+import com.varabyte.kobweb.silk.style.selectors.visited
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.background
@@ -46,7 +50,7 @@ import com.varabyte.kobweb.compose.css.AlignSelf as KobAlignSelf
 // This solution seems optimal compared to using pure "auto" or pure raw length ("12rem")
 // Note: "12rem" chosen strategically such that it is reached between 1280px and 1366px
 // We want the maximum possible value while affecting as little screens as possible
-val RatingsGridVariant by SimpleGridStyle.addVariant {
+val RatingsGridVariant = SimpleGridStyle.addVariant {
     base {
         Modifier.gridTemplateColumns { size(1.fr); size(4.75.fr); size(2.fr); size(2.fr) }
     }
@@ -61,13 +65,13 @@ val RatingsGridVariant by SimpleGridStyle.addVariant {
 
 val QuestionCountVar by StyleVariable<Int>()
 
-val MainGridAreaStyle by ComponentStyle {
+val MainGridAreaStyle = CssStyle {
     Breakpoint.XL {
         Modifier.padding(topBottom = 1.cssRem, leftRight = 2.25.cssRem) // leftRight covers diagonal text
     }
 }
 
-val InfoBubbleStyle by ComponentStyle.base {
+val InfoBubbleStyle = CssStyle.base {
     Modifier
         .padding(topBottom = 0.25.cssRem, leftRight = 0.5.cssRem)
         .borderRadius(12.px)
@@ -75,20 +79,20 @@ val InfoBubbleStyle by ComponentStyle.base {
         .boxShadow(offsetX = 5.px, offsetY = 5.px, blurRadius = 30.px, color = Color.rgba(0, 0, 0, 0.08f))
 }
 
-val TopInfoBubbleVariant by InfoBubbleStyle.addVariant {
+val TopInfoBubbleStyle = InfoBubbleStyle.extendedBy {
     Breakpoint.XL { Modifier.margin(top = 0.5.cssRem) }
 }
 
-val GridRowStyle by ComponentStyle {}
+val GridRowStyle = CssStyle {}
 
-val EvenRowVariant by GridRowStyle.addVariantBase {
+val EvenRowStyle = GridRowStyle.extendedByBase {
     Modifier.backgroundColor(SitePalettes[colorMode].secondary)
 }
 
 // intentionally using blank variant to allow for easy experimentation & changes
-val OddRowVariant by GridRowStyle.addVariant { }
+val OddRowStyle = GridRowStyle.extendedBy { }
 
-val AveRowVariant by GridRowStyle.addVariantBase {
+val AveRowStyle = GridRowStyle.extendedByBase {
     val background = if (colorMode.isLight) Color.rgb(44, 62, 110) else Color.rgb(218, 105, 95)
 
     Modifier
@@ -101,7 +105,7 @@ val AveRowVariant by GridRowStyle.addVariantBase {
 }
 
 // "role:button" prevents mobile text highlight on click
-val ProfNameStyle by ComponentStyle(Modifier.role("button")) {
+val ProfNameStyle = CssStyle(Modifier.role("button")) {
     val color = SitePalettes[colorMode].gridAccent
     base {
         Modifier
@@ -146,7 +150,7 @@ fun ProfScoresList(
         Checkbox(
             showOnlyTeaching,
             { showOnlyTeaching = it },
-            InfoBubbleStyle.toModifier(TopInfoBubbleVariant)
+            TopInfoBubbleStyle.toModifier()
                 .setVariable(CheckboxVars.TransitionDuration, 0.ms) // for responsive feel
                 .fontSize(115.percent)
                 .fontWeight(FontWeight.Medium),
@@ -265,7 +269,7 @@ private fun StatsGrid(
     mobileView: Boolean,
     selectedQ: Int,
     selectedQDropDown: Int,
-    gridVariant: ComponentVariant,
+    gridVariant: CssStyleVariant<SimpleGridKind>,
     onNameClick: (String) -> Unit,
     getProfUrl: (String) -> String,
 ) {
@@ -294,10 +298,10 @@ private fun StatsGrid(
                 val specialStats = label.startsWith("[]")
                 val prof = label.replace("[]", "")
                 val rowModifier = when {
-                    prof == "Average" -> AveRowVariant
-                    i % 2 == 0 -> EvenRowVariant
-                    else -> OddRowVariant
-                }.let { GridRowStyle.toModifier(it) }
+                    prof == "Average" -> AveRowStyle
+                    i % 2 == 0 -> EvenRowStyle
+                    else -> OddRowStyle
+                }.toModifier()
 
                 SpanText((i + 1).toString(), rowModifier.fontWeight(FontWeight.Bold))
                 ProfName(
@@ -329,7 +333,7 @@ private fun ProfName(
     getProfUrl: (String) -> String,
 ) {
     if (prof == "Average") {
-        SpanText(prof, GridRowStyle.toModifier(AveRowVariant).textAlign(TextAlign.Start))
+        SpanText(prof, AveRowStyle.toModifier().textAlign(TextAlign.Start))
         return
     }
 

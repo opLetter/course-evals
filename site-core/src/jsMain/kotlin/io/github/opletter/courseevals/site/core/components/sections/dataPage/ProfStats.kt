@@ -10,16 +10,16 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.silk.components.layout.breakpoint.displayIfAtLeast
-import com.varabyte.kobweb.silk.components.layout.breakpoint.displayUntil
 import com.varabyte.kobweb.silk.components.navigation.Link
-import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.addVariant
-import com.varabyte.kobweb.silk.components.style.after
-import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
-import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.components.text.SpanTextStyle
+import com.varabyte.kobweb.silk.style.CssStyle
+import com.varabyte.kobweb.silk.style.addVariant
+import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
+import com.varabyte.kobweb.silk.style.breakpoint.displayIfAtLeast
+import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
+import com.varabyte.kobweb.silk.style.selectors.after
+import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.link
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
@@ -30,7 +30,7 @@ import io.github.opletter.courseevals.site.core.states.AveComparisonData
 import io.github.opletter.courseevals.site.core.states.ProfSummaryVM
 import org.jetbrains.compose.web.css.*
 
-val AveragesBoxStyle by ComponentStyle {
+val AveragesBoxStyle = CssStyle {
     base {
         Modifier
             .fillMaxWidth()
@@ -49,7 +49,7 @@ val AveragesBoxStyle by ComponentStyle {
 
 // Hack: To avoid the width changing with different averages, we use hidden content
 // that is hopefully the max width that could occur, so this width will always be enforced
-val FixedWidthAveVariant by SpanTextStyle.addVariant {
+val FixedWidthAveVariant = SpanTextStyle.addVariant {
     after {
         Modifier
             .content("4.44") // 4 seems to be the widest number - not ideal since it can vary by font

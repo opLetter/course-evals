@@ -3,7 +3,7 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
 import com.varabyte.kobweb.compose.ui.modifiers.top
-import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.style.toModifier
 import io.github.opletter.courseevals.site.core.components.widgets.ClosableOverlay
 import io.github.opletter.courseevals.site.core.states.DataPageVM
 import org.jetbrains.compose.web.css.px
@@ -15,7 +15,7 @@ fun MobileNav(viewModel: DataPageVM, open: Boolean, onClose: () -> Unit) {
     ClosableOverlay(open = open, onClose = onClose, onStart = { mobileNavPosition = 0 }) {
         MainNav(
             viewModel,
-            MainNavStyle.toModifier(MobileNavVariant)
+            MobileNavStyle.toModifier()
                 .top(mobileNavPosition.px)
                 .onClick { it.stopImmediatePropagation() } // so that overlay stays open after click
         )

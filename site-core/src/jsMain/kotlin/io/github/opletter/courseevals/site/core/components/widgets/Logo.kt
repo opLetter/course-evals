@@ -12,12 +12,12 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.icons.fa.FaChartSimple
 import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.navigation.UndecoratedLinkVariant
-import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.addVariantBase
-import com.varabyte.kobweb.silk.components.style.base
-import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.components.text.SpanTextStyle
+import com.varabyte.kobweb.silk.style.CssStyle
+import com.varabyte.kobweb.silk.style.addVariantBase
+import com.varabyte.kobweb.silk.style.base
+import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.palette.background
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
@@ -25,7 +25,7 @@ import io.github.opletter.courseevals.site.core.misc.College
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.dom.Text
 
-val LogoStyle by ComponentStyle.base {
+val LogoStyle = CssStyle.base {
     Modifier
         .columnGap(0.5.cssRem)
         .fontSize(3.cssRem)
@@ -33,7 +33,7 @@ val LogoStyle by ComponentStyle.base {
         .color(SitePalettes[colorMode].accent)
 }
 
-val SubHeadVariant by SpanTextStyle.addVariantBase {
+val SubHeadVariant = SpanTextStyle.addVariantBase {
     Modifier
         .padding(leftRight = 0.5.cssRem)
         .textAlign(TextAlign.Center)

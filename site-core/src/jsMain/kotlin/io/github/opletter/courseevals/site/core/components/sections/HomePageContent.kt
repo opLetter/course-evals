@@ -11,20 +11,19 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.rememberPageContext
+import com.varabyte.kobweb.silk.components.forms.ButtonSize
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
 import com.varabyte.kobweb.silk.components.forms.ButtonVars
-import com.varabyte.kobweb.silk.components.forms.toModifier
-import com.varabyte.kobweb.silk.components.style.active
-import com.varabyte.kobweb.silk.components.style.addVariant
-import com.varabyte.kobweb.silk.components.style.hover
-import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
+import com.varabyte.kobweb.silk.style.addVariant
+import com.varabyte.kobweb.silk.style.selectors.active
+import com.varabyte.kobweb.silk.style.selectors.hover
+import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.palette.background
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.components.layouts.HomePageLayout
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNav
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.ExtraOptions
-import io.github.opletter.courseevals.site.core.components.style.SmediumButtonSize
 import io.github.opletter.courseevals.site.core.components.widgets.LogoWithSubhead
 import io.github.opletter.courseevals.site.core.misc.College
 import io.github.opletter.courseevals.site.core.states.DataPageVM
@@ -37,11 +36,11 @@ import org.jetbrains.compose.web.css.s
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Text
 
-val ActionButtonVariant by ButtonStyle.addVariant {
+val ActionButtonVariant = ButtonStyle.addVariant(extraModifier = { ButtonSize.MD.toModifier() }) {
     val background = if (colorMode.isLight) Color.rgb(217, 4, 41) else Color.rgb(221, 62, 25)
 
     base {
-        SmediumButtonSize.toModifier()
+        Modifier
             .backgroundColor(background)
             .color(colorMode.toPalette().background)
             .borderRadius(4.px)

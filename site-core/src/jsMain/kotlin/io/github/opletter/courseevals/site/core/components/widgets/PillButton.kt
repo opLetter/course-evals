@@ -9,10 +9,10 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
 import com.varabyte.kobweb.silk.style.addVariant
+import com.varabyte.kobweb.silk.style.extendedBy
 import com.varabyte.kobweb.silk.style.selectors.active
 import com.varabyte.kobweb.silk.style.selectors.focusVisible
 import com.varabyte.kobweb.silk.style.selectors.hover
-import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.palette.background
 import com.varabyte.kobweb.silk.theme.colors.palette.button
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
@@ -52,9 +52,7 @@ val PillButtonVariant = ButtonStyle.addVariant {
     }
 }
 
-val PillButtonSelectedVariant = ButtonStyle.addVariant(
-    extraModifier = { ButtonStyle.toModifier(PillButtonVariant).tabIndex(-1) }
-) {
+val PillButtonSelectedVariant = PillButtonVariant.extendedBy(Modifier.tabIndex(-1)) {
     val colorModifier = Modifier
         .backgroundColor(SitePalettes[colorMode].accent)
         .color(colorMode.toPalette().background)

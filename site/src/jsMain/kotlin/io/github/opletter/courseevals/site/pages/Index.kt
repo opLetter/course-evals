@@ -12,10 +12,9 @@ import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.silk.components.navigation.Link
-import com.varabyte.kobweb.silk.components.navigation.LinkStyle
 import com.varabyte.kobweb.silk.components.navigation.UndecoratedLinkVariant
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.style.addVariant
+import com.varabyte.kobweb.silk.style.extendedBy
 import com.varabyte.kobweb.silk.style.selectors.hover
 import com.varabyte.kobweb.silk.style.selectors.link
 import com.varabyte.kobweb.silk.style.selectors.visited
@@ -27,9 +26,7 @@ import io.github.opletter.courseevals.site.core.misc.College
 import kotlinx.browser.document
 import org.jetbrains.compose.web.css.cssRem
 
-val SubpageLinkVariant = LinkStyle.addVariant(
-    extraModifier = { LinkStyle.toModifier(UndecoratedLinkVariant) }
-) {
+val SubpageLinkVariant = UndecoratedLinkVariant.extendedBy {
     link {
         Modifier.color(Colors.White)
     }

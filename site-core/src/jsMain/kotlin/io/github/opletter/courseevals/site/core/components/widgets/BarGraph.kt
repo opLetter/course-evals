@@ -58,7 +58,6 @@ val BarGraphStyle = CssStyle {
     Breakpoint.LG {
         Modifier
             .width(Width.Unset)
-            .minHeight(100.percent)
             .fontSize(1.5.cssRem)
             .padding(topBottom = 0.33.cssRem, leftRight = 1.cssRem)
             .aspectRatio(3.5, 3)

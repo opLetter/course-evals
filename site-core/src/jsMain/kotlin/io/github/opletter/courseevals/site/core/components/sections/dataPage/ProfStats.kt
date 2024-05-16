@@ -65,11 +65,11 @@ fun ProfStatsDesktop(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
     Row(
         Modifier
             .displayIfAtLeast(Breakpoint.LG)
-            .flexGrow(1)
-            .flexWrap(FlexWrap.Nowrap)
+            .fillMaxSize()
+            .alignItems(AlignItems.Stretch)
             .margin(bottom = 2.cssRem)
             .then(modifier),
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         AveColumn {
             Box(
@@ -97,8 +97,7 @@ fun ProfStatsDesktop(viewModel: ProfSummaryVM, modifier: Modifier = Modifier) {
                 }
             }
         }
-
-        BarGraph(viewModel.graphNums, viewModel.graphLabel)
+        BarGraph(viewModel.graphNums, viewModel.graphLabel, Modifier.minWidth(0.px))
     }
 }
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env kotlin
 @file:Repository("https://repo1.maven.org/maven2/")
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.15.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:2.0.0")
 
 @file:Repository("https://github-workflows-kt-bindings.colman.com.br/binding/")
 @file:DependsOn("actions:checkout:v4")
@@ -23,7 +23,7 @@ import io.github.typesafegithub.workflows.domain.triggers.Push
 import io.github.typesafegithub.workflows.domain.triggers.WorkflowDispatch
 import io.github.typesafegithub.workflows.dsl.expressions.expr
 import io.github.typesafegithub.workflows.dsl.workflow
-import io.github.typesafegithub.workflows.yaml.writeToFile
+import io.github.typesafegithub.workflows.yaml.ConsistencyCheckJobConfig
 
 val KOBWEB_CLI_VERSION = "0.9.15"
 
@@ -42,8 +42,9 @@ workflow(
         Permission.IdToken to Mode.Write
     ),
     concurrency = Concurrency(group = "pages", cancelInProgress = true),
-    sourceFile = __FILE__.toPath(),
-    targetFileName = "build_and_deploy_site.yml"
+    sourceFile = __FILE__,
+    targetFileName = "build_and_deploy_site.yml",
+    consistencyCheckJobConfig = ConsistencyCheckJobConfig.Disabled,
 ) {
     val exportJob = job(id = "export", runsOn = UbuntuLatest) {
         uses(name = "Checkout", action = Checkout())
@@ -111,4 +112,4 @@ workflow(
             _customArguments = mapOf("id" to deploymentId)
         )
     }
-}.writeToFile(addConsistencyCheck = false)
+}

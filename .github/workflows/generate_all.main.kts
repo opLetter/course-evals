@@ -1,6 +1,6 @@
 #!/usr/bin/env kotlin
 @file:Repository("https://repo1.maven.org/maven2/")
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.15.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:2.0.0")
 
 @file:Repository("https://github-workflows-kt-bindings.colman.com.br/binding/")
 @file:DependsOn("peter-evans:create-pull-request:v6")
@@ -13,7 +13,7 @@ import io.github.typesafegithub.workflows.domain.triggers.WorkflowDispatch
 import io.github.typesafegithub.workflows.dsl.expressions.Contexts
 import io.github.typesafegithub.workflows.dsl.expressions.expr
 import io.github.typesafegithub.workflows.dsl.workflow
-import io.github.typesafegithub.workflows.yaml.writeToFile
+import io.github.typesafegithub.workflows.yaml.ConsistencyCheckJobConfig
 import kotlin.properties.ReadOnlyProperty
 
 // region general definitions
@@ -53,10 +53,10 @@ workflow(
     on = listOf(
         WorkflowDispatch(college),
     ),
-    sourceFile = __FILE__.toPath(),
-    targetFileName = "generate_all_data.yml"
+    sourceFile = __FILE__,
+    targetFileName = "generate_all_data.yml",
+    consistencyCheckJobConfig = ConsistencyCheckJobConfig.Disabled,
 ) {
-
     job(id = "gen_and_pr", runsOn = UbuntuLatest) {
         setUpWithData()
 
@@ -86,5 +86,4 @@ workflow(
             )
         )
     }
-
-}.writeToFile(addConsistencyCheck = false)
+}

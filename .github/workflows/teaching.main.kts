@@ -1,6 +1,6 @@
 #!/usr/bin/env kotlin
 @file:Repository("https://repo1.maven.org/maven2/")
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:1.15.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:2.0.0")
 
 @file:Repository("https://github-workflows-kt-bindings.colman.com.br/binding/")
 @file:DependsOn("EndBug:add-and-commit:v9")
@@ -14,7 +14,7 @@ import io.github.typesafegithub.workflows.domain.triggers.Cron
 import io.github.typesafegithub.workflows.domain.triggers.Schedule
 import io.github.typesafegithub.workflows.domain.triggers.WorkflowDispatch
 import io.github.typesafegithub.workflows.dsl.workflow
-import io.github.typesafegithub.workflows.yaml.writeToFile
+import io.github.typesafegithub.workflows.yaml.ConsistencyCheckJobConfig
 
 fun teachingDataWorkflow(college: String, cron: Cron, gradleCommand: String = getGradleCommand(college)) = workflow(
     name = "$college: Update Teaching Data",
@@ -22,8 +22,9 @@ fun teachingDataWorkflow(college: String, cron: Cron, gradleCommand: String = ge
         WorkflowDispatch(),
         Schedule(listOf(cron))
     ),
-    sourceFile = __FILE__.toPath(),
-    targetFileName = "teaching_data_${college.lowercase()}.yml"
+    sourceFile = __FILE__,
+    targetFileName = "teaching_data_${college.lowercase()}.yml",
+    consistencyCheckJobConfig = ConsistencyCheckJobConfig.Disabled,
 ) {
     job(id = "get_and_commit", runsOn = UbuntuLatest) {
         setUpWithData()
@@ -58,17 +59,17 @@ fun getGradleCommand(
 teachingDataWorkflow(
     college = "FSU",
     cron = Cron(minute = "0", hour = "16", dayWeek = "1")
-).writeToFile(addConsistencyCheck = false)
+)
 
 teachingDataWorkflow(
     college = "USF",
     cron = Cron(minute = "0", hour = "22", dayWeek = "1-5")
-).writeToFile(addConsistencyCheck = false)
+)
 
 teachingDataWorkflow(
     college = "TXST",
     cron = Cron(minute = "0", hour = "22", dayWeek = "1-5")
-).writeToFile(addConsistencyCheck = false)
+)
 
 teachingDataWorkflow(
     college = "Rutgers",
@@ -78,4 +79,4 @@ teachingDataWorkflow(
         statsByProfDir = "stats-by-prof-cleaned",
         outputDir = "core/teaching-F24"
     )
-).writeToFile(addConsistencyCheck = false)
+)

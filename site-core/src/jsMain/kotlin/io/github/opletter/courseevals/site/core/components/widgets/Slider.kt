@@ -1,7 +1,7 @@
 package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.*
-import com.varabyte.kobweb.compose.css.CSSTransition
+import com.varabyte.kobweb.compose.css.Transition
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.RowScope
@@ -96,7 +96,7 @@ fun Slider(
                 },
                 Modifier
                     .gridColumnStart(3)
-                    .transition(CSSTransition("opacity", 150.ms))
+                    .transition(Transition.of("opacity", 150.ms))
                     .ariaLabel("reset")
                     .then(it),
                 variant = UnstyledButtonVariant,

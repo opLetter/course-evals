@@ -2,6 +2,7 @@ package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.*
+import com.varabyte.kobweb.compose.css.Transition
 import com.varabyte.kobweb.compose.css.functions.RadialGradient
 import com.varabyte.kobweb.compose.css.functions.min
 import com.varabyte.kobweb.compose.css.functions.radialGradient
@@ -107,7 +108,7 @@ fun BarGraph(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom,
                 ) {
-                    val transition = CSSTransition("flex-grow", 0.3.s, TransitionTimingFunction.EaseOut)
+                    val transition = Transition.of("flex-grow", 0.3.s, TransitionTimingFunction.EaseOut)
                     val barWeight = num.toDouble() / max * barAnimFactor
                     Box(Modifier.flexGrow(1 - barWeight).transition(transition))
                     Text(

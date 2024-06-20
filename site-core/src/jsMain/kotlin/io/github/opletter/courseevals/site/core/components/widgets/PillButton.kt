@@ -34,7 +34,7 @@ val PillButtonVariant = ButtonStyle.addVariant {
             .fontSize(FontSize.Unset)
             .transition(
                 // shamelessly stolen from yt website
-                CSSTransition(
+                Transition.of(
                     property = "background-color",
                     duration = 0.3.s,
                     timingFunction = TransitionTimingFunction.cubicBezier(0.05, 0.0, 0.0, 1.0)

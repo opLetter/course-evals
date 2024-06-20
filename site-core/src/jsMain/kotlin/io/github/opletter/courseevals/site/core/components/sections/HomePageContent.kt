@@ -72,7 +72,7 @@ fun HomePageContent(college: College) {
 
     HomePageLayout(
         Modifier
-            .transition(CSSTransition("opacity", 0.25.s, TransitionTimingFunction.EaseInOut))
+            .transition(Transition.of("opacity", 0.25.s, TransitionTimingFunction.EaseInOut))
             .thenIf(routing, Modifier.opacity(0))
             .onTransitionEnd {
                 if (routing) ctx.router.tryRoutingTo("data${viewModel.url}")

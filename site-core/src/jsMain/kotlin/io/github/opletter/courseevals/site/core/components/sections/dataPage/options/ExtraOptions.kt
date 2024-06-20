@@ -1,8 +1,8 @@
 package io.github.opletter.courseevals.site.core.components.sections.dataPage.options
 
 import androidx.compose.runtime.Composable
-import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.css.Overflow
+import com.varabyte.kobweb.compose.css.Transition
 import com.varabyte.kobweb.compose.css.TransitionTimingFunction
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -47,7 +47,7 @@ fun ExtraOptions(viewModel: DataPageVM, open: Boolean) {
                 .fillMaxWidth()
                 .overflow { y(Overflow.Auto) }
                 .rowGap(0.5.cssRem)
-                .transition(CSSTransition("opacity", 0.2.s, transitionTimingFunction))
+                .transition(Transition.of("opacity", 0.2.s, transitionTimingFunction))
                 .then(it),
         ) {
             viewModel.college.options.forEach { option ->

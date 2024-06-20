@@ -3,6 +3,7 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import com.varabyte.kobweb.compose.css.*
+import com.varabyte.kobweb.compose.css.Transition
 import com.varabyte.kobweb.compose.css.functions.RadialGradient
 import com.varabyte.kobweb.compose.css.functions.radialGradient
 import com.varabyte.kobweb.compose.css.functions.toImage
@@ -33,7 +34,7 @@ import org.jetbrains.compose.web.dom.Label
 
 private fun lightBackground(yPercent: Int) = Modifier.background(
     Color.rgb(38, 40, 59),
-    CSSBackground(
+    Background.of(
         image = radialGradient(RadialGradient.Shape.Circle, CSSPosition(60.percent, yPercent.percent)) {
             add(Color.rgba(0, 121, 242, 0.5f), 0.percent)
             add(Colors.Transparent, 45.percent)
@@ -43,7 +44,7 @@ private fun lightBackground(yPercent: Int) = Modifier.background(
 
 private fun darkBackground(yPercent: Int) = Modifier.background(
     Color.rgb(186, 79, 69),
-    CSSBackground(
+    Background.of(
         image = radialGradient(RadialGradient.Shape.Circle, CSSPosition(60.percent, yPercent.percent)) {
             add(Color.rgb(152, 103, 93), 0.percent)
             add(Colors.Transparent, 45.percent)
@@ -77,7 +78,7 @@ val MobileNavStyle = MainNavStyle.extendedByBase {
         .position(Position.Fixed)
         .margin(topBottom = 2.cssRem, leftRight = 1.cssRem)
         .borderRadius(8.px)
-        .transition(CSSTransition("top", 0.35.s, TransitionTimingFunction.Ease))
+        .transition(Transition.of("top", 0.35.s, TransitionTimingFunction.Ease))
 }
 
 @Composable

@@ -1,9 +1,9 @@
 [versions]
 coroutines = "1.8.1"
 jetbrains-compose = "1.6.2"
-kobweb = "0.18.0"
+kobweb = "0.18.1"
 kotlin = "1.9.23"
-ktor = "2.3.10"
+ktor = "2.3.11"
 pdfbox = "3.0.2"
 serialization = "1.6.3"
 

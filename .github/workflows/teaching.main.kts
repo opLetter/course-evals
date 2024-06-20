@@ -2,7 +2,7 @@
 @file:Repository("https://repo1.maven.org/maven2/")
 @file:DependsOn("io.github.typesafegithub:github-workflows-kt:2.0.0")
 
-@file:Repository("https://github-workflows-kt-bindings.colman.com.br/binding/")
+@file:Repository("https://bindings.krzeminski.it/")
 @file:DependsOn("EndBug:add-and-commit:v9")
 
 @file:Import("common_setup.main.kts")

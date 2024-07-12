@@ -65,7 +65,10 @@ suspend fun getDeptNames(term: Semester.Triple): Map<String, String> {
             line.substringAfterBefore("VALUE=\"", "\"").filter { it != ' ' } to
                     line.substringAfterBefore(">", "<").replace("&amp;", "&")
         }.filterKeys { it in Prefixes }
-        .plus("LING" to "Linguistics") // no longer in use, but we still in our data
+        // no longer available, but we still have it in our data
+        .plus("CIS" to "Computer Information Systems")
+        .plus("CLS" to "Clinical Laboratory Science")
+        .plus("QMST" to "Quantitative Methods & Stats")
     check(prefixNames.size == Prefixes.size) { "Missing prefixes: ${Prefixes - prefixNames.keys}" }
     return prefixNames
 }

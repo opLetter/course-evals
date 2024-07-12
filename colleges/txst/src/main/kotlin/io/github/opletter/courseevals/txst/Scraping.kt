@@ -32,6 +32,6 @@ suspend fun getInstructorReports(outputDir: Path, profs: List<TXSTInstructor>) {
 
 suspend fun getAndSaveBaseProfData(outputFile: Path): List<TXSTInstructor> {
     val allInstructors = getBaseProfData()
-    outputFile.writeAsJson(allInstructors)
+    outputFile.writeAsJson(allInstructors.sortedBy { it.plid })
     return allInstructors
 }

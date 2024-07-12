@@ -23,9 +23,10 @@ object TXSTApi : SimpleSchoolDataApi<Semester.Triple>() {
     val defaultPaths = WebsitePaths("data-test")
 
     private val profsFileName = "profs.json"
-    private fun getProfsFromResource() = Json.decodeFromString<List<TXSTInstructor>>(readResource(profsFileName))
+    fun getProfsFromResource() = Json.decodeFromString<List<TXSTInstructor>>(readResource(profsFileName))
 
     override suspend fun getSchoolRawData() {
+        // TODO: preserve existing profs
         getAndSaveBaseProfData(Path.of("src/main/resources") / profsFileName)
         getInstructorReports(defaultPaths.baseDir.path / "reports", getProfsFromResource())
     }

@@ -185,7 +185,7 @@ class DataPageVM(
                     } else {
                         val dept = input.takeWhile { it.isLetter() }.uppercase()
                             .also { if (it !in activeSchoolsByCode.values.first().depts) return }
-                        selectDept(dept = dept, course = input.substringAfter(dept))
+                        selectDept(dept = dept, course = input.uppercase().substringAfter(dept))
                     }
                 }
             }

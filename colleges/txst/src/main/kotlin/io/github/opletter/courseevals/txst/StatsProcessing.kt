@@ -29,7 +29,7 @@ fun getStatsByProf(reportsDir: Path, profs: List<TXSTInstructor>): Map<String, M
                 .entries
                 .associate { (profId, profStats) ->
                     allProfs.getValue(profId).displayName.normalizeName() to InstructorStats(
-                        lastSem = parseSemester(profStats.maxOf { it.first.semester }),
+                        lastSem = parseSemester(profStats.maxOf { it.first.semester }).numValue,
                         overallStats = profStats.map { it.third }.combine(),
                         courseStats = profStats.groupBy(
                             keySelector = { (course, _) ->

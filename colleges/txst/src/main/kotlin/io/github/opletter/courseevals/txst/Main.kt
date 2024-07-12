@@ -46,7 +46,7 @@ object TXSTApi : SimpleSchoolDataApi<Semester.Triple>() {
 }
 
 // For some reason, for fall the "year" part is  1 + the actual year
-fun parseSemester(semester: Int): Int {
+fun parseSemester(semester: Int): Semester.Triple {
     val type = when (semester % 100) {
         10 -> SemesterType.Fall
         30 -> SemesterType.Spring
@@ -54,7 +54,7 @@ fun parseSemester(semester: Int): Int {
         else -> error("Invalid semester: $semester")
     }
     val year = semester / 100 - if (type == SemesterType.Fall) 1 else 0
-    return Semester.Triple.valueOf(type, year).numValue
+    return Semester.Triple.valueOf(type, year)
 }
 
 fun Semester.Triple.toTXSTString(): String {

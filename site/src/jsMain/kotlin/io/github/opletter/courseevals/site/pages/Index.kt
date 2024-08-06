@@ -15,9 +15,8 @@ import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.navigation.UndecoratedLinkVariant
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.style.extendedBy
+import com.varabyte.kobweb.silk.style.selectors.anyLink
 import com.varabyte.kobweb.silk.style.selectors.hover
-import com.varabyte.kobweb.silk.style.selectors.link
-import com.varabyte.kobweb.silk.style.selectors.visited
 import com.varabyte.kobweb.silk.style.toModifier
 import io.github.opletter.courseevals.site.core.components.layouts.HomePageLayout
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.DarkBackgroundBoxStyle
@@ -27,10 +26,7 @@ import kotlinx.browser.document
 import org.jetbrains.compose.web.css.cssRem
 
 val SubpageLinkVariant = UndecoratedLinkVariant.extendedBy {
-    link {
-        Modifier.color(Colors.White)
-    }
-    visited {
+    anyLink {
         Modifier.color(Colors.White)
     }
     hover {

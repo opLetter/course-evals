@@ -27,9 +27,8 @@ import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.style.*
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
+import com.varabyte.kobweb.silk.style.selectors.anyLink
 import com.varabyte.kobweb.silk.style.selectors.hover
-import com.varabyte.kobweb.silk.style.selectors.link
-import com.varabyte.kobweb.silk.style.selectors.visited
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.background
@@ -116,10 +115,7 @@ val ProfNameStyle = CssStyle(Modifier.role("button")) {
             .textEllipsis()
             .textDecorationLine(TextDecorationLine.None)
     }
-    link {
-        Modifier.color(color)
-    }
-    visited {
+    anyLink {
         Modifier.color(color)
     }
     hover {

@@ -2,7 +2,7 @@ import com.varabyte.kobweb.gradle.library.util.configAsKobwebLibrary
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kobweb.library)
     alias(libs.plugins.kotlin.serialization)
 }
@@ -15,8 +15,8 @@ kotlin {
 
     sourceSets {
         jsMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.html.core)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.html.core)
             implementation(libs.bundles.kobweb)
             implementation(projects.common)
         }

@@ -1,11 +1,10 @@
-import com.varabyte.kobweb.gradle.application.extensions.AppBlock
 import com.varabyte.kobweb.gradle.application.util.configAsKobwebApplication
 import kotlinx.html.link
 import kotlinx.html.script
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kobweb.application)
     alias(libs.plugins.kotlin.serialization)
 }
@@ -15,7 +14,6 @@ version = "1.0-SNAPSHOT"
 
 kobweb {
     app {
-        legacyRouteRedirectStrategy = AppBlock.LegacyRouteRedirectStrategy.DISALLOW
         index {
             description = "View course evaluation results in an easy-to-read format"
             head.add {
@@ -60,8 +58,8 @@ kotlin {
 
     sourceSets {
         jsMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.html.core)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.html.core)
             implementation(libs.bundles.kobweb)
             implementation(projects.common)
             implementation(projects.siteCore)

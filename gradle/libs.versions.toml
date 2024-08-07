@@ -1,11 +1,11 @@
 [versions]
-coroutines = "1.8.1"
+coroutines = "1.9.0-RC"
 jetbrains-compose = "1.6.11"
 kobweb = "0.19.0"
 kotlin = "2.0.10"
-ktor = "2.3.11"
+ktor = "3.0.0-beta-2"
 pdfbox = "3.0.2"
-serialization = "1.6.3"
+serialization = "1.7.1"
 
 [libraries]
 compose-html-core = { module = "org.jetbrains.compose.html:html-core", version.ref = "jetbrains-compose" }
@@ -36,7 +36,6 @@ ktor-main = [
 
 [plugins]
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 kobweb-application = { id = "com.varabyte.kobweb.application", version.ref = "kobweb" }
 kobweb-library = { id = "com.varabyte.kobweb.library", version.ref = "kobweb" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

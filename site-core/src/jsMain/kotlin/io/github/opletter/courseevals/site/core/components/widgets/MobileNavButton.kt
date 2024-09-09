@@ -7,7 +7,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.forms.ButtonVars
 import com.varabyte.kobweb.silk.components.icons.fa.FaBars
-import com.varabyte.kobweb.silk.defer.deferRender
+import com.varabyte.kobweb.silk.defer.Deferred
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
 import org.jetbrains.compose.web.css.Position
@@ -17,7 +17,7 @@ import org.jetbrains.compose.web.css.px
 
 @Composable
 fun MobileNavButton(onClick: (SyntheticMouseEvent) -> Unit) {
-    deferRender {
+    Deferred {
         Button(
             onClick = onClick,
             modifier = Modifier

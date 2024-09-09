@@ -1,11 +1,11 @@
 #!/usr/bin/env kotlin
 @file:Repository("https://repo1.maven.org/maven2/")
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:2.0.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:2.3.0")
 
 @file:Repository("https://bindings.krzeminski.it/")
 @file:DependsOn("actions:checkout:v4")
 @file:DependsOn("actions:setup-java:v4")
-@file:DependsOn("gradle:actions__setup-gradle:v3")
+@file:DependsOn("gradle:actions__setup-gradle:v4")
 
 import io.github.typesafegithub.workflows.actions.actions.Checkout
 import io.github.typesafegithub.workflows.actions.actions.SetupJava
@@ -29,8 +29,6 @@ fun JobBuilder<*>.setUpWithData() {
         )
     )
 
-    ActionsSetupGradle(validateWrappers = true)
-
     uses(
         name = "Set up Java",
         action = SetupJava(javaVersion = "17", distribution = SetupJava.Distribution.Temurin)
@@ -38,6 +36,6 @@ fun JobBuilder<*>.setUpWithData() {
 
     uses(
         name = "Setup Gradle",
-        action = ActionsSetupGradle(validateWrappers = true)
+        action = ActionsSetupGradle()
     )
 }

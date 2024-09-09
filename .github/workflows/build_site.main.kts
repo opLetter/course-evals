@@ -1,12 +1,12 @@
 #!/usr/bin/env kotlin
 @file:Repository("https://repo1.maven.org/maven2/")
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:2.0.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:2.3.0")
 
 @file:Repository("https://bindings.krzeminski.it/")
 @file:DependsOn("actions:checkout:v4")
 @file:DependsOn("actions:setup-java:v4")
 @file:DependsOn("actions:cache:v4")
-@file:DependsOn("gradle:actions__setup-gradle:v3")
+@file:DependsOn("gradle:actions__setup-gradle:v4")
 @file:DependsOn("actions:upload-pages-artifact:v3")
 @file:DependsOn("actions:deploy-pages:v4")
 @file:DependsOn("robinraju:release-downloader:v1.10")
@@ -56,7 +56,7 @@ workflow(
 
         uses(
             name = "Setup Gradle",
-            action = ActionsSetupGradle(validateWrappers = true)
+            action = ActionsSetupGradle()
         )
 
         val browserCacheStep = run(

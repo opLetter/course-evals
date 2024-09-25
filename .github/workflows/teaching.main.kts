@@ -68,7 +68,11 @@ teachingDataWorkflow(
 
 teachingDataWorkflow(
     college = "TXST",
-    cron = Cron(minute = "0", hour = "22", dayWeek = "1-5")
+    cron = Cron(minute = "0", hour = "22", dayWeek = "1-5"),
+    gradleCommand = getGradleCommand(
+        "TXST",
+        outputDir = "core/teaching-S25",
+    )
 )
 
 teachingDataWorkflow(

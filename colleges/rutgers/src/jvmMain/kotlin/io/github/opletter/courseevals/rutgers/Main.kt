@@ -16,7 +16,7 @@ suspend fun main(args: Array<String>) {
         getTeachingData(
             readDir = Path.of(args[it + 2]),
             writeDir = Path.of(args[it + 1]),
-            term = Semester.Double.valueOf(SemesterType.Fall, 2024)
+            term = Semester.Double.valueOf(SemesterType.Spring, 2025)
         )
     }
 }

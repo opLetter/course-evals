@@ -8,6 +8,8 @@ import io.github.opletter.courseevals.common.writeAsJson
 import io.github.opletter.courseevals.rutgers.remote.SOCSource
 import io.github.opletter.courseevals.rutgers.remote.getCoursesOverTime
 import java.nio.file.Path
+import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.deleteRecursively
 
 suspend fun getDeptNames(writeDir: Path?): Map<String, String> {
     return SOCSource.getSOCData().subjects.associate { it.code to it.description }
@@ -44,6 +46,7 @@ suspend fun generateCourseNameMappings(
         }.also { if (writeDir != null) it.writeToFiles(writeDir, writeSchoolMap = false) }
 }
 
+@OptIn(ExperimentalPathApi::class)
 suspend fun getTeachingData(
     readDir: Path,
     writeDir: Path?,
@@ -83,12 +86,13 @@ suspend fun getTeachingData(
             profs.map { it to course }
         }.groupBy({ it.first }, { it.second }).mapValues { it.value.toSet() }
         filteredMap + profToCourses
-    }
+    }.filterNotEmpty()
 
     val totalSize = finalMap.values.sumOf { subMap ->
         subMap.values.sumOf { it.size }
     }
     println("${totalSize - coursesToProfs.size} profs with courses")
 
+    writeDir?.deleteRecursively()
     return finalMap.also { if (writeDir != null) it.writeToFiles(writeDir, writeSchoolMap = false) }
 }

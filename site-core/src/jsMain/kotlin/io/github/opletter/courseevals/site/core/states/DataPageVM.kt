@@ -320,7 +320,7 @@ class DataPageVM(
         }
     }
 
-    private suspend fun getDeptData(school: String, dept: String): Deferred<DeptData> = coroutineScope.async {
+    private fun getDeptData(school: String, dept: String): Deferred<DeptData> = coroutineScope.async {
         val allStatsByProf = async { repository.getStatsByProf(school, dept) }
         val courseNames = async { repository.getCourseNamesOrEmpty(school, dept) }
         val teachingMap = async { repository.getTeachingDataOrEmpty(school, dept) }

@@ -11,6 +11,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.icons.fa.FaChalkboardUser
 import com.varabyte.kobweb.silk.components.text.SpanText
 import io.github.opletter.courseevals.site.core.components.widgets.PillButton
+import io.github.opletter.courseevals.site.core.misc.TeachingSem
 import io.github.opletter.courseevals.site.core.states.ProfSummaryVM
 import io.github.opletter.courseevals.site.core.states.Questions
 import org.jetbrains.compose.web.css.cssRem
@@ -52,7 +53,7 @@ fun CourseButtonsBar(
                 PillButton(selected = index == selectedCourse, onClick = { onClick(index) }) {
                     Row(Modifier.columnGap(0.5.cssRem), verticalAlignment = Alignment.CenterVertically) {
                         SpanText(course)
-                        if (teaching) FaChalkboardUser(Modifier.title("Teaching this course in Fall 2024"))
+                        if (teaching) FaChalkboardUser(Modifier.title("Teaching this course in $TeachingSem"))
                     }
                 }
             }

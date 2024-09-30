@@ -36,6 +36,7 @@ import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.SitePalettes
 import io.github.opletter.courseevals.site.core.components.widgets.CustomGrid
 import io.github.opletter.courseevals.site.core.components.widgets.ExclamationIcon
+import io.github.opletter.courseevals.site.core.misc.TeachingSem
 import io.github.opletter.courseevals.site.core.misc.textEllipsis
 import io.github.opletter.courseevals.site.core.states.Questions
 import org.jetbrains.compose.web.css.*
@@ -152,7 +153,7 @@ fun ProfScoresList(
                 .fontWeight(FontWeight.Medium),
             borderColor = Colors.Black.copyf(alpha = 0.5f),
         ) {
-            Text("Fall 2024 instructors only")
+            Text("$TeachingSem instructors only")
             FaChalkboardUser()
         }
         if (!list.keys.any { "[]" in it }) return@Column
@@ -354,7 +355,7 @@ private fun ProfName(
         FaChalkboardUser(
             Modifier
                 .fontSize(iconFontSize)
-                .title("Teaching this course in Fall 2024")
+                .title("Teaching this course in $TeachingSem")
         )
         if (!specialStats) return@Row
         ExclamationIcon(

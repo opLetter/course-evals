@@ -62,11 +62,6 @@ inline fun <T, V> List<TeachingData>.processTeachingDataByDept(
 }
 
 suspend fun getTeachingData(term: Semester.Triple): List<TeachingData> {
-    // For some reason, the Spring 2025 data is currently published as Spring 2024
-    // TODO: remove once that's resolved
-    val term = if (term.numValue == Semester.Triple.valueOf(SemesterType.Spring, 2025).numValue)
-        Semester.Triple.valueOf(SemesterType.Spring, 2024)
-    else term
     return listOf("Undergraduate", "Graduate", "Law", "Medicine").pmap { type ->
         DefaultClient.get("https://registrar.fsu.edu/sites/g/files/upcbnu3886/files/documents/archive-class-search/${term.toFSUString()}$type.pdf")
             .takeIf { it.contentType() == ContentType.Application.Pdf }

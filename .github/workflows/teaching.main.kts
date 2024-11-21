@@ -58,7 +58,7 @@ fun getGradleCommand(
 
 teachingDataWorkflow(
     college = "FSU",
-    cron = Cron(minute = "0", hour = "16", dayWeek = "1")
+    cron = Cron(minute = "0", hour = "16", dayWeek = "2")
 )
 
 teachingDataWorkflow(

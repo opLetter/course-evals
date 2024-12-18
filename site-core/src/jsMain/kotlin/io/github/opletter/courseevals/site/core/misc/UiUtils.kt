@@ -13,11 +13,4 @@ fun Modifier.textEllipsis(): Modifier =
         .whiteSpace(WhiteSpace.NoWrap)
         .textOverflow(TextOverflow.Ellipsis)
 
-private external fun balanceText(selector: String, options: dynamic)
-
-fun jsBalanceTextById(id: String) {
-    if (jsTypeOf(js("balanceText")) != "function") return
-    balanceText("#$id", js("{watch: true}"))
-}
-
 fun Double.toFixed(decDigits: Int): String = asDynamic().toFixed(decDigits) as String

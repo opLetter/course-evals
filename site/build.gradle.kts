@@ -37,9 +37,6 @@ kobweb {
                     |    """.trimMargin()
                     )
                 }
-                comment("Text Balancing. Credit: https://github.com/adobe/balance-text")
-                consumer.onTagContent("\n\t")
-                script(src = "https://cdnjs.cloudflare.com/ajax/libs/balance-text/3.3.1/balancetext.min.js") {}
                 consumer.onTagContent("\n\t")
                 script(src = "https://gc.zgo.at/count.js") {
 //                    async = true

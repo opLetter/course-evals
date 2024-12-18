@@ -1,8 +1,6 @@
 package io.github.opletter.courseevals.site.core.components.sections.dataPage
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.key
 import com.varabyte.kobweb.compose.css.FontVariantCaps
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.Width
@@ -12,6 +10,7 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.components.text.SpanTextStyle
 import com.varabyte.kobweb.silk.style.CssStyle
@@ -20,7 +19,6 @@ import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.style.toModifier
 import io.github.opletter.courseevals.site.core.components.widgets.CustomDropDown
 import io.github.opletter.courseevals.site.core.components.widgets.SelectStyle
-import io.github.opletter.courseevals.site.core.misc.jsBalanceTextById
 import io.github.opletter.courseevals.site.core.states.Questions
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.percent
@@ -38,6 +36,7 @@ val SpanTextHeaderVariant = SpanTextStyle.addVariant {
             .fontVariant(caps = FontVariantCaps.SmallCaps)
             .fontSize(1.5.cssRem)
             .lineHeight(1.5.cssRem)
+            .styleModifier { property("text-wrap", "balance") }
     }
     Breakpoint.MD {
         Modifier
@@ -76,14 +75,8 @@ fun QuestionHeader(
             .then(modifier),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        key(selectedQ) { // needed for jsBalanceTextById() to work upon text change
-            val id = "survey-q"
-            Box(HeaderStyle.toModifier(), Alignment.Center) {
-                SpanText("\"${questions.full[selectedQ]}\"", Modifier.id(id), SpanTextHeaderVariant)
-                SideEffect {
-                    jsBalanceTextById(id)
-                }
-            }
+        Box(HeaderStyle.toModifier(), Alignment.Center) {
+            SpanText("\"${questions.full[selectedQ]}\"", variant = SpanTextHeaderVariant)
         }
         CustomDropDown(
             hint = "Choose another question...",

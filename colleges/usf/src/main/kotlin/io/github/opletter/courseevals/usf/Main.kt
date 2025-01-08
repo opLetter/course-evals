@@ -10,8 +10,6 @@ import java.nio.file.Path
 import kotlin.io.path.div
 
 suspend fun main(args: Array<String>) {
-    USFApi.getSchoolDeptNames()
-    return
     USFApi.runFromArgs(args)
 }
 

@@ -267,7 +267,7 @@ private fun mergeEntries(last: TeachingData, rolloverLines: String, entries: Lis
     return last.copy(entries = newEntries)
 }
 
-// assuming less than 200 section ("0001" to "0199")
+// assuming less than 200 sections ("0001" to "0199")
 private fun String.likelyClassSection() = startsWith("00") || startsWith("01")
 
 private fun List<String>.flatSplitBySpace(): List<String> =

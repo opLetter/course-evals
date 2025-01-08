@@ -76,12 +76,12 @@ class FSURepository(private val cookie: String) {
         }.body()
     }
 
-    // up to 2024 Spring
+    // up to 2024 Fall but missing 2024 Summer which doesn't exist for some reason
     private val terms = listOf(
         // no longer in list - need to confirm if data is still available
         // "2554", "2577", "2800", "2802"
         "2856", "2803", "2801", "2799", "2805", "2829", "3045", "3052", "3520", "3793", "4148", "4410", "4780", "5131",
-        "5694", "5884", "6647", "7135", "7418", "7433", "7453", "7466", "7477", "7492", "7503", "7530", "7534"
+        "5694", "5884", "6647", "7135", "7418", "7433", "7453", "7466", "7477", "7492", "7503", "7530", "7534", "7557"
     )
 
     suspend fun getAllReports(

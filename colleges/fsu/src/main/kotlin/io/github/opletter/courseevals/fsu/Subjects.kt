@@ -488,6 +488,7 @@ val CourseSearchKeys = listOf(
     "inr5",
     "ins2",
     "ins3",
+    "ins4",
     "ins5",
     "isc1",
     "isc2",

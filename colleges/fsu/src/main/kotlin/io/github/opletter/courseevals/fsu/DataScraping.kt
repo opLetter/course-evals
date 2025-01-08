@@ -54,7 +54,7 @@ data class ReportMetadata(
             .run {
                 ReportMetadata(
                     code = substringAfterBefore("<p class=\"sr-dataitem-info-code\">", "</p>").trim(),
-                    course = substringAfterBefore("<h4>", "</h4>").trim(),
+                    course = substringAfterBefore("<h2>", "</h2>").trim(),
                     instructor = substringAfter("<p class=\"sr-dataitem-info-instr\">", "")
                         .substringBefore("</p>").trim(),
                     term = substringAfterBefore("<p class=\"small\" style=\"margin-bottom:15px;\">", "<").trim(),
@@ -154,13 +154,13 @@ suspend fun FSURepository.getReportsForCourse(
             val (reportCode, reportCourse) = pdfReport.course.split(" : ")
                 .let { if (it.size == 2) it else List(2) { "Error" } }
             if (reportCourse != metadata.course) {
-                println("MismatchB: $reportCourse != ${metadata.course} $metadata")
+                println("MismatchB (0): $reportCourse != ${metadata.course}\n$metadata")
             }
             if (reportCode != metadata.code) {
-                println("MismatchB: $reportCode != ${metadata.code} $metadata")
+                println("MismatchB (1): $reportCode != ${metadata.code}\n$metadata")
             }
             if (pdfReport.term != metadata.term) {
-                println("MismatchB: ${pdfReport.term} != ${metadata.term} $metadata")
+                println("MismatchB (2): ${pdfReport.term} != ${metadata.term}\n$metadata")
             }
             Report.from(pdfReport, metadata)
         }.also { reports ->

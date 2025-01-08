@@ -10,6 +10,8 @@ import java.nio.file.Path
 import kotlin.io.path.div
 
 suspend fun main(args: Array<String>) {
+    USFApi.getSchoolDeptNames()
+    return
     USFApi.runFromArgs(args)
 }
 
@@ -20,6 +22,7 @@ object USFApi : SimpleSchoolDataApi<Semester.Triple>() {
     override val currentSem = Semester.Triple.valueOf(SemesterType.Spring, 2025)
 
     override suspend fun getSchoolRawData() {
+        // IMPORTANT: Make sure to set `VIEWSTATE` and `EVENTVALIDATION` before running this
         val reportsDir = defaultPaths.baseDir.path / "reports"
         getData(reportsDir)
     }

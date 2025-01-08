@@ -10,19 +10,15 @@ suspend fun getDeptNames(): Map<String, String> {
     // some depts are no longer in use, but we still want the names
     // acquired from https://usfonline.admin.usf.edu/pls/prod/bwckschd.p_disp_dyn_sched
     val presetNames = mapOf(
-        "CYP" to "Community Psychology",
-        "EAB" to "Experimental Analysis of Behavior",
-        "EAP" to "English for Foreign Students",
-        "EDS" to "Education Supervision",
-        "EOC" to "Ocean Engineering",
+        "ASH" to "Asian History",
         "EED" to "Education: Emotional Disordrs",
         "FOW" to "For & Bibl Lang, Comp Lit",
         "HBR" to "Modern Hebrew Language",
-        "HMG" to "Hospitality Management Graduate",
         "ISC" to "Interdisciplinary Sciences",
         "ISE" to "Not Used in Scns",
         "SLA" to "Second Language Acquisition",
         "SMT" to "Science or Mathematics Teaching",
+        "SPT" to "Spanish Culture in Translation or Translation Skills",
     )
     val curNames = getCourseData().associate { it.prefix to it.courseType.substringAfter(" - ") }
     val prefixNames = (presetNames + curNames).filterKeys { it in Prefixes }

@@ -2,7 +2,7 @@ package io.github.opletter.courseevals.usf
 
 // determined by both https://usfonline.admin.usf.edu/pls/prod/bwckgens.p_proc_term_date && [getCourseData]
 // We skip the following prefixes that seem to exist but have no data:
-// ARE, BMS, CHD, DPT, ENY, EPD, IDC, MDC, MDE, MDI, MDR, MDT, MDX, MEL, NEB, PAS, PHT, RAT, RSD
+// ARE, BMS, DPT, ENY, EPD, IDC, MDC, MDE, MDI, MDR, MDT, MDX, MEL, NEB, PAS, PHT, RSD
 // and the following that have data but not within our time range:
 // CJJ, CJT, ELR, ETI, NGR, NSP, NUR
 val Prefixes = listOf(
@@ -34,6 +34,7 @@ val Prefixes = listOf(
     "BOT",
     "BSC",
     "BUL",
+    "CAI",
     "CAP",
     "CBH",
     "CCE",
@@ -44,6 +45,7 @@ val Prefixes = listOf(
     "CES",
     "CGN",
     "CGS",
+    "CHD",
     "CHI",
     "CHM",
     "CHS",
@@ -125,6 +127,7 @@ val Prefixes = listOf(
     "FIN",
     "FLE",
     "FOL",
+    "FOS",
     "FOT",
     "FOW",
     "FRE",
@@ -210,6 +213,7 @@ val Prefixes = listOf(
     "MVB",
     "MVJ",
     "MVK",
+    "MVO",
     "MVP",
     "MVS",
     "MVV",
@@ -247,6 +251,7 @@ val Prefixes = listOf(
     "PUP",
     "PUR",
     "QMB",
+    "RAT",
     "RCS",
     "REA",
     "RED",
@@ -292,5 +297,5 @@ val Prefixes = listOf(
     "VIC",
     "WOH",
     "WST",
-    "ZOO"
+    "ZOO",
 )

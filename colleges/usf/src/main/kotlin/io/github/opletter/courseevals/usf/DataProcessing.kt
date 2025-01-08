@@ -11,7 +11,7 @@ fun List<Report>.getTotalRatings(): Ratings {
 
 fun getTerms(): List<String> {
     return listOf("01", "05", "08").flatMap { sem ->
-        (2006..2023).map { year -> "$year$sem" }
+        (2006..2024).map { year -> "$year$sem" }
     } + setOf("200508")
 }
 

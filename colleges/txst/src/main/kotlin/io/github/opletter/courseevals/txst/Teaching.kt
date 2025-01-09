@@ -31,6 +31,7 @@ suspend fun getTeachingDataContent(term: String): String {
         }
     }
     return DefaultClient.submitForm("https://ssb-prod.ec.txstate.edu/PROD/bwckschd.p_get_crse_unsec", payload)
+        .also { check(it.status == HttpStatusCode.OK) { "Response Not OK: ${it.status}" } }
         .bodyAsText()
 }
 

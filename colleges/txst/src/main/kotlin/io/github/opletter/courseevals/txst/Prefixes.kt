@@ -1,10 +1,12 @@
 package io.github.opletter.courseevals.txst
 
-// from https://hb2504.txst.edu/browseinstructors.html
+// from https://api.hb2504.txst.edu/py/getdepartments.py
 val Prefixes = listOf(
     "AAS",
     "ACC",
+    "ADED",
     "AG",
+    "ANLY",
     "ANTH",
     "ARAB",
     "ART",
@@ -63,10 +65,12 @@ val Prefixes = listOf(
     "HON",
     "HP",
     "HS",
+    "HSPN",
     "ID",
     "IE",
     "IEM",
     "IS",
+    "ISAN",
     "ITAL",
     "JAPA",
     "LAT",
@@ -78,9 +82,11 @@ val Prefixes = listOf(
     "MFGE",
     "MGT",
     "MKT",
+    "MLS",
     "MS",
     "MU",
     "MUSE",
+    "MUSP",
     "NHT",
     "NURS",
     "NUTR",

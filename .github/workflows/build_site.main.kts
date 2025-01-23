@@ -1,6 +1,6 @@
 #!/usr/bin/env kotlin
 @file:Repository("https://repo1.maven.org/maven2/")
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:2.3.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:3.2.0")
 
 @file:Repository("https://bindings.krzeminski.it/")
 @file:DependsOn("actions:checkout:v4")
@@ -11,9 +11,14 @@
 @file:DependsOn("actions:deploy-pages:v4")
 @file:DependsOn("robinraju:release-downloader:v1.10")
 
-import io.github.typesafegithub.workflows.actions.actions.*
+import io.github.typesafegithub.workflows.actions.actions.Cache
+import io.github.typesafegithub.workflows.actions.actions.Checkout
+import io.github.typesafegithub.workflows.actions.actions.DeployPages
+import io.github.typesafegithub.workflows.actions.actions.SetupJava
+import io.github.typesafegithub.workflows.actions.actions.UploadPagesArtifact
 import io.github.typesafegithub.workflows.actions.gradle.ActionsSetupGradle
-import io.github.typesafegithub.workflows.actions.robinraju.ReleaseDownloader
+import io.github.typesafegithub.workflows.actions.robinraju.ReleaseDownloader_Untyped
+import io.github.typesafegithub.workflows.domain.ActionStep
 import io.github.typesafegithub.workflows.domain.Concurrency
 import io.github.typesafegithub.workflows.domain.Environment
 import io.github.typesafegithub.workflows.domain.Mode
@@ -74,14 +79,14 @@ workflow(
 
         uses(
             name = "Fetch kobweb",
-            action = ReleaseDownloader(
-                repository = "varabyte/kobweb-cli",
-                tag = "v$KOBWEB_CLI_VERSION",
-                fileName = "kobweb-$KOBWEB_CLI_VERSION.tar",
+            action = ReleaseDownloader_Untyped(
+                repository_Untyped = "varabyte/kobweb-cli",
+                tag_Untyped = "v$KOBWEB_CLI_VERSION",
+                fileName_Untyped = "kobweb-$KOBWEB_CLI_VERSION.tar",
                 // these are in theory booleans
-                tarBall = "false",
-                zipBall = "false",
-                extract = "true",
+                tarBall_Untyped = "false",
+                zipBall_Untyped = "false",
+                extract_Untyped = "true",
             )
         )
 
@@ -97,19 +102,19 @@ workflow(
             action = UploadPagesArtifact(path = "./site/.kobweb/site")
         )
     }
-    val deploymentId = "deployment"
+    val deploymentStep = ActionStep(
+        id = "deployment",
+        action = DeployPages()
+    )
     job(
         id = "deploy",
         runsOn = UbuntuLatest,
         needs = listOf(exportJob),
         environment = Environment(
             name = "github-pages",
-            url = expr { "steps.$deploymentId.outputs.page_url" }
+            url = expr(deploymentStep.outputs.pageUrl)
         ),
     ) {
-        uses(
-            action = DeployPages(),
-            _customArguments = mapOf("id" to deploymentId)
-        )
+        uses(deploymentStep)
     }
 }

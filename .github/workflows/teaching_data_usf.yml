@@ -35,7 +35,7 @@ jobs:
         run: './gradlew colleges:usf:run --args="--teaching ../../data/usf/generated/core/teaching-S25 ../../data/usf/generated/stats-by-prof" --scan'
       - id: 'step-5'
         name: 'Add & Commit'
-        uses: 'endbug/add-and-commit@v9'
+        uses: 'EndBug/add-and-commit@v9'
         with:
           add: '-A'
           cwd: 'data'

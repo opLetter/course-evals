@@ -35,7 +35,7 @@ jobs:
         run: './gradlew colleges:rutgers:run --args="--teaching ../../data/rutgers/generated/core/teaching-S25 ../../data/rutgers/generated/stats-by-prof-cleaned" --scan'
       - id: 'step-5'
         name: 'Add & Commit'
-        uses: 'endbug/add-and-commit@v9'
+        uses: 'EndBug/add-and-commit@v9'
         with:
           add: '-A'
           cwd: 'data'

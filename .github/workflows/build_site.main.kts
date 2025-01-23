@@ -11,18 +11,10 @@
 @file:DependsOn("actions:deploy-pages:v4")
 @file:DependsOn("robinraju:release-downloader:v1.10")
 
-import io.github.typesafegithub.workflows.actions.actions.Cache
-import io.github.typesafegithub.workflows.actions.actions.Checkout
-import io.github.typesafegithub.workflows.actions.actions.DeployPages
-import io.github.typesafegithub.workflows.actions.actions.SetupJava
-import io.github.typesafegithub.workflows.actions.actions.UploadPagesArtifact
+import io.github.typesafegithub.workflows.actions.actions.*
 import io.github.typesafegithub.workflows.actions.gradle.ActionsSetupGradle
-import io.github.typesafegithub.workflows.actions.robinraju.ReleaseDownloader_Untyped
-import io.github.typesafegithub.workflows.domain.ActionStep
-import io.github.typesafegithub.workflows.domain.Concurrency
-import io.github.typesafegithub.workflows.domain.Environment
-import io.github.typesafegithub.workflows.domain.Mode
-import io.github.typesafegithub.workflows.domain.Permission
+import io.github.typesafegithub.workflows.actions.robinraju.ReleaseDownloader
+import io.github.typesafegithub.workflows.domain.*
 import io.github.typesafegithub.workflows.domain.RunnerType.UbuntuLatest
 import io.github.typesafegithub.workflows.domain.triggers.Push
 import io.github.typesafegithub.workflows.domain.triggers.WorkflowDispatch
@@ -30,7 +22,7 @@ import io.github.typesafegithub.workflows.dsl.expressions.expr
 import io.github.typesafegithub.workflows.dsl.workflow
 import io.github.typesafegithub.workflows.yaml.ConsistencyCheckJobConfig
 
-val KOBWEB_CLI_VERSION = "0.9.15"
+val KOBWEB_CLI_VERSION = "0.9.18"
 
 workflow(
     name = "Deploy Kobweb site to Pages",
@@ -73,20 +65,20 @@ workflow(
             name = "Cache Browser Dependencies",
             action = Cache(
                 path = listOf("~/.cache/ms-playwright"),
-                key = "${expr { runner.os }}-playwright-${expr { "steps.${browserCacheStep.id}.outputs.value" }}"
+                key = "${expr { runner.os }}-playwright-${expr(browserCacheStep.outputs["value"])}"
             )
         )
 
         uses(
             name = "Fetch kobweb",
-            action = ReleaseDownloader_Untyped(
-                repository_Untyped = "varabyte/kobweb-cli",
-                tag_Untyped = "v$KOBWEB_CLI_VERSION",
-                fileName_Untyped = "kobweb-$KOBWEB_CLI_VERSION.tar",
+            action = ReleaseDownloader(
+                repository = "varabyte/kobweb-cli",
+                tag = "v$KOBWEB_CLI_VERSION",
+                fileName = "kobweb-$KOBWEB_CLI_VERSION.tar",
                 // these are in theory booleans
-                tarBall_Untyped = "false",
-                zipBall_Untyped = "false",
-                extract_Untyped = "true",
+                tarBall = "false",
+                zipBall = "false",
+                extract = "true",
             )
         )
 

@@ -17,7 +17,7 @@ suspend fun main(args: Array<String>) {
 object FSUApi : SchoolDataApi<Semester.Triple> {
     val defaultPaths = WebsitePaths("data-test")
 
-    override val currentSem = Semester.Triple.valueOf(SemesterType.Spring, 2025)
+    override val currentSem = Semester.Triple.valueOf(SemesterType.Fall, 2025)
 
     override suspend fun getSchoolRawData() {
         val reportsDir = defaultPaths.baseDir.path / "reports"

@@ -7,7 +7,7 @@ class WebsitePaths(
     coreDir: String = baseDir / "core",
     statsByProfDir: String = baseDir / "stats-by-prof",
     courseNamesDir: String = coreDir / "course-names",
-    teachingDataDir: String = coreDir / "teaching-S25",
+    teachingDataDir: String = coreDir / "teaching-F25",
     allInstructorsFile: String = statsByProfDir / "instructors.json",
     deptNamesFile: String = coreDir / "dept-names.json",
     schoolsByCodeFile: String = statsByProfDir / "schools.json",

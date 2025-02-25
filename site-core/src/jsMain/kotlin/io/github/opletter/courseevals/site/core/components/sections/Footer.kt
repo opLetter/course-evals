@@ -7,7 +7,6 @@ import com.varabyte.kobweb.compose.dom.ref
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.attrsModifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.alignSelf
 import com.varabyte.kobweb.compose.ui.modifiers.color
@@ -74,8 +73,7 @@ fun Footer(modifier: Modifier = Modifier, linkVariant: CssStyleVariant<LinkKind>
                 path = "https://github.com/varabyte/kobweb",
                 text = "Kobweb",
                 modifier = Modifier
-                    .goatCounterClick("kobweb-link", title = "Kobweb Link", referrer = "footer")
-                    .attrsModifier { attr("referrerpolicy", "no-referrer") },
+                    .goatCounterClick("kobweb-link", title = "Kobweb Link", referrer = "footer"),
                 variant = linkVariant,
             )
         }

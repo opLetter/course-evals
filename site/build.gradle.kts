@@ -1,8 +1,6 @@
 import com.varabyte.kobweb.gradle.application.util.configAsKobwebApplication
 import kotlinx.html.link
 import kotlinx.html.script
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JsModuleKind
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -54,10 +52,7 @@ kobweb {
 
 kotlin {
     configAsKobwebApplication(rootProject.name)
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
     js().compilerOptions {
-        // https://youtrack.jetbrains.com/issue/KT-70904/K-JS-ES2015-causes-large-bundle-size-increase-with-Ktor-client
-        moduleKind = JsModuleKind.MODULE_UMD
         target = "es2015"
     }
 

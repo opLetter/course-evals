@@ -3,7 +3,6 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.css.FontVariantCaps
 import com.varabyte.kobweb.compose.css.FontWeight
-import com.varabyte.kobweb.compose.css.Width
 import com.varabyte.kobweb.compose.css.functions.min
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -17,6 +16,7 @@ import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.style.addVariant
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.style.toModifier
+import com.varabyte.kobweb.silk.style.until
 import io.github.opletter.courseevals.site.core.components.widgets.CustomDropDown
 import io.github.opletter.courseevals.site.core.components.widgets.SelectStyle
 import io.github.opletter.courseevals.site.core.states.Questions
@@ -52,12 +52,10 @@ val SpanTextHeaderVariant = SpanTextStyle.addVariant {
 
 val QuestionSelectVariant = SelectStyle.addVariant {
     base {
-        Modifier
-            .fontSize(1.cssRem)
-            .width(min(400.px, 90.percent))
+        Modifier.fontSize(1.cssRem)
     }
-    Breakpoint.MD {
-        Modifier.width(Width.Unset)
+    until(Breakpoint.MD) {
+        Modifier.width(min(400.px, 90.percent))
     }
 }
 

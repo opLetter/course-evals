@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.attrsModifier
 import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
@@ -70,7 +69,7 @@ private fun SearchBar(dataListId: String, viewModel: DataPageVM.SearchBarVM) {
             { viewModel.input = viewModel.inputTransform(it) },
             Modifier
                 .onClick { viewModel.active = true }
-                .attrsModifier { attr("list", dataListId) },
+                .attr("list", dataListId),
             placeholder = viewModel.placeholder,
             focusBorderColor = Colors.Transparent,
         )

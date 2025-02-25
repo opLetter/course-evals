@@ -1,6 +1,6 @@
 site:
   title: "Course Evals"
-  routePrefix: "course-evals" # repo name for gh-pages
+  basePath: "course-evals" # repo name for gh-pages
 
 server:
   files:

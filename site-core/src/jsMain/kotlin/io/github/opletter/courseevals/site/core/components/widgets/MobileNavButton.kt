@@ -25,6 +25,7 @@ fun MobileNavButton(onClick: (SyntheticMouseEvent) -> Unit) {
                 .bottom(20.px)
                 .right(30.px)
                 .aspectRatio(1)
+                .width(2.5.cssRem)  // This shouldn't be necessary based on the aspect-ratio
                 .borderRadius(50.percent)
                 .position(Position.Fixed)
                 .displayUntil(Breakpoint.MD)

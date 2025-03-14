@@ -8,6 +8,7 @@ data class Course(
     val campusLocations: List<DescriptionHolder>,
     val coreCodes: List<CoreCodeDetailed>,
     val courseDescription: String,
+    val courseFeeDescr: String,
     val courseNotes: String,
     val courseNumber: String,
     val courseString: String,

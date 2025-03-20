@@ -45,13 +45,22 @@ fun teachingDataWorkflow(college: String, cron: Cron, gradleCommand: String = ge
 
 fun getGradleCommand(
     college: String,
-    statsByProfDir: String = "stats-by-prof",
-    outputDir: String = "core/teaching-S25",
+    statsByProfDir: String? = null,
+    outputDir: String? = null,
 ): String {
     val rootDir = "../../data/${college.lowercase()}/generated"
-    val args = listOf("--teaching", "$rootDir/$outputDir", "$rootDir/$statsByProfDir")
-        .joinToString(" ", prefix = "\"", postfix = "\"")
-    return "./gradlew colleges:${college.lowercase()}:run --args=$args --scan"
+    val args = buildList {
+        addAll(listOf("teaching", "--root", rootDir))
+        if (statsByProfDir != null) {
+            add("--read")
+            add(statsByProfDir)
+        }
+        if (outputDir != null) {
+            add("--write")
+            add(outputDir)
+        }
+    }.joinToString(" ")
+    return "./gradlew colleges:${college.lowercase()}:run --args=\"$args\" --scan"
 }
 
 teachingDataWorkflow(
@@ -75,6 +84,5 @@ teachingDataWorkflow(
     gradleCommand = getGradleCommand(
         "Rutgers",
         statsByProfDir = "stats-by-prof-cleaned",
-        outputDir = "core/teaching-S25"
     )
 )

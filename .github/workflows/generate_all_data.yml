@@ -39,7 +39,7 @@ jobs:
         uses: 'gradle/actions/setup-gradle@v4'
       - id: 'step-4'
         name: 'Run'
-        run: './gradlew colleges:${{ inputs.college }}:run --args="--write-all ../../data/${{ inputs.college }}/generated ../../data/${{ inputs.college }}/raw/reports" --scan'
+        run: './gradlew colleges:${{ inputs.college }}:run --args="write-all ../../data/${{ inputs.college }}/generated ../../data/${{ inputs.college }}/raw/reports" --scan'
       - id: 'step-5'
         name: 'Create Pull Request'
         uses: 'peter-evans/create-pull-request@v6'

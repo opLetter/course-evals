@@ -32,7 +32,7 @@ jobs:
         uses: 'gradle/actions/setup-gradle@v4'
       - id: 'step-4'
         name: 'Run'
-        run: './gradlew colleges:txst:run --args="--teaching ../../data/txst/generated/core/teaching-S25 ../../data/txst/generated/stats-by-prof" --scan'
+        run: './gradlew colleges:txst:run --args="teaching --root ../../data/txst/generated" --scan'
       - id: 'step-5'
         name: 'Add & Commit'
         uses: 'EndBug/add-and-commit@v9'

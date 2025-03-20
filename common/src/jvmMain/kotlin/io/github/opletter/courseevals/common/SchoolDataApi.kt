@@ -67,14 +67,27 @@ abstract class SimpleSchoolDataApi<T : Semester<T>> : SchoolDataApi<T> {
     protected fun <T> T.toSchoolMap() = mapOf("0" to this)
 }
 
-suspend fun <T : Semester<T>> SchoolDataApi<T>.runFromArgs(args: Array<String>) {
-    args.indexOf("--teaching").takeIf { it != -1 }?.let {
-        writeSchoolTeachingProfs(outputDir = Path.of(args[it + 1]), statsByProfDir = Path.of(args[it + 2]))
-    }
-    args.indexOf("--write-all").takeIf { it != -1 }?.let {
-        val paths = WebsitePaths(args[it + 1].lowercase())
-        val rawDataDir = Path.of(args[it + 2].lowercase())
-        writeAllGeneratedData(paths, rawDataDir)
+suspend fun SchoolDataApi<*>.runFromArgs(args: Array<String>) {
+    when (args.getOrNull(0)) {
+        "teaching" -> {
+            val rootDir = args.indexOf("--root").takeIf { it != -1 }?.let { WebsitePaths(args[it + 1]) }
+            val statsByProfDir = args.indexOf("--read").takeIf { it != -1 }?.let {
+                if (rootDir != null) rootDir.baseDir.path.resolve(args[it + 1]) else Path.of(args[it + 1])
+            }
+            val outputDir = args.indexOf("--write").takeIf { it != -1 }?.let {
+                if (rootDir != null) rootDir.coreDir.path.resolve(args[it + 1]) else Path.of(args[it + 1])
+            }
+            writeSchoolTeachingProfs(
+                outputDir = outputDir ?: rootDir!!.teachingDataDir.path,
+                statsByProfDir = statsByProfDir ?: rootDir!!.statsByProfDir.path,
+            )
+        }
+
+        "write-all" -> {
+            val paths = WebsitePaths(args[1].lowercase())
+            val rawDataDir = Path.of(args[2].lowercase())
+            writeAllGeneratedData(paths, rawDataDir)
+        }
     }
 }
 

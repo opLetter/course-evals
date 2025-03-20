@@ -2,7 +2,6 @@ package io.github.opletter.courseevals.rutgers
 
 import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
-import io.github.opletter.courseevals.common.writeAsJson
 import java.nio.file.Path
 
 fun SchoolDeptsMap<Map<String, InstructorStats>>.getAllInstructors(): Map<String, List<Instructor>> {
@@ -13,7 +12,7 @@ fun SchoolDeptsMap<Map<String, InstructorStats>>.getAllInstructors(): Map<String
     }
 }
 
-fun getInstructorStats(readDir: Path, writeDir: Path): SchoolDeptsMap<Map<String, InstructorStats>> {
+fun getInstructorStats(readDir: Path): SchoolDeptsMap<Map<String, InstructorStats>> {
     return getCompleteSchoolDeptsMap<List<Entry>>(readDir)
         .semicolonCleanup()
         .mapEachDept { _, _, entries ->
@@ -24,10 +23,6 @@ fun getInstructorStats(readDir: Path, writeDir: Path): SchoolDeptsMap<Map<String
                 emptyMap()
             else entries.filterValid().mapByProfStats()
         }.filterNotEmpty()
-        .also {
-            it.writeToFiles(writeDir)
-            writeDir.resolve("instructors.json").writeAsJson(it.getAllInstructors())
-        }
 }
 
 

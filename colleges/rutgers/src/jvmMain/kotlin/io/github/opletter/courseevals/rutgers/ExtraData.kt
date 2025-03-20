@@ -4,23 +4,18 @@ import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.decodeJsonIfExists
 import io.github.opletter.courseevals.common.getCompleteSchoolDeptsMap
-import io.github.opletter.courseevals.common.writeAsJson
 import io.github.opletter.courseevals.rutgers.remote.SOCSource
 import io.github.opletter.courseevals.rutgers.remote.getCoursesOverTime
 import java.nio.file.Path
-import kotlin.io.path.ExperimentalPathApi
-import kotlin.io.path.deleteRecursively
 
-suspend fun getDeptNames(writeDir: Path?): Map<String, String> {
+suspend fun getDeptNames(): Map<String, String> {
     return SOCSource.getSOCData().subjects.associate { it.code to it.description }
-        .also { writeDir?.resolve("dept-names.json")?.writeAsJson(it) }
 }
 
 suspend fun generateCourseNameMappings(
     latestSemester: Semester.Double,
     semestersBack: Int,
     schoolsDir: Path,
-    writeDir: Path?,
     oldDataPath: Path?,
 ): SchoolDeptsMap<Map<String, String>> {
     if (semestersBack < 1) throw IllegalArgumentException("semestersBack must be >= 1")
@@ -43,15 +38,13 @@ suspend fun generateCourseNameMappings(
             it.mapEachDept { school, dept, data ->
                 if (schools[school]?.depts?.contains(dept) == true) data else emptyMap()
             }.filterNotEmpty()
-        }.also { if (writeDir != null) it.writeToFiles(writeDir, writeSchoolMap = false) }
+        }
 }
 
-@OptIn(ExperimentalPathApi::class)
 suspend fun getTeachingData(
     readDir: Path,
-    writeDir: Path?,
     term: Semester.Double,
-): SchoolDeptsMap<Map<String, Collection<String>>> {
+): SchoolDeptsMap<Map<String, Set<String>>> {
     val profsByDept = getCompleteSchoolDeptsMap<Map<String, InstructorStats>>(readDir)
         .mapEachDept { _, _, map -> map.keys }
 
@@ -69,11 +62,11 @@ suspend fun getTeachingData(
             val existingNames = run {
                 val (school, dept, _) = key.split(":")
                 profsByDept[school]?.get(dept)
-            } ?: return@mapValues emptyList()
+            } ?: return@mapValues emptySet()
 
             value.asSequence().flatten().toSet()
                 .mapNotNull { findMatchingName(it, existingNames, key) }
-                .toSet().sorted()
+                .sorted().toSet()
         }.filterValues { it.isNotEmpty() }
         .also { println("${it.size} courses with profs, ${it.count { (_, v) -> v.size > 1 }} with 2+ profs") }
 
@@ -93,6 +86,5 @@ suspend fun getTeachingData(
     }
     println("${totalSize - coursesToProfs.size} profs with courses")
 
-    writeDir?.deleteRecursively()
-    return finalMap.also { if (writeDir != null) it.writeToFiles(writeDir, writeSchoolMap = false) }
+    return finalMap
 }

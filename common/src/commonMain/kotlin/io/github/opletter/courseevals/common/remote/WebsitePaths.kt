@@ -1,5 +1,7 @@
 package io.github.opletter.courseevals.common.remote
 
+import io.github.opletter.courseevals.common.data.Semester
+import io.github.opletter.courseevals.common.data.SemesterType
 import kotlin.jvm.JvmInline
 
 class WebsitePaths(
@@ -12,6 +14,9 @@ class WebsitePaths(
     deptNamesFile: String = coreDir / "dept-names.json",
     schoolsByCodeFile: String = statsByProfDir / "schools.json",
 ) {
+    constructor(baseDir: String, semester: Semester<*>) :
+            this(baseDir, teachingDataDir = "teaching-${semester.toShortString()}")
+
     val baseDir = PathWrapper(baseDir)
     val coreDir = PathWrapper(coreDir)
     val statsByProfDir = PathWrapper(statsByProfDir)
@@ -21,6 +26,16 @@ class WebsitePaths(
     val deptNamesFile = PathWrapper(deptNamesFile)
     val schoolsByCodeFile = PathWrapper(schoolsByCodeFile)
 }
+
+private fun Semester<*>.toShortString(): String {
+    val prefix = when (type) {
+        SemesterType.Fall -> "F"
+        SemesterType.Spring -> "S"
+        SemesterType.Summer -> "SU"
+    }
+    return prefix + (year % 100)
+}
+
 
 private operator fun String.div(other: String) = "$this/$other"
 

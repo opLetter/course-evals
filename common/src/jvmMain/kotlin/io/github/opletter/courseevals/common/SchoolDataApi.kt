@@ -67,10 +67,12 @@ abstract class SimpleSchoolDataApi<T : Semester<T>> : SchoolDataApi<T> {
     protected fun <T> T.toSchoolMap() = mapOf("0" to this)
 }
 
-suspend fun SchoolDataApi<*>.runFromArgs(args: Array<String>) {
+suspend fun <T : Semester<T>> SchoolDataApi<T>.runFromArgs(args: Array<String>) {
     when (args.getOrNull(0)) {
         "teaching" -> {
-            val rootDir = args.indexOf("--root").takeIf { it != -1 }?.let { WebsitePaths(args[it + 1]) }
+            val rootDir = args.indexOf("--root").takeIf { it != -1 }?.let {
+                WebsitePaths(args[it + 1], currentSem)
+            }
             val statsByProfDir = args.indexOf("--read").takeIf { it != -1 }?.let {
                 if (rootDir != null) rootDir.baseDir.path.resolve(args[it + 1]) else Path.of(args[it + 1])
             }
@@ -80,23 +82,28 @@ suspend fun SchoolDataApi<*>.runFromArgs(args: Array<String>) {
             writeSchoolTeachingProfs(
                 outputDir = outputDir ?: rootDir!!.teachingDataDir.path,
                 statsByProfDir = statsByProfDir ?: rootDir!!.statsByProfDir.path,
+                term = currentSem,
             )
         }
 
         "write-all" -> {
-            val paths = WebsitePaths(args[1].lowercase())
+            val paths = WebsitePaths(args[1].lowercase(), currentSem)
             val rawDataDir = Path.of(args[2].lowercase())
-            writeAllGeneratedData(paths, rawDataDir)
+            writeAllGeneratedData(paths, rawDataDir, currentSem)
         }
     }
 }
 
-suspend fun SchoolDataApi<*>.writeAllGeneratedData(paths: WebsitePaths, rawDataDir: Path) {
+suspend fun <T : Semester<T>> SchoolDataApi<T>.writeAllGeneratedData(
+    paths: WebsitePaths,
+    rawDataDir: Path,
+    teachingTerm: T,
+) {
     writeSchoolStatsByProf(paths.statsByProfDir.path, paths.schoolsByCodeFile.path, rawDataDir)
     writeSchoolAllInstructors(paths.allInstructorsFile.path, paths.statsByProfDir.path)
     writeSchoolDeptNames(paths.deptNamesFile.path)
     writeSchoolCourseNames(paths.courseNamesDir.path, paths.statsByProfDir.path)
-    writeSchoolTeachingProfs(paths.teachingDataDir.path, paths.statsByProfDir.path)
+    writeSchoolTeachingProfs(paths.teachingDataDir.path, paths.statsByProfDir.path, teachingTerm)
 }
 
 @OptIn(ExperimentalPathApi::class)

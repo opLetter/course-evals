@@ -3,7 +3,7 @@ package io.github.opletter.courseevals.usf
 import io.github.opletter.courseevals.common.data.InstructorStats
 import io.github.opletter.courseevals.common.data.Semester
 import io.github.opletter.courseevals.common.data.SemesterType
-import io.github.opletter.courseevals.common.decodeJson
+import io.github.opletter.courseevals.common.decodeJsonIfExists
 import java.nio.file.Path
 
 suspend fun getTeachingProfs(statsByProfDir: Path, term: Semester.Triple): Map<String, Map<String, Set<String>>> {
@@ -18,9 +18,9 @@ suspend fun getTeachingProfs(statsByProfDir: Path, term: Semester.Triple): Map<S
         .asSequence()
         .drop(5)
         .filterNot {
-            it.trim().startsWith("<th CLASS=\"ddheader\" scope=\"col\" >Status</th>") ||
-                    it.trim().startsWith("<th colspan=\"22\" CLASS=\"ddtitle\" scope=\"colgroup\" >")
-        }.map { it.split("<td CLASS=\"dddefault\">") }
+            it.trim().startsWith("""<th CLASS="ddheader" scope="col" >Status</th>""") ||
+                    it.trim().startsWith("""<th colspan="22" CLASS="ddtitle" scope="colgroup" >""")
+        }.map { it.split("""<td CLASS="dddefault">""") }
         .onEach { if (it.size < 5) println("~$it~") }
         .groupBy { it[3].substringBefore("</td>") }
         .filterKeys { it in Prefixes }
@@ -41,27 +41,31 @@ private fun processSubjectData(
     subject: String,
     data: List<List<String>>,
 ): Map<String, Set<String>> {
-    val existingInstructors = statsByProfDir.resolve("0/$subject.json")
-        .decodeJson<Map<String, InstructorStats>>()
-        .keys
+    val statsData = statsByProfDir.resolve("0/$subject.json")
+        .decodeJsonIfExists<Map<String, InstructorStats>>()
+        ?: return emptyMap()
     val teachingInstructors = data
         .map { it[17].substringBefore(" (") to it[4].substringBefore("<") }
         .filterNot { "To Be Announced" in it.first }
         .mapNotNull { (name, course) ->
-            val first = name.substringBefore(" ").trim()
-            val last = name.substringAfterLast(" ").trim()
+            // Name is formatted as "J. Smith"
+            val firstInitial = name.first()
+            val last = name.drop(3)
 
-            // attempt to handle "Doe, John", "Doe, John A", "Del Doe, John"
-            val foundName = existingInstructors.singleOrNull { prof ->
-                prof.normalized() == (last + first).normalized()
-            } ?: existingInstructors.singleOrNull { prof ->
-                val preLast = name.split(" ").filter { it.isNotEmpty() }.dropLast(1)
-                prof.normalized() == (preLast.last() + last + first).normalized()
-            } ?: existingInstructors.singleOrNull { prof ->
-                val preLast = name.split(" ").filter { it.isNotEmpty() }.dropLast(1)
-                prof.normalized() == (last + first + preLast.last()).normalized()
+            @Suppress("NAME_SHADOWING")
+            val potential = statsData.keys.mapNotNull { fullName ->
+                val (last, first) = fullName.split(", ")
+                if (first.first() == firstInitial) last to fullName else null
             }
-            foundName?.let { it to course }
+            val foundName = potential
+                .filter { it.first == last }
+                .maxByOrNull { statsData.getValue(it.second).lastSem } // Use most recent active if multiple exact matches
+                ?: potential.singleOrNull { it.first.normalized() == last.normalized() }
+                ?: potential.filter { "-" in it.first }.run {
+                    singleOrNull { it.first.substringBefore("-").normalized() == last.normalized() }
+                        ?: singleOrNull { it.first.substringAfter("-").normalized() == last.normalized() }
+                }
+            foundName?.let { it.second to course }
         }
 
     val coursesToProfs = teachingInstructors

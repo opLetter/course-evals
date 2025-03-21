@@ -15,7 +15,7 @@ class WebsitePaths(
     schoolsByCodeFile: String = statsByProfDir / "schools.json",
 ) {
     constructor(baseDir: String, semester: Semester<*>) :
-            this(baseDir, teachingDataDir = "teaching-${semester.toShortString()}")
+            this(baseDir, teachingDataDir = baseDir / "core/teaching-${semester.toShortString()}")
 
     val baseDir = PathWrapper(baseDir)
     val coreDir = PathWrapper(coreDir)

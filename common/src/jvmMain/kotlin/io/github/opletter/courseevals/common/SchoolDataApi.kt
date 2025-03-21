@@ -4,6 +4,7 @@ import io.github.opletter.courseevals.common.data.*
 import io.github.opletter.courseevals.common.remote.WebsitePaths
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.absolutePathString
 import kotlin.io.path.deleteRecursively
 
 // functions use "School" prefix to avoid name collisions with school-specific implementations
@@ -54,6 +55,9 @@ interface SchoolDataApi<T : Semester<T>> {
         statsByProfDir: Path,
         term: T = currentSem,
     ) = getSchoolTeachingProfs(statsByProfDir, term).filterNotEmpty().writeToFiles(outputDir)
+        .also {
+            println("Wrote school teaching profs to ${outputDir.absolutePathString()} using ${statsByProfDir.absolutePathString()}")
+        }
 }
 
 
@@ -118,6 +122,7 @@ inline fun <reified T> SchoolDeptsMap<T>.writeToFiles(outputDir: Path): SchoolDe
 @JvmName("writeToFilesMap")
 @OptIn(ExperimentalPathApi::class)
 inline fun <reified T> SchoolDeptsMap<Map<String, T>>.writeToFiles(outputDir: Path): SchoolDeptsMap<Map<String, T>> {
+    println("Writing to files... ${outputDir.absolutePathString()} (${this["0"]?.map { it.value.size }})")
     outputDir.deleteRecursively()
     forEachDept { school, dept, reports ->
         outputDir.resolve(school).resolve("$dept.json").writeAsJson(reports.toSortedMap().toMap())

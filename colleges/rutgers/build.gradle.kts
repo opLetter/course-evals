@@ -1,5 +1,4 @@
-import org.jetbrains.kotlin.gradle.InternalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.targets.jvm.tasks.KotlinJvmRun
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -7,7 +6,16 @@ plugins {
 }
 
 kotlin {
-    jvm()
+    jvm {
+        // This creates a task called "runJvm", which we can just call as "run" due to how Gradle works, matching the
+        // behavior of JVM-only projects.
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        binaries {
+            executable {
+                mainClass = "io.github.opletter.courseevals.rutgers.MainKt"
+            }
+        }
+    }
     js {
         browser()
     }
@@ -24,14 +32,4 @@ kotlin {
             implementation(libs.ktor.client.cio)
         }
     }
-}
-
-
-// Hack: Recreate the `jvmRun` task as `run`
-// The `jvmRun` task works great, but I want a task named `run` for consistency with non-multiplatform projects
-@OptIn(InternalKotlinGradlePluginApi::class)
-tasks.register<KotlinJvmRun>("run") {
-    mainClass = "io.github.opletter.courseevals.rutgers.MainKt"
-    val mainCompilation = kotlin.jvm().compilations.getByName("main")
-    classpath(mainCompilation.output.allOutputs, mainCompilation.runtimeDependencyFiles)
 }

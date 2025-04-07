@@ -2,7 +2,6 @@ package io.github.opletter.courseevals.site.core.components.widgets
 
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.*
-import com.varabyte.kobweb.compose.css.Transition
 import com.varabyte.kobweb.compose.css.functions.RadialGradient
 import com.varabyte.kobweb.compose.css.functions.min
 import com.varabyte.kobweb.compose.css.functions.radialGradient
@@ -32,17 +31,17 @@ import kotlin.math.roundToInt
 val BarGraphStyle = CssStyle {
     val backgroundGradient = if (colorMode.isLight) {
         radialGradient(
-            RadialGradient.Shape.Circle,
             Color.rgb(14, 14, 42), // rgb(41, 41, 46)
             Color.rgb(50, 57, 84), // rgb(25, 25, 28)
-            CSSPosition(Edge.Bottom), // none
+            RadialGradient.Shape.Circle,
+            CSSPosition(Edge.Bottom) // none
         )
     } else {
         radialGradient(
-            RadialGradient.Shape.Circle,
             Color.rgb(186, 79, 69),
             Color.rgb(255, 96, 63),
-            CSSPosition(Edge.Bottom),
+            RadialGradient.Shape.Circle,
+            CSSPosition(Edge.Bottom)
         )
     }
 

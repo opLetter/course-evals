@@ -6,7 +6,7 @@ name: 'FSU: Update Teaching Data'
 on:
   workflow_dispatch: { }
   schedule:
-    - cron: '0 16 * * 2'
+    - cron: '0 16 * * 1-2'
 jobs:
   get_and_commit:
     runs-on: 'ubuntu-latest'

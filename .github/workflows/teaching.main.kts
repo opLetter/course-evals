@@ -65,7 +65,8 @@ fun getGradleCommand(
 
 teachingDataWorkflow(
     college = "FSU",
-    cron = Cron(minute = "0", hour = "16", dayWeek = "2")
+    // Generally updated every Monday, but is sometimes a day late
+    cron = Cron(minute = "0", hour = "16", dayWeek = "1-2")
 )
 
 teachingDataWorkflow(

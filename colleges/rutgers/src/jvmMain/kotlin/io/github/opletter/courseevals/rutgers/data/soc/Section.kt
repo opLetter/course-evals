@@ -1,6 +1,7 @@
 package io.github.opletter.courseevals.rutgers.data.soc
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNull
 
 @Serializable
 data class Section(
@@ -13,6 +14,7 @@ data class Section(
     val crossListedSectionsText: String,
     val examCode: String,
     val examCodeText: String,
+    val finalExam: JsonNull, // Currently always null
     val honorPrograms: List<Code>,
     val index: String,
     val instructors: List<SOCInstructor>,

@@ -10,7 +10,12 @@ import com.varabyte.kobweb.compose.ui.graphics.lightened
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
-import com.varabyte.kobweb.core.rememberPageContext
+import com.varabyte.kobweb.core.PageContext
+import com.varabyte.kobweb.core.data.add
+import com.varabyte.kobweb.core.data.getValue
+import com.varabyte.kobweb.core.init.InitRoute
+import com.varabyte.kobweb.core.init.InitRouteContext
+import com.varabyte.kobweb.core.layout.Layout
 import com.varabyte.kobweb.silk.components.forms.ButtonSize
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
 import com.varabyte.kobweb.silk.components.forms.ButtonVars
@@ -21,7 +26,7 @@ import com.varabyte.kobweb.silk.style.selectors.hover
 import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.palette.background
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
-import io.github.opletter.courseevals.site.core.components.layouts.HomePageLayout
+import io.github.opletter.courseevals.site.core.components.layouts.HomePageData
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.MainNav
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.ExtraOptions
 import io.github.opletter.courseevals.site.core.components.widgets.LogoWithSubhead
@@ -55,40 +60,55 @@ val ActionButtonVariant = ButtonStyle.addVariant(extraModifier = { ButtonSize.MD
     }
 }
 
+class HomePageContentData(val college: College) {
+    var routing by mutableStateOf(false)
+    var onRouting: () -> Unit = {}
+}
+
+@InitRoute
+fun initHomePageContext(ctx: InitRouteContext) {
+    val page2data = ctx.data.getValue<HomePageContentData>()
+    ctx.data.add(
+        HomePageData(
+            {
+                Modifier
+                    .transition(Transition.of("opacity", 0.25.s, TransitionTimingFunction.EaseInOut))
+                    .thenIf(page2data.routing, Modifier.opacity(0))
+                    .onTransitionEnd {
+                        if (page2data.routing)
+                            page2data.onRouting()
+                    }
+            }
+        )
+    )
+}
+
+@Layout(".components.layouts.HomePageLayout")
 @Composable
-fun HomePageContent(college: College) {
-    val ctx = rememberPageContext()
+fun HomePageContent(ctx: PageContext, content: @Composable () -> Unit) {
+    val data = ctx.data.getValue<HomePageContentData>()
+    val college = data.college
     val coroutineScope = rememberCoroutineScope()
 
     val viewModel = remember {
         DataPageVM(coroutineScope = coroutineScope, college = college, urlParams = ctx.route.params)
     }
 
-    var routing by remember { mutableStateOf(false) }
-
     remember {
         document.title = "EVALS: ${college.urlPath.uppercase()}"
+        data.onRouting = { ctx.router.tryRoutingTo("data${viewModel.url}") }
     }
 
-    HomePageLayout(
+    Column(
         Modifier
-            .transition(Transition.of("opacity", 0.25.s, TransitionTimingFunction.EaseInOut))
-            .thenIf(routing, Modifier.opacity(0))
-            .onTransitionEnd {
-                if (routing) ctx.router.tryRoutingTo("data${viewModel.url}")
-            }
+            .fillMaxWidth()
+            .padding(leftRight = 0.75.cssRem),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(leftRight = 0.75.cssRem),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            LogoWithSubhead()
+        LogoWithSubhead()
 
-            if (viewModel.state !is State.InitialLoading) {
-                NavContent(viewModel) { routing = true }
-            }
+        if (viewModel.state !is State.InitialLoading) {
+            NavContent(viewModel) { data.routing = true }
         }
     }
 }

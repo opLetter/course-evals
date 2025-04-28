@@ -10,7 +10,9 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.core.rememberPageContext
+import com.varabyte.kobweb.core.PageContext
+import com.varabyte.kobweb.core.data.getValue
+import com.varabyte.kobweb.core.layout.Layout
 import com.varabyte.kobweb.silk.components.icons.fa.FaCaretDown
 import com.varabyte.kobweb.silk.components.icons.fa.FaCaretUp
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
@@ -35,9 +37,13 @@ import org.jetbrains.compose.web.css.vw
 import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.events.EventListener
 
+@Layout
 @Composable
-fun DataLayout(viewModel: DataPageVM, content: @Composable () -> Unit) {
-    val ctx = rememberPageContext()
+fun DataLayout(ctx: PageContext, content: @Composable () -> Unit) {
+    val viewModel = ctx.data.getValue<DataPageVM>()
+
+    console.log(viewModel.state)
+
     val initialLoading = viewModel.state is State.InitialLoading
 
     DisposableEffect(Unit) {

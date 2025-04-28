@@ -2,6 +2,7 @@ package io.github.opletter.courseevals.site
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import com.varabyte.kobweb.compose.foundation.layout.boxClasses
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.minHeight
 import com.varabyte.kobweb.core.App
@@ -38,7 +39,7 @@ fun AppEntry(content: @Composable () -> Unit) {
             localStorage.setItem(COLOR_MODE_KEY, colorMode.name)
         }
 
-        Surface(Modifier.minHeight(100.vh)) {
+        Surface(Modifier.boxClasses().minHeight(100.vh)) {
             content()
         }
     }

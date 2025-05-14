@@ -196,7 +196,7 @@ sealed interface College {
             "Overall Rating of Instructor",
         )
         override val questions = Questions(questionsLong, questionsShort, 7) { "Poor -> Excellent" }
-        override val searchHint = "'Smith', 'COP3330', 'PHY', ..."
+        override val searchHint = "'Smith', 'COP4530', 'PHY', ..."
 
         // ignore the school since there's only one
         override fun getCode(school: String, dept: String, course: String): String = dept + course
@@ -235,7 +235,7 @@ sealed interface College {
             "Organized Effectively",
         )
         override val questions = Questions(questionsLong, questionsShort, 0) { "Disagree -> Agree" }
-        override val searchHint = "'Smith', 'CS3338', 'MATH', ..."
+        override val searchHint = "'Smith', 'CS3358', 'MATH', ..."
 
         // ignore the school since there's only one
         override fun getCode(school: String, dept: String, course: String): String = dept + course

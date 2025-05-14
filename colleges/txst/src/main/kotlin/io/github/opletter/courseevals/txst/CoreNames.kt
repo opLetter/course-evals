@@ -68,9 +68,9 @@ suspend fun getDeptNames(term: Semester.Triple): Map<String, String> {
         // no longer available, but we still have it in our data
         .plus("CIS" to "Computer Information Systems")
         .plus("CLS" to "Clinical Laboratory Science")
-        .plus("GNTS" to "General Studies")
+        .plus("GNST" to "General Studies")
         .plus("LING" to "Linguistics")
         .plus("QMST" to "Quantitative Methods & Stats")
-    check(prefixNames.size == Prefixes.size) { "Missing prefixes: ${Prefixes - prefixNames.keys}" }
+    check(prefixNames.keys == Prefixes.toSet()) { "Missing prefixes: ${Prefixes - prefixNames.keys}" }
     return prefixNames
 }

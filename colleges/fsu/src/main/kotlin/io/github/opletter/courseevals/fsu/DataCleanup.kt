@@ -21,14 +21,14 @@ fun validateReports(oldDir: Path, newDir: Path) {
 
         println("oldReports: ${oldReports.size}, reports: ${reports.size}")
         val missingReports = oldReports.filter { oldReport ->
-            oldReport.pdfInstructor != "Report-ERROR" && reports.singleOrNull {
+            oldReport.pdfInstructor != ReportError && reports.singleOrNull {
                 oldReport.term == it.term && oldReport.courseCode == it.courseCode
                         && (oldReport.pdfInstructor == it.pdfInstructor || it.htmlInstructor == oldReport.htmlInstructor)
                         && oldReport.ratings.values.firstOrNull() == it.ratings.values.firstOrNull()
             } == null
         }.onEach { println(it) }
 
-        val newErrorReports = reports.filter { it.pdfInstructor == "Report-ERROR" }
+        val newErrorReports = reports.filter { it.pdfInstructor == ReportError }
 
         println("missingReports: ${missingReports.size}, newErrorReports: ${newErrorReports.size}")
     }
@@ -42,7 +42,7 @@ suspend fun fixReportErrors(oldDir: Path, newDir: Path) {
         val reports = oldDir.resolve("${prefix.take(3)}/${prefix.drop(3)}.json").decodeJson<List<Report>>()
 
         val improvedReports = reports.pmap { report ->
-            if (report.pdfInstructor != "Report-ERROR") return@pmap report
+            if (report.pdfInstructor != ReportError) return@pmap report
 
             val newReport = flow { emit(repository.getPdfBytes(report.ids).getStatsFromPdf()) }
                 .retry(3) {

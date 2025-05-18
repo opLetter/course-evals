@@ -21,6 +21,8 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
+const val ReportError = "Report-ERROR"
+
 @Serializable
 data class PdfReport(
     val term: String,
@@ -147,7 +149,7 @@ suspend fun FSURepository.getReportsForCourse(
                     println("D2: Failed getting report")
                 }.singleOrNull()
                 ?: return@pmap Report.from(
-                    PdfReport("Report-ERROR", "Report-ERROR", "Report-ERROR", emptyList()),
+                    PdfReport(ReportError, ReportError, ReportError, emptyList()),
                     metadata,
                 )
 

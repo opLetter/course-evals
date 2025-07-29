@@ -3,7 +3,7 @@ package io.github.opletter.courseevals.site.core.components.sections.dataPage
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import com.varabyte.kobweb.compose.css.*
-import com.varabyte.kobweb.compose.css.Transition
+import com.varabyte.kobweb.compose.css.JustifyContent
 import com.varabyte.kobweb.compose.css.functions.RadialGradient
 import com.varabyte.kobweb.compose.css.functions.radialGradient
 import com.varabyte.kobweb.compose.css.functions.toImage
@@ -25,6 +25,7 @@ import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import io.github.opletter.courseevals.site.core.components.sections.dataPage.options.DarkBackgroundBoxStyle
 import io.github.opletter.courseevals.site.core.components.widgets.CustomDropDown
 import io.github.opletter.courseevals.site.core.components.widgets.Logo
+import io.github.opletter.courseevals.site.core.components.widgets.ShrinkToFitContainer
 import io.github.opletter.courseevals.site.core.misc.SchoolStrategy
 import io.github.opletter.courseevals.site.core.misc.keyReset
 import io.github.opletter.courseevals.site.core.states.DataPageVM
@@ -135,30 +136,35 @@ fun MainNav(
                 )
             }
 
-            // fit content, but the 25% prevents the parent from expanding and also serves as a min width
-            val dynamicWidthModifier = Modifier.width(25.percent).minWidth(MinWidth.FitContent)
-
             Label(attrs = Modifier.display(DisplayStyle.Contents).toAttrs()) {
                 SpanText(labels[2], labelModifier)
-                key(viewModel.navState.course.list.size / keyReset) {
-                    CustomDropDown(
-                        list = viewModel.coursesWithNames,
-                        onSelect = { viewModel.selectCourse(it) },
-                        selectModifier = dynamicWidthModifier,
-                        selected = viewModel.courseWithName,
-                    )
+                ShrinkToFitContainer(
+                    Modifier.fillMaxWidth().justifyContent(JustifyContent.Center),
+                    minWidth = 25.percent
+                ) {
+                    key(viewModel.navState.course.list.size / keyReset) {
+                        CustomDropDown(
+                            list = viewModel.coursesWithNames,
+                            onSelect = { viewModel.selectCourse(it) },
+                            selected = viewModel.courseWithName,
+                        )
+                    }
                 }
             }
 
             Label(attrs = Modifier.display(DisplayStyle.Contents).toAttrs()) {
                 SpanText(labels[3], labelModifier)
-                key(viewModel.navState.prof.list.size / keyReset) {
-                    CustomDropDown(
-                        list = viewModel.navState.prof.list,
-                        onSelect = { viewModel.selectProf(it) },
-                        selectModifier = dynamicWidthModifier,
-                        selected = viewModel.navState.prof.selected,
-                    )
+                ShrinkToFitContainer(
+                    Modifier.fillMaxWidth().justifyContent(JustifyContent.Center),
+                    minWidth = 25.percent
+                ) {
+                    key(viewModel.navState.prof.list.size / keyReset) {
+                        CustomDropDown(
+                            list = viewModel.navState.prof.list,
+                            onSelect = { viewModel.selectProf(it) },
+                            selected = viewModel.navState.prof.selected,
+                        )
+                    }
                 }
             }
 

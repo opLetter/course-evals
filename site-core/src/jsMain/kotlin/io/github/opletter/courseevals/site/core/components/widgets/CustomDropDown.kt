@@ -9,7 +9,10 @@ import com.varabyte.kobweb.compose.dom.registerRefScope
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
-import com.varabyte.kobweb.silk.style.*
+import com.varabyte.kobweb.silk.style.ComponentKind
+import com.varabyte.kobweb.silk.style.CssStyle
+import com.varabyte.kobweb.silk.style.CssStyleVariant
+import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.color
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
@@ -24,16 +27,21 @@ import org.w3c.dom.get
 
 interface SelectKind : ComponentKind
 
-val SelectStyle = CssStyle.base<SelectKind> {
-    Modifier
-        .padding(4.px)
-        .borderRadius(6.px)
-        .border(width = 0.px)
-        .color(ColorMode.LIGHT.toPalette().color)
-        .backgroundColor(SitePalettes[colorMode].secondary)
-        .fontFamily("inherit") // this is not the default for some reason
-        .fontWeight(FontWeight.Bold)
-        .fontVariant(caps = FontVariantCaps.SmallCaps)
+val SelectStyle = CssStyle<SelectKind> {
+    base {
+        Modifier
+            .padding(4.px)
+            .borderRadius(6.px)
+            .border(width = 0.px)
+            .color(ColorMode.LIGHT.toPalette().color)
+            .backgroundColor(SitePalettes[colorMode].secondary)
+            .fontFamily("inherit") // this is not the default for some reason
+            .fontWeight(FontWeight.Bold)
+            .fontVariant(caps = FontVariantCaps.SmallCaps)
+    }
+    cssRule("option") {
+        Modifier.fontWeight(FontWeight.Normal)
+    }
 }
 
 @Composable

@@ -1,7 +1,7 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
-//        maven("https://oss.sonatype.org/content/repositories/snapshots")
+//        xmaven("https://central.sonatype.com/repository/maven-snapshots/")
     }
 }
 
@@ -9,7 +9,8 @@ dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
     repositories {
         mavenCentral()
-//        maven("https://oss.sonatype.org/content/repositories/snapshots")
+        google()
+//        maven("https://central.sonatype.com/repository/maven-snapshots/")
 //        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         mavenLocal {
             content {
@@ -21,7 +22,7 @@ dependencyResolutionManagement {
 }
 
 plugins {
-    id("com.gradle.develocity") version "3.17"
+    id("com.gradle.develocity") version "4.1"
 }
 
 develocity {

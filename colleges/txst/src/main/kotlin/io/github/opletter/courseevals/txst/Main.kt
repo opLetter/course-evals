@@ -18,9 +18,9 @@ suspend fun main(args: Array<String>) {
 
 object TXSTApi : SimpleSchoolDataApi<Semester.Triple>() {
     override val depts: Set<String> = Prefixes.toSet()
-    override val currentSem = Semester.Triple.valueOf(SemesterType.Fall, 2025)
+    override val currentSem = Semester.Triple.valueOf(SemesterType.Spring, 2026)
 
-    val defaultPaths = WebsitePaths("data-test")
+    val defaultPaths = WebsitePaths("data-test", currentSem)
 
     private val profsFileName = "profs.json"
     fun getProfsFromResource() = Json.decodeFromString<List<TXSTInstructor>>(readResource(profsFileName))

@@ -6,17 +6,15 @@ import kotlin.jvm.JvmInline
 
 class WebsitePaths(
     baseDir: String,
+    semester: Semester<*>,
     coreDir: String = baseDir / "core",
     statsByProfDir: String = baseDir / "stats-by-prof",
     courseNamesDir: String = coreDir / "course-names",
-    teachingDataDir: String = coreDir / "teaching-F25",
+    teachingDataDir: String = coreDir / "teaching-${semester.toShortString()}",
     allInstructorsFile: String = statsByProfDir / "instructors.json",
     deptNamesFile: String = coreDir / "dept-names.json",
     schoolsByCodeFile: String = statsByProfDir / "schools.json",
 ) {
-    constructor(baseDir: String, semester: Semester<*>) :
-            this(baseDir, teachingDataDir = baseDir / "core/teaching-${semester.toShortString()}")
-
     val baseDir = PathWrapper(baseDir)
     val coreDir = PathWrapper(coreDir)
     val statsByProfDir = PathWrapper(statsByProfDir)

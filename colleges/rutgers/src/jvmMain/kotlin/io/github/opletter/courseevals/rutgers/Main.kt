@@ -18,9 +18,9 @@ suspend fun main(args: Array<String>) {
 }
 
 object RutgersApi : SchoolDataApi<Semester.Double> {
-    val defaultPaths = WebsitePaths("data-test")
+    override val currentSem = Semester.Double.valueOf(SemesterType.Spring, 2026)
 
-    override val currentSem = Semester.Double.valueOf(SemesterType.Fall, 2025)
+    val defaultPaths = WebsitePaths("data-test", currentSem)
 
     override suspend fun getSchoolRawData() {
         val baseDir = Path.of("data-test")

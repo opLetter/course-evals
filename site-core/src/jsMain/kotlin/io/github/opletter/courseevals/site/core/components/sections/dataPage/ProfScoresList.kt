@@ -14,6 +14,7 @@ import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
+import com.varabyte.kobweb.framework.annotations.DelicateApi
 import com.varabyte.kobweb.silk.components.forms.Checkbox
 import com.varabyte.kobweb.silk.components.forms.CheckboxVars
 import com.varabyte.kobweb.silk.components.icons.fa.FaChalkboardUser
@@ -173,6 +174,7 @@ fun ProfScoresList(
         }
     }
 
+    @OptIn(DelicateApi::class)
     val mobileView = rememberBreakpoint() < Breakpoint.XL
 
     Column(

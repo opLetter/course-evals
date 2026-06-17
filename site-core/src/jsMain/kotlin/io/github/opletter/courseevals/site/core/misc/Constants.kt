@@ -7,4 +7,4 @@ const val None = "None" // to avoid accidental typos
 
 const val keyReset = 40 // seems to be roughly the performance sweet-spot
 
-val TeachingSem = Semester.Double.valueOf(SemesterType.Spring, 2026)
+val TeachingSem = Semester.Double.valueOf(SemesterType.Fall, 2026)

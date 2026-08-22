@@ -126,6 +126,7 @@ fun DataPageContent(college: College) {
             modifier = Modifier
                 .fillMaxHeight()
                 .maxWidth(100.vw) // maybe
+                .minWidth(0.px)
                 .padding(1.cssRem)
                 .rowGap(0.5.cssRem)
                 .textAlign(TextAlign.Center)

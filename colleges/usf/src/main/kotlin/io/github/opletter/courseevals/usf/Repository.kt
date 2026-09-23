@@ -2,13 +2,21 @@ package io.github.opletter.courseevals.usf
 
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.cookies.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import kotlinx.serialization.json.Json
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.toList
+import kotlinx.serialization.json.*
 
 private val client = HttpClient {
     install(HttpTimeout) {
@@ -18,6 +26,11 @@ private val client = HttpClient {
         logger = Logger.SIMPLE
         level = LogLevel.INFO
     }
+    install(HttpCookies)
+    install(ContentNegotiation) {
+        json()
+    }
+    BrowserUserAgent()
 }
 
 // Note: `VIEWSTATE` and EVENTVALIDATION are required, but not shared publicly as a precaution.
@@ -85,27 +98,49 @@ suspend fun getCourseData(): List<CourseData> {
         .let { json.decodeFromString<List<CourseData>>(it) }
 }
 
-suspend fun getTeachingDataContent(term: String): String {
-    val payload = FormDataContent(Parameters.build {
-        append("term_in", term)
-        append("open_only", "N")
-        append("begin_hh", "0")
-        append("begin_mi", "0")
-        append("begin_ap", "a")
-        append("end_hh", "0")
-        append("end_mi", "0")
-        append("end_ap", "a")
-        listOf("subj", "day", "schd", "insm", "camp", "levl", "sess", "dept", "instr", "ptrm", "attr").forEach {
-            append("sel_$it", "dummy")
+class TeachingData(
+    val subject: String,
+    val course: String,
+    val prof: String,
+)
+
+suspend fun getTeachingData(term: String): List<TeachingData> {
+    val baseUrl = "https://studentssb9.it.usf.edu/StudentRegistrationSsb/ssb"
+    val maxSize = 500 // API limit
+
+    client.post("$baseUrl/term/search") {
+        parameter("mode", "search")
+        contentType(ContentType.Application.FormUrlEncoded)
+        setBody(parametersOf("term", term).formUrlEncode())
+    }
+
+    fun JsonElement.parseTeachingData(): TeachingData? {
+        val prof = jsonObject["faculty"]!!.jsonArray.singleOrNull {
+            it.jsonObject["primaryIndicator"]!!.jsonPrimitive.boolean
+        } ?: return null
+        return TeachingData(
+            subject = jsonObject["subject"]!!.jsonPrimitive.content,
+            course = jsonObject["courseNumber"]!!.jsonPrimitive.content,
+            prof = prof.jsonObject["displayName"]!!.jsonPrimitive.content,
+        )
+    }
+
+    return flow {
+        var offset = 0
+        while (true) {
+            val res = client.get("$baseUrl/searchResults/searchResults") {
+                parameter("txt_term", term)
+                parameter("startDatepicker", "")
+                parameter("endDatepicker", "")
+                parameter("pageOffset", offset)
+                parameter("pageMaxSize", maxSize)
+                parameter("sortColumn", "subjectDescription")
+                parameter("sortDirection", "asc")
+            }.body<JsonObject>()
+
+            emitAll(res["data"]!!.jsonArray.mapNotNull { it.parseTeachingData() }.asFlow())
+            offset += maxSize
+            if (offset >= res["totalCount"]!!.jsonPrimitive.int) break
         }
-        listOf("crse", "title", "from_cred", "to_cred").forEach {
-            append("sel_$it", "")
-        }
-        listOf("subj", "schd", "insm", "dept", "camp", "levl", "ptrm", "instr", "attr").forEach {
-            append("sel_$it", "%")
-        }
-    })
-    return client.post("https://usfonline.admin.usf.edu/pls/prod/bwckschd.p_get_crse_unsec") {
-        setBody(payload)
-    }.bodyAsText()
+    }.toList()
 }

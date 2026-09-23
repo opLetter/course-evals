@@ -12,17 +12,8 @@ suspend fun getTeachingProfs(statsByProfDir: Path, term: Semester.Triple): Map<S
         SemesterType.Summer -> "05"
         SemesterType.Fall -> "08"
     }
-    return getTeachingDataContent("${term.year}$semStr")
-        .substringBefore("<table  CLASS=\"datadisplaytable\" summary=\"This is")
-        .split("<tr>")
-        .asSequence()
-        .drop(5)
-        .filterNot {
-            it.trim().startsWith("""<th CLASS="ddheader" scope="col" >Status</th>""") ||
-                    it.trim().startsWith("""<th colspan="22" CLASS="ddtitle" scope="colgroup" >""")
-        }.map { it.split("""<td CLASS="dddefault">""") }
-        .onEach { if (it.size < 5) println("~$it~") }
-        .groupBy { it[3].substringBefore("</td>") }
+    return getTeachingData("${term.year}$semStr")
+        .groupBy { it.subject }
         .filterKeys { it in Prefixes }
         .mapValues { processSubjectData(statsByProfDir, it.key, it.value) }
         .also { teachingMap ->
@@ -39,34 +30,31 @@ suspend fun getTeachingProfs(statsByProfDir: Path, term: Semester.Triple): Map<S
 private fun processSubjectData(
     statsByProfDir: Path,
     subject: String,
-    data: List<List<String>>,
+    teachingData: List<TeachingData>,
 ): Map<String, Set<String>> {
     val statsData = statsByProfDir.resolve("0/$subject.json")
         .decodeJsonIfExists<Map<String, InstructorStats>>()
         ?: return emptyMap()
-    val teachingInstructors = data
-        .map { it[17].substringBefore(" (") to it[4].substringBefore("<") }
-        .filterNot { "To Be Announced" in it.first }
-        .mapNotNull { (name, course) ->
-            // Name is formatted as "J. Smith"
-            val firstInitial = name.first()
-            val last = name.drop(3)
+    val teachingInstructors = teachingData.mapNotNull { data ->
+        // Name is formatted as "Smith, J."
+        val firstInitial = data.prof.dropLast(1).last()
+        val last = data.prof.substringBefore(',')
 
-            @Suppress("NAME_SHADOWING")
-            val potential = statsData.keys.mapNotNull { fullName ->
-                val (last, first) = fullName.split(", ")
-                if (first.first() == firstInitial) last to fullName else null
-            }
-            val foundName = potential
-                .filter { it.first == last }
-                .maxByOrNull { statsData.getValue(it.second).lastSem } // Use most recent active if multiple exact matches
-                ?: potential.singleOrNull { it.first.normalized() == last.normalized() }
-                ?: potential.filter { "-" in it.first }.run {
-                    singleOrNull { it.first.substringBefore("-").normalized() == last.normalized() }
-                        ?: singleOrNull { it.first.substringAfter("-").normalized() == last.normalized() }
-                }
-            foundName?.let { it.second to course }
+        @Suppress("NAME_SHADOWING")
+        val potential = statsData.keys.mapNotNull { fullName ->
+            val (last, first) = fullName.split(", ")
+            if (first.first() == firstInitial) last to fullName else null
         }
+        val foundName = potential
+            .filter { it.first == last }
+            .maxByOrNull { statsData.getValue(it.second).lastSem } // Use most recent active if multiple exact matches
+            ?: potential.singleOrNull { it.first.normalized() == last.normalized() }
+            ?: potential.filter { "-" in it.first }.run {
+                singleOrNull { it.first.substringBefore("-").normalized() == last.normalized() }
+                    ?: singleOrNull { it.first.substringAfter("-").normalized() == last.normalized() }
+            }
+        foundName?.let { it.second to data.course }
+    }
 
     val coursesToProfs = teachingInstructors
         .groupBy({ it.second }, { it.first })

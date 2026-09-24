@@ -1,19 +1,19 @@
 #!/usr/bin/env kotlin
 @file:Repository("https://repo1.maven.org/maven2/")
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:3.2.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:4.0.0")
 
 @file:Repository("https://bindings.krzeminski.it/")
-@file:DependsOn("actions:checkout:v4")
-@file:DependsOn("actions:setup-java:v4")
-@file:DependsOn("actions:cache:v4")
-@file:DependsOn("gradle:actions__setup-gradle:v4")
-@file:DependsOn("actions:upload-pages-artifact:v3")
-@file:DependsOn("actions:deploy-pages:v4")
-@file:DependsOn("robinraju:release-downloader:v1.10")
+@file:DependsOn("actions:checkout:v7")
+@file:DependsOn("actions:setup-java:v6")
+@file:DependsOn("actions:cache:v6")
+@file:DependsOn("gradle:actions__setup-gradle:v6")
+@file:DependsOn("actions:upload-pages-artifact:v5")
+@file:DependsOn("actions:deploy-pages:v5")
+@file:DependsOn("robinraju:release-downloader:v1.13")
 
 import io.github.typesafegithub.workflows.actions.actions.*
 import io.github.typesafegithub.workflows.actions.gradle.ActionsSetupGradle
-import io.github.typesafegithub.workflows.actions.robinraju.ReleaseDownloader
+import io.github.typesafegithub.workflows.actions.robinraju.ReleaseDownloader_Untyped
 import io.github.typesafegithub.workflows.domain.*
 import io.github.typesafegithub.workflows.domain.RunnerType.UbuntuLatest
 import io.github.typesafegithub.workflows.domain.triggers.Push
@@ -22,7 +22,7 @@ import io.github.typesafegithub.workflows.dsl.expressions.expr
 import io.github.typesafegithub.workflows.dsl.workflow
 import io.github.typesafegithub.workflows.yaml.ConsistencyCheckJobConfig
 
-val KOBWEB_CLI_VERSION = "0.9.18"
+val KOBWEB_CLI_VERSION = "0.9.23"
 
 workflow(
     name = "Deploy Kobweb site to Pages",
@@ -71,14 +71,12 @@ workflow(
 
         uses(
             name = "Fetch kobweb",
-            action = ReleaseDownloader(
-                repository = "varabyte/kobweb-cli",
-                tag = "v$KOBWEB_CLI_VERSION",
-                fileName = "kobweb-$KOBWEB_CLI_VERSION.tar",
-                // these are in theory booleans
-                tarBall = "false",
-                zipBall = "false",
-                extract = "true",
+            // Idc if it's untyped, I don't want to type "_Untyped" :(
+            action = ReleaseDownloader_Untyped(
+                repository_Untyped = "varabyte/kobweb-cli",
+                tag_Untyped = "v$KOBWEB_CLI_VERSION",
+                fileName_Untyped = "kobweb-$KOBWEB_CLI_VERSION.tar",
+                extract_Untyped = "true",
             )
         )
 

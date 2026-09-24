@@ -1,11 +1,11 @@
 #!/usr/bin/env kotlin
+@file:Import("common_setup.main.kts")
+// Something to do with https://youtrack.jetbrains.com/issue/KT-69145
 @file:Repository("https://repo1.maven.org/maven2/")
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:3.2.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:4.0.0")
 
 @file:Repository("https://bindings.krzeminski.it/")
-@file:DependsOn("EndBug:add-and-commit:v9")
-
-@file:Import("common_setup.main.kts")
+@file:DependsOn("EndBug:add-and-commit:v11")
 
 import io.github.typesafegithub.workflows.actions.endbug.AddAndCommit
 import io.github.typesafegithub.workflows.domain.RunnerType.UbuntuLatest

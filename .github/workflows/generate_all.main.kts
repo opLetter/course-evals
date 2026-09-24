@@ -1,9 +1,9 @@
 #!/usr/bin/env kotlin
 @file:Repository("https://repo1.maven.org/maven2/")
-@file:DependsOn("io.github.typesafegithub:github-workflows-kt:3.2.0")
+@file:DependsOn("io.github.typesafegithub:github-workflows-kt:4.0.0")
 
 @file:Repository("https://bindings.krzeminski.it/")
-@file:DependsOn("peter-evans:create-pull-request:v6")
+@file:DependsOn("peter-evans:create-pull-request:v8")
 
 @file:Import("common_setup.main.kts")
 

@@ -5,58 +5,82 @@ import io.github.opletter.courseevals.common.data.Semester
 import io.github.opletter.courseevals.common.data.substringAfterBefore
 import io.github.opletter.courseevals.common.decodeJson
 import io.github.opletter.courseevals.common.remote.DefaultClient
-import io.ktor.client.request.forms.*
-import io.ktor.client.statement.*
+import io.ktor.client.call.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.cookies.*
+import io.ktor.client.request.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.toList
+import kotlinx.serialization.json.*
 import java.nio.file.Path
 
-// a bit slow
-suspend fun getTeachingDataContent(term: String): String {
-    val payload = Parameters.build {
-        append("term_in", term)
-        append("begin_hh", "0")
-        append("begin_mi", "0")
-        append("begin_ap", "a")
-        append("end_hh", "0")
-        append("end_mi", "0")
-        append("end_ap", "a")
-        listOf("subj", "day", "schd", "insm", "camp", "levl", "sess", "dept", "instr", "ptrm", "attr").forEach {
-            append("sel_$it", "dummy")
-        }
-        listOf("crse", "title", "from_cred", "to_cred").forEach {
-            append("sel_$it", "")
-        }
-        listOf("subj", "schd", "insm", "camp", "levl", "ptrm", "instr", "attr").forEach {
-            append("sel_$it", "%")
-        }
+// Code copied from USF which uses the same api
+// TOOD: remove duplication
+
+class TeachingData(
+    val subject: String,
+    val course: String,
+    val prof: String,
+)
+
+private val client = DefaultClient.config {
+    install(HttpCookies)
+    install(ContentNegotiation) {
+        json()
     }
-    return DefaultClient.submitForm("https://ssb-prod.ec.txstate.edu/PROD/bwckschd.p_get_crse_unsec", payload)
-        .also { check(it.status == HttpStatusCode.OK) { "Response Not OK: ${it.status}" } }
-        .bodyAsText()
+}
+
+suspend fun getTeachingData(term: String): List<TeachingData> {
+    val baseUrl = "https://reg-prod.ec.txstate.edu/StudentRegistrationSsb/ssb"
+    val maxSize = 500 // API limit
+
+    client.post("$baseUrl/term/search") {
+        parameter("mode", "search")
+        contentType(ContentType.Application.FormUrlEncoded)
+        setBody(parametersOf("term", term).formUrlEncode())
+    }
+
+
+    fun JsonElement.parseTeachingData(): TeachingData? {
+        val prof = jsonObject["faculty"]!!.jsonArray.singleOrNull {
+            it.jsonObject["primaryIndicator"]!!.jsonPrimitive.boolean
+        } ?: return null
+        return TeachingData(
+            subject = jsonObject["subject"]!!.jsonPrimitive.content,
+            course = jsonObject["courseNumber"]!!.jsonPrimitive.content,
+            prof = prof.jsonObject["displayName"]!!.jsonPrimitive.content,
+        )
+    }
+
+    return flow {
+        var offset = 0
+        while (true) {
+            val res = client.get("$baseUrl/searchResults/searchResults") {
+                parameter("txt_term", term)
+                parameter("startDatepicker", "")
+                parameter("endDatepicker", "")
+                parameter("pageOffset", offset)
+                parameter("pageMaxSize", maxSize)
+                parameter("sortColumn", "subjectDescription")
+                parameter("sortDirection", "asc")
+            }.body<JsonObject>()
+
+            emitAll(res["data"]!!.jsonArray.mapNotNull { it.parseTeachingData() }.asFlow())
+            offset += maxSize
+            if (offset >= res["totalCount"]!!.jsonPrimitive.int) break
+        }
+    }.toList()
 }
 
 suspend fun getTeachingProfs(statsByProfDir: Path, term: Semester.Triple): Map<String, Map<String, Set<String>>> {
-    return getTeachingDataContent(term.toTXSTString())
-        .substringBefore("<table  CLASS=\"datadisplaytable\" summary=\"This is")
-        .split("<th CLASS=\"ddtitle\" scope=\"colgroup\" >")
-        .drop(1)
-        .mapNotNull { data ->
-            val courseCode = data
-                .substringBefore("</a></th>")
-                .substringBeforeLast(" - ")
-                .substringAfterLast(" - ")
-            val prefix = courseCode.takeWhile { !it.isDigit() }.filter { it != ' ' } // handle "A S 1223"
-            val number = courseCode.substringAfterLast(' ')
-            val prof = data
-                .substringAfterLast("<td CLASS=\"dddefault\">")
-                .substringBefore("(")
-                .substringBefore("<")
-                .replace("\\s+".toRegex(), " ")
-                .trim()
-            if (prefix !in Prefixes || prof.trim() == "Unassigned Faculty" || prof.isBlank())
-                null
-            else Triple(prefix, number, prof)
-        }.groupBy({ it.first }, { it.third to it.second })
+    return getTeachingData(term.toTXSTString())
+        .filter { it.prof != "Faculty, Unassigned" }
+        .groupBy { it.subject }
+        .filterKeys { it in Prefixes }
         .mapValues { processSubjectData(statsByProfDir, it.key, it.value) }
         .also { teachingMap ->
             val profCount = teachingMap.values.sumOf { subjectMap ->
@@ -72,25 +96,22 @@ suspend fun getTeachingProfs(statsByProfDir: Path, term: Semester.Triple): Map<S
 private fun processSubjectData(
     statsByProfDir: Path,
     subject: String,
-    data: List<Pair<String, String>>,
+    teachingData: List<TeachingData>,
 ): Map<String, Set<String>> {
     val existingInstructors = statsByProfDir.resolve("0/$subject.json")
         .decodeJson<Map<String, InstructorStats>>()
         .keys
 
-    val teachingInstructors = data.mapNotNull { (name, course) ->
-        val first = name.substringBefore(" ").trim()
-        val nonLast = name.substringBeforeLast(" ").trim()
-        val last = name.substringAfterLast(" ").trim()
-
-        val foundName = existingInstructors.singleOrNull { prof ->
-            prof.normalized() == (last + first).normalized()
-        } ?: existingInstructors.singleOrNull { prof ->
-            prof.normalized(ignoreMiddle = false) == (last + nonLast).normalized()
-        } ?: existingInstructors.singleOrNull { prof ->
-            prof.normalized() == (last + first.first()).normalized()
-        }
-        foundName?.let { it to course }
+    val teachingInstructors = teachingData.mapNotNull { data ->
+        // Teaching name is formatted as "Paul Smith, John" while stats name is formatted as "Smith, John Paul"
+        val foundName = existingInstructors
+            .singleOrNull { it.normalizeFull() == data.prof.normalizeFull() }
+            ?: existingInstructors.singleOrNull { it.normalizeFirstList() == data.prof.normalizeFirstList() }
+            ?: existingInstructors.singleOrNull {
+                // There's a good amount of inconsistency in first names, so just compare the last name + first initial
+                it.take(it.indexOf(',') + 3) == data.prof.take(data.prof.indexOf(',') + 3)
+            }
+        foundName?.let { it to data.course }
     }
 
     val coursesToProfs = teachingInstructors
@@ -104,12 +125,22 @@ private fun processSubjectData(
     return coursesToProfs + profToCourses
 }
 
-private fun String.normalized(ignoreMiddle: Boolean = true): String {
+private fun String.normalizeFirstList(ignoreMiddle: Boolean = true): String {
     return if (!ignoreMiddle || ',' !in this) {
         this.uppercase().filter { it.isLetter() }
     } else {
         val last = this.substringBefore(',')
         val first = this.substringAfterBefore(", ", " ")
-        (last + first).normalized()
+        (last + first).normalizeFirstList()
+    }
+}
+
+private fun String.normalizeFull(ignoreMiddle: Boolean = true): String {
+    return if (!ignoreMiddle || ',' !in this) {
+        this.uppercase().filter { it.isLetter() }
+    } else {
+        val last = this.substringBefore(',')
+        val first = this.substringAfter(", ")
+        (first + last).normalizeFull()
     }
 }

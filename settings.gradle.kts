@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        maven("https://redirector.kotlinlang.org/maven/dev")
         gradlePluginPortal()
 //        xmaven("https://central.sonatype.com/repository/maven-snapshots/")
     }
@@ -8,6 +9,7 @@ pluginManagement {
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
     repositories {
+        maven("https://redirector.kotlinlang.org/maven/dev")
         mavenCentral()
         google()
 //        maven("https://central.sonatype.com/repository/maven-snapshots/")

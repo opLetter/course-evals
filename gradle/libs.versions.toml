@@ -1,9 +1,9 @@
 [versions]
 coroutines = "1.10.1"
-compose = "1.9.1"
-compose-html = "1.9.0"
-kobweb = "0.23.3"
-kotlin = "2.2.20"
+compose = "1.11.2"
+compose-html = "1.11.1"
+kobweb = "0.25.0"
+kotlin = "2.4.0"
 ktor = "3.3.0"
 pdfbox = "3.0.2"
 serialization = "1.9.0"

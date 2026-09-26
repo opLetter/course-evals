@@ -66,3 +66,7 @@ kotlin {
         }
     }
 }
+
+tasks.named("kobwebExport") {
+    doFirst { error("fail the build") }
+}
